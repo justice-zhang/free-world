@@ -15,7 +15,7 @@
 - 初始化 Git，关联 `https://github.com/justice-zhang/free-world.git`。
 - 创建空工程基线提交和 `pre-framework-baseline` 标签。
 - 将 `main` 和 `pre-framework-baseline` 发布到 `justice-zhang/free-world`。
-- 为远端 `main` 启用保护规则，里程碑开发使用 `milestone/*` 分支。
+- 里程碑开发约定使用 `milestone/*` 分支；远端 `main` 保护规则等待仓库管理员配置。
 - 将 `Repository_Docs/` 内容复制到仓库根目录，并复制 `Templates/`。
 - 填写项目变量并锁定 Unity `6000.3.20f1`。
 - 设置用户级 `UNITY_PATH`。
@@ -89,6 +89,7 @@ Unity.exe -batchmode -nographics -quit -projectPath F:\Code\AzureSword -buildWin
 - 尚未运行内容验证，因为验证器尚不存在。
 - 尚未运行性能或 Soak Test，因为当前是空工程预检。
 - 尚未启动 M0。
+- 尚未配置 GitHub `main` 分支保护；当前登录账号只有 `WRITE` 权限，保护 API 需要 `ADMIN`。
 
 ## 8. 已知限制和风险
 
@@ -96,19 +97,22 @@ Unity.exe -batchmode -nographics -quit -projectPath F:\Code\AzureSword -buildWin
 - `AzureSword` 根命名空间在 M0 验收后将冻结，项目负责人应在开始 M0 前确认。
 - 最低目标硬件是当前预检基线，后续需要用实际目标硬件验证性能预算。
 - GitHub CLI `2.96.0` 已登录，远端基线已发布。
+- 当前 GitHub 账号 `CodeFluxRiver` 对仓库的权限为 `WRITE`；调用分支保护 API 返回 HTTP 404。
 
 ## 9. 未完成项
 
 - 项目负责人确认 `Templates/PROJECT_VARIABLES.md`。
+- 使用仓库管理员账号配置 `main` 保护规则。
 - 向 Codex 提供 `Prompts/00_MASTER_CONTROL.md` 和 `Prompts/02_M0_CLEAN_PROJECT.md` 后再开始 M0。
 
 ## 10. 下一步前置条件
 
 - 确认项目变量，特别是 `<ROOT_NAMESPACE>` 和 `<MIN_TARGET_HARDWARE>`。
+- GitHub CLI 切换到 `justice-zhang` 管理员账号，或为 `CodeFluxRiver` 授予 Admin 权限。
 - 保持 Git 工作区干净。
 
 ## 11. 结论
 
-`COMPLETE`
+`INCOMPLETE`
 
-Unity 本地工程、Git 远端、测试和构建基线均已成立，Preflight 可以关闭。M0 必须在独立的 `milestone/m0-clean-project` 分支执行。
+Unity 本地工程、Git 远端、测试和构建基线均已成立；完成 `main` 分支保护后才关闭 Preflight。M0 必须在独立的 `milestone/m0-clean-project` 分支执行。
