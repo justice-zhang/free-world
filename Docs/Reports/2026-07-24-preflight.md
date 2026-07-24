@@ -3,7 +3,7 @@
 - 任务：Unity 空工程迁移与人工预检基线
 - 里程碑：Preflight（尚未开始 M0）
 - 分支：`main`
-- Git Commit：空工程基线 `25685656be5968ac989fae967521893b0ef0a45b`
+- Git Commit：空工程基线 `694381103704f8bc9ed3a701df4e903b049dc2aa`；预检提交 `e8b451ccb2fc27473476c43daa805480460c60e6`
 - 日期：2026-07-24
 
 ## 1. 实现范围
@@ -14,6 +14,8 @@
 - 排除并忽略 `Library/`、`Temp/`、`Logs/`、`UserSettings/`、测试结果和构建产物。
 - 初始化 Git，关联 `https://github.com/justice-zhang/free-world.git`。
 - 创建空工程基线提交和 `pre-framework-baseline` 标签。
+- 将 `main` 和 `pre-framework-baseline` 发布到 `justice-zhang/free-world`。
+- 为远端 `main` 启用保护规则，里程碑开发使用 `milestone/*` 分支。
 - 将 `Repository_Docs/` 内容复制到仓库根目录，并复制 `Templates/`。
 - 填写项目变量并锁定 Unity `6000.3.20f1`。
 - 设置用户级 `UNITY_PATH`。
@@ -52,6 +54,9 @@ git remote add origin https://github.com/justice-zhang/free-world.git
 git add -- .gitignore .vsconfig Assets Packages ProjectSettings
 git commit -m "chore: establish clean Unity 6 LTS URP baseline"
 git tag -a pre-framework-baseline -m "Clean Unity 6 LTS URP baseline"
+git push -u origin main
+git push origin pre-framework-baseline
+gh api --method PUT repos/justice-zhang/free-world/branches/main/protection
 
 Unity.exe -batchmode -nographics -quit -projectPath F:\Code\AzureSword -logFile -
 Unity.exe -batchmode -nographics -projectPath F:\Code\AzureSword -runTests -testPlatform EditMode -testResults Artifacts\Preflight\editmode-results.xml
@@ -84,31 +89,26 @@ Unity.exe -batchmode -nographics -quit -projectPath F:\Code\AzureSword -buildWin
 - 尚未运行内容验证，因为验证器尚不存在。
 - 尚未运行性能或 Soak Test，因为当前是空工程预检。
 - 尚未启动 M0。
-- 尚未配置 GitHub `main` 分支保护。
 
 ## 8. 已知限制和风险
 
 - EditMode 和 PlayMode 测试命令确实执行成功，但当前测试数均为 0；这只证明空测试基线成立。
 - `AzureSword` 根命名空间在 M0 验收后将冻结，项目负责人应在开始 M0 前确认。
 - 最低目标硬件是当前预检基线，后续需要用实际目标硬件验证性能预算。
-- 本机尚未安装 GitHub CLI `gh`，远端发布和分支保护尚未完成。
+- GitHub CLI `2.96.0` 已登录，远端基线已发布。
 
 ## 9. 未完成项
 
-- 安装并登录 GitHub CLI，推送 `main` 和 `pre-framework-baseline` 标签。
-- 在 GitHub 配置 `main` 保护规则和 `milestone/*` 分支约定。
 - 项目负责人确认 `Templates/PROJECT_VARIABLES.md`。
 - 向 Codex 提供 `Prompts/00_MASTER_CONTROL.md` 和 `Prompts/02_M0_CLEAN_PROJECT.md` 后再开始 M0。
 
 ## 10. 下一步前置条件
 
 - 确认项目变量，特别是 `<ROOT_NAMESPACE>` 和 `<MIN_TARGET_HARDWARE>`。
-- 完成远端首次推送及 `main` 保护规则。
 - 保持 Git 工作区干净。
 
 ## 11. 结论
 
-`INCOMPLETE`
+`COMPLETE`
 
-Unity 本地工程、测试和构建基线已经成立；远端首次推送与分支保护完成后，Preflight 才能正式关闭。
-
+Unity 本地工程、Git 远端、测试和构建基线均已成立，Preflight 可以关闭。M0 必须在独立的 `milestone/m0-clean-project` 分支执行。
