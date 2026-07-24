@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "packId": "com.studio.base",
+  "displayName": "Base Content",
+  "version": "0.1.0",
+  "minimumGameVersion": "0.1.0",
+  "maximumGameVersion": null,
+  "official": true,
+  "dependencies": [],
+  "catalogAddress": "packs/base/catalog",
+  "assetLabels": [
+    "pack.base",
+    "release-content"
+  ],
+  "runtimeCatalogAddress": "packs/base/runtime-catalog",
+  "contentSchemaVersion": 1,
+  "saveCompatibilityVersion": 1,
+  "contentHash": "<sha256>",
+  "catalogHash": "<sha256>",
+  "createdAtUtc": "2026-07-24T00:00:00Z",
+  "createdBy": "<team>",
+  "notes": ""
+}

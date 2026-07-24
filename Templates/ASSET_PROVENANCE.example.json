@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "assetId": "character.ember.sprite.v001",
+  "assetType": "sprite",
+  "relativePaths": [
+    "Assets/GameAssets/AI/character.ember.sprite.v001/final/ember.png"
+  ],
+  "sourceCategory": "ai-generated",
+  "tool": "<tool-or-service>",
+  "modelVersion": "<model-version>",
+  "generatedAt": "2026-07-24T00:00:00Z",
+  "operator": "<team-or-person>",
+  "promptFile": "prompt.txt",
+  "seed": "<seed-or-not-available>",
+  "referenceInputs": [],
+  "referenceRightsConfirmed": true,
+  "humanEdits": [
+    "silhouette cleanup",
+    "palette adjustment",
+    "frame consistency repair"
+  ],
+  "outputSha256": {
+    "ember.png": "<sha256>"
+  },
+  "licenseOrTermsSnapshot": "terms/tool-name/YYYY-MM-DD.pdf",
+  "commercialUseReviewed": true,
+  "steamDisclosureCategory": "pre-generated",
+  "review": {
+    "reviewer": "<name>",
+    "reviewedAt": "2026-07-24T00:00:00Z",
+    "ipSimilarityCheck": "pass",
+    "textAndLogoCheck": "pass",
+    "technicalQualityCheck": "pass"
+  },
+  "status": "approved-for-release",
+  "notes": ""
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "productName": "<PROJECT_NAME>",
+  "gameVersion": "0.1.0",
+  "buildNumber": 1,
+  "buildConfiguration": "WindowsRelease",
+  "targetPlatform": "Windows x64",
+  "unityVersion": "<UNITY_VERSION>",
+  "git": {
+    "commit": "<full-sha>",
+    "branch": "<branch>",
+    "tag": "<tag-or-empty>",
+    "workingTreeClean": true
+  },
+  "builtAtUtc": "2026-07-24T00:00:00Z",
+  "contentSchemaVersion": 1,
+  "saveSchemaVersion": 1,
+  "contentPacks": [
+    {
+      "packId": "com.studio.base",
+      "version": "0.1.0",
+      "contentHash": "<sha256>",
+      "catalogHash": "<sha256>"
+    }
+  ],
+  "packagesLockSha256": "<sha256>",
+  "addressablesBuildHash": "<sha256>",
+  "placeholderCount": 0,
+  "unapprovedAssetCount": 0,
+  "tests": {
+    "editMode": "pass",
+    "playMode": "pass",
+    "contentValidation": "pass",
+    "soak": "pass"
+  },
+  "artifacts": [
+    {
+      "path": "Build/Windows/<PROJECT_NAME>.exe",
+      "sha256": "<sha256>"
+    }
+  ]
+}
