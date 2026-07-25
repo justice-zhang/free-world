@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using UnityEditor;
+using UnityEditor.AddressableAssets;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -31,6 +32,7 @@ namespace Game.Editor
         /// </summary>
         public static void BuildFromCommandLine()
         {
+            var exitCode = 0;
             try
             {
                 var configuredOutput = Environment.GetEnvironmentVariable("BUILD_OUTPUT");
@@ -38,13 +40,24 @@ namespace Game.Editor
                     ? DefaultOutputPath
                     : configuredOutput;
                 Build(output);
-                EditorApplication.Exit(0);
             }
             catch (Exception exception)
             {
                 Debug.LogException(exception);
-                EditorApplication.Exit(1);
+                exitCode = 1;
             }
+
+            try
+            {
+                RemoveTemporaryAddressablesLinkXml();
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception);
+                exitCode = 1;
+            }
+
+            EditorApplication.Exit(exitCode);
         }
 
         /// <summary>
@@ -97,6 +110,42 @@ namespace Game.Editor
             WriteBuildManifest(outputDirectory, absoluteOutput, report);
             Debug.Log("[M0 Build] PASS: " + absoluteOutput);
             return report;
+        }
+
+        private static void RemoveTemporaryAddressablesLinkXml()
+        {
+            var settings = AddressableAssetSettingsDefaultObject.GetSettings(false);
+            if (settings == null)
+            {
+                return;
+            }
+
+            var assetPath = (settings.ConfigFolder + "/link.xml").Replace('\\', '/');
+            if (AssetDatabase.DeleteAsset(assetPath))
+            {
+                return;
+            }
+
+            var absolutePath = Path.GetFullPath(assetPath);
+            var metaPath = absolutePath + ".meta";
+            var deletedFile = false;
+
+            if (File.Exists(absolutePath))
+            {
+                File.Delete(absolutePath);
+                deletedFile = true;
+            }
+
+            if (File.Exists(metaPath))
+            {
+                File.Delete(metaPath);
+                deletedFile = true;
+            }
+
+            if (deletedFile)
+            {
+                AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+            }
         }
 
         private static void WriteBuildManifest(
