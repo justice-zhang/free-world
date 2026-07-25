@@ -3,7 +3,7 @@
 - 任务：核心类型与内容系统
 - 里程碑：M1
 - 分支：`codex/m1-content-system`
-- Git Commit：未提交；工作树改动等待人工审查
+- Git Commit：`8edcfadee2f2d3824dee5db0a401146e51e39f22`
 - 日期：2026-07-25
 
 ## 1. 实现范围
@@ -175,3 +175,10 @@ git -c safe.directory=E:/ai/free-world diff --check -- '*.cs' '*.asmdef' '*.json
 新增 public API XML 文档缺口。最终门禁为 EditMode 33/33、PlayMode 5/5、命令行验证
 PASS、Windows Development Build PASS。权威审查记录见
 `Docs/Reports/2026-07-25-m1-review-gate.md`。
+
+## 13. GitHub 集成
+
+- 实现 PR：[GitHub PR #4](https://github.com/justice-zhang/free-world/pull/4)
+- 实现 merge commit：`268e3f23535e304dfc4843d85ada5d2a47f642a0`
+- 收尾 PR：[GitHub PR #5](https://github.com/justice-zhang/free-world/pull/5)
+- `framework-m1` 指向收尾 PR 的最终 merge commit。
