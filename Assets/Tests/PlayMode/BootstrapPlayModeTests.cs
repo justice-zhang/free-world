@@ -1,5 +1,6 @@
 using System.Collections;
 using Game.Application;
+using Game.Core;
 using Game.Infrastructure;
 using Game.Platform.Null;
 using NUnit.Framework;
@@ -48,6 +49,21 @@ namespace Game.Tests.PlayMode
             Assert.That(bootstrapper.Application, Is.Not.Null);
             Assert.That(bootstrapper.Application.IsInitialized, Is.True);
             Assert.That(bootstrapper.CurrentState, Is.EqualTo(GameState.MainMenu));
+        }
+
+        [UnityTest]
+        public IEnumerator BootstrapLoadsTestPackAndReportsEntryCount()
+        {
+            yield return LoadBootstrapScene();
+            var bootstrapper = GetOnlyBootstrapper();
+            var skillId = ContentId.Create("test.skill.pulse").Value;
+
+            Assert.That(bootstrapper.ContentSummary.PackCount, Is.EqualTo(1));
+            Assert.That(bootstrapper.ContentSummary.DefinitionCount, Is.EqualTo(4));
+            Assert.That(
+                bootstrapper.Application.ContentRegistry.TryGet(skillId, out var entry),
+                Is.True);
+            Assert.That(entry.SourcePackId.Value, Is.EqualTo("test.pack.m1"));
         }
 
         [UnityTest]

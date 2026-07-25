@@ -27,12 +27,17 @@ namespace Game.Tests.EditMode
                         "Game.Platform.Abstractions"
                     }
                 },
-                { "Game.Content.Authoring", new[] { "Game.Content.Runtime" } },
+                {
+                    "Game.Content.Authoring",
+                    new[] { "Game.Core", "Game.Content.Runtime" }
+                },
                 {
                     "Game.Infrastructure",
                     new[]
                     {
                         "Game.Application",
+                        "Game.Content.Runtime",
+                        "Game.Core",
                         "Game.Platform.Abstractions",
                         "Game.Platform.Null"
                     }
@@ -44,6 +49,7 @@ namespace Game.Tests.EditMode
                     "Game.Editor",
                     new[]
                     {
+                        "Game.Core",
                         "Game.Content.Authoring",
                         "Game.Content.Runtime",
                         "Game.Infrastructure",
@@ -74,6 +80,8 @@ namespace Game.Tests.EditMode
                     new[]
                     {
                         "Game.Application",
+                        "Game.Content.Runtime",
+                        "Game.Core",
                         "Game.Infrastructure",
                         "Game.Platform.Abstractions",
                         "Game.Platform.Null"

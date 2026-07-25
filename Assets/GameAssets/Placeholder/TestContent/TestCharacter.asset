@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92428b5dc497b5f45aea0c1dc3c017af, type: 3}
+  m_Name: TestCharacter
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.CharacterAuthoring
+  contentId: test.character.runner
+  localizedNameKey: content.test.character.runner.name
+  localizedDescriptionKey: content.test.character.runner.description
+  tags:
+  - content.placeholder
+  - actor.player
+  baseMaxHealth: 100
+  moveSpeed: 5
+  startingSkills:
+  - {fileID: 11400000, guid: 6862cd42f41103e44abe8ae24121caa1, type: 2}

@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31b54ad31363d3341b1f10c34c87c58d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Infrastructure::Game.Infrastructure.GameBootstrapper
+  bakedTestCatalog: {fileID: 4900000, guid: 0bdef1a5724163e4e80eb878bb4f2a0e, type: 3}
 --- !u!4 &103704959
 Transform:
   m_ObjectHideFlags: 0

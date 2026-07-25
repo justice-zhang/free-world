@@ -73,7 +73,7 @@ namespace Game.Editor
         /// Validates the currently open Unity project.
         /// </summary>
         /// <returns>The validation report.</returns>
-        [MenuItem("Tools/Free World/M0/Validate Project")]
+        [MenuItem("Tools/Free World/Validate Project")]
         public static ValidationReport ValidateCurrentProject()
         {
             var projectRoot = Directory.GetParent(UnityEngine.Application.dataPath)?.FullName;
@@ -84,9 +84,11 @@ namespace Game.Editor
                 return unresolved;
             }
 
-            return Validate(
+            var report = Validate(
                 projectRoot,
                 AddressableAssetSettingsDefaultObject.GetSettings(false));
+            ContentProjectValidator.AppendCurrentProject(report);
+            return report;
         }
 
         /// <summary>
@@ -282,12 +284,12 @@ namespace Game.Editor
             var report = ProjectGovernanceValidator.ValidateCurrentProject();
             for (var index = 0; index < report.Issues.Count; index++)
             {
-                Debug.LogError("[M0 Validation] " + report.Issues[index]);
+                Debug.LogError("[Project Validation] " + report.Issues[index]);
             }
 
             if (report.IsValid)
             {
-                Debug.Log("[M0 Validation] PASS");
+                Debug.Log("[Project Validation] PASS");
             }
 
             EditorApplication.Exit(report.IsValid ? 0 : 1);

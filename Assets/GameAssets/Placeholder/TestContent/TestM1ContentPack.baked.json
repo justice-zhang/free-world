@@ -1,0 +1,91 @@
+{
+    "manifest": {
+        "packId": "test.pack.m1",
+        "version": "0.1.0",
+        "schemaVersion": 1,
+        "minimumGameVersion": "0.1.0",
+        "maximumGameVersion": "",
+        "dependencies": [],
+        "catalogAddress": "packs/test.m1/catalog",
+        "assetLabel": "pack.test.m1",
+        "official": false,
+        "sourceAssetPath": "Assets/GameAssets/Placeholder/TestContent/TestM1ContentPack.asset"
+    },
+    "definitions": [
+        {
+            "kind": "character",
+            "id": "test.character.runner",
+            "localizedNameKey": "content.test.character.runner.name",
+            "localizedDescriptionKey": "content.test.character.runner.description",
+            "sourceAssetPath": "Assets/GameAssets/Placeholder/TestContent/TestCharacter.asset",
+            "tags": [
+                "content.placeholder",
+                "actor.player"
+            ],
+            "baseMaxHealth": 100.0,
+            "moveSpeed": 5.0,
+            "startingSkillIds": [
+                "test.skill.pulse"
+            ],
+            "cooldownSeconds": 0.0,
+            "collisionRadius": 0.0,
+            "runtimeProviderId": "",
+            "sceneAddress": ""
+        },
+        {
+            "kind": "skill",
+            "id": "test.skill.pulse",
+            "localizedNameKey": "content.test.skill.pulse.name",
+            "localizedDescriptionKey": "content.test.skill.pulse.description",
+            "sourceAssetPath": "Assets/GameAssets/Placeholder/TestContent/TestSkill.asset",
+            "tags": [
+                "content.placeholder",
+                "delivery.instant"
+            ],
+            "baseMaxHealth": 0.0,
+            "moveSpeed": 0.0,
+            "startingSkillIds": [],
+            "cooldownSeconds": 1.25,
+            "collisionRadius": 0.0,
+            "runtimeProviderId": "",
+            "sceneAddress": ""
+        },
+        {
+            "kind": "enemy",
+            "id": "test.enemy.placeholder",
+            "localizedNameKey": "content.test.enemy.placeholder.name",
+            "localizedDescriptionKey": "content.test.enemy.placeholder.description",
+            "sourceAssetPath": "Assets/GameAssets/Placeholder/TestContent/TestEnemy.asset",
+            "tags": [
+                "content.placeholder",
+                "actor.enemy"
+            ],
+            "baseMaxHealth": 10.0,
+            "moveSpeed": 0.0,
+            "startingSkillIds": [],
+            "cooldownSeconds": 0.0,
+            "collisionRadius": 0.5,
+            "runtimeProviderId": "",
+            "sceneAddress": ""
+        },
+        {
+            "kind": "map",
+            "id": "test.map.arena",
+            "localizedNameKey": "content.test.map.arena.name",
+            "localizedDescriptionKey": "content.test.map.arena.description",
+            "sourceAssetPath": "Assets/GameAssets/Placeholder/TestContent/TestMap.asset",
+            "tags": [
+                "content.placeholder",
+                "map.finite"
+            ],
+            "baseMaxHealth": 0.0,
+            "moveSpeed": 0.0,
+            "startingSkillIds": [],
+            "cooldownSeconds": 0.0,
+            "collisionRadius": 0.0,
+            "runtimeProviderId": "map.provider.test",
+            "sceneAddress": "scenes/test-placeholder-arena"
+        }
+    ],
+    "contentHash": "533691a7aa7017568acd1f965c7d320cda755ee90d129d93c6c59a7ea67e3509"
+}

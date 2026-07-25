@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d55e7487c9660704fbc3ca84e563c76c, type: 3}
+  m_Name: TestM1ContentPack
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.ContentPackAuthoring
+  packId: test.pack.m1
+  version: 0.1.0
+  schemaVersion: 1
+  minimumGameVersion: 0.1.0
+  maximumGameVersion: 
+  dependencies: []
+  catalogAddress: packs/test.m1/catalog
+  assetLabel: pack.test.m1
+  official: 0
+  definitions:
+  - {fileID: 11400000, guid: 1b91c637d4de6194a8de0fee7bc9f73b, type: 2}
+  - {fileID: 11400000, guid: 6862cd42f41103e44abe8ae24121caa1, type: 2}
+  - {fileID: 11400000, guid: 1cbe60e765d0e4642a3d118624d64a5f, type: 2}
+  - {fileID: 11400000, guid: fa54019bd00f4b741b553eff59947593, type: 2}

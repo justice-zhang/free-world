@@ -3,6 +3,8 @@
   "rootNamespace": "Game.Infrastructure",
   "references": [
     "Game.Application",
+    "Game.Content.Runtime",
+    "Game.Core",
     "Game.Platform.Abstractions",
     "Game.Platform.Null"
   ],

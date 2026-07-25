@@ -61,7 +61,7 @@ if (-not (Test-Path -LiteralPath $absoluteLogPath -PathType Leaf)) {
     exit 4
 }
 
-if (-not (Select-String -LiteralPath $absoluteLogPath -SimpleMatch '[M0 Validation] PASS' -Quiet)) {
+if (-not (Select-String -LiteralPath $absoluteLogPath -SimpleMatch '[Project Validation] PASS' -Quiet)) {
     [Console]::Error.WriteLine(
         "Validation log does not contain the required PASS marker: $absoluteLogPath")
     exit 5

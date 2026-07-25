@@ -68,7 +68,7 @@
 - 所有正式 AI 资源和第三方资源必须可追溯。
 - 未经过实际测试和构建验证，不得声明里程碑完成。
 
-## M0 命令行
+## M0/M1 命令行
 
 项目锁定 Unity `6000.3.20f1`。先在 PowerShell 中把 `UNITY_PATH` 设置为该版本
 编辑器的完整路径：
@@ -90,7 +90,8 @@ $env:UNITY_PATH = 'C:\Program Files\Unity\Hub\Editor\6000.3.20f1\Editor\Unity.ex
 .\Scripts\test.ps1 -Platform PlayMode
 ```
 
-运行第三方记录、AI provenance 和 Addressables Release/Placeholder 验证：
+运行第三方记录、AI provenance、Addressables Release/Placeholder、作者内容、
+baked Hash、Pack 依赖和引用验证：
 
 ```powershell
 .\Scripts\validate.ps1
@@ -117,4 +118,7 @@ $env:UNITY_PATH = 'C:\Program Files\Unity\Hub\Editor\6000.3.20f1\Editor\Unity.ex
 脚本在执行前会清除对应旧证据，避免旧 XML、日志、EXE 或 Build Manifest
 掩盖本次失败。日志与测试 XML 写入 `TestResults/`，该目录不进入 Git。Development Build
 只包含 `Assets/Scenes/Bootstrap.unity`，启动后由唯一 `GameBootstrapper` 组合
-`NullPlatformFacade` 并进入空 `MainMenu` 状态；M0 不包含正式菜单或玩法。
+`NullPlatformFacade`，加载 `Assets/GameAssets/Placeholder/TestContent` 中的 M1
+baked 测试包，输出 Pack/条目摘要并进入空 `MainMenu`；M1 不包含战斗或正式玩法。
+
+内容创建和烘焙步骤见 `Docs/CONTENT_AUTHORING_WORKFLOW.md`。
