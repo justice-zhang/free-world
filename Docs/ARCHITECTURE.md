@@ -31,24 +31,24 @@
 
 ## 2. Assembly Definition
 
-| **Assembly**               | **职责**                             | **M0 实际直接依赖**                                                       |
+| **Assembly**               | **职责**                             | **M1 实际直接依赖**                                                       |
 |----------------------------|--------------------------------------|---------------------------------------------------------------------------|
 | Game.Core                  | ID、标签、结果、随机数、基础工具     | 无                                                                        |
 | Game.Content.Runtime       | 烘焙后的纯运行时定义                 | Game.Core                                                                 |
 | Game.Simulation            | 实体、系统、战斗、技能、地图模拟     | Game.Core、Game.Content.Runtime                                           |
 | Game.Platform.Abstractions | 平台、云、成就接口                   | Game.Core                                                                 |
 | Game.Application           | 状态机、Run 协调、内容加载、保存协调 | Game.Core、Game.Content.Runtime、Game.Simulation、Game.Platform.Abstractions |
-| Game.Content.Authoring     | ScriptableObject 作者数据            | Unity、Game.Content.Runtime                                               |
-| Game.Infrastructure        | Composition Root 与基础设施入口      | Unity、Game.Application、Game.Platform.Abstractions、Game.Platform.Null   |
+| Game.Content.Authoring     | ScriptableObject 作者数据与 Baker    | Unity、Game.Core、Game.Content.Runtime                                    |
+| Game.Infrastructure        | Composition Root 与基础设施入口      | Unity、Game.Core、Game.Content.Runtime、Game.Application、Game.Platform.Abstractions、Game.Platform.Null |
 | Game.Presentation          | View、动画、特效、音频、摄像机       | Unity、Game.Application、Game.Simulation                                  |
 | Game.UI                    | 菜单、HUD、升级选择、结算            | Unity、Game.Application                                                   |
 | Game.Platform.Null         | 无平台环境实现                       | Game.Platform.Abstractions                                                |
 | Game.Platform.Steam        | 后续 Steam 适配（M0 未创建）         | Game.Platform.Abstractions                                                |
-| Game.Editor                | 验证、Placeholder、场景与构建工具    | Unity Editor、Addressables Editor、Game.Content.Authoring、Game.Content.Runtime、Game.Infrastructure |
+| Game.Editor                | 验证、Bake、Placeholder、场景与构建工具 | Unity Editor、Addressables Editor、Game.Core、Game.Content.Authoring、Game.Content.Runtime、Game.Infrastructure |
 | Game.Tests.EditMode        | M0 程序集、生成器与验证器测试        | M0 产品程序集、Game.Editor、Unity Test Framework                          |
-| Game.Tests.PlayMode        | Bootstrap 场景和生命周期测试         | Game.Application、Game.Infrastructure、Game.Platform.Abstractions、Game.Platform.Null、Unity Test Framework |
+| Game.Tests.PlayMode        | Bootstrap 内容加载和生命周期测试     | Game.Core、Game.Content.Runtime、Game.Application、Game.Infrastructure、Game.Platform.Abstractions、Game.Platform.Null、Unity Test Framework |
 
-M0 实际依赖图：
+M1 实际依赖图（省略测试程序集）：
 
 ```text
 Game.Core
@@ -56,7 +56,8 @@ Game.Core
 │  ├─ Game.Simulation
 │  │  ├─ Game.Application
 │  │  └─ Game.Presentation
-│  └─ Game.Content.Authoring
+│  ├─ Game.Content.Authoring
+│  └─ Game.Infrastructure
 └─ Game.Platform.Abstractions
    ├─ Game.Platform.Null
    │  └─ Game.Infrastructure
@@ -66,14 +67,16 @@ Game.Application ─┬─ Game.Infrastructure
                   ├─ Game.Presentation
                   └─ Game.UI
 
-Game.Content.Authoring ─┐
-Game.Content.Runtime ───┼─ Game.Editor
-Game.Infrastructure ────┘
+Game.Core ───────────────┐
+Game.Content.Authoring ──┤
+Game.Content.Runtime ────┼─ Game.Editor
+Game.Infrastructure ─────┘
 ```
 
 `Game.Core`、`Game.Content.Runtime`、`Game.Simulation`、`Game.Platform.Abstractions`、
 `Game.Application` 和 `Game.Platform.Null` 均设置 `noEngineReferences: true`。
-`Game.Infrastructure` 是 Unity 最外层组合入口，因此可以同时依赖应用抽象和 Null 平台实现；
+`Game.Infrastructure` 是 Unity 最外层组合入口，因此可以同时依赖 Core、纯内容运行时、
+应用抽象和 Null 平台实现；
 该依赖不反向进入应用或模拟程序集。
 
 硬性边界：
@@ -104,9 +107,10 @@ Game.Infrastructure ────┘
 
 依赖通过构造函数或显式初始化参数传递。禁止把 Service Locator 暴露给任意系统。
 
-M0 只创建 `NullPlatformFacade`、`GameApplication` 与 `GameStateMachine`，并进入空
-`MainMenu` 状态。内容、存档、模拟世界和表现协调器在对应后续里程碑实现，不在 M0
-创建占位业务实现。
+M1 在上述组合中增加 `ContentRegistry`。Bootstrap 从 Scene 显式引用的 baked
+测试 Catalog TextAsset 读取 JSON，立即转换为纯 DTO/Runtime Catalog、验证并注册，
+输出摘要后进入空 `MainMenu`。作者 ScriptableObject、AssetDatabase 和 Unity Object
+不会进入 Application、Runtime Catalog 或 Simulation。
 
 ## 4. 固定 Tick 与时钟
 

@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using Game.Content.Runtime;
+using Game.Core;
 using Game.Platform.Abstractions;
 
 namespace Game.Application
@@ -14,9 +17,22 @@ namespace Game.Application
         /// <param name="platform">The platform facade.</param>
         /// <param name="stateMachine">The high-level state machine.</param>
         public GameApplication(IPlatformFacade platform, GameStateMachine stateMachine)
+            : this(platform, stateMachine, new ContentRegistry())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new application instance with explicit platform, state, and content services.
+        /// </summary>
+        public GameApplication(
+            IPlatformFacade platform,
+            GameStateMachine stateMachine,
+            ContentRegistry contentRegistry)
         {
             Platform = platform ?? throw new ArgumentNullException(nameof(platform));
             StateMachine = stateMachine ?? throw new ArgumentNullException(nameof(stateMachine));
+            ContentRegistry = contentRegistry ??
+                throw new ArgumentNullException(nameof(contentRegistry));
         }
 
         /// <summary>
@@ -28,6 +44,16 @@ namespace Game.Application
         /// Gets the application state machine.
         /// </summary>
         public GameStateMachine StateMachine { get; }
+
+        /// <summary>
+        /// Gets the stable-ID content registry owned by the application.
+        /// </summary>
+        public ContentRegistry ContentRegistry { get; }
+
+        /// <summary>
+        /// Gets the summary from the successful startup content load.
+        /// </summary>
+        public ContentRegistrySummary ContentSummary { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether initialization has completed.
@@ -48,6 +74,33 @@ namespace Game.Application
             StateMachine.EnterMainMenu();
             IsInitialized = true;
             return true;
+        }
+
+        /// <summary>
+        /// Loads and validates content before entering the empty main-menu state.
+        /// </summary>
+        public Result<ContentRegistrySummary> Initialize(
+            IReadOnlyList<BakedContentCatalog> catalogs,
+            ContentVersion gameVersion)
+        {
+            if (IsInitialized)
+            {
+                return Result<ContentRegistrySummary>.Failure(
+                    new Error(
+                        ErrorCode.InvalidCatalog,
+                        "GameApplication has already been initialized."));
+            }
+
+            var loadResult = ContentRegistry.Load(catalogs, gameVersion);
+            if (!loadResult.IsSuccess)
+            {
+                return loadResult;
+            }
+
+            ContentSummary = loadResult.Value;
+            StateMachine.EnterMainMenu();
+            IsInitialized = true;
+            return loadResult;
         }
     }
 }

@@ -103,3 +103,13 @@
 - 随机测试必须记录种子。
 
 - 无法在自动化环境运行的项目，必须提供可重复的手工步骤和日志，但不得声称自动测试已通过。
+
+## 6. M1 已落地覆盖
+
+- `ContentId` 有效/无效、大小写规范化、字符串序列化和已知 Hash 碰撞。
+- Pack 稳定拓扑排序、缺失依赖、循环和依赖版本不兼容。
+- 作者 ScriptableObject 烘焙、纯运行时字段审计、JSON round-trip 和确定性 Hash。
+- 重复 ID 同时报告两侧来源，缺失引用报告 owner ID、Pack 和资产路径。
+- 非 canonical 被引用资产仍报告该资产自身路径；运行时集合不暴露可变 backing array。
+- Registry 同加载顺序索引稳定，并接受无需类型分支的新定义子类。
+- Bootstrap 加载一个测试 Pack、四个定义并进入空 MainMenu。

@@ -2,6 +2,7 @@
   "name": "Game.Content.Authoring",
   "rootNamespace": "Game.Content.Authoring",
   "references": [
+    "Game.Core",
     "Game.Content.Runtime"
   ],
   "includePlatforms": [],

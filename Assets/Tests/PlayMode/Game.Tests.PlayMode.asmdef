@@ -3,6 +3,8 @@
   "rootNamespace": "Game.Tests.PlayMode",
   "references": [
     "Game.Application",
+    "Game.Content.Runtime",
+    "Game.Core",
     "Game.Infrastructure",
     "Game.Platform.Abstractions",
     "Game.Platform.Null"
