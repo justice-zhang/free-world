@@ -1,0 +1,22 @@
+{
+  "name": "Game.Editor",
+  "rootNamespace": "Game.Editor",
+  "references": [
+    "Game.Content.Authoring",
+    "Game.Content.Runtime",
+    "Game.Infrastructure",
+    "Unity.Addressables",
+    "Unity.Addressables.Editor"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

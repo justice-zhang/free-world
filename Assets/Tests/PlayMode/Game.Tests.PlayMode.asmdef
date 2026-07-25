@@ -1,0 +1,22 @@
+{
+  "name": "Game.Tests.PlayMode",
+  "rootNamespace": "Game.Tests.PlayMode",
+  "references": [
+    "Game.Application",
+    "Game.Infrastructure",
+    "Game.Platform.Abstractions",
+    "Game.Platform.Null"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false,
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}

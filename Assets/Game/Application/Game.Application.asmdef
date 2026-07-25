@@ -1,0 +1,19 @@
+{
+  "name": "Game.Application",
+  "rootNamespace": "Game.Application",
+  "references": [
+    "Game.Core",
+    "Game.Content.Runtime",
+    "Game.Simulation",
+    "Game.Platform.Abstractions"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": true
+}
