@@ -237,5 +237,7 @@ Builds\WindowsDevelopment\M1ReviewFinal\AzureSword.exe
 
 - M1 实现已通过 [GitHub PR #4](https://github.com/justice-zhang/free-world/pull/4)
   合并，merge commit 为 `268e3f23535e304dfc4843d85ada5d2a47f642a0`。
-- 完成 M1 收尾 PR 并把 `framework-m1` 标签推送到最终 `main`。
+- 执行日志与已知问题由
+  [GitHub PR #5](https://github.com/justice-zhang/free-world/pull/5) 固化；
+  `framework-m1` 指向该 PR 的最终 merge commit。
 - M2 只能从该标签后的独立分支开始。

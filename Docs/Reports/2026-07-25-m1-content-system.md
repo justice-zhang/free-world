@@ -180,4 +180,5 @@ PASS、Windows Development Build PASS。权威审查记录见
 
 - 实现 PR：[GitHub PR #4](https://github.com/justice-zhang/free-world/pull/4)
 - 实现 merge commit：`268e3f23535e304dfc4843d85ada5d2a47f642a0`
-- 执行日志、已知问题和最终标签由 M1 收尾 PR 固化。
+- 收尾 PR：[GitHub PR #5](https://github.com/justice-zhang/free-world/pull/5)
+- `framework-m1` 指向收尾 PR 的最终 merge commit。

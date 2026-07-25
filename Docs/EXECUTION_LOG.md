@@ -56,7 +56,8 @@
 |---|---|
 | M1 实现提交 | `8edcfadee2f2d3824dee5db0a401146e51e39f22` |
 | M1 实现合并 | GitHub PR #4，merge commit `268e3f23535e304dfc4843d85ada5d2a47f642a0` |
-| M1 收尾合并 | 待创建 GitHub 收尾 PR 后回填 |
+| M1 收尾提交 | `586ae087e16bee5752dcff9a65b8dae835122c8c` |
+| M1 收尾合并 | GitHub PR #5 |
 | 标签目标 | `framework-m1` 指向 M1 收尾 PR 的最终 merge commit |
 
 ### 最终检查
