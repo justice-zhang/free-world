@@ -79,3 +79,42 @@
 ### 下一步
 
 M2 只能从带 `framework-m1` 标签的最终 `main` 创建独立分支；M1 不再扩张内容 Schema。
+
+## M2：固定 Tick 模拟内核
+
+- 状态：`COMPLETE`
+- 日期：2026-07-26
+- Unity：`6000.3.20f1`
+- 实现报告：`Docs/Reports/2026-07-25-m2-simulation-kernel.md`
+- 审查报告：`Docs/Reports/2026-07-25-m2-review-gate.md`
+- 最终标签：`framework-m2`
+
+### 集成记录
+
+| 项目 | 记录 |
+|---|---|
+| M2 实现提交 | `07bfe20d0540a271ab37529cf4a01aacd8c0befe` |
+| M2 远程分支 | `codex/m2-simulation-kernel` |
+| M2 实现合并 | GitHub PR #6；`framework-m2` 指向该 PR 的最终 merge commit |
+| 审查修复 | 同一 PR 内修复追赶 Tick 事件丢失和微小非零速度冻结，并增加回归测试 |
+
+### 最终检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| Git diff 与范围 | PASS | 相对 `framework-m1` 修改 5、新增 23、删除 0；全部属于 M2 实现、测试、ADR 或集成记录 |
+| Bootstrap Scene 静态检查 | PASS | 工作树与 `HEAD` Blob 均为 `79e997fe895c6a7ba0ee053b38052b7870587580`；Build Settings 只启用 Bootstrap；baked Catalog 引用有效 |
+| asmdef 与禁用模式 | PASS | Game.Simulation 仅依赖 Core/Content.Runtime 且 `noEngineReferences=true`；0 环；Simulation 禁用 API 零命中 |
+| 编译 | PASS | `TestResults/M2ReviewFinal` Unity 测试和 Development Build 均成功，无 C# 编译错误 |
+| EditMode | PASS | `TestResults/M2ReviewFinal/editmode.xml`：50/50 |
+| PlayMode | PASS | `TestResults/M2ReviewFinal/playmode.xml`：5/5 |
+| 内容/治理验证 | PASS | `TestResults/M2ReviewFinal/validation.log`：`[Project Validation] PASS` |
+| Windows Development Build | PASS | Build Manifest：`Succeeded`、`StandaloneWindows64`、Development；EXE SHA-256 `5D7EEB5359C2E35E4EB1F6A5844B25C3D7556795BD2F15EC234A2011406BC9C6` |
+| Windows Player 冒烟 | NOT RUN | M2 未修改 Scene、输入、UI 或 Bootstrap 生命周期；实际 Development Build 已生成 |
+| 性能/Soak | NOT RUN | M2 先交付正确的单线程内核；目标规模基准和 30 分钟 Soak 在性能里程碑执行 |
+
+### 下一步
+
+M3 只能从带 `framework-m2` 标签的最终 `main` 创建独立分支；必须复用 M2 的
+Generation Handle、Command/Event Buffer 和固定 Pipeline，不得绕过 Cleanup
+进行系统遍历期结构变化。
