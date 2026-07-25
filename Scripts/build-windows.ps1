@@ -39,6 +39,14 @@ $absoluteLogPath = if ([IO.Path]::IsPathRooted($LogPath)) {
     [IO.Path]::GetFullPath((Join-Path $projectRoot $LogPath))
 }
 New-Item -ItemType Directory -Path (Split-Path -Parent $absoluteLogPath) -Force | Out-Null
+$outputDirectory = Split-Path -Parent $absoluteOutputPath
+$manifestPath = Join-Path $outputDirectory 'BuildManifest.json'
+
+foreach ($generatedPath in @($absoluteOutputPath, $absoluteLogPath, $manifestPath)) {
+    if (Test-Path -LiteralPath $generatedPath) {
+        Remove-Item -LiteralPath $generatedPath -Force
+    }
+}
 
 $previousBuildOutput = $env:BUILD_OUTPUT
 try {
@@ -70,5 +78,35 @@ if (-not (Test-Path -LiteralPath $absoluteOutputPath -PathType Leaf)) {
     exit 5
 }
 
+if (-not (Test-Path -LiteralPath $absoluteLogPath -PathType Leaf) -or
+    -not (Select-String -LiteralPath $absoluteLogPath -SimpleMatch '[M0 Build] PASS' -Quiet)) {
+    [Console]::Error.WriteLine(
+        "Build log does not contain the required PASS marker: $absoluteLogPath")
+    exit 6
+}
+
+if (-not (Test-Path -LiteralPath $manifestPath -PathType Leaf)) {
+    [Console]::Error.WriteLine("Build manifest is missing: $manifestPath")
+    exit 6
+}
+
+try {
+    $buildManifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+    $manifestExecutable = [IO.Path]::GetFullPath([string]$buildManifest.executable)
+} catch {
+    [Console]::Error.WriteLine(
+        "Build manifest is invalid at ${manifestPath}: $($_.Exception.Message)")
+    exit 6
+}
+
+if ($buildManifest.result -ne 'Succeeded' -or
+    $buildManifest.buildTarget -ne 'StandaloneWindows64' -or
+    -not [bool]$buildManifest.development -or
+    -not $manifestExecutable.Equals($absoluteOutputPath, [StringComparison]::OrdinalIgnoreCase)) {
+    [Console]::Error.WriteLine("Build manifest does not describe the requested Development Build.")
+    exit 6
+}
+
 Write-Host "Build output: $absoluteOutputPath"
+Write-Host "Build manifest: $manifestPath"
 exit 0

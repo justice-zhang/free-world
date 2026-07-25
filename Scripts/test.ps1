@@ -48,6 +48,12 @@ function Invoke-UnityTests {
 
     $resultPath = Join-Path $resultsRoot "$($TestPlatform.ToLowerInvariant()).xml"
     $logPath = Join-Path $resultsRoot "$($TestPlatform.ToLowerInvariant()).log"
+    foreach ($generatedPath in @($resultPath, $logPath)) {
+        if (Test-Path -LiteralPath $generatedPath) {
+            Remove-Item -LiteralPath $generatedPath -Force
+        }
+    }
+
     $arguments = @(
         '-batchmode',
         '-nographics',
@@ -65,7 +71,42 @@ function Invoke-UnityTests {
         -PassThru `
         -WindowStyle Hidden
     Write-Host "$TestPlatform Unity exit code: $($process.ExitCode)"
-    return $process.ExitCode
+    if ($process.ExitCode -ne 0) {
+        return $process.ExitCode
+    }
+
+    if (-not (Test-Path -LiteralPath $resultPath -PathType Leaf)) {
+        [Console]::Error.WriteLine(
+            "$TestPlatform Unity exited successfully but did not create test results: $resultPath")
+        return 4
+    }
+
+    try {
+        [xml]$resultDocument = Get-Content -LiteralPath $resultPath -Raw
+        $testRun = $resultDocument.'test-run'
+        if ($null -eq $testRun) {
+            throw 'The XML does not contain a test-run root element.'
+        }
+
+        $total = [int]$testRun.total
+        $passed = [int]$testRun.passed
+        $failed = [int]$testRun.failed
+        $skipped = [int]$testRun.skipped
+    } catch {
+        [Console]::Error.WriteLine(
+            "$TestPlatform produced invalid test results at ${resultPath}: $($_.Exception.Message)")
+        return 4
+    }
+
+    Write-Host (
+        "$TestPlatform results: total=$total passed=$passed failed=$failed skipped=$skipped " +
+        "result=$($testRun.result)")
+    if ($testRun.result -ne 'Passed' -or $failed -ne 0) {
+        [Console]::Error.WriteLine("$TestPlatform test results are not passing.")
+        return 5
+    }
+
+    return 0
 }
 
 $platforms = if ($Platform -eq 'All') {

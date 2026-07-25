@@ -53,6 +53,8 @@
 | `Docs/TEST_PLAN.md` | EditMode、PlayMode、Soak 和扩展性测试。 |
 | `Docs/PERFORMANCE_BUDGET.md` | 性能目标、测量规则和回归门禁。 |
 | `Docs/EXECUTION_ORDER.md` | M0—M10 实施顺序。 |
+| `Docs/EXECUTION_LOG.md` | 已完成里程碑的提交、门禁和标签记录。 |
+| `Docs/KNOWN_ISSUES.md` | 已知问题、接受限制和后续处理状态。 |
 | `Docs/DEFINITION_OF_DONE.md` | 框架冻结前必须满足的条件。 |
 | `AI_ASSET_POLICY.md` | 正式 AI 资源的治理和发布门禁。 |
 | `THIRD_PARTY_NOTICES.md` | 第三方代码与资产登记。 |
@@ -107,8 +109,12 @@ $env:UNITY_PATH = 'C:\Program Files\Unity\Hub\Editor\6000.3.20f1\Editor\Unity.ex
 - 退出码 `2`：缺少环境变量、项目目录或参数配置错误。
 - 退出码 `3`：`UNITY_PATH` 指向的文件不存在。
 - 其他非零退出码：保留 Unity 的真实失败码。
-- 构建脚本退出码 `5`：Unity 返回成功但预期可执行文件不存在。
+- 测试脚本退出码 `4`：测试 XML 缺失或无效；退出码 `5`：XML 结果不是 Passed。
+- 验证脚本退出码 `4`：验证日志缺失；退出码 `5`：日志缺少 PASS 标记。
+- 构建脚本退出码 `5`：预期可执行文件不存在；退出码 `6`：PASS 标记或
+  Build Manifest 缺失、无效或与请求不一致。
 
-脚本日志与测试 XML 写入 `TestResults/`，该目录不进入 Git。Development Build
+脚本在执行前会清除对应旧证据，避免旧 XML、日志、EXE 或 Build Manifest
+掩盖本次失败。日志与测试 XML 写入 `TestResults/`，该目录不进入 Git。Development Build
 只包含 `Assets/Scenes/Bootstrap.unity`，启动后由唯一 `GameBootstrapper` 组合
 `NullPlatformFacade` 并进入空 `MainMenu` 状态；M0 不包含正式菜单或玩法。
