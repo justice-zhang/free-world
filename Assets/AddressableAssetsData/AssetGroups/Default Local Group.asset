@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Default Local Group
+  m_GUID: 0a36f78d28f50a844ad887ca617647e8
+  m_SerializeEntries:
+  - m_GUID: 13d392ec42d440f44a3410d5c517fe57
+    m_Address: Assets/GameAssets/Placeholder/line.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3bf5b1ddd86513042b3d9e8567175a44
+    m_Address: Assets/GameAssets/Placeholder/square.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5013181cee96bfd4aac5fc7493c99e18
+    m_Address: Assets/GameAssets/Placeholder/circle.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 78cbfa92888072c49963101845d51bc0, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: e1f6fe8a865dc4f4c98cf0642ecf2a54, type: 2}
+    - {fileID: 11400000, guid: e79295a0558dc074fa3d1efb628f9cda, type: 2}

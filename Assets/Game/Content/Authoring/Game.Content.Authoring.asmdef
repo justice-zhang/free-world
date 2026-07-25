@@ -1,0 +1,16 @@
+{
+  "name": "Game.Content.Authoring",
+  "rootNamespace": "Game.Content.Authoring",
+  "references": [
+    "Game.Content.Runtime"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

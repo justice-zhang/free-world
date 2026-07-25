@@ -17,6 +17,7 @@
 /.idea/
 *.csproj
 *.sln
+*.slnx
 *.suo
 *.tmp
 *.user
@@ -40,9 +41,9 @@ sysinfo.txt
 
 # Addressables generated content
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/[Ww]indows.meta
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/
 
 # Crash reporting generated properties
 crashlytics-build.properties
-

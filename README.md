@@ -65,3 +65,50 @@
 - 新角色、新技能、新构筑和新地图优先通过内容配置新增。
 - 所有正式 AI 资源和第三方资源必须可追溯。
 - 未经过实际测试和构建验证，不得声明里程碑完成。
+
+## M0 命令行
+
+项目锁定 Unity `6000.3.20f1`。先在 PowerShell 中把 `UNITY_PATH` 设置为该版本
+编辑器的完整路径：
+
+```powershell
+$env:UNITY_PATH = 'C:\Program Files\Unity\Hub\Editor\6000.3.20f1\Editor\Unity.exe'
+```
+
+运行全部 EditMode 和 PlayMode 测试：
+
+```powershell
+.\Scripts\test.ps1
+```
+
+也可只运行一个平台：
+
+```powershell
+.\Scripts\test.ps1 -Platform EditMode
+.\Scripts\test.ps1 -Platform PlayMode
+```
+
+运行第三方记录、AI provenance 和 Addressables Release/Placeholder 验证：
+
+```powershell
+.\Scripts\validate.ps1
+```
+
+生成 Windows x64 Development Build：
+
+```powershell
+.\Scripts\build-windows.ps1
+```
+
+默认产物为 `Builds/WindowsDevelopment/AzureSword.exe`，可通过 `-OutputPath` 指定
+其他项目相对路径或绝对路径。脚本不会猜测 Unity 安装位置：
+
+- 退出码 `0`：Unity 操作成功。
+- 退出码 `2`：缺少环境变量、项目目录或参数配置错误。
+- 退出码 `3`：`UNITY_PATH` 指向的文件不存在。
+- 其他非零退出码：保留 Unity 的真实失败码。
+- 构建脚本退出码 `5`：Unity 返回成功但预期可执行文件不存在。
+
+脚本日志与测试 XML 写入 `TestResults/`，该目录不进入 Git。Development Build
+只包含 `Assets/Scenes/Bootstrap.unity`，启动后由唯一 `GameBootstrapper` 组合
+`NullPlatformFacade` 并进入空 `MainMenu` 状态；M0 不包含正式菜单或玩法。

@@ -1,0 +1,17 @@
+{
+  "name": "Game.Simulation",
+  "rootNamespace": "Game.Simulation",
+  "references": [
+    "Game.Core",
+    "Game.Content.Runtime"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": true
+}
