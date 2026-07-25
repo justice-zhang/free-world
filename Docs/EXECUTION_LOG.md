@@ -40,3 +40,41 @@
 ### 下一步
 
 只有在明确指定 M1、重新读取 M1 提示词并完成新的主分支基线后，才能开始内容模型工作。
+
+## M1：核心类型与内容系统
+
+- 状态：`COMPLETE`
+- 日期：2026-07-25
+- Unity：`6000.3.20f1`
+- 实现报告：`Docs/Reports/2026-07-25-m1-content-system.md`
+- 审查报告：`Docs/Reports/2026-07-25-m1-review-gate.md`
+- 最终标签：`framework-m1`
+
+### 集成记录
+
+| 项目 | 记录 |
+|---|---|
+| M1 实现提交 | `8edcfadee2f2d3824dee5db0a401146e51e39f22` |
+| M1 实现合并 | GitHub PR #4，merge commit `268e3f23535e304dfc4843d85ada5d2a47f642a0` |
+| M1 收尾合并 | 待创建 GitHub 收尾 PR 后回填 |
+| 标签目标 | `framework-m1` 指向 M1 收尾 PR 的最终 merge commit |
+
+### 最终检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| Git diff 与范围 | PASS | 相对 `framework-m0` 修改 16、新增 70、删除 0；全部属于 M1 |
+| Bootstrap Scene 静态检查 | PASS | Build Settings 仅启用 Bootstrap；场景有 2 个根对象、1 个 GameBootstrapper、1 个有效 baked Catalog 引用 |
+| asmdef 与禁用模式 | PASS | 13 asmdef、40 条内部依赖、0 缺失、0 环；禁用 API 和 Runtime Unity 引用均为 0 |
+| 编译 | PASS | `TestResults/M1ReviewFinal/compile.log`：Unity 退出 0，无 C# 错误 |
+| EditMode | PASS | `TestResults/M1ReviewFinal/editmode.xml`：33/33 |
+| PlayMode | PASS | `TestResults/M1ReviewFinal/playmode.xml`：5/5 |
+| 内容/治理验证 | PASS | `TestResults/M1ReviewFinal/validation.log`：`[Project Validation] PASS` |
+| Windows Development Build | PASS | Build Manifest：`Succeeded`、`StandaloneWindows64`、Development |
+| Windows Player 冒烟 | PASS | `TestResults/M1ReviewFinal/player-smoke.log`：`packs=1, entries=4`，无失败标记 |
+| Release Build | NOT RUN | M1 已执行适用的 Development Build；Release 门禁随正式发布阶段执行 |
+| 性能/Soak | NOT RUN | M1 无模拟 Tick、实体或高频运行负载 |
+
+### 下一步
+
+M2 只能从带 `framework-m1` 标签的最终 `main` 创建独立分支；M1 不再扩张内容 Schema。

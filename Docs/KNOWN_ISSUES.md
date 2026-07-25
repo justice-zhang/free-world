@@ -20,3 +20,15 @@
 | M0-KI-007 | ACCEPTED | Low | Unity 自动生成的 `.meta` 和 Addressables YAML 含空值尾随空格，完整里程碑 `git diff --check` 会报告这些生成字段。 | 手写 C#、PowerShell、Markdown、JSON 和 asmdef 必须通过 whitespace 检查；不手工批量重写 Unity 序列化文件。 |
 
 当前没有阻止 M1 开始的 `OPEN` 问题。
+
+## M1
+
+| ID | 状态 | 严重度 | 问题与影响 | 处理 |
+|---|---|---|---|---|
+| M1-KI-001 | RESOLVED | Medium | Character 先验证被引用 Skill 的非 canonical ID 时，错误路径曾指向 Character，无法定位实际错误资产。 | Baker 现在先预验证 Pack 内每个定义自身的 ID 和路径；`ContentBakerTests.AuthoringRejectsNonCanonicalIdWithPackAndAssetPath` 已覆盖。 |
+| M1-KI-002 | RESOLVED | High | Catalog、Manifest、运行时定义和 Registry 的 `IReadOnlyList` 曾直接暴露 backing array，可绕过验证并使 Hash 或索引状态失配。 | 构造输入继续 clone，对外返回缓存只读视图；`RuntimeCollectionsDoNotExposeMutableBackingArrays` 已覆盖。 |
+| M1-KI-003 | ACCEPTED | Low | M1 Bootstrap 直接引用测试 Pack 的 baked `TextAsset`，尚未实现正式 Addressables Pack 生命周期、异步句柄或 DLC。 | 符合 ADR 0003 的 M1 落地边界；正式内容接入前再实现通用 Pack 加载流程，不在 M1 扩张。 |
+| M1-KI-004 | PLANNED | Medium | M1 只验证 Localization Key 非空，尚未验证 Key 是否存在于 Locale 表。 | Unity Localization 表、伪本地化和缺 Key 门禁在 M8 实现。 |
+| M1-KI-005 | PLANNED | None | M1 未运行 30 分钟性能/Soak Test。 | M1 无模拟负载；固定种子压力场景和性能 JSON 在 M10 执行。 |
+
+当前没有阻止 M2 开始的 `OPEN` 问题。

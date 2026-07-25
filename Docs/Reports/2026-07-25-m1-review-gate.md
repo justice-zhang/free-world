@@ -4,7 +4,7 @@
 - 里程碑：M1
 - 基准：`framework-m0`（`43ef77926ad917f4bf178943490e15139255aa02`）
 - 分支：`codex/m1-content-system`
-- Git Commit：未提交；工作树等待人工审查
+- Git Commit：`8edcfadee2f2d3824dee5db0a401146e51e39f22`
 - 日期：2026-07-25
 - 最终结论：`PASS`
 
@@ -235,6 +235,7 @@ Builds\WindowsDevelopment\M1ReviewFinal\AzureSword.exe
 
 ## 10. 下一步前置条件
 
-- 人工确认本报告、最终 XML、验证日志、构建日志和 Git diff。
-- 提交并合并 M1 后创建 `framework-m1` 标签。
-- 在 M1 审查通过、提交和打标签前不得开始 M2。
+- M1 实现已通过 [GitHub PR #4](https://github.com/justice-zhang/free-world/pull/4)
+  合并，merge commit 为 `268e3f23535e304dfc4843d85ada5d2a47f642a0`。
+- 完成 M1 收尾 PR 并把 `framework-m1` 标签推送到最终 `main`。
+- M2 只能从该标签后的独立分支开始。
