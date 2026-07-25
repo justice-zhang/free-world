@@ -31,7 +31,7 @@
 
 ## 2. Assembly Definition
 
-| **Assembly**               | **职责**                             | **M1 实际直接依赖**                                                       |
+| **Assembly**               | **职责**                             | **M2 实际直接依赖**                                                       |
 |----------------------------|--------------------------------------|---------------------------------------------------------------------------|
 | Game.Core                  | ID、标签、结果、随机数、基础工具     | 无                                                                        |
 | Game.Content.Runtime       | 烘焙后的纯运行时定义                 | Game.Core                                                                 |
@@ -45,10 +45,10 @@
 | Game.Platform.Null         | 无平台环境实现                       | Game.Platform.Abstractions                                                |
 | Game.Platform.Steam        | 后续 Steam 适配（M0 未创建）         | Game.Platform.Abstractions                                                |
 | Game.Editor                | 验证、Bake、Placeholder、场景与构建工具 | Unity Editor、Addressables Editor、Game.Core、Game.Content.Authoring、Game.Content.Runtime、Game.Infrastructure |
-| Game.Tests.EditMode        | M0 程序集、生成器与验证器测试        | M0 产品程序集、Game.Editor、Unity Test Framework                          |
+| Game.Tests.EditMode        | 治理、内容与纯模拟内核测试           | 产品程序集、Game.Editor、Unity Test Framework                             |
 | Game.Tests.PlayMode        | Bootstrap 内容加载和生命周期测试     | Game.Core、Game.Content.Runtime、Game.Application、Game.Infrastructure、Game.Platform.Abstractions、Game.Platform.Null、Unity Test Framework |
 
-M1 实际依赖图（省略测试程序集）：
+M2 实际依赖图（省略测试程序集）：
 
 ```text
 Game.Core
@@ -122,7 +122,26 @@ M1 在上述组合中增加 `ContentRegistry`。Bootstrap 从 Scene 显式引用
 
 升级选择暂停时只停止 SimulationClock。不依赖全局 Time.timeScale 作为唯一暂停机制。
 
-系统执行顺序固定在一个 Pipeline 中：
+M2 已落地 Pipeline 只包含当前里程碑需要的系统，执行顺序由
+`SimulationPipeline.CreateM2Default` 显式构造并可由测试逐项断言：
+
+```text
+01 MovementSystem
+02 LifetimeSystem
+03 CleanupSystem
+04 SnapshotBuildSystem
+```
+
+`MovementSystem` 只修改运动列并同步空间网格；`LifetimeSystem` 只产生删除命令；
+`CleanupSystem` 是唯一应用 M2 结构变化的系统；`SnapshotBuildSystem` 必须最后执行。
+不得依赖 Script Execution Order 或逐实体 Update 改变该顺序。
+
+Clock 使用 `double` 累积表现 Delta。每次推进最多执行 `MaxCatchUpTicks`，剩余积压
+保留到后续推进；暂停时忽略新 Delta，暂停状态下可单步一个 Tick。
+同一次 Runner Advance 的追赶 Tick 事件累积为一个批次，下一次实际执行 Tick 的
+Advance 或 Step 才清空，避免表现层获得控制前丢失前序 Tick 事件。
+
+以下为后续里程碑逐步启用的目标完整 Pipeline，不代表 M2 已实现：
 
 > 01 InputCommandSystem  
 > 02 SpawnRequestSystem  
@@ -158,7 +177,7 @@ M1 在上述组合中增加 `ContentRegistry`。Bootstrap 从 Scene 显式引用
 
 - PickupStore
 
-- SummonStore
+- SummonStore（后续召唤里程碑，M2 未实现）
 
 Store 使用 Dense Array、Swap-back Remove、Free List 和 Generation。实体句柄：
 
@@ -170,6 +189,18 @@ Store 使用 Dense Array、Swap-back Remove、Free List 和 Generation。实体�
 
 删除实体后递增 Generation，旧句柄不能引用新实体。
 
+M2 Store 生命周期：
+
+1. Create 从 Free List 复用 Slot，或扩展 Slot；Generation 从 `1` 开始。
+2. Handle 的 Index 解析为 Dense Index，读写前必须同时验证 Generation。
+3. 系统遍历只读取或写入 Dense 状态，不直接 Create/Remove。
+4. Cleanup 删除时用最后一项覆盖空洞，并更新被移动实体的 Slot → Dense 映射。
+5. 被删 Slot 的 Generation 递增后进入 Free List；旧 Handle 的读、写和删除均失败。
+
+Handle 只在所属 Store 内有意义。网格、快照、命令和事件使用
+`EntityKind + EntityHandle` 形成跨 Store 标识。M2 四个 Store 只共享固定运动列的
+内部实现，不暴露组件注册、Archetype 或通用查询 API。
+
 ## 6. 空间查询
 
 统一空间网格服务用于最近目标、投射物碰撞、范围伤害、拾取吸附、敌人分离和裁剪。
@@ -179,6 +210,10 @@ Store 使用 Dense Array、Swap-back Remove、Free List 和 Generation。实体�
 > cellKey = Hash(cellX, cellY)
 
 禁止每个技能遍历全部敌人。
+
+M2 网格使用 `EntityKind + EntityHandle` 唯一索引实体，支持插入、跨 Cell 更新、
+删除、半径查询和排除自身的邻近查询。查询写入调用方复用的
+`SpatialQueryBuffer`；查询顺序不构成模拟契约，需要稳定排序的后续系统必须显式处理。
 
 ## 7. 表现层
 
@@ -193,6 +228,21 @@ Store 使用 Dense Array、Swap-back Remove、Free List 和 Generation。实体�
 - VFX/Audio Request
 
 ActorView、ProjectileView 和 PickupView 只更新显示和提交输入，不计算伤害、经验、死亡或掉落。
+
+M2 `RenderSnapshot` 格式：
+
+```text
+Tick
+Entries[]
+├─ EntityKind + EntityHandle
+├─ PreviousPosition / CurrentPosition
+├─ PreviousFacingRadians / CurrentFacingRadians
+└─ PreviousStateFlags / CurrentStateFlags
+```
+
+Tick 开始前捕获 Previous，Cleanup 后捕获 Current。新创建实体以前后相同状态进入
+快照；本 Tick 删除的实体不进入 Current，并由 `SimulationEventType.Removed` 通知未来
+View 释放。位置按夹紧到 `[0, 1]` 的 alpha 线性插值，朝向按最短角路径插值。
 
 ## 8. 地图运行时
 
