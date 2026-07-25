@@ -113,3 +113,18 @@
 - 非 canonical 被引用资产仍报告该资产自身路径；运行时集合不暴露可变 backing array。
 - Registry 同加载顺序索引稳定，并接受无需类型分支的新定义子类。
 - Bootstrap 加载一个测试 Pack、四个定义并进入空 MainMenu。
+
+## 7. M2 已落地覆盖
+
+- 30 Hz 固定 Tick 在不同表现 Delta 切分下得到相同 Tick 数和运动结果。
+- 最大追赶 Tick 保留积压；暂停忽略 Delta；暂停单步恰好推进一次。
+- 同一次追赶 Advance 保留所有已执行 Tick 的事件，零 Tick Advance 不提前清空。
+- 任意非零速度都会积分位置并设置 Moving，不用阈值冻结合法运动。
+- 删除后旧 Handle 失效，Slot 复用时 Generation 改变，旧 Handle 不能读写新实体。
+- Swap-back 后被移动实体的 Handle 仍解析到正确状态；Store 扩容和 Free List 复用。
+- M2 默认 Pipeline 的四个系统顺序和自定义测试 Pipeline 的实际调用顺序。
+- Spatial Grid 半径查询与暴力结果一致，并覆盖跨 Cell 更新、删除和邻近查询。
+- 相同 RandomStream 种子重复、派生流不受父流调用顺序影响。
+- 命令只由 Cleanup 应用，生命周期删除同步 Store、网格、事件和诊断计数。
+- RenderSnapshot 保存前后位置、朝向、状态标记并可插值。
+- Headless Harness 固定种子摘要重复，并验证不创建 GameObject。

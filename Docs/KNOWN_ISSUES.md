@@ -32,3 +32,16 @@
 | M1-KI-005 | PLANNED | None | M1 未运行 30 分钟性能/Soak Test。 | M1 无模拟负载；固定种子压力场景和性能 JSON 在 M10 执行。 |
 
 当前没有阻止 M2 开始的 `OPEN` 问题。
+
+## M2
+
+| ID | 状态 | 严重度 | 问题与影响 | 处理 |
+|---|---|---|---|---|
+| M2-KI-001 | RESOLVED | High | 一次 `FixedTickRunner.Advance` 追赶多个 Tick 时，World 曾在每个 Tick 开始清空事件，表现调用者重新获得控制前会丢失前序 Tick 事件。 | Event Buffer 改为按 Runner 批次清理；`CatchUpAdvanceRetainsEventsFromEveryExecutedTick` 覆盖多 Tick 和零 Tick Advance。 |
+| M2-KI-002 | RESOLVED | Medium | Movement 曾把速度阈值同时用于位置积分，极小但非零的合法速度会完全冻结。 | 任意非零速度均积分位置并设置 Moving；`MovementIntegratesAnyNonZeroVelocity` 覆盖。 |
+| M2-KI-003 | ACCEPTED | Low | Event Buffer 只保留最近一次实际执行 Tick 的 Runner 批次；消费者若跨过下一批次才读取会错过旧事件。 | 这是 M2 明确的单生产者批次契约；M7 接入表现层时必须在下一 Tick 批次前消费。 |
+| M2-KI-004 | ACCEPTED | Low | Spatial Grid 半径和邻近查询结果顺序不是模拟契约。 | 后续需要稳定优先级的系统必须按明确键选择或排序，不得依赖 Dictionary/Cell 链接顺序。 |
+| M2-KI-005 | ACCEPTED | Low | Store Handle 只在所属 Store 内有效，裸 Handle 不能跨 Actor/Projectile/Area/Pickup 比较身份。 | 跨 Store 数据必须使用 `SpatialEntity(EntityKind, EntityHandle)`；文档和公共缓冲格式已遵守。 |
+| M2-KI-006 | PLANNED | Medium | 单线程 Dictionary 网格/快照索引尚未完成目标实体规模基准和 30 分钟 Soak。 | M2 保持正确性优先；M10 使用固定种子压力场景输出性能 JSON，再依据证据决定 Jobs/Burst 后端。 |
+
+当前没有阻止 M3 开始的 `OPEN` 问题。
