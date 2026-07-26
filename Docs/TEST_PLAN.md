@@ -128,3 +128,23 @@
 - 命令只由 Cleanup 应用，生命周期删除同步 Store、网格、事件和诊断计数。
 - RenderSnapshot 保存前后位置、朝向、状态标记并可插值。
 - Headless Harness 固定种子摘要重复，并验证不创建 GameObject。
+
+## 8. M3 已落地覆盖
+
+- 14 个稳定 StatId 与 Runtime StatIndex 映射；Modifier 六阶段顺序、Priority、紧凑
+  StackingGroup、同优先级最新项和过期回退。
+- 属性 Evaluate 热路径 IL 不调用 ContentId/string 比较，也不包含正常路径托管分配指令。
+- Actor slot 复用战斗记录及 Stat/Modifier/Status 数组；默认零生命初始化被原子拒绝。
+- 暴击、Armor、Resistance、True Damage、单包边界、Shield→Health 顺序和固定种子复现。
+- 无效目标安全失败、ProcDepth 截断计数、同实体多次致死只发一个 EntityDied。
+- RefreshDuration、AddStacks、ReplaceIfStronger、IndependentInstances 四种状态策略。
+- 状态周期、短持续边界、过期、驱散、免疫、死亡后不 Tick 和周期 ProcDepth 截断。
+- 状态行为来自 RuntimeStatusDefinition，申请 API 不允许覆盖；非法/非有限行为安全拒绝。
+- 临时护盾刷新不重复扩容；过期回收容量，即使当前护盾已耗尽也产生包含容量差值的
+  ShieldChanged；有限容量聚合溢出时原子拒绝申请。
+- Tick 内结构体事件在 catch-up 批次累积，下一实际批次清空；自定义 Pipeline 不会漏 Flush。
+- Schema 1/2 兼容、Status 作者数据/DTO round-trip、稳定 wire token、确定性 Hash、非法字段
+  验证和 Runtime Definition 无 Unity Object。
+
+完整 30 分钟 Soak 和 1,500/3,000/5,000 实体压力 JSON 仍按性能预算在 M10 门禁启用；
+M3 未引入 Jobs、Burst 或新的第三方运行时依赖。

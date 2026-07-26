@@ -133,6 +133,8 @@ M1 已实现的最小运行时定义为：
 - `RuntimeSkillDefinition`：本地化 Key、冷却元数据；不含执行逻辑。
 - `RuntimeEnemyDefinition`：本地化 Key、生命和碰撞半径；不含实体或刷怪逻辑。
 - `RuntimeMapDefinition`：本地化 Key、Runtime Provider ID 和 Scene Address；不加载场景。
+- `RuntimeStatusDefinition`（M3 / Schema 2）：生命周期、叠层、驱散、免疫和经烘焙的
+  通用行为；不持有 Unity Object 或调用方提供的行为载荷。
 
 `BakedContentCatalog` 保存一个纯 `ContentPackManifest`、按作者顺序排列的
 `RuntimeContentDefinition[]` 和 SHA-256 `ContentHash`。磁盘 JSON 使用只含字符串、
@@ -310,3 +312,53 @@ Bootstrap Scene 显式引用 baked JSON，启动时校验 Hash、加载 Registry
 与条目数量并进入空 MainMenu；不会进入战斗。
 
 新增内容的可重复步骤见 `Docs/CONTENT_AUTHORING_WORKFLOW.md`。
+
+## 12. M3 状态 Schema 2
+
+Schema 2 首次定义 `status` kind。Schema 1 继续完整支持 M1 的 Character、Skill、Enemy
+和 Map，但不得包含状态。需要状态的 Pack 必须声明 `schemaVersion: 2` 并重新 Bake。
+
+```text
+RuntimeStatusDefinition
+├─ ContentId / Localization Keys / Tags
+├─ StackingPolicy
+│  ├─ refresh_duration
+│  ├─ add_stacks
+│  ├─ replace_if_stronger
+│  └─ independent_instances
+├─ DurationSeconds / MaxStacks / TickIntervalSeconds
+├─ DispelTags[] / ImmunityTags[]
+└─ Behavior
+   ├─ optional Modifier
+   │  └─ StatId / Operation / Value / Priority / StackingGroup
+   ├─ optional PeriodicDamage
+   │  └─ DamageType / DamageTags / BaseValue / CanCritical /
+   │     ProcCoefficient / Knockback
+   └─ temporary ShieldCapacity
+```
+
+`DamageType`、`DamageTags`、`StatId` 和 `ModifierOperation` 是 `Game.Core` 中的纯领域值；
+作者 ScriptableObject 使用 Unity 可序列化的 32 位 DamageTags 掩码，Baker 验证后转换为
+运行时 `ulong` 位标记。DTO 对策略、Modifier Operation 和 DamageType 使用稳定文本 token，
+不依赖 C# enum 名称或数组位置。
+
+所有行为字段按固定顺序进入确定性 SHA-256 Content Hash。Schema 1 Catalog 的字段顺序、
+Hash 和加载路径不变；Schema 2 状态内容变更必须重新 Bake。
+
+M3 状态验证覆盖叠层策略、Duration、MaxStacks、TickInterval、Dispel/Immunity 标签、
+Modifier StatId/Operation/有限值、周期伤害类型/Tags/ProcCoefficient、Knockback 和临时
+护盾容量。周期伤害必须有正 TickInterval，非法状态不能进入 Runtime Catalog。
+
+M3 独立 Placeholder Pack 位于：
+
+```text
+Assets/GameAssets/Placeholder/TestStatusContent/
+├─ TestM3StatusContentPack.asset
+├─ TestBurningStatus.asset
+├─ TestSlowStatus.asset
+├─ TestShieldedStatus.asset
+└─ TestM3StatusContentPack.baked.json
+```
+
+Burning 使用 AddStacks + Fire 周期伤害，Slow 使用 RefreshDuration + MoveSpeed Modifier，
+Shielded 使用 ReplaceIfStronger + 临时护盾容量。三者仅为测试 Fixture，不是正式内容。

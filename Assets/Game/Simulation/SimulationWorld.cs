@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Numerics;
+using Game.Core;
 
 namespace Game.Simulation
 {
@@ -19,7 +20,19 @@ namespace Game.Simulation
         Cleanup = 3,
 
         /// <summary>Builds the render snapshot.</summary>
-        SnapshotBuild = 4
+        SnapshotBuild = 4,
+
+        /// <summary>Resolves buffered damage packets.</summary>
+        DamageResolution = 5,
+
+        /// <summary>Ticks, expires, dispels and applies statuses.</summary>
+        StatusTick = 6,
+
+        /// <summary>Finalizes queued actor deaths.</summary>
+        Death = 7,
+
+        /// <summary>Flushes per-tick combat events to the public runner batch.</summary>
+        EventFlush = 8
     }
 
     /// <summary>
@@ -81,6 +94,20 @@ namespace Game.Simulation
                 new SnapshotBuildSystem());
         }
 
+        /// <summary>Creates the explicit M3 combat and status system order.</summary>
+        public static SimulationPipeline CreateM3Default()
+        {
+            return new SimulationPipeline(
+                new MovementSystem(),
+                new DamageResolutionSystem(),
+                new StatusTickSystem(),
+                new DeathSystem(),
+                new LifetimeSystem(),
+                new CleanupSystem(),
+                new EventFlushSystem(),
+                new SnapshotBuildSystem());
+        }
+
         internal void Execute(SimulationWorld world)
         {
             for (var index = 0; index < systems.Length; index++)
@@ -97,6 +124,7 @@ namespace Game.Simulation
     {
         private readonly RenderSnapshotBuilder snapshotBuilder;
         private RandomStream random;
+        private RandomStream damageRandom;
 
         /// <summary>
         /// Initializes an isolated simulation world.
@@ -105,7 +133,9 @@ namespace Game.Simulation
             ulong seed = 1UL,
             int initialEntityCapacity = 64,
             float spatialCellSize = 2f,
-            SimulationPipeline pipeline = null)
+            SimulationPipeline pipeline = null,
+            RuntimeStatusCatalog statusCatalog = null,
+            CombatRules? combatRules = null)
         {
             if (initialEntityCapacity <= 0)
             {
@@ -120,8 +150,16 @@ namespace Game.Simulation
             SpatialGrid = new SpatialGrid(spatialCellSize, initialEntityCapacity);
             Commands = new SimulationCommandBuffer(initialEntityCapacity);
             Events = new SimulationEventBuffer(initialEntityCapacity);
-            Pipeline = pipeline ?? SimulationPipeline.CreateM2Default();
+            DamageRequests = new DamageRequestBuffer(initialEntityCapacity);
+            StatusApplications = new StatusApplicationBuffer(initialEntityCapacity);
+            StatusDispels = new StatusDispelBuffer(initialEntityCapacity);
+            DeathRequests = new DeathRequestBuffer(initialEntityCapacity);
+            CombatEvents = new CombatEventBuffer(initialEntityCapacity);
+            StatusCatalog = statusCatalog ?? new RuntimeStatusCatalog();
+            CombatRules = combatRules ?? Game.Simulation.CombatRules.Default;
+            Pipeline = pipeline ?? SimulationPipeline.CreateM3Default();
             random = new RandomStream(seed);
+            damageRandom = random.Derive(0x44414D414745UL);
             snapshotBuilder = new RenderSnapshotBuilder(initialEntityCapacity);
         }
 
@@ -152,6 +190,24 @@ namespace Game.Simulation
         /// <summary>Gets events emitted by the latest completed runner batch.</summary>
         public SimulationEventBuffer Events { get; }
 
+        /// <summary>Gets damage packets waiting for the next damage-resolution stage.</summary>
+        public DamageRequestBuffer DamageRequests { get; }
+
+        /// <summary>Gets status applications waiting for the next status stage.</summary>
+        public StatusApplicationBuffer StatusApplications { get; }
+
+        /// <summary>Gets status dispels waiting for the next status stage.</summary>
+        public StatusDispelBuffer StatusDispels { get; }
+
+        /// <summary>Gets M3 events emitted by the latest completed runner batch.</summary>
+        public CombatEventBuffer CombatEvents { get; }
+
+        /// <summary>Gets pure runtime status definitions available to this run.</summary>
+        public RuntimeStatusCatalog StatusCatalog { get; }
+
+        /// <summary>Gets immutable damage and proc boundaries.</summary>
+        public CombatRules CombatRules { get; }
+
         /// <summary>Gets the fixed explicit system pipeline.</summary>
         public SimulationPipeline Pipeline { get; }
 
@@ -178,6 +234,78 @@ namespace Game.Simulation
             return CreateEntity(EntityKind.Actor, initialState);
         }
 
+        /// <summary>Creates a combat-ready actor during safe setup outside traversal.</summary>
+        public EntityHandle CreateActor(
+            in SimulationEntityState initialState,
+            in ActorCombatInitialization combatState)
+        {
+            var handle = Actors.Create(initialState, combatState);
+            var spatialEntity = new SpatialEntity(EntityKind.Actor, handle);
+            if (!SpatialGrid.Insert(spatialEntity, initialState.Position))
+            {
+                Actors.Remove(handle);
+                throw new InvalidOperationException(
+                    "A newly created actor already exists in the grid.");
+            }
+
+            return handle;
+        }
+
+        /// <summary>Queues damage for the centralized resolution stage.</summary>
+        public bool QueueDamage(in DamagePacket packet)
+        {
+            if (packet.ProcDepth < 0)
+            {
+                Diagnostics.RecordRejectedDamage();
+                return false;
+            }
+
+            if (packet.ProcDepth > CombatRules.MaximumProcDepth)
+            {
+                Diagnostics.RecordTruncatedProcChain();
+                return false;
+            }
+
+            DamageRequests.Add(packet);
+            return true;
+        }
+
+        /// <summary>Queues a generic runtime status application.</summary>
+        public bool QueueStatus(in StatusApplicationRequest request)
+        {
+            if (request.ProcDepth < 0 ||
+                float.IsNaN(request.Strength) ||
+                float.IsInfinity(request.Strength) ||
+                request.Strength < 0f ||
+                !request.StatusIndex.IsValid)
+            {
+                Diagnostics.RecordRejectedStatus();
+                return false;
+            }
+
+            if (request.ProcDepth > CombatRules.MaximumProcDepth)
+            {
+                Diagnostics.RecordTruncatedProcChain();
+                return false;
+            }
+
+            StatusApplications.Add(request);
+            return true;
+        }
+
+        /// <summary>Queues one tag-based status dispel.</summary>
+        public bool QueueStatusDispel(in StatusDispelRequest request)
+        {
+            if (!request.DispelTag.IsValid)
+            {
+                Diagnostics.RecordRejectedStatus();
+                return false;
+            }
+
+            StatusDispels.Add(request);
+            return true;
+        }
+
         /// <summary>Creates a projectile during safe setup outside system traversal.</summary>
         public EntityHandle CreateProjectile(in SimulationEntityState initialState)
         {
@@ -198,16 +326,31 @@ namespace Game.Simulation
 
         internal long ExecutingTick => Tick + 1;
 
+        internal DeathRequestBuffer DeathRequests { get; }
+
+        internal ref RandomStream DamageRandom
+        {
+            get
+            {
+                return ref damageRandom;
+            }
+        }
+
         internal void BeginTickBatch()
         {
             Events.BeginBatch();
+            CombatEvents.BeginBatch();
         }
 
         internal void RunTick()
         {
             var startTimestamp = Stopwatch.GetTimestamp();
+            CombatEvents.BeginTick();
             snapshotBuilder.CapturePrevious(this);
             Pipeline.Execute(this);
+            // Event publication is a world invariant, even for an explicitly supplied
+            // pipeline that omits the optional EventFlushSystem marker.
+            CombatEvents.FlushTick();
             Tick++;
             var endTimestamp = Stopwatch.GetTimestamp();
             var elapsedMilliseconds =

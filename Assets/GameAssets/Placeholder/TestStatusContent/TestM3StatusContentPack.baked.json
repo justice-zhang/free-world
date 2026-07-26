@@ -1,0 +1,152 @@
+{
+    "manifest": {
+        "packId": "test.pack.m3_status",
+        "version": "0.1.0",
+        "schemaVersion": 2,
+        "minimumGameVersion": "0.1.0",
+        "maximumGameVersion": "",
+        "dependencies": [],
+        "catalogAddress": "packs/test.m3_status/catalog",
+        "assetLabel": "pack.test.m3_status",
+        "official": false,
+        "sourceAssetPath": "Assets/GameAssets/Placeholder/TestStatusContent/TestM3StatusContentPack.asset"
+    },
+    "definitions": [
+        {
+            "kind": "status",
+            "id": "test.status.burning",
+            "localizedNameKey": "content.test.status.burning.name",
+            "localizedDescriptionKey": "content.test.status.burning.description",
+            "sourceAssetPath": "Assets/GameAssets/Placeholder/TestStatusContent/TestBurningStatus.asset",
+            "tags": [
+                "content.placeholder",
+                "status.debuff",
+                "damage.dot",
+                "element.fire"
+            ],
+            "baseMaxHealth": 0.0,
+            "moveSpeed": 0.0,
+            "startingSkillIds": [],
+            "cooldownSeconds": 0.0,
+            "collisionRadius": 0.0,
+            "runtimeProviderId": "",
+            "sceneAddress": "",
+            "stackingPolicy": "add_stacks",
+            "durationSeconds": 3.0,
+            "maxStacks": 5,
+            "tickIntervalSeconds": 1.0,
+            "dispelTags": [
+                "dispel.debuff",
+                "dispel.fire"
+            ],
+            "immunityTags": [
+                "immunity.fire"
+            ],
+            "statusModifierEnabled": false,
+            "statusModifierStatId": "",
+            "statusModifierOperation": "",
+            "statusModifierValue": 0.0,
+            "statusModifierPriority": 0,
+            "statusModifierStackingGroup": "",
+            "periodicDamageEnabled": true,
+            "periodicDamageType": "fire",
+            "periodicDamageTags": 6,
+            "periodicDamageValue": 6.0,
+            "periodicCanCritical": false,
+            "periodicProcCoefficient": 0.25,
+            "periodicKnockbackX": 0.0,
+            "periodicKnockbackY": 0.0,
+            "shieldCapacity": 0.0
+        },
+        {
+            "kind": "status",
+            "id": "test.status.slow",
+            "localizedNameKey": "content.test.status.slow.name",
+            "localizedDescriptionKey": "content.test.status.slow.description",
+            "sourceAssetPath": "Assets/GameAssets/Placeholder/TestStatusContent/TestSlowStatus.asset",
+            "tags": [
+                "content.placeholder",
+                "status.debuff",
+                "control.slow"
+            ],
+            "baseMaxHealth": 0.0,
+            "moveSpeed": 0.0,
+            "startingSkillIds": [],
+            "cooldownSeconds": 0.0,
+            "collisionRadius": 0.0,
+            "runtimeProviderId": "",
+            "sceneAddress": "",
+            "stackingPolicy": "refresh_duration",
+            "durationSeconds": 2.0,
+            "maxStacks": 1,
+            "tickIntervalSeconds": 0.0,
+            "dispelTags": [
+                "dispel.debuff",
+                "dispel.movement"
+            ],
+            "immunityTags": [
+                "immunity.slow"
+            ],
+            "statusModifierEnabled": true,
+            "statusModifierStatId": "base.stat.move_speed",
+            "statusModifierOperation": "multiply",
+            "statusModifierValue": 0.699999988079071,
+            "statusModifierPriority": 10,
+            "statusModifierStackingGroup": "test.stack.slow",
+            "periodicDamageEnabled": false,
+            "periodicDamageType": "",
+            "periodicDamageTags": 0,
+            "periodicDamageValue": 0.0,
+            "periodicCanCritical": false,
+            "periodicProcCoefficient": 0.0,
+            "periodicKnockbackX": 0.0,
+            "periodicKnockbackY": 0.0,
+            "shieldCapacity": 0.0
+        },
+        {
+            "kind": "status",
+            "id": "test.status.shielded",
+            "localizedNameKey": "content.test.status.shielded.name",
+            "localizedDescriptionKey": "content.test.status.shielded.description",
+            "sourceAssetPath": "Assets/GameAssets/Placeholder/TestStatusContent/TestShieldedStatus.asset",
+            "tags": [
+                "content.placeholder",
+                "status.buff",
+                "defense.shield"
+            ],
+            "baseMaxHealth": 0.0,
+            "moveSpeed": 0.0,
+            "startingSkillIds": [],
+            "cooldownSeconds": 0.0,
+            "collisionRadius": 0.0,
+            "runtimeProviderId": "",
+            "sceneAddress": "",
+            "stackingPolicy": "replace_if_stronger",
+            "durationSeconds": 5.0,
+            "maxStacks": 1,
+            "tickIntervalSeconds": 0.0,
+            "dispelTags": [
+                "dispel.buff"
+            ],
+            "immunityTags": [
+                "immunity.shield"
+            ],
+            "statusModifierEnabled": false,
+            "statusModifierStatId": "",
+            "statusModifierOperation": "",
+            "statusModifierValue": 0.0,
+            "statusModifierPriority": 0,
+            "statusModifierStackingGroup": "",
+            "periodicDamageEnabled": false,
+            "periodicDamageType": "",
+            "periodicDamageTags": 0,
+            "periodicDamageValue": 0.0,
+            "periodicCanCritical": false,
+            "periodicProcCoefficient": 0.0,
+            "periodicKnockbackX": 0.0,
+            "periodicKnockbackY": 0.0,
+            "shieldCapacity": 10.0
+        }
+    ],
+    "contentHash": "42073ed8bf84f09fdbf91a7d140ceca06b4420e1660926b2dcf1d9c06b657b5b"
+}

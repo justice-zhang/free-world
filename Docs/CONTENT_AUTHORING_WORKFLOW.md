@@ -2,14 +2,14 @@
 
 ## 1. 适用范围
 
-本文记录 M1 已实现的 Character、Skill、Enemy 和 Map 最小作者数据流程。它只生产
-内容元数据，不实现实体、战斗、技能执行、刷怪或地图运行时。
+本文记录 M1 的 Character、Skill、Enemy、Map 及 M3 Status 的作者数据流程。它只生产
+可验证的内容元数据和通用状态行为，不在作者对象中运行模拟逻辑。
 
 ## 2. 新建 Pack
 
 1. 在 Placeholder 或已完成 provenance 审核的正式内容目录创建
    `ContentPackAuthoring`。
-2. 设置 canonical `packId`、严格 `major.minor.patch` 版本、Schema 1、游戏版本范围、
+2. 设置 canonical `packId`、严格 `major.minor.patch` 版本、Schema、游戏版本范围、
    Catalog Address 和唯一 Pack Label。
 3. 依赖项写稳定 Pack ID 和 inclusive minimum/maximum 版本；不要依赖加载索引。
 4. 创建需要的 `CharacterAuthoring`、`SkillAuthoring`、`EnemyAuthoring` 或
@@ -33,7 +33,9 @@ Tools > Free World > Validate Project
 ```
 
 每个 Pack 在作者资产旁生成 `<PackName>.baked.json`。JSON 保存 Manifest、纯运行时
-定义和 SHA-256 Hash。重新 Bake 相同输入应产生相同 Hash。
+定义和 SHA-256 Hash。重新 Bake 相同输入应产生相同 Hash。Schema 选择规则为：不含
+状态的既有 M1 Pack 可继续使用 Schema 1；包含 StatusEffectAuthoring 的 Pack 必须使用
+Schema 2，不得把状态字段静默写入 Schema 1。
 
 命令行执行：
 
@@ -70,3 +72,30 @@ JSON 显式赋给 Bootstrap Scene。测试包是开发验证 Fixture，不能添
 新增纯运行时类型继承 `RuntimeContentDefinition` 后，Registry 无需修改。若该类型需要写入
 baked JSON，则属于 Content Schema 变化：先更新 ADR、DTO Codec、Hash 字段顺序、迁移策略
 和测试，再接受该类型。不得使用反射扫描自动注册类型。
+
+## 7. M3 状态作者数据
+
+`StatusEffectAuthoring` 必须填写：
+
+- 四种稳定叠层策略之一、正 Duration、合法 MaxStacks 和非负 TickInterval；
+- canonical DispelTags 与 ImmunityTags；
+- 可选 Modifier、周期伤害和临时 ShieldCapacity；
+- 所有名称与说明只填写 Localization Key。
+
+周期伤害行为要求正 TickInterval、合法 DamageType/Tags、有限非负伤害、`[0,1]`
+ProcCoefficient 和有限 Knockback。Modifier 要求稳定 StatId、合法 Operation、有限 Value
+以及可选 canonical StackingGroup。状态行为会写入 Runtime Definition；运行时申请只
+提供 StatusIndex、来源、Strength 和 ProcDepth，不能覆盖行为。
+
+创建或重建 M3 测试 Fixture：
+
+```text
+Tools > Free World > M3 > Configure Test Status Content
+```
+
+命令行入口：
+
+```powershell
+& $env:UNITY_PATH -batchmode -nographics -projectPath <project> `
+  -executeMethod Game.Editor.M3TestStatusSetup.RunFromCommandLine
+```

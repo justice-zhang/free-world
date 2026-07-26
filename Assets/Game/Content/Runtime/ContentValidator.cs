@@ -169,6 +169,21 @@ namespace Game.Content.Runtime
                             new ContentOrigin(packId, definition.SourceAssetPath));
                     }
 
+                    if (definition is RuntimeStatusDefinition &&
+                        catalog.Manifest.SchemaVersion <
+                        ContentPackTopology.StatusDefinitionSchemaVersion)
+                    {
+                        report.Add(
+                            new Error(
+                                ErrorCode.UnsupportedSchemaVersion,
+                                "Status definitions require content schema " +
+                                ContentPackTopology.StatusDefinitionSchemaVersion +
+                                " or newer.",
+                                definition.Id,
+                                packId,
+                                definition.SourceAssetPath));
+                    }
+
                     ValidateDefinitionValues(definition, packId, report);
                 }
             }
@@ -253,6 +268,10 @@ namespace Game.Content.Runtime
             {
                 message = "Map runtime provider ID and scene address are required.";
             }
+            else if (definition is RuntimeStatusDefinition status)
+            {
+                message = ValidateStatusDefinition(status);
+            }
 
             if (message != null)
             {
@@ -264,6 +283,115 @@ namespace Game.Content.Runtime
                         packId,
                         definition.SourceAssetPath));
             }
+        }
+
+        private static string ValidateStatusDefinition(RuntimeStatusDefinition status)
+        {
+            if (status.StackingPolicy != StatusStackingPolicy.RefreshDuration &&
+                status.StackingPolicy != StatusStackingPolicy.AddStacks &&
+                status.StackingPolicy != StatusStackingPolicy.ReplaceIfStronger &&
+                status.StackingPolicy != StatusStackingPolicy.IndependentInstances)
+            {
+                return "Status stacking policy is invalid.";
+            }
+
+            if (!IsFinite(status.DurationSeconds) || status.DurationSeconds <= 0f)
+            {
+                return "Status duration must be finite and positive.";
+            }
+
+            if (status.MaxStacks < 1)
+            {
+                return "Status max stacks must be at least one.";
+            }
+
+            if ((status.StackingPolicy == StatusStackingPolicy.RefreshDuration ||
+                 status.StackingPolicy == StatusStackingPolicy.ReplaceIfStronger) &&
+                status.MaxStacks != 1)
+            {
+                return "Refresh-duration and replace-if-stronger statuses must use one stack.";
+            }
+
+            if (!IsFinite(status.TickIntervalSeconds) ||
+                status.TickIntervalSeconds < 0f)
+            {
+                return "Status tick interval must be finite and cannot be negative.";
+            }
+
+            var behavior = status.Behavior;
+            var modifier = behavior.Modifier;
+            if (modifier.Enabled &&
+                (!modifier.StatId.IsValid ||
+                 modifier.Operation < ModifierOperation.AddFlat ||
+                 modifier.Operation > ModifierOperation.Override ||
+                 !IsFinite(modifier.Value) ||
+                 (!modifier.StackingGroup.IsValid &&
+                  !string.IsNullOrEmpty(modifier.StackingGroup.Value))))
+            {
+                return "Status modifier behavior is invalid.";
+            }
+
+            var periodic = behavior.PeriodicDamage;
+            const DamageTags knownDamageTags =
+                DamageTags.Direct |
+                DamageTags.DamageOverTime |
+                DamageTags.Status |
+                DamageTags.Secondary;
+            if (periodic.Enabled &&
+                (periodic.DamageType < DamageType.Physical ||
+                 periodic.DamageType > DamageType.True ||
+                 (periodic.Tags & ~knownDamageTags) != 0 ||
+                 !IsFinite(periodic.BaseValue) ||
+                 periodic.BaseValue < 0f ||
+                 !IsFinite(periodic.ProcCoefficient) ||
+                 periodic.ProcCoefficient < 0f ||
+                 periodic.ProcCoefficient > 1f ||
+                 !IsFinite(periodic.Knockback.X) ||
+                 !IsFinite(periodic.Knockback.Y) ||
+                 status.TickIntervalSeconds <= 0f))
+            {
+                return "Status periodic damage behavior is invalid.";
+            }
+
+            if (!IsFinite(behavior.ShieldCapacity) || behavior.ShieldCapacity < 0f)
+            {
+                return "Status shield capacity must be finite and non-negative.";
+            }
+
+            var seen = new HashSet<ContentTag>();
+            for (var index = 0; index < status.DispelTags.Count; index++)
+            {
+                if (!status.DispelTags[index].IsValid)
+                {
+                    return "Status dispel tags must be valid canonical tags.";
+                }
+
+                if (!seen.Add(status.DispelTags[index]))
+                {
+                    return "Status dispel tags cannot contain duplicates.";
+                }
+            }
+
+            seen.Clear();
+            for (var index = 0; index < status.ImmunityTags.Count; index++)
+            {
+                if (!status.ImmunityTags[index].IsValid)
+                {
+                    return "Status immunity tags must be valid canonical tags.";
+                }
+
+                if (!seen.Add(status.ImmunityTags[index]))
+                {
+                    return "Status immunity tags cannot contain duplicates.";
+                }
+            }
+
+            return null;
+        }
+
+        private static bool IsFinite(float value)
+        {
+            return !float.IsNaN(value) && !float.IsInfinity(value);
         }
 
         internal readonly struct ContentOrigin

@@ -23,6 +23,9 @@ namespace Game.Simulation
         /// <summary>Gets the generation used to reject stale handles.</summary>
         public ushort Generation { get; }
 
+        /// <summary>Gets whether this handle can identify a generated store slot.</summary>
+        public bool IsValid => Index >= 0 && Generation != 0;
+
         /// <inheritdoc />
         public bool Equals(EntityHandle other)
         {
@@ -162,6 +165,12 @@ namespace Game.Simulation
         /// <summary>Gets the store-local handle.</summary>
         public EntityHandle Handle { get; }
 
+        /// <summary>Gets whether both the store kind and handle are valid.</summary>
+        public bool IsValid =>
+            Kind >= EntityKind.Actor &&
+            Kind <= EntityKind.Pickup &&
+            Handle.IsValid;
+
         /// <inheritdoc />
         public bool Equals(SpatialEntity other)
         {
@@ -222,6 +231,15 @@ namespace Game.Simulation
         /// <summary>Gets the number of timed ticks.</summary>
         public long CompletedTicks { get; private set; }
 
+        /// <summary>Gets the number of trigger-chain requests rejected beyond the depth limit.</summary>
+        public long TruncatedProcChains { get; private set; }
+
+        /// <summary>Gets the number of damage packets rejected for invalid or inactive targets.</summary>
+        public long RejectedDamagePackets { get; private set; }
+
+        /// <summary>Gets the number of status applications rejected by validation or immunity.</summary>
+        public long RejectedStatusApplications { get; private set; }
+
         internal void RecordCreated()
         {
             ActiveEntities++;
@@ -244,6 +262,21 @@ namespace Game.Simulation
             LastTickMilliseconds = elapsedMilliseconds;
             TotalTickMilliseconds += elapsedMilliseconds;
             CompletedTicks++;
+        }
+
+        internal void RecordTruncatedProcChain()
+        {
+            TruncatedProcChains++;
+        }
+
+        internal void RecordRejectedDamage()
+        {
+            RejectedDamagePackets++;
+        }
+
+        internal void RecordRejectedStatus()
+        {
+            RejectedStatusApplications++;
         }
     }
 
