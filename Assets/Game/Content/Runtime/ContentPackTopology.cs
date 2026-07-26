@@ -18,12 +18,17 @@ namespace Game.Content.Runtime
         /// <summary>
         /// Gets the newest content schema version understood by this runtime.
         /// </summary>
-        public const int SupportedSchemaVersion = 2;
+        public const int SupportedSchemaVersion = 3;
 
         /// <summary>
         /// Gets the first schema version that permits serialized status definitions.
         /// </summary>
         public const int StatusDefinitionSchemaVersion = 2;
+
+        /// <summary>
+        /// Gets the first schema version that permits executable modular skills.
+        /// </summary>
+        public const int ModularSkillSchemaVersion = 3;
 
         /// <summary>
         /// Returns whether a content schema version can be loaded by this runtime.

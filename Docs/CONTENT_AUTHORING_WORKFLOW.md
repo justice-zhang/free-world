@@ -2,8 +2,8 @@
 
 ## 1. 适用范围
 
-本文记录 M1 的 Character、Skill、Enemy、Map 及 M3 Status 的作者数据流程。它只生产
-可验证的内容元数据和通用状态行为，不在作者对象中运行模拟逻辑。
+本文记录 M1 的 Character/Enemy/Map、M3 Status 及 M4 Skill 的作者数据流程。它只生产
+可验证的内容数据和通用行为，不在作者对象中运行模拟逻辑。
 
 ## 2. 新建 Pack
 
@@ -99,3 +99,35 @@ Tools > Free World > M3 > Configure Test Status Content
 & $env:UNITY_PATH -batchmode -nographics -projectPath <project> `
   -executeMethod Game.Editor.M3TestStatusSetup.RunFromCommandLine
 ```
+
+## 8. M4 模块化技能作者数据
+
+可执行 `SkillAuthoring` 必须位于 Schema 3 Pack，并填写：
+
+- 非负有限 Cooldown 和 ResourceCost；
+- 已登记的 Trigger、Condition、Targeting、Delivery 模块 ID；
+- 至少一个已登记 Effect；
+- 非 Instant Delivery 的稳定 PresentationId；
+- ApplyStatus/SpawnSecondarySkill 的作者资产引用；
+- 从等级 2 开始连续的 LevelPatch。
+
+模块的 Value/Int 槽语义和稳定 ID 以 `Docs/EFFECT_MODULES.md` 为唯一登记表。LevelPatch 路径
+必须使用该文档的显式路径表；Baker 会验证路径、Effect 下标和 Float/Integer 类型，再写为
+typed slot。不得用路径指向任意字段，也不得依赖运行时反射。
+
+创建或重建四个 M4 Placeholder Fixture：
+
+```text
+Tools > Free World > M4 > Configure Test Skill Content
+```
+
+命令行入口：
+
+```powershell
+& $env:UNITY_PATH -batchmode -nographics -projectPath <project> `
+  -executeMethod Game.Editor.M4TestSkillSetup.RunFromCommandLine
+```
+
+输出位于 `Assets/GameAssets/Placeholder/TestSkillContent`，包含单体投射物、环绕物、地面区域
+和伤害光环及 Schema 3 baked JSON。它们只使用 `placeholder.presentation.*` ID，不创建 Prefab、
+VFX、音频或专用 MonoBehaviour，不得加入 release label。

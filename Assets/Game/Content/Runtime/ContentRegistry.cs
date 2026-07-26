@@ -144,6 +144,30 @@ namespace Game.Content.Runtime
                 }
             }
 
+            // Stable cross-content IDs remain on disk. Only after the complete
+            // transaction has assigned every index may executable skill ops bind
+            // those references to load-local RuntimeContentIndex values.
+            for (var index = 0; index < nextByIndex.Length; index++)
+            {
+                var current = nextByIndex[index];
+                if (!(current.Definition is RuntimeSkillDefinition skill) ||
+                    !skill.IsExecutable)
+                {
+                    continue;
+                }
+
+                var boundSkill = skill.BindReferences(
+                    id => nextById.TryGetValue(id, out var referenced)
+                        ? referenced.Index
+                        : default);
+                var boundEntry = new ContentRegistryEntry(
+                    current.Index,
+                    boundSkill,
+                    current.SourcePackId);
+                nextByIndex[index] = boundEntry;
+                nextById[boundSkill.Id] = boundEntry;
+            }
+
             entriesById = nextById;
             entriesByIndex = nextByIndex;
             loadedPackIds = Array.AsReadOnly(nextPackIds);

@@ -118,6 +118,29 @@ namespace Game.Simulation
                 wasCritical);
             var damageEvent = new DamageApplied(context, world.ExecutingTick);
             world.CombatEvents.Add(damageEvent);
+            if (shieldAbsorbed + healthDamage > 0f)
+            {
+                world.Skills.QueueTrigger(
+                    new SkillTriggerContext(
+                        SkillTriggerEventType.OnHit,
+                        packet.Source,
+                        packet.Target,
+                        packet.Position,
+                        default,
+                        packet.SourceContentId,
+                        default,
+                        packet.ProcDepth + 1));
+                world.Skills.QueueTrigger(
+                    new SkillTriggerContext(
+                        SkillTriggerEventType.OnDamageTaken,
+                        packet.Source,
+                        packet.Target,
+                        packet.Position,
+                        default,
+                        packet.SourceContentId,
+                        default,
+                        packet.ProcDepth + 1));
+            }
 
             if (target.HealthCurrent <= 0f && !target.DeathPending)
             {
@@ -526,6 +549,21 @@ namespace Game.Simulation
                 instance.RemainingDuration,
                 world.ExecutingTick);
             world.CombatEvents.Add(appliedEvent);
+            var appliedPosition = default(System.Numerics.Vector2);
+            if (world.Actors.TryRead(request.Target.Handle, out var appliedBody))
+            {
+                appliedPosition = appliedBody.Position;
+            }
+            world.Skills.QueueTrigger(
+                new SkillTriggerContext(
+                    SkillTriggerEventType.OnStatusApplied,
+                    request.Source,
+                    request.Target,
+                    appliedPosition,
+                    default,
+                    request.SourceContentId,
+                    request.StatusIndex,
+                    request.ProcDepth + 1));
         }
 
         private static StatusInstance CreateInstance(
@@ -892,6 +930,16 @@ namespace Game.Simulation
                     request.ProcDepth,
                     world.ExecutingTick);
                 world.CombatEvents.Add(diedEvent);
+                world.Skills.QueueTrigger(
+                    new SkillTriggerContext(
+                        SkillTriggerEventType.OnKill,
+                        request.Source,
+                        request.Target,
+                        position,
+                        default,
+                        request.SourceContentId,
+                        default,
+                        request.ProcDepth + 1));
                 world.Commands.Remove(EntityKind.Actor, request.Target.Handle);
             }
 

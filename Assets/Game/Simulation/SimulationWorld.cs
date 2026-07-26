@@ -32,7 +32,16 @@ namespace Game.Simulation
         Death = 7,
 
         /// <summary>Flushes per-tick combat events to the public runner batch.</summary>
-        EventFlush = 8
+        EventFlush = 8,
+
+        /// <summary>Advances cooldowns and consumes buffered skill trigger contexts.</summary>
+        SkillTrigger = 9,
+
+        /// <summary>Advances projectile, area, aura, and orbit delivery state.</summary>
+        SkillDelivery = 10,
+
+        /// <summary>Resolves generic effect execution commands into simulation APIs.</summary>
+        SkillEffectResolution = 11
     }
 
     /// <summary>
@@ -108,6 +117,23 @@ namespace Game.Simulation
                 new SnapshotBuildSystem());
         }
 
+        /// <summary>Creates the explicit M4 modular-skill system order.</summary>
+        public static SimulationPipeline CreateM4Default()
+        {
+            return new SimulationPipeline(
+                new SkillTriggerSystem(),
+                new MovementSystem(),
+                new SkillDeliverySystem(),
+                new SkillEffectResolutionSystem(),
+                new DamageResolutionSystem(),
+                new StatusTickSystem(),
+                new DeathSystem(),
+                new LifetimeSystem(),
+                new CleanupSystem(),
+                new EventFlushSystem(),
+                new SnapshotBuildSystem());
+        }
+
         internal void Execute(SimulationWorld world)
         {
             for (var index = 0; index < systems.Length; index++)
@@ -135,7 +161,8 @@ namespace Game.Simulation
             float spatialCellSize = 2f,
             SimulationPipeline pipeline = null,
             RuntimeStatusCatalog statusCatalog = null,
-            CombatRules? combatRules = null)
+            CombatRules? combatRules = null,
+            SkillRuntime skillRuntime = null)
         {
             if (initialEntityCapacity <= 0)
             {
@@ -157,7 +184,8 @@ namespace Game.Simulation
             CombatEvents = new CombatEventBuffer(initialEntityCapacity);
             StatusCatalog = statusCatalog ?? new RuntimeStatusCatalog();
             CombatRules = combatRules ?? Game.Simulation.CombatRules.Default;
-            Pipeline = pipeline ?? SimulationPipeline.CreateM3Default();
+            Skills = skillRuntime ?? SkillRuntime.CreateEmpty(initialEntityCapacity);
+            Pipeline = pipeline ?? SimulationPipeline.CreateM4Default();
             random = new RandomStream(seed);
             damageRandom = random.Derive(0x44414D414745UL);
             snapshotBuilder = new RenderSnapshotBuilder(initialEntityCapacity);
@@ -207,6 +235,9 @@ namespace Game.Simulation
 
         /// <summary>Gets immutable damage and proc boundaries.</summary>
         public CombatRules CombatRules { get; }
+
+        /// <summary>Gets the modular M4 skill runtime.</summary>
+        public SkillRuntime Skills { get; }
 
         /// <summary>Gets the fixed explicit system pipeline.</summary>
         public SimulationPipeline Pipeline { get; }
@@ -304,6 +335,18 @@ namespace Game.Simulation
 
             StatusDispels.Add(request);
             return true;
+        }
+
+        /// <summary>Queues an external M4 trigger such as pickup collection.</summary>
+        public bool QueueSkillTrigger(in SkillTriggerContext context)
+        {
+            if (context.ProcDepth > CombatRules.MaximumProcDepth)
+            {
+                Diagnostics.RecordTruncatedProcChain();
+                return false;
+            }
+
+            return Skills.QueueTrigger(context);
         }
 
         /// <summary>Creates a projectile during safe setup outside system traversal.</summary>
@@ -423,6 +466,7 @@ namespace Game.Simulation
 
             removedPosition = state.Position;
             SpatialGrid.Remove(new SpatialEntity(kind, handle));
+            Skills.OnEntityRemoved(kind, handle);
             switch (kind)
             {
                 case EntityKind.Actor:

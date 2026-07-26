@@ -359,6 +359,30 @@ namespace Game.Content.Runtime
         /// <summary>Gets or sets cooldown metadata for skill definitions.</summary>
         public float cooldownSeconds;
 
+        /// <summary>Gets or sets whether the skill contains schema-3 runtime modules.</summary>
+        public bool modularSkill;
+
+        /// <summary>Gets or sets resource consumed by one successful activation.</summary>
+        public float resourceCost;
+
+        /// <summary>Gets or sets the schema-3 trigger module.</summary>
+        public SkillModuleDefinitionDto triggerModule;
+
+        /// <summary>Gets or sets the schema-3 condition module.</summary>
+        public SkillModuleDefinitionDto conditionModule;
+
+        /// <summary>Gets or sets the schema-3 targeting module.</summary>
+        public SkillModuleDefinitionDto targetingModule;
+
+        /// <summary>Gets or sets the schema-3 delivery module.</summary>
+        public SkillModuleDefinitionDto deliveryModule;
+
+        /// <summary>Gets or sets baked schema-3 effect operations.</summary>
+        public SkillEffectOpDto[] effectOps;
+
+        /// <summary>Gets or sets path-validated schema-3 level patches.</summary>
+        public SkillLevelPatchDto[] levelPatches;
+
         /// <summary>Gets or sets collision radius for enemy definitions.</summary>
         public float collisionRadius;
 
@@ -478,14 +502,11 @@ namespace Game.Content.Runtime
                 }
 
                 case RuntimeContentKinds.Skill:
-                    return Result<RuntimeContentDefinition>.Success(
-                        new RuntimeSkillDefinition(
-                            idResult.Value,
-                            localizedNameKey,
-                            localizedDescriptionKey,
-                            sourceAssetPath,
-                            tagResult.Value,
-                            cooldownSeconds));
+                    return ToSkillDefinition(
+                        packId,
+                        schemaVersion,
+                        idResult.Value,
+                        tagResult.Value);
 
                 case RuntimeContentKinds.Enemy:
                     return Result<RuntimeContentDefinition>.Success(
@@ -614,7 +635,9 @@ namespace Game.Content.Runtime
                 statusModifierStackingGroup = string.Empty,
                 periodicDamageType = string.Empty,
                 dispelTags = Array.Empty<string>(),
-                immunityTags = Array.Empty<string>()
+                immunityTags = Array.Empty<string>(),
+                effectOps = Array.Empty<SkillEffectOpDto>(),
+                levelPatches = Array.Empty<SkillLevelPatchDto>()
             };
 
             for (var index = 0; index < definition.Tags.Count; index++)
@@ -635,6 +658,32 @@ namespace Game.Content.Runtime
             else if (definition is RuntimeSkillDefinition skill)
             {
                 dto.cooldownSeconds = skill.CooldownSeconds;
+                dto.modularSkill = skill.IsExecutable;
+                if (skill.IsExecutable)
+                {
+                    dto.resourceCost = skill.ResourceCost;
+                    dto.triggerModule =
+                        SkillModuleDefinitionDto.FromDefinition(skill.Trigger);
+                    dto.conditionModule =
+                        SkillModuleDefinitionDto.FromDefinition(skill.Condition);
+                    dto.targetingModule =
+                        SkillModuleDefinitionDto.FromDefinition(skill.Targeting);
+                    dto.deliveryModule =
+                        SkillModuleDefinitionDto.FromDefinition(skill.Delivery);
+                    dto.effectOps = new SkillEffectOpDto[skill.Effects.Count];
+                    for (var index = 0; index < skill.Effects.Count; index++)
+                    {
+                        dto.effectOps[index] =
+                            SkillEffectOpDto.FromEffect(skill.Effects[index]);
+                    }
+
+                    dto.levelPatches = new SkillLevelPatchDto[skill.LevelPatches.Count];
+                    for (var index = 0; index < skill.LevelPatches.Count; index++)
+                    {
+                        dto.levelPatches[index] =
+                            SkillLevelPatchDto.FromPatch(skill.LevelPatches[index]);
+                    }
+                }
             }
             else if (definition is RuntimeEnemyDefinition enemy)
             {
@@ -704,6 +753,148 @@ namespace Game.Content.Runtime
             }
 
             return dto;
+        }
+
+        private Result<RuntimeContentDefinition> ToSkillDefinition(
+            ContentId packId,
+            int schemaVersion,
+            ContentId ownerId,
+            ContentTag[] runtimeTags)
+        {
+            if (schemaVersion < ContentPackTopology.ModularSkillSchemaVersion)
+            {
+                if (modularSkill)
+                {
+                    return Result<RuntimeContentDefinition>.Failure(
+                        new Error(
+                            ErrorCode.UnsupportedSchemaVersion,
+                            "Serialized modular skills require content schema " +
+                            ContentPackTopology.ModularSkillSchemaVersion + " or newer.",
+                            ownerId,
+                            packId,
+                            sourceAssetPath));
+                }
+
+                return Result<RuntimeContentDefinition>.Success(
+                    new RuntimeSkillDefinition(
+                        ownerId,
+                        localizedNameKey,
+                        localizedDescriptionKey,
+                        sourceAssetPath,
+                        runtimeTags,
+                        cooldownSeconds));
+            }
+
+            if (!modularSkill || triggerModule == null || conditionModule == null ||
+                targetingModule == null || deliveryModule == null)
+            {
+                return Result<RuntimeContentDefinition>.Failure(
+                    new Error(
+                        ErrorCode.InvalidCatalog,
+                        "Schema 3 skill is missing required modular runtime data.",
+                        ownerId,
+                        packId,
+                        sourceAssetPath));
+            }
+
+            var triggerResult = triggerModule.ToDefinition(
+                packId,
+                ownerId,
+                sourceAssetPath,
+                "trigger");
+            if (!triggerResult.IsSuccess) return Result<RuntimeContentDefinition>.Failure(triggerResult.Error);
+            var conditionResult = conditionModule.ToDefinition(
+                packId,
+                ownerId,
+                sourceAssetPath,
+                "condition");
+            if (!conditionResult.IsSuccess) return Result<RuntimeContentDefinition>.Failure(conditionResult.Error);
+            var targetingResult = targetingModule.ToDefinition(
+                packId,
+                ownerId,
+                sourceAssetPath,
+                "targeting");
+            if (!targetingResult.IsSuccess) return Result<RuntimeContentDefinition>.Failure(targetingResult.Error);
+            var deliveryResult = deliveryModule.ToDefinition(
+                packId,
+                ownerId,
+                sourceAssetPath,
+                "delivery");
+            if (!deliveryResult.IsSuccess) return Result<RuntimeContentDefinition>.Failure(deliveryResult.Error);
+
+            var sourceEffects = effectOps ?? Array.Empty<SkillEffectOpDto>();
+            if (sourceEffects.Length == 0)
+            {
+                return Result<RuntimeContentDefinition>.Failure(
+                    new Error(
+                        ErrorCode.InvalidCatalog,
+                        "Schema 3 skill requires at least one effect operation.",
+                        ownerId,
+                        packId,
+                        sourceAssetPath));
+            }
+
+            var runtimeEffects = new EffectOp[sourceEffects.Length];
+            for (var index = 0; index < sourceEffects.Length; index++)
+            {
+                if (sourceEffects[index] == null)
+                {
+                    return Result<RuntimeContentDefinition>.Failure(
+                        new Error(
+                            ErrorCode.InvalidCatalog,
+                            "Schema 3 skill contains a null effect operation.",
+                            ownerId,
+                            packId,
+                            sourceAssetPath));
+                }
+
+                var effectResult = sourceEffects[index].ToEffect(
+                    packId,
+                    ownerId,
+                    sourceAssetPath);
+                if (!effectResult.IsSuccess) return Result<RuntimeContentDefinition>.Failure(effectResult.Error);
+                runtimeEffects[index] = effectResult.Value;
+            }
+
+            var sourcePatches = levelPatches ?? Array.Empty<SkillLevelPatchDto>();
+            var runtimePatches = new SkillLevelPatch[sourcePatches.Length];
+            for (var index = 0; index < sourcePatches.Length; index++)
+            {
+                if (sourcePatches[index] == null)
+                {
+                    return Result<RuntimeContentDefinition>.Failure(
+                        new Error(
+                            ErrorCode.InvalidCatalog,
+                            "Schema 3 skill contains a null level patch.",
+                            ownerId,
+                            packId,
+                            sourceAssetPath));
+                }
+
+                var patchResult = sourcePatches[index].ToPatch(
+                    runtimeEffects.Length,
+                    packId,
+                    ownerId,
+                    sourceAssetPath);
+                if (!patchResult.IsSuccess) return Result<RuntimeContentDefinition>.Failure(patchResult.Error);
+                runtimePatches[index] = patchResult.Value;
+            }
+
+            return Result<RuntimeContentDefinition>.Success(
+                new RuntimeSkillDefinition(
+                    ownerId,
+                    localizedNameKey,
+                    localizedDescriptionKey,
+                    sourceAssetPath,
+                    runtimeTags,
+                    cooldownSeconds,
+                    resourceCost,
+                    triggerResult.Value,
+                    conditionResult.Value,
+                    targetingResult.Value,
+                    deliveryResult.Value,
+                    runtimeEffects,
+                    runtimePatches));
         }
 
         private Result<RuntimeStatusBehavior> ToStatusBehavior(
