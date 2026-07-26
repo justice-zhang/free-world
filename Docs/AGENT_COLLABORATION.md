@@ -106,7 +106,7 @@ Reviewer 不得自行 restore 或提交，必须停止并把精确 diff 交给 O
 | 实现、严格审查与最小修复 | 是，完成整棒 | 交接前不工作 |
 | 运行测试、验证和适用构建 | 必须 | 接管后运行自己的基线 |
 | 标记 PASS/FAIL/NOT RUN | 必须真实 | 接管后必须独立真实 |
-| 创建/更新 PR、合并和标签 | 是 | 交接前不工作 |
+| 创建/更新 PR、合并和适用的标签 | 是 | 交接前不工作 |
 | 更新结果报告、执行日志和已知问题 | 是 | 接管后读取并复核 |
 | 创建下一里程碑分支 | 当前里程碑结束后停止 | 接管并通过预检后执行 |
 
@@ -119,7 +119,8 @@ Owner 必须依次核验：
 1. `origin` fetch/push 都指向 `https://github.com/free-world-team/free-world.git`。
 2. 当前工作树干净，或所有已有改动来源明确并属于任务。
 3. `main` 可通过 fast-forward-only 同步。
-4. `HEAD`、`origin/main`、上一 `framework-mX` 的 peeled commit 一致。
+4. `HEAD = origin/main`，且最近已验收的 `framework-mX` peeled commit 是 `main` 的祖先；只有
+   中间没有非里程碑治理/修复提交时，三者才要求恰好指向同一 commit。
 5. `ProjectSettings/ProjectVersion.txt` 与实际 Unity Editor 一致。
 6. GitHub 身份具有读取、推送和 PR 所需权限。
 7. 当前环境基线测试已经真实执行并记录。
@@ -143,18 +144,23 @@ Owner 在全部门禁 PASS 后完成：
 3. 创建目标为 `main` 的 PR。
 4. 更新结果报告、执行日志和已知问题。
 5. 合并 PR。
-6. 在最终 merge commit 创建 annotated `framework-mX` 标签并推送。
+6. 里程碑任务在最终 merge commit 创建 annotated `framework-mX` 标签并推送；非里程碑任务
+   （包括治理或修复）不得创建、移动或复用 `framework-mX` 标签。
 7. 删除远程和本地功能分支。
 8. 切回 `main`，fast-forward-only 同步。
-9. 核验 `HEAD = origin/main = framework-mX peeled commit` 且工作树干净。
+9. 核验工作树干净，并按任务类型检查基线：里程碑任务要求
+   `HEAD = origin/main = framework-mX peeled commit`；非里程碑任务要求 `HEAD = origin/main`，且
+   最近已验收的 `framework-mX` peeled commit 是 `HEAD` 的祖先。
 
-完成第 9 项后，才允许发出里程碑交接。
+完成第 9 项后，才允许发出正常交接。
 
 正常交接点必须同时满足：
 
 ```text
 branch = main
-HEAD = origin/main = framework-mX peeled commit
+HEAD = origin/main
+framework tag = 里程碑任务时 framework-mX peeled commit = HEAD；
+                非里程碑任务时最近已验收 framework tag 是 HEAD 的祖先
 worktree = CLEAN
 功能分支 = 本地和远程均已删除
 Unity/Test/Build/Git 操作 = 无正在运行项
@@ -171,7 +177,7 @@ Unity/Test/Build/Git 操作 = 无正在运行项
 - 已提交的 `Docs/Reports/<date>-mX-*.md`；
 - 已更新的 `Docs/EXECUTION_LOG.md`；
 - 已更新的 `Docs/KNOWN_ISSUES.md`；
-- 可定位的 PR、commit 和 tag。
+- 可定位的 PR、commit，以及里程碑任务适用的 tag。
 
 交接包必须区分三种信息：
 
@@ -214,7 +220,7 @@ peeled SHA、工作树状态、Unity 版本、GitHub 权限和 `READY/BLOCKED`�
 
 转移前：
 
-- 原 Owner 完成 PR、merge、tag 和分支清理；
+- 原 Owner 完成 PR、merge、分支清理，以及里程碑任务适用的 tag；
 - 原 Owner 切回干净且已同步的 `main`；
 - 原 Owner 停止文件修改和 Git 写操作；
 - 给出精确分支和 commit SHA；
@@ -255,7 +261,7 @@ Owner 必须在以下事件通知用户：
 - 出现阻塞、规则冲突或来源不明改动；
 - 实现完成并冻结审查 SHA；
 - 审查 FAIL 及修复完成；
-- PR 创建、合并、标签和分支清理完成；
+- PR 创建、合并、适用的标签和分支清理完成；
 - 正式交接。
 
 Successor 接管后必须在以下事件通知用户：

@@ -5,13 +5,15 @@
 - 原 Owner：
 - 新 Owner：
 - 任务/里程碑：
+- 任务类型：`里程碑` / `非里程碑治理或修复`
 - 所有权生效说明：从现在起，`<新 Agent>` 是 `<任务>` 的 Owner；`<原 Agent>` 停止写入该分支。
 
 ## 2. 仓库状态
 
 - 规范仓库：`https://github.com/free-world-team/free-world.git`
 - 当前分支：`main`
-- 基线 tag / peeled SHA：
+- 基线 tag / peeled SHA：里程碑任务填写本里程碑最终 tag；非里程碑任务填写最近已验收里程碑 tag
+- Tag 与 HEAD 关系：`等于 HEAD` / `是 HEAD 的祖先`
 - HEAD SHA：
 - origin/main SHA：
 - PR：
@@ -71,7 +73,7 @@
 
 - [ ] origin fetch/push 指向规范组织仓库
 - [ ] 已 `fetch --prune --tags`
-- [ ] HEAD、origin/main 和基线/最终 tag 符合交接
+- [ ] `HEAD = origin/main`；里程碑任务的最终 tag 等于 HEAD，非里程碑任务的最近已验收 tag 是 HEAD 的祖先
 - [ ] 工作树无来源不明改动
 - [ ] Unity 版本一致
 - [ ] GitHub 权限满足任务需要
@@ -80,5 +82,6 @@
 
 结论：`READY` / `BLOCKED`
 
-正常轮换只有在 `main` 干净、最终 tag 已推送、功能分支已删除且没有运行中操作时才能填写
-`READY`。中途紧急交接必须填写 `BLOCKED`，并在第 4、5、8 节完整记录现场。
+正常轮换只有在 `main` 干净、适用的 tag 关系已核验、功能分支已删除且没有运行中操作时才能
+填写 `READY`。里程碑任务必须已推送最终 tag；非里程碑任务不得移动最近已验收的里程碑 tag。
+中途紧急交接必须填写 `BLOCKED`，并在第 4、5、8 节完整记录现场。
