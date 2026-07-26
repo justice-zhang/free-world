@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d55e7487c9660704fbc3ca84e563c76c, type: 3}
+  m_Name: M9ToolsContentPack
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.ContentPackAuthoring
+  packId: test.pack.m9_tools
+  version: 0.1.0
+  schemaVersion: 5
+  minimumGameVersion: 0.1.0
+  maximumGameVersion: 
+  dependencies:
+  - packId: test.pack.m4_skills
+    minimumVersion: 0.1.0
+    maximumVersion: 0.1.0
+  catalogAddress: packs/test.pack.m9_tools/catalog
+  assetLabel: pack.test.m9_tools
+  official: 0
+  definitions:
+  - {fileID: 11400000, guid: 00219a5deb9e1784b969ee37f6993044, type: 2}
+  - {fileID: 11400000, guid: 91f510b0e4c79c3489dbf6c535f4e1dd, type: 2}
+  - {fileID: 11400000, guid: 45ac768e11a66d34196c5e383d7dfe23, type: 2}
+  - {fileID: 11400000, guid: ff6ada72bdfbbf1479bb11268e9d121b, type: 2}
+  - {fileID: 11400000, guid: c15ae542527d879419b777cf85e8e2df, type: 2}
+  - {fileID: 11400000, guid: 4d9fb283a76173547adf31562e567344, type: 2}
+  - {fileID: 11400000, guid: b5b14f17f97f25242b9833837bdd2211, type: 2}
+  - {fileID: 11400000, guid: 2fa6bec503f20a0469eb23fd3e4bde01, type: 2}
+  - {fileID: 11400000, guid: 2ca65cd373c917c42803bfa5ccc6c1f8, type: 2}
+  - {fileID: 11400000, guid: ccf48bef4148451418cbea3ed81333f5, type: 2}

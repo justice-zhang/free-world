@@ -10,6 +10,11 @@ namespace Game.Editor
         public void OnPreprocessBuild(BuildReport report)
         {
             var validation = ProjectGovernanceValidator.ValidateCurrentProject();
+            if ((report.summary.options & UnityEditor.BuildOptions.Development) == 0)
+            {
+                ReleaseBuildGateValidator.AppendCurrentProject(validation);
+            }
+
             if (!validation.IsValid)
             {
                 throw new BuildFailedException(validation.Issues[0].ToString());

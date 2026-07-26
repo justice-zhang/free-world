@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0095a8991d6fc4cb5ceafd762b1862, type: 3}
+  m_Name: Second
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.SkillAuthoring
+  contentId: test.skill.second
+  localizedNameKey: content.test.skill.second.name
+  localizedDescriptionKey: content.test.skill.second.description
+  tags:
+  - content.placeholder
+  - content.skill
+  cooldownSeconds: 1
+  resourceCost: 0
+  modularRuntimeEnabled: 1
+  trigger:
+    moduleId: base.trigger.timer
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+  condition:
+    moduleId: base.condition.always
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+  targeting:
+    moduleId: base.targeting.nearest
+    value0: 8
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 1
+    int1: 0
+    presentationId: 
+  delivery:
+    moduleId: base.delivery.instant
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+  effects:
+  - moduleId: base.effect.damage
+    value0: 10
+    value1: 1
+    value2: 0
+    int0: 1
+    int1: 1
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    statId0: 
+    flags: 0
+  levelPatches:
+  - level: 2
+    path: effects[0].value0
+    valueType: 1
+    operation: 1
+    floatValue: 5
+    integerValue: 0

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 919b4527417a7b245baa4a52f60bbf19, type: 3}
+  m_Name: Second
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.MapAuthoring
+  contentId: test.map.second
+  localizedNameKey: content.test.map.second.name
+  localizedDescriptionKey: content.test.map.second.description
+  tags:
+  - content.placeholder
+  - content.map
+  - map.finite
+  runtimeProviderId: base.map.finite
+  sceneAddress: maps/test.map.second
+  m5RuntimeEnabled: 1
+  boundsMode: 1
+  minimum: {x: -24, y: -14}
+  maximum: {x: 24, y: 14}
+  chunkSize: 16
+  activeChunkRadius: 2
+  encounterSchedule: {fileID: 11400000, guid: b5b14f17f97f25242b9833837bdd2211, type: 2}
+  visualProfileId: placeholder.visual.test.map.second
+  obstacles: []
+  anchors: []

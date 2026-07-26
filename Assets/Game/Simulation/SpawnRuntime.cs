@@ -142,6 +142,65 @@ namespace Game.Simulation
         }
     }
 
+    /// <summary>One exact sample of the encounter curves consumed by the runtime scheduler.</summary>
+    public readonly struct EncounterTimelineSample
+    {
+        internal EncounterTimelineSample(
+            float phaseFraction,
+            float budgetPerSecond,
+            float spawnIntervalSeconds)
+        {
+            PhaseFraction = phaseFraction;
+            BudgetPerSecond = budgetPerSecond;
+            SpawnIntervalSeconds = spawnIntervalSeconds;
+        }
+
+        /// <summary>Gets the clamped normalized phase position.</summary>
+        public float PhaseFraction { get; }
+        /// <summary>Gets the difficulty-adjusted budget generated per second.</summary>
+        public float BudgetPerSecond { get; }
+        /// <summary>Gets the difficulty-adjusted delay between spawn attempts.</summary>
+        public float SpawnIntervalSeconds { get; }
+    }
+
+    /// <summary>
+    /// Shared encounter-curve sampler used by both the scheduler and M9 timeline tooling.
+    /// </summary>
+    public static class EncounterTimelineSampler
+    {
+        /// <summary>Samples the exact linear curves used by the encounter scheduler.</summary>
+        public static EncounterTimelineSample Sample(
+            RuntimeEncounterPhase phase,
+            float elapsedSeconds,
+            float spawnRateMultiplier = 1f)
+        {
+            if (phase == null) throw new ArgumentNullException(nameof(phase));
+            if (float.IsNaN(elapsedSeconds) || float.IsInfinity(elapsedSeconds))
+                throw new ArgumentOutOfRangeException(nameof(elapsedSeconds));
+            if (float.IsNaN(spawnRateMultiplier) || float.IsInfinity(spawnRateMultiplier) ||
+                spawnRateMultiplier <= 0f)
+                throw new ArgumentOutOfRangeException(nameof(spawnRateMultiplier));
+
+            var duration = phase.EndTimeSeconds - phase.StartTimeSeconds;
+            var fraction = duration <= 0f
+                ? 0f
+                : (elapsedSeconds - phase.StartTimeSeconds) / duration;
+            fraction = Math.Max(0f, Math.Min(1f, fraction));
+            var budget = Lerp(
+                phase.BudgetPerSecondStart,
+                phase.BudgetPerSecondEnd,
+                fraction) * spawnRateMultiplier;
+            var interval = Lerp(
+                phase.SpawnIntervalStart,
+                phase.SpawnIntervalEnd,
+                fraction) / spawnRateMultiplier;
+            return new EncounterTimelineSample(fraction, budget, interval);
+        }
+
+        private static float Lerp(float start, float end, float fraction) =>
+            start + (end - start) * fraction;
+    }
+
     /// <summary>Budgeted deterministic phase scheduler independent of map scenes.</summary>
     public sealed class EncounterScheduler
     {
@@ -201,14 +260,11 @@ namespace Game.Simulation
             }
 
             var phase = schedule.Phases[phaseIndex];
-            var fraction = (elapsedSeconds - phase.StartTimeSeconds) /
-                           (phase.EndTimeSeconds - phase.StartTimeSeconds);
-            fraction = Math.Max(0f, Math.Min(1f, fraction));
-            var budgetRate = Lerp(
-                phase.BudgetPerSecondStart,
-                phase.BudgetPerSecondEnd,
-                fraction) * difficulty.SpawnRateMultiplier;
-            accumulatedBudget += budgetRate * world.DeltaTimeSeconds;
+            var curveSample = EncounterTimelineSampler.Sample(
+                phase,
+                elapsedSeconds,
+                difficulty.SpawnRateMultiplier);
+            accumulatedBudget += curveSample.BudgetPerSecond * world.DeltaTimeSeconds;
             spawnCooldown -= world.DeltaTimeSeconds;
 
             TryQueueBosses(world, phaseIndex, phase, playerPosition);
@@ -222,11 +278,9 @@ namespace Game.Simulation
             if (spawnCooldown <= 0f && occupied < normalLimit)
             {
                 TryQueueGroup(world, phase, playerPosition, normalLimit - occupied);
-                var interval = Lerp(
-                    phase.SpawnIntervalStart,
-                    phase.SpawnIntervalEnd,
-                    fraction) / difficulty.SpawnRateMultiplier;
-                spawnCooldown = Math.Max(world.DeltaTimeSeconds, interval);
+                spawnCooldown = Math.Max(
+                    world.DeltaTimeSeconds,
+                    curveSample.SpawnIntervalSeconds);
             }
 
             elapsedSeconds += world.DeltaTimeSeconds;
@@ -333,8 +387,5 @@ namespace Game.Simulation
 
             return -1;
         }
-
-        private static float Lerp(float start, float end, float fraction) =>
-            start + (end - start) * fraction;
     }
 }

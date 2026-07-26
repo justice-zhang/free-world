@@ -5,6 +5,7 @@ using Game.Content.Authoring;
 using Game.Content.Runtime;
 using Game.Core;
 using UnityEditor;
+using UnityEditor.AddressableAssets;
 using UnityEngine;
 
 namespace Game.Editor
@@ -105,6 +106,12 @@ namespace Game.Editor
             {
                 AddError(report, validation.Errors[index]);
             }
+
+            TriggerChainValidator.Append(catalogs, report);
+            VisualProfileProjectValidator.Append(
+                catalogs,
+                AddressableAssetSettingsDefaultObject.GetSettings(false),
+                report);
         }
 
         private static void AddError(ValidationReport report, Error error)

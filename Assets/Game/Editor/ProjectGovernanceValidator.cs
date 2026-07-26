@@ -110,7 +110,7 @@ namespace Game.Editor
             var report = new ValidationReport();
             var absoluteRoot = Path.GetFullPath(projectRoot);
             ValidateThirdParty(absoluteRoot, report);
-            ValidateAiProvenance(absoluteRoot, report);
+            AssetProvenanceValidator.AppendProject(absoluteRoot, report);
             ValidateReleaseLabels(settings, report);
             return report;
         }
@@ -141,41 +141,6 @@ namespace Game.Editor
                     report.Add(
                         "M0-THIRDPARTY-UNREGISTERED",
                         relativePath + " is not recorded in THIRD_PARTY_NOTICES.md.");
-                }
-            }
-        }
-
-        private static void ValidateAiProvenance(string projectRoot, ValidationReport report)
-        {
-            var assetRoot = Path.Combine(projectRoot, "Assets", "GameAssets", "AI");
-            if (!Directory.Exists(assetRoot))
-            {
-                report.Add("M0-AI-DIR", "Assets/GameAssets/AI is missing.");
-                return;
-            }
-
-            var csvPath = Path.Combine(projectRoot, "ASSET_PROVENANCE.csv");
-            var csv = File.Exists(csvPath) ? File.ReadAllText(csvPath) : string.Empty;
-            var files = Directory.GetFiles(assetRoot, "*", SearchOption.AllDirectories);
-
-            for (var index = 0; index < files.Length; index++)
-            {
-                var file = files[index];
-                if (ShouldIgnoreGovernanceFile(file) ||
-                    string.Equals(Path.GetFileName(file), "provenance.json", StringComparison.OrdinalIgnoreCase) ||
-                    string.Equals(Path.GetFileName(file), "prompt.txt", StringComparison.OrdinalIgnoreCase))
-                {
-                    continue;
-                }
-
-                var relativePath = NormalizeRelativePath(projectRoot, file);
-                var hasSidecar = HasProvenanceSidecar(file, assetRoot);
-                var hasCsvRecord = csv.IndexOf(relativePath, StringComparison.OrdinalIgnoreCase) >= 0;
-                if (!hasSidecar && !hasCsvRecord)
-                {
-                    report.Add(
-                        "M0-AI-PROVENANCE-MISSING",
-                        relativePath + " has no provenance.json or ASSET_PROVENANCE.csv record.");
                 }
             }
         }
@@ -221,28 +186,6 @@ namespace Game.Editor
                     }
                 }
             }
-        }
-
-        private static bool HasProvenanceSidecar(string file, string aiRoot)
-        {
-            var directory = Directory.GetParent(file);
-            while (directory != null &&
-                   directory.FullName.StartsWith(aiRoot, StringComparison.OrdinalIgnoreCase))
-            {
-                if (File.Exists(Path.Combine(directory.FullName, "provenance.json")))
-                {
-                    return true;
-                }
-
-                if (string.Equals(directory.FullName, aiRoot, StringComparison.OrdinalIgnoreCase))
-                {
-                    break;
-                }
-
-                directory = directory.Parent;
-            }
-
-            return false;
         }
 
         private static bool ShouldIgnoreGovernanceFile(string path)

@@ -379,3 +379,52 @@ Enemy/Map/Encounter、`IMapRuntime`、Spawn Request Buffer、Difficulty Snapshot
 M9 只能从带 `framework-m8` 标签的最终 `main` 创建独立分支。真实平台实现必须替换现有 Facade
 子服务并消费 Application Event/Cloud Conflict 边界，不得让 SDK 进入 Simulation；若扩展完整续局
 格式，必须新增连续存档迁移和 ADR/Change Request。
+
+## M9：编辑器工具与内容生产工作流
+
+- 状态：`COMPLETE`
+- 日期：2026-07-26
+- Unity：`6000.3.20f1`
+- 实现报告：`Docs/Reports/2026-07-26-m9-editor-tools.md`
+- 审查报告：`Docs/Reports/2026-07-26-m9-strict-review.md`
+- 最终标签：`framework-m9`（PR 合并后创建）
+
+### 集成记录
+
+| 项目 | 记录 |
+|---|---|
+| M9 实现提交 | `PENDING` |
+| M9 远程分支 | `codex/m9-editor-tools` |
+| M9 实现合并 | `PENDING` |
+| 严格审查修复 | 收敛 Placeholder 诊断、补全 provenance 权利/来源字段、真实 Release 负向 Build 与公共 API 文档 |
+
+### 最终检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| Git diff、日志与范围 | PASS | 相对 `framework-m8` 修改 19、新增 96、删除 0；均为 M9 工具、Fixture、测试或文档 |
+| Scene / Package / ProjectSettings | PASS | 最终均无差异；Unity 生成的临时 Resources/link/preloaded 修改已清理 |
+| asmdef 与禁用模式 | PASS | ADR 0011 接受 Editor→Simulation；无环；Simulation 热路径禁用模式零命中 |
+| Unity 编译 | PASS | 最终完整测试、验证、Pack CLI 与两个 Build 门禁均完成编译 |
+| EditMode | PASS | `TestResults/M9Final/editmode.xml`：181/181，0 failed，0 skipped |
+| PlayMode | PASS | `TestResults/M9Final/playmode.xml`：9/9，0 failed，0 skipped |
+| 内容/工程验证 | PASS | `TestResults/M9Final/validation.log`：`[Project Validation] PASS` |
+| Content Pack Builder | PASS | 6 Pack；M9 Content/Catalog Hash 为 `2ad333...c527` / `49e15b...8655` |
+| Release Placeholder 门禁 | PASS | 真实非 Development Build Failed，命中 `M9-RELEASE-PLACEHOLDER`，未生成 EXE |
+| Windows Development Build | PASS | Manifest `Succeeded`、`StandaloneWindows64`、Development；EXE SHA-256 `5D7EEB...C9C6` |
+| 成功 Release Build | NOT RUN | Placeholder 按设计必须阻止 Release |
+| 性能/Soak | NOT RUN | 30 分钟和目标规模压力 JSON 固定在 M10 |
+
+基线 EditMode 首次 Unity Crash 且无 XML，按 FAIL 记录；未改代码重试 172/172 PASS。实现中的首次
+编译探针失败也已保留日志，修复后全部最终门禁通过，未把失败尝试改写为 PASS。
+
+### 已知问题
+
+`Docs/KNOWN_ISSUES.md` 已登记 M9-KI-001 至 M9-KI-004，均为已接受范围或 M10 计划项；当前没有
+阻止 M10 开始的 `OPEN` 问题。
+
+### 下一步
+
+先通过 GitHub PR 合并 M9、创建并推送 `framework-m9`，清理功能分支并回到干净 `main`。M10
+必须从该标签开始，实际执行 30 分钟 Soak、1,500/3,000/5,000 压力、性能 JSON、CI 与框架冻结；
+不得把 M9 Preview 数据当作性能门禁。

@@ -1,0 +1,20 @@
+{
+    "schemaVersion": 1,
+    "packId": "test.pack.m9_tools",
+    "sourceCategory": "programmatic-placeholder",
+    "generatedBy": "M9 Content Creation Wizard",
+    "status": "development-only",
+    "commercialUseReviewed": false,
+    "contentIds": [
+        "test.character.second",
+        "test.encounter.m9",
+        "test.enemy.m9",
+        "test.evolution.m9",
+        "test.map.second",
+        "test.passive.m9",
+        "test.skill.second",
+        "test.status.m9",
+        "test.synergy.m9",
+        "test.trait.m9"
+    ]
+}
