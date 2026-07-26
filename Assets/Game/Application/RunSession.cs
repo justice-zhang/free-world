@@ -71,8 +71,28 @@ namespace Game.Application
         public FixedTickRunner Runner { get; }
         public GameStateMachine StateMachine { get; }
         public UpgradeOfferSet CurrentOffers => world.Progression.CurrentOffers;
+        public RenderSnapshot RenderSnapshot => world.RenderSnapshot;
+        public SimulationEventBuffer SimulationEvents => world.Events;
+        public CombatEventBuffer CombatEvents => world.CombatEvents;
+        public float InterpolationAlpha => (float)Runner.Clock.InterpolationAlpha;
+        public SpatialEntity Player => new SpatialEntity(EntityKind.Actor, player);
         public bool HasEnded { get; private set; }
         public RunResult Result { get; private set; }
+
+        /// <summary>Resolves optional stable presentation identity without exposing stores.</summary>
+        public bool TryGetVisualProfileId(SpatialEntity entity, out ContentId profileId)
+        {
+            if (entity.Kind == EntityKind.Actor &&
+                world.Enemies.TryGetSnapshot(entity.Handle, out var enemy) &&
+                world.Enemies.Catalog.TryGet(enemy.EnemyId, out var definition))
+            {
+                profileId = definition.Source.VisualProfileId;
+                return profileId.IsValid;
+            }
+
+            profileId = default;
+            return false;
+        }
 
         public int Advance(double elapsedSeconds)
         {
@@ -88,6 +108,47 @@ namespace Game.Application
                 StateMachine.EnterLevelUpChoice();
             }
             return ticks;
+        }
+
+        /// <summary>Applies one normalized movement command at the application boundary.</summary>
+        public bool SetMoveDirection(System.Numerics.Vector2 direction)
+        {
+            if (HasEnded || !world.Actors.TryRead(player, out var state)) return false;
+            if (float.IsNaN(direction.X) || float.IsInfinity(direction.X) ||
+                float.IsNaN(direction.Y) || float.IsInfinity(direction.Y)) return false;
+            var lengthSquared = direction.LengthSquared();
+            if (lengthSquared > 1f) direction = System.Numerics.Vector2.Normalize(direction);
+            if (!world.Actors.TryReadStat(player, BuiltInStatIndices.MoveSpeed, out var moveSpeed))
+                moveSpeed = 0f;
+            state.Velocity = direction * moveSpeed;
+            return world.Actors.TryWrite(player, state);
+        }
+
+        /// <summary>Pauses an active run without allowing presentation time to accumulate.</summary>
+        public bool Pause()
+        {
+            if (HasEnded || StateMachine.CurrentState != GameState.InRun) return false;
+            Runner.Clock.Pause();
+            StateMachine.EnterPause();
+            return true;
+        }
+
+        /// <summary>Resumes a player-paused run.</summary>
+        public bool Resume()
+        {
+            if (HasEnded || StateMachine.CurrentState != GameState.Pause) return false;
+            Runner.Clock.Resume();
+            StateMachine.EnterRun();
+            return true;
+        }
+
+        /// <summary>Debug-map command used to exercise the real level-up flow.</summary>
+        public bool GrantDebugExperience(float amount)
+        {
+            if (HasEnded || amount <= 0f || float.IsNaN(amount) || float.IsInfinity(amount))
+                return false;
+            world.Progression.Experience.Gain(amount);
+            return true;
         }
 
         public bool Select(ContentId offerId) => Resolve(() => world.Progression.SelectOffer(offerId));

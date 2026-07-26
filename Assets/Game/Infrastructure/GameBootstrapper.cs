@@ -3,7 +3,9 @@ using Game.Content.Runtime;
 using Game.Core;
 using Game.Platform.Abstractions;
 using Game.Platform.Null;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Game.Infrastructure
 {
@@ -18,6 +20,9 @@ namespace Game.Infrastructure
 
         private static GameBootstrapper activeInstance;
         [SerializeField] private TextAsset bakedTestCatalog;
+        [SerializeField] private TextAsset[] additionalBakedCatalogs;
+        [SerializeField] private Camera presentationCamera;
+        [SerializeField] private InputActionAsset inputActions;
         private GameApplication application;
 
         /// <summary>
@@ -42,6 +47,19 @@ namespace Game.Infrastructure
         public ContentRegistrySummary ContentSummary =>
             application == null ? default : application.ContentSummary;
 
+#if UNITY_EDITOR
+        /// <summary>Editor-only deterministic scene wiring used by M7 setup.</summary>
+        public void ConfigureM7Assets(
+            TextAsset[] catalogs,
+            Camera cameraValue,
+            InputActionAsset inputValue)
+        {
+            additionalBakedCatalogs = catalogs;
+            presentationCamera = cameraValue;
+            inputActions = inputValue;
+        }
+#endif
+
         private void Awake()
         {
             if (activeInstance != null && activeInstance != this)
@@ -54,54 +72,65 @@ namespace Game.Infrastructure
             activeInstance = this;
             DontDestroyOnLoad(gameObject);
 
-            if (bakedTestCatalog == null)
-            {
-                Debug.LogError("[Bootstrap] Baked test content catalog is not assigned.");
-                return;
-            }
-
-            BakedContentCatalogDto dto;
-            try
-            {
-                dto = JsonUtility.FromJson<BakedContentCatalogDto>(bakedTestCatalog.text);
-            }
-            catch (System.Exception exception)
-            {
-                Debug.LogError("[Bootstrap] Baked catalog JSON is invalid: " + exception.Message);
-                return;
-            }
-
-            if (dto == null)
-            {
-                Debug.LogError("[Bootstrap] Baked catalog JSON produced no catalog.");
-                return;
-            }
-
-            var catalogResult = dto.ToCatalog();
-            if (!catalogResult.IsSuccess)
-            {
-                Debug.LogError("[Bootstrap] Content catalog rejected: " + catalogResult.Error);
-                return;
-            }
-
             application = new GameApplication(
                 new NullPlatformFacade(),
                 new GameStateMachine(),
                 new ContentRegistry());
+            application.StateMachine.EnterBootstrap();
+
+            if (bakedTestCatalog == null)
+            {
+                Debug.LogError("[Bootstrap] Baked test content catalog is not assigned.");
+                application.StateMachine.EnterContentError();
+                return;
+            }
+
+            var textAssets = new List<TextAsset>(1 + (additionalBakedCatalogs?.Length ?? 0))
+            {
+                bakedTestCatalog
+            };
+            if (additionalBakedCatalogs != null)
+            {
+                for (var index = 0; index < additionalBakedCatalogs.Length; index++)
+                    if (additionalBakedCatalogs[index] != null) textAssets.Add(additionalBakedCatalogs[index]);
+            }
+            var catalogs = new List<BakedContentCatalog>(textAssets.Count);
+            try
+            {
+                for (var index = 0; index < textAssets.Count; index++)
+                {
+                    var dto = JsonUtility.FromJson<BakedContentCatalogDto>(textAssets[index].text);
+                    if (dto == null) throw new System.InvalidOperationException("Baked catalog JSON produced no catalog.");
+                    var catalogResult = dto.ToCatalog();
+                    if (!catalogResult.IsSuccess)
+                        throw new System.InvalidOperationException(catalogResult.Error.ToString());
+                    catalogs.Add(catalogResult.Value);
+                }
+            }
+            catch (System.Exception exception)
+            {
+                Debug.LogError("[Bootstrap] Baked catalog JSON is invalid: " + exception.Message);
+                application.StateMachine.EnterContentError();
+                return;
+            }
+
             var initialization = application.Initialize(
-                new[] { catalogResult.Value },
+                catalogs,
                 GameContentVersion);
             if (!initialization.IsSuccess)
             {
-                application = null;
                 Debug.LogError("[Bootstrap] Content registry rejected: " + initialization.Error);
+                application.StateMachine.EnterContentError();
                 return;
             }
+
+            var host = gameObject.AddComponent<M7RuntimeHost>();
+            host.Initialize(application, presentationCamera, inputActions);
 
             Debug.Log(
                 "[Bootstrap] Loaded content: packs=" + initialization.Value.PackCount +
                 ", entries=" + initialization.Value.DefinitionCount +
-                "; NullPlatformFacade initialized; entered MainMenu.");
+                "; NullPlatformFacade and M7 runtime initialized; entered MainMenu.");
         }
 
         private void OnDestroy()

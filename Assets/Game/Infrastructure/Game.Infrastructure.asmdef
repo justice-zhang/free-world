@@ -5,6 +5,10 @@
     "Game.Application",
     "Game.Content.Runtime",
     "Game.Core",
+    "Game.Simulation",
+    "Game.Presentation",
+    "Game.UI",
+    "Unity.InputSystem",
     "Game.Platform.Abstractions",
     "Game.Platform.Null"
   ],

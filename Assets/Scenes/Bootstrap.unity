@@ -149,6 +149,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Infrastructure::Game.Infrastructure.GameBootstrapper
   bakedTestCatalog: {fileID: 4900000, guid: 0bdef1a5724163e4e80eb878bb4f2a0e, type: 3}
+  additionalBakedCatalogs:
+  - {fileID: 4900000, guid: 25cf955cf0ae05f44b98bbeca262ea01, type: 3}
+  - {fileID: 4900000, guid: f1d85fc1e2cb19b45b5571719d339a48, type: 3}
+  - {fileID: 4900000, guid: 2d088e7089023364ab6050974707ef11, type: 3}
+  presentationCamera: {fileID: 1255491789}
+  inputActions: {fileID: 11400000, guid: 49cbdbaebea792e4da847b6e37573cd5, type: 2}
 --- !u!4 &103704959
 Transform:
   m_ObjectHideFlags: 0

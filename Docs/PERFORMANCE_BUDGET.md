@@ -32,6 +32,11 @@ M2-M6 先使用可验证的单线程实现。只有 Profiler 或基准测试证�
 
 - 快照生成
 
+M7 的四类实体 View、短生命周期 VFX、AudioSource 和共享 Canvas 伤害数字均使用持久池；
+每帧只由 `M7RuntimeHost`、`PresentationCoordinator` 和 Camera Rig 集中推进，不添加逐实体
+`Update`。这证明生命周期结构符合预算，不等同于目标规模性能通过；池命中率、扩容次数、
+GC 和 1,500/3,000/5,000 实体结果仍必须由 M10 性能 JSON 给出。
+
 ## 3. 禁止行为
 
 - 每个敌人独立 Update/FixedUpdate

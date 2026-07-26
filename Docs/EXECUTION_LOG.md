@@ -290,3 +290,48 @@ Enemy/Map/Encounter、`IMapRuntime`、Spawn Request Buffer、Difficulty Snapshot
 先通过 GitHub PR 合并 M6、创建并推送 `framework-m6`，再从最终 `main`/`framework-m6`
 创建 M7 独立分支。M7 只消费 `RunSession`、`UpgradeOfferSet` 和 `RenderSnapshot`，不得把
 候选生成、构筑资格或模拟真值复制到 View/UI。
+
+## M7：表现层、输入与完整 UI 流程
+
+- 状态：`COMPLETE`
+- 日期：2026-07-26
+- Unity：`6000.3.20f1`
+- 实现报告：`Docs/Reports/2026-07-26-m7-presentation-ui-input.md`
+- 审查报告：`Docs/Reports/2026-07-26-m7-strict-review.md`
+- 最终标签：`framework-m7`
+
+### 集成记录
+
+| 项目 | 记录 |
+|---|---|
+| M7 实现提交 | `abdd15969023d3c3f9ba968063aae99a800d5264` |
+| M7 远程分支 | `codex/m7-presentation-ui-input` |
+| M7 实现合并 | GitHub PR #13；`framework-m7` 指向该 PR 的最终 merge commit |
+| 严格审查修复 | 修复同批次 Removed 事件与 Snapshot 同步的重复释放风险、Input TestFixture 销毁顺序，并清理 Input Asset 行尾空格 |
+
+### 最终检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| Git diff、日志与范围 | PASS | 相对 `framework-m6` 新增 35、修改 18、删除 0，共 53 个实现文件；全部属于 M7 实现、Placeholder、测试或同步文档 |
+| Scene / asmdef / ProjectSettings | PASS | Bootstrap 显式组合 M7；UI 不引用 Simulation；项目 Input Action 指向 M7 资产；Project Validation PASS |
+| asmdef 与禁用模式 | PASS | Core/Simulation 无 UnityEngine；Find、Resources.Load、Service Locator、高频 LINQ/反射和逐实体 Update 均零命中 |
+| Unity 编译 | PASS | 最终 EditMode、PlayMode、验证和 Development Build 均完成脚本编译，无 C# 编译失败 |
+| EditMode | PASS | `TestResults/M7Final/editmode.xml`：163/163，0 failed，0 skipped |
+| PlayMode | PASS | `TestResults/M7Final/playmode.xml`：8/8，0 failed，0 skipped |
+| 完整输入与 UI 流程 | PASS | 键鼠和虚拟手柄完成菜单、真实 Run、升级、暂停、结算和返回主菜单；暂停 Tick 停止、销毁无池/输入 owner 泄漏 |
+| 内容/工程验证 | PASS | `TestResults/M7Final/validation.log`：`[Project Validation] PASS` |
+| Windows Development Build | PASS | Manifest：`Succeeded`、`StandaloneWindows64`、Development；EXE SHA-256 `5D7EEB5359C2E35E4EB1F6A5844B25C3D7556795BD2F15EC234A2011406BC9C6` |
+| 正式本地化与伪本地化 | NOT RUN | M8 计划项；M7 只保证 Presenter 使用 Localization Key |
+| 性能/Soak | NOT RUN | 30 分钟和 1,500/3,000/5,000 目标实体压力 JSON 固定在 M10 执行 |
+
+### 已知问题
+
+`Docs/KNOWN_ISSUES.md` 已登记 M7-KI-001 至 M7-KI-004，均为已接受边界或后续计划项；
+当前没有阻止 M8 开始的 `OPEN` 问题。
+
+### 下一步
+
+先通过 GitHub PR 合并 M7、创建并推送 `framework-m7`，再从最终 `main`/`framework-m7`
+创建 M8 独立分支。M8 接入 Localization Table、伪本地化、字体覆盖和内容工具时，必须继续
+复用 M7 Presenter/ViewModel 边界，不把正式文本或内容规则硬编码到 UI。
