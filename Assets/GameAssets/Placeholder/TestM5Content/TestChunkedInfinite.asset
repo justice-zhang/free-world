@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 919b4527417a7b245baa4a52f60bbf19, type: 3}
+  m_Name: TestChunkedInfinite
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.MapAuthoring
+  contentId: test.map.chunked_infinite
+  localizedNameKey: content.test.map.chunked_infinite.name
+  localizedDescriptionKey: content.test.map.chunked_infinite.description
+  tags:
+  - content.placeholder
+  - map.infinite
+  runtimeProviderId: base.map.chunked_infinite
+  sceneAddress: maps/test.m5/chunked_infinite
+  m5RuntimeEnabled: 1
+  boundsMode: 2
+  minimum: {x: -8, y: -8}
+  maximum: {x: 8, y: 8}
+  chunkSize: 16
+  activeChunkRadius: 2
+  encounterSchedule: {fileID: 11400000, guid: 9e96dc12a05fd0f42b743b824c24efd7, type: 2}
+  visualProfileId: placeholder.visual.map.infinite
+  obstacles: []
+  anchors:
+  - id: test.anchor.boss
+    position: {x: 10, y: 0}
+  - id: test.anchor.portal
+    position: {x: -10, y: 0}

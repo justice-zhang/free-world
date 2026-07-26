@@ -208,11 +208,47 @@ namespace Game.Content.Runtime
                             report.Add(
                                 new Error(
                                     ErrorCode.InvalidAuthoringData,
-                                    "Schema 3 skills must contain modular runtime data.",
+                                    "Skills in schema 3 or newer packs must contain modular runtime data.",
                                     definition.Id,
                                     packId,
                                     definition.SourceAssetPath));
                         }
+                    }
+
+                    if (definition is RuntimeEnemyDefinition schemaEnemy)
+                    {
+                        ValidateM5SchemaState(
+                            schemaEnemy.HasM5Data,
+                            "Enemy",
+                            catalog.Manifest.SchemaVersion,
+                            definition,
+                            packId,
+                            report);
+                    }
+
+                    if (definition is RuntimeMapDefinition schemaMap)
+                    {
+                        ValidateM5SchemaState(
+                            schemaMap.HasM5Data,
+                            "Map",
+                            catalog.Manifest.SchemaVersion,
+                            definition,
+                            packId,
+                            report);
+                    }
+
+                    if (definition is RuntimeEncounterSchedule &&
+                        catalog.Manifest.SchemaVersion <
+                        ContentPackTopology.EnemyMapEncounterSchemaVersion)
+                    {
+                        report.Add(
+                            new Error(
+                                ErrorCode.UnsupportedSchemaVersion,
+                                "Encounter schedules require content schema " +
+                                ContentPackTopology.EnemyMapEncounterSchemaVersion + " or newer.",
+                                definition.Id,
+                                packId,
+                                definition.SourceAssetPath));
                     }
 
                     ValidateDefinitionValues(definition, packId, report);
@@ -259,6 +295,64 @@ namespace Game.Content.Runtime
                             packId,
                             report);
                     }
+
+                    if (definition is RuntimeEnemyDefinition enemy && enemy.HasM5Data)
+                    {
+                        ValidateReferenceType(
+                            enemy,
+                            enemy.AttackSkillId,
+                            definitionsById,
+                            packId,
+                            report,
+                            referenced => referenced is RuntimeSkillDefinition referencedSkill &&
+                                          referencedSkill.IsExecutable,
+                            "an executable Skill");
+                    }
+
+                    if (definition is RuntimeMapDefinition map && map.HasM5Data)
+                    {
+                        ValidateReferenceType(
+                            map,
+                            map.EncounterScheduleId,
+                            definitionsById,
+                            packId,
+                            report,
+                            referenced => referenced is RuntimeEncounterSchedule,
+                            "an Encounter schedule");
+                    }
+
+                    if (definition is RuntimeEncounterSchedule encounter)
+                    {
+                        for (var phaseIndex = 0; phaseIndex < encounter.Phases.Count; phaseIndex++)
+                        {
+                            var phase = encounter.Phases[phaseIndex];
+                            for (var entryIndex = 0; entryIndex < phase.EnemyEntries.Count; entryIndex++)
+                            {
+                                ValidateReferenceType(
+                                    encounter,
+                                    phase.EnemyEntries[entryIndex].EnemyId,
+                                    definitionsById,
+                                    packId,
+                                    report,
+                                    referenced => referenced is RuntimeEnemyDefinition referencedEnemy &&
+                                                  referencedEnemy.HasM5Data,
+                                    "a schema-4 Enemy");
+                            }
+
+                            for (var bossIndex = 0; bossIndex < phase.BossRules.Count; bossIndex++)
+                            {
+                                ValidateReferenceType(
+                                    encounter,
+                                    phase.BossRules[bossIndex].EnemyId,
+                                    definitionsById,
+                                    packId,
+                                    report,
+                                    referenced => referenced is RuntimeEnemyDefinition referencedEnemy &&
+                                                  referencedEnemy.HasM5Data,
+                                    "a schema-4 Enemy");
+                            }
+                        }
+                    }
                 }
             }
 
@@ -301,11 +395,23 @@ namespace Game.Content.Runtime
             {
                 message = "Enemy health and collision radius must be positive.";
             }
+            else if (definition is RuntimeEnemyDefinition runtimeEnemy && runtimeEnemy.HasM5Data)
+            {
+                message = ValidateEnemyDefinition(runtimeEnemy);
+            }
             else if (definition is RuntimeMapDefinition map &&
                      (string.IsNullOrWhiteSpace(map.RuntimeProviderId) ||
                       string.IsNullOrWhiteSpace(map.SceneAddress)))
             {
                 message = "Map runtime provider ID and scene address are required.";
+            }
+            else if (definition is RuntimeMapDefinition runtimeMap && runtimeMap.HasM5Data)
+            {
+                message = ValidateMapDefinition(runtimeMap);
+            }
+            else if (definition is RuntimeEncounterSchedule encounter)
+            {
+                message = ValidateEncounterDefinition(encounter);
             }
             else if (definition is RuntimeStatusDefinition status)
             {
@@ -322,6 +428,169 @@ namespace Game.Content.Runtime
                         packId,
                         definition.SourceAssetPath));
             }
+        }
+
+        private static void ValidateM5SchemaState(
+            bool hasM5Data,
+            string kind,
+            int schemaVersion,
+            RuntimeContentDefinition definition,
+            ContentId packId,
+            ContentValidationReport report)
+        {
+            var required = ContentPackTopology.EnemyMapEncounterSchemaVersion;
+            if (hasM5Data && schemaVersion < required)
+            {
+                report.Add(
+                    new Error(
+                        ErrorCode.UnsupportedSchemaVersion,
+                        kind + " runtime data requires content schema " + required + " or newer.",
+                        definition.Id,
+                        packId,
+                        definition.SourceAssetPath));
+            }
+            else if (!hasM5Data && schemaVersion >= required)
+            {
+                report.Add(
+                    new Error(
+                        ErrorCode.InvalidAuthoringData,
+                        kind + " definitions in schema 4 packs require M5 runtime data.",
+                        definition.Id,
+                        packId,
+                        definition.SourceAssetPath));
+            }
+        }
+
+        private static string ValidateEnemyDefinition(RuntimeEnemyDefinition enemy)
+        {
+            var behavior = enemy.Behavior;
+            if (!IsFinite(enemy.BaseMoveSpeed) || enemy.BaseMoveSpeed <= 0f ||
+                !IsFinite(enemy.BaseDamage) || enemy.BaseDamage < 0f ||
+                !IsFinite(enemy.AttackRange) || enemy.AttackRange <= 0f ||
+                !enemy.AttackSkillId.IsValid || !enemy.VisualProfileId.IsValid ||
+                !IsFinite(enemy.ExperienceReward) || enemy.ExperienceReward < 0f ||
+                !IsFinite(enemy.LootReward) || enemy.LootReward < 0f ||
+                behavior.MovementMode < EnemyMovementMode.Chase ||
+                behavior.MovementMode > EnemyMovementMode.Ranged ||
+                !IsFinite(behavior.PreferredDistance) || behavior.PreferredDistance < 0f ||
+                !IsFinite(behavior.DecisionIntervalSeconds) || behavior.DecisionIntervalSeconds <= 0f ||
+                !IsFinite(behavior.ChargeWindupSeconds) || behavior.ChargeWindupSeconds < 0f ||
+                !IsFinite(behavior.ChargeDurationSeconds) || behavior.ChargeDurationSeconds < 0f ||
+                !IsFinite(behavior.ChargeSpeedMultiplier) || behavior.ChargeSpeedMultiplier <= 0f ||
+                !IsFinite(behavior.AttackCooldownSeconds) || behavior.AttackCooldownSeconds < 0f ||
+                !IsFinite(behavior.SeparationRadius) || behavior.SeparationRadius < 0f ||
+                !IsFinite(behavior.SeparationWeight) || behavior.SeparationWeight < 0f ||
+                !IsFinite(behavior.ObstacleAvoidanceWeight) || behavior.ObstacleAvoidanceWeight < 0f)
+            {
+                return "Schema-4 enemy combat, reward, or behavior data is invalid.";
+            }
+
+            return null;
+        }
+
+        private static string ValidateMapDefinition(RuntimeMapDefinition map)
+        {
+            if (map.BoundsMode < MapBoundsMode.Finite ||
+                map.BoundsMode > MapBoundsMode.ChunkedInfinite ||
+                !IsFinite(map.Minimum.X) || !IsFinite(map.Minimum.Y) ||
+                !IsFinite(map.Maximum.X) || !IsFinite(map.Maximum.Y) ||
+                map.Minimum.X >= map.Maximum.X || map.Minimum.Y >= map.Maximum.Y ||
+                !IsFinite(map.ChunkSize) || map.ChunkSize <= 0f ||
+                map.ActiveChunkRadius < 1 || !map.EncounterScheduleId.IsValid ||
+                !map.VisualProfileId.IsValid)
+            {
+                return "Schema-4 map bounds, chunk, encounter, or visual data is invalid.";
+            }
+
+            for (var index = 0; index < map.Obstacles.Count; index++)
+            {
+                var obstacle = map.Obstacles[index];
+                if (!IsFinite(obstacle.Minimum.X) || !IsFinite(obstacle.Minimum.Y) ||
+                    !IsFinite(obstacle.Maximum.X) || !IsFinite(obstacle.Maximum.Y) ||
+                    obstacle.Minimum.X >= obstacle.Maximum.X ||
+                    obstacle.Minimum.Y >= obstacle.Maximum.Y)
+                {
+                    return "Schema-4 map contains invalid obstacle bounds.";
+                }
+            }
+
+            var anchors = new HashSet<ContentId>();
+            for (var index = 0; index < map.Anchors.Count; index++)
+            {
+                var anchor = map.Anchors[index];
+                if (!anchor.Id.IsValid || !IsFinite(anchor.Position.X) ||
+                    !IsFinite(anchor.Position.Y) || !anchors.Add(anchor.Id))
+                {
+                    return "Schema-4 map anchors must be finite, valid, and unique.";
+                }
+            }
+
+            return null;
+        }
+
+        private static string ValidateEncounterDefinition(RuntimeEncounterSchedule encounter)
+        {
+            if (encounter.MaximumConcurrentEnemies <= 0 ||
+                !IsFinite(encounter.MinimumSpawnDistance) || encounter.MinimumSpawnDistance < 0f ||
+                !IsFinite(encounter.MaximumSpawnDistance) ||
+                encounter.MaximumSpawnDistance < encounter.MinimumSpawnDistance ||
+                encounter.Phases.Count == 0)
+            {
+                return "Encounter limits, spawn distances, or phases are invalid.";
+            }
+
+            var expectedStart = 0f;
+            for (var phaseIndex = 0; phaseIndex < encounter.Phases.Count; phaseIndex++)
+            {
+                var phase = encounter.Phases[phaseIndex];
+                if (phase == null || Math.Abs(phase.StartTimeSeconds - expectedStart) > 0.0001f ||
+                    !IsFinite(phase.EndTimeSeconds) || phase.EndTimeSeconds <= phase.StartTimeSeconds ||
+                    !IsFinite(phase.BudgetPerSecondStart) || phase.BudgetPerSecondStart < 0f ||
+                    !IsFinite(phase.BudgetPerSecondEnd) || phase.BudgetPerSecondEnd < 0f ||
+                    !IsFinite(phase.SpawnIntervalStart) || phase.SpawnIntervalStart <= 0f ||
+                    !IsFinite(phase.SpawnIntervalEnd) || phase.SpawnIntervalEnd <= 0f ||
+                    phase.MaximumConcurrentEnemies <= 0 ||
+                    phase.MaximumConcurrentEnemies > encounter.MaximumConcurrentEnemies ||
+                    phase.SpawnPattern < SpawnPattern.Ring || phase.SpawnPattern > SpawnPattern.OffscreenRandom ||
+                    RequiresAnchor(phase.SpawnPattern) && !phase.AnchorId.IsValid ||
+                    phase.EnemyEntries.Count == 0)
+                {
+                    return "Encounter phases must be contiguous and contain valid curves, limits, patterns, and entries.";
+                }
+
+                for (var entryIndex = 0; entryIndex < phase.EnemyEntries.Count; entryIndex++)
+                {
+                    var entry = phase.EnemyEntries[entryIndex];
+                    if (!entry.EnemyId.IsValid || !IsFinite(entry.Weight) || entry.Weight <= 0f ||
+                        !IsFinite(entry.BudgetCost) || entry.BudgetCost <= 0f ||
+                        entry.MinimumGroupSize <= 0 || entry.MaximumGroupSize < entry.MinimumGroupSize)
+                    {
+                        return "Encounter enemy entry weight, cost, or group size is invalid.";
+                    }
+                }
+
+                for (var bossIndex = 0; bossIndex < phase.BossRules.Count; bossIndex++)
+                {
+                    var boss = phase.BossRules[bossIndex];
+                    if (!boss.EnemyId.IsValid || !IsFinite(boss.SpawnTimeSeconds) ||
+                        boss.SpawnTimeSeconds < phase.StartTimeSeconds ||
+                        boss.SpawnTimeSeconds >= phase.EndTimeSeconds ||
+                        boss.Pattern < SpawnPattern.Ring || boss.Pattern > SpawnPattern.OffscreenRandom ||
+                        RequiresAnchor(boss.Pattern) && !boss.AnchorId.IsValid)
+                    {
+                        return "Encounter boss rules contain invalid time, pattern, or anchor data.";
+                    }
+                }
+
+                expectedStart = phase.EndTimeSeconds;
+            }
+
+            return null;
+        }
+
+        private static bool RequiresAnchor(SpawnPattern pattern)
+        {
+            return pattern == SpawnPattern.FixedAnchor || pattern == SpawnPattern.Portal;
         }
 
         private static string ValidateSkillDefinition(RuntimeSkillDefinition skill)
@@ -752,6 +1021,33 @@ namespace Game.Content.Runtime
                             packId,
                             skill.SourceAssetPath));
                 }
+            }
+        }
+
+        private static void ValidateReferenceType(
+            RuntimeContentDefinition owner,
+            ContentId referenceId,
+            Dictionary<ContentId, RuntimeContentDefinition> definitionsById,
+            ContentId packId,
+            ContentValidationReport report,
+            Func<RuntimeContentDefinition, bool> predicate,
+            string requirement)
+        {
+            if (!referenceId.IsValid ||
+                !definitionsById.TryGetValue(referenceId, out var referenced))
+            {
+                return;
+            }
+
+            if (!predicate(referenced))
+            {
+                report.Add(
+                    new Error(
+                        ErrorCode.InvalidAuthoringData,
+                        "Content reference '" + referenceId + "' must reference " + requirement + ".",
+                        owner.Id,
+                        packId,
+                        owner.SourceAssetPath));
             }
         }
 

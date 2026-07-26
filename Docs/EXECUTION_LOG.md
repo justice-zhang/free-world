@@ -201,3 +201,47 @@ M4 只能从带 `framework-m3` 标签的最终 `main` 创建独立分支；必�
 M5 只能从带 `framework-m4` 标签的最终 `main` 创建独立分支；必须复用 M4 的显式模块
 注册、RuntimeContentIndex、稳定 ContentId、类型化 LevelPatch 和 ProcDepth 契约，不得为
 普通新技能增加专用控制器。
+
+## M5：敌人、刷怪、遭遇与地图运行时
+
+- 状态：`COMPLETE`
+- 日期：2026-07-26
+- Unity：`6000.3.20f1`
+- 实现报告：`Docs/Reports/2026-07-26-m5-enemy-spawn-map.md`
+- 审查报告：`Docs/Reports/2026-07-26-m5-strict-review.md`
+- 最终标签：`framework-m5`
+
+### 集成记录
+
+| 项目 | 记录 |
+|---|---|
+| M5 实现提交 | `cc307b1dee4b9d45bf82aa8b0caf63685c7508fd` |
+| M5 远程分支 | `codex/m5-enemy-spawn-map` |
+| M5 实现合并 | GitHub PR #9；`framework-m5` 指向该 PR 的最终 merge commit |
+| 严格审查 | 无运行时代码 FAIL；补齐 M5 测试计划和作者工作流，Unity 自动行尾噪声未纳入 diff |
+
+### 最终检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| Git diff、日志与范围 | PASS | 相对 `framework-m4` 修改/新增 75、删除 0；全部属于 M5 Schema、运行时、Placeholder、测试或文档 |
+| 两张 M5 Scene 静态检查 | PASS | 每张 Scene 各一个纯占位根对象，仅 Transform；无 MonoBehaviour/Prefab/缺失脚本；Build Settings 仍只启用 Bootstrap |
+| asmdef 与禁用模式 | PASS | asmdef 无循环；Core/Simulation 无 UnityEngine；全局 Find、Resources、NavMeshAgent、高频 LINQ/反射、逐敌人 Update 均零命中 |
+| Unity 编译 | PASS | 最终 EditMode、PlayMode、验证和 Development Build 均完成脚本编译，无 C# 编译失败 |
+| EditMode | PASS | `TestResults/M5Review/editmode.xml`：144/144，0 failed，0 skipped |
+| PlayMode | PASS | `TestResults/M5Review/playmode.xml`：5/5，0 failed，0 skipped |
+| 内容/工程验证 | PASS | `TestResults/M5Review/validation.log`：`[Project Validation] PASS` |
+| Windows Development Build | PASS | Manifest：`Succeeded`、`StandaloneWindows64`、Development；EXE SHA-256 `5D7EEB5359C2E35E4EB1F6A5844B25C3D7556795BD2F15EC234A2011406BC9C6` |
+| Release Build | NOT RUN | M5 适用门禁为 Windows Development Build；Release 留待正式发布阶段 |
+| 性能/Soak | NOT RUN | 30 分钟 Soak 和 1,500/3,000/5,000 目标实体压力 JSON 固定在 M10 执行 |
+
+### 已知问题
+
+`Docs/KNOWN_ISSUES.md` 已登记 M5-KI-001 至 M5-KI-004，均为已接受限制或 M10 计划项；
+当前没有阻止 M6 开始的 `OPEN` 问题。
+
+### 下一步
+
+M6 只能从带 `framework-m5` 标签的最终 `main` 创建独立分支；必须复用 M5 的 Content 驱动
+Enemy/Map/Encounter、`IMapRuntime`、Spawn Request Buffer、Difficulty Snapshot 和集中式敌人
+系统，不得把刷怪时间线或逐敌人逻辑写入 Scene MonoBehaviour。

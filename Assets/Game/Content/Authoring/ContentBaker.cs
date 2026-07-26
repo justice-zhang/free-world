@@ -225,11 +225,80 @@ namespace Game.Content.Authoring
                         return Result<BakedContentCatalog>.Failure(
                             new Error(
                                 ErrorCode.InvalidAuthoringData,
-                                "Skills in schema 3 packs must enable modular runtime authoring.",
+                                "Skills in schema 3 or newer packs must enable modular runtime authoring.",
                                 skill.Id,
                                 packId,
                                 definitionPaths[index]));
                     }
+                }
+
+                if (definitionResult.Value is RuntimeEnemyDefinition enemy)
+                {
+                    if (enemy.HasM5Data &&
+                        pack.SchemaVersion < ContentPackTopology.EnemyMapEncounterSchemaVersion)
+                    {
+                        return Result<BakedContentCatalog>.Failure(
+                            new Error(
+                                ErrorCode.UnsupportedSchemaVersion,
+                                "Executable enemies require content schema " +
+                                ContentPackTopology.EnemyMapEncounterSchemaVersion + " or newer.",
+                                enemy.Id,
+                                packId,
+                                definitionPaths[index]));
+                    }
+
+                    if (!enemy.HasM5Data &&
+                        pack.SchemaVersion >= ContentPackTopology.EnemyMapEncounterSchemaVersion)
+                    {
+                        return Result<BakedContentCatalog>.Failure(
+                            new Error(
+                                ErrorCode.InvalidAuthoringData,
+                                "Enemies in schema 4 packs must enable M5 runtime authoring.",
+                                enemy.Id,
+                                packId,
+                                definitionPaths[index]));
+                    }
+                }
+
+                if (definitionResult.Value is RuntimeMapDefinition map)
+                {
+                    if (map.HasM5Data &&
+                        pack.SchemaVersion < ContentPackTopology.EnemyMapEncounterSchemaVersion)
+                    {
+                        return Result<BakedContentCatalog>.Failure(
+                            new Error(
+                                ErrorCode.UnsupportedSchemaVersion,
+                                "Runtime maps require content schema " +
+                                ContentPackTopology.EnemyMapEncounterSchemaVersion + " or newer.",
+                                map.Id,
+                                packId,
+                                definitionPaths[index]));
+                    }
+
+                    if (!map.HasM5Data &&
+                        pack.SchemaVersion >= ContentPackTopology.EnemyMapEncounterSchemaVersion)
+                    {
+                        return Result<BakedContentCatalog>.Failure(
+                            new Error(
+                                ErrorCode.InvalidAuthoringData,
+                                "Maps in schema 4 packs must enable M5 runtime authoring.",
+                                map.Id,
+                                packId,
+                                definitionPaths[index]));
+                    }
+                }
+
+                if (definitionResult.Value is RuntimeEncounterSchedule &&
+                    pack.SchemaVersion < ContentPackTopology.EnemyMapEncounterSchemaVersion)
+                {
+                    return Result<BakedContentCatalog>.Failure(
+                        new Error(
+                            ErrorCode.UnsupportedSchemaVersion,
+                            "Encounter schedules require content schema " +
+                            ContentPackTopology.EnemyMapEncounterSchemaVersion + " or newer.",
+                            definitionResult.Value.Id,
+                            packId,
+                            definitionPaths[index]));
                 }
 
                 definitions[index] = definitionResult.Value;

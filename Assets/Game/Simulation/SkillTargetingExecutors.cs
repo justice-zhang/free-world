@@ -51,7 +51,8 @@ namespace Game.Simulation
                 if (candidate.Entity.Kind != EntityKind.Actor ||
                     candidate.Entity == owner ||
                     !world.Actors.Contains(candidate.Entity.Handle) ||
-                    world.Actors.IsDeathPending(candidate.Entity.Handle))
+                    world.Actors.IsDeathPending(candidate.Entity.Handle) ||
+                    !world.IsHostileTarget(owner, candidate.Entity))
                 {
                     continue;
                 }

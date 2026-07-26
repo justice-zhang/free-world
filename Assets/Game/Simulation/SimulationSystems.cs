@@ -49,7 +49,13 @@ namespace Game.Simulation
             for (var index = 0; index < world.Actors.Count; index++)
             {
                 var handle = world.Actors.GetHandleAt(index);
-                var state = Integrate(world.Actors.GetStateAt(index), world.DeltaTimeSeconds);
+                var previous = world.Actors.GetStateAt(index);
+                var state = Integrate(previous, world.DeltaTimeSeconds);
+                state.Position = world.Enemies.ResolveMovement(
+                    world.Map,
+                    handle,
+                    previous.Position,
+                    state.Position);
                 world.Actors.SetStateAt(index, state);
                 world.SpatialGrid.Update(
                     new SpatialEntity(EntityKind.Actor, handle),
@@ -245,6 +251,7 @@ namespace Game.Simulation
             }
 
             world.Commands.Clear();
+            world.Enemies.ApplyPendingSpawns(world);
             world.Skills.ApplyPendingSpawns(world);
         }
     }

@@ -72,3 +72,14 @@
 | M4-KI-008 | ACCEPTED | Low | 最终 Validation 日志中 Unity 公共配置请求出现 Curl 42/超时，同时启动阶段有已知 LicenseClient 握手噪声。 | 脚本仍以 exit 0 完成并输出 `[Project Validation] PASS`；测试 XML、Build PASS 标记和 `Succeeded` Manifest 均独立有效。若后续缺少任一门禁证据，必须按 FAIL 处理。 |
 
 当前没有阻止 M5 开始的 `OPEN` 问题。
+
+## M5
+
+| ID | 状态 | 严重度 | 问题与影响 | 处理 |
+|---|---|---|---|---|
+| M5-KI-001 | ACCEPTED | Low | ChunkedInfiniteMapRuntime 当前只维护确定性区块签名和逻辑活动窗口，不含正式地形内容流送、区块存档或表现对象池。 | 这是 M5 提示词要求的最小版本；后续表现/内容工具里程碑通过现有 IMapRuntime 边界扩展，不把流送逻辑写入 Scene。 |
+| M5-KI-002 | ACCEPTED | Low | 障碍输入仅支持轴对齐矩形和滑轴回退，复杂静态几何不会生成全局路径。 | 普通敌人继续使用 Steering、局部分离和轻量规避；只有证据证明需要时才提交通用寻路 Change Request。 |
+| M5-KI-003 | ACCEPTED | Low | VisualProfileId 已是稳定表现边界 ID，但具体 Profile 内容和运行时 View 解析尚未实现。 | M7 实现 View Pool/表现桥接时消费该 ID；Simulation 不持有 Unity Object。 |
+| M5-KI-004 | PLANNED | Medium | M5 未运行 30 分钟 Soak 和 1,500/3,000/5,000 目标实体压力基准。 | 五分钟 Headless 只证明小型 Encounter 的正确性和有界清理；目标规模与性能 JSON 在 M10 执行，当前不得描述为通过。 |
+
+当前没有阻止 M6 开始的 `OPEN` 问题。

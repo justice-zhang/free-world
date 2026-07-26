@@ -170,3 +170,20 @@ M3 未引入 Jobs、Burst 或新的第三方运行时依赖。
 
 完整 30 分钟 Soak、实体压力和性能预算对比仍按 M10 门禁执行；M4 未引入 Jobs、Burst 或
 第三方运行时依赖。
+
+## 10. M5 已落地覆盖
+
+- Schema 4 Enemy/Map/Encounter 作者数据、DTO round-trip、确定性 Hash、旧 Schema Enemy
+  拒绝规则，以及同一 Encounter 被有限/无限两种 Map Definition 复用。
+- Chase、KeepDistance、Charge Windup/Execute、Ranged Attack 状态转换；重叠敌人的 Steering、
+  局部分离和障碍规避保持有限数值。
+- Ring、Edge、Cluster、Line、Ambush、Portal、FixedAnchor、OffscreenRandom 八种生成图样在
+  有限地图产生合法位置。
+- Encounter 的预算、阶段插值、权重、群组、Elite、Boss 一次性规则和全局/阶段并发上限。
+- FiniteArena 的边界/障碍 Walkable 与 ResolveMovement；ChunkedInfinite 的固定种子区块签名。
+- 相同固定种子产生相同区块和 Spawn Checksum；玩家与敌人共同使用 M4 Skill Runtime。
+- finite 与 chunked-infinite 各运行五分钟（9000 Tick）的 Headless Harness，验证 Boss 一次、
+  并发上限、有限坐标、无效句柄为零和显式清理后无实体泄漏。
+
+五分钟 Harness 是小型 Placeholder Encounter 的正确性门禁。30 分钟 Soak、1,500 敌人、
+3,000 投射物、5,000 拾取物及性能分位 JSON 在 M5 为 `NOT RUN`，继续按计划在 M10 执行。

@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 919b4527417a7b245baa4a52f60bbf19, type: 3}
+  m_Name: TestFiniteArena
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.MapAuthoring
+  contentId: test.map.finite_arena
+  localizedNameKey: content.test.map.finite_arena.name
+  localizedDescriptionKey: content.test.map.finite_arena.description
+  tags:
+  - content.placeholder
+  - map.finite
+  runtimeProviderId: base.map.finite_arena
+  sceneAddress: maps/test.m5/finite_arena
+  m5RuntimeEnabled: 1
+  boundsMode: 1
+  minimum: {x: -24, y: -16}
+  maximum: {x: 24, y: 16}
+  chunkSize: 16
+  activeChunkRadius: 2
+  encounterSchedule: {fileID: 11400000, guid: 9e96dc12a05fd0f42b743b824c24efd7, type: 2}
+  visualProfileId: placeholder.visual.map.finite
+  obstacles:
+  - minimum: {x: -2, y: -5}
+    maximum: {x: 2, y: -2}
+  anchors:
+  - id: test.anchor.boss
+    position: {x: 10, y: 0}
+  - id: test.anchor.portal
+    position: {x: -10, y: 0}

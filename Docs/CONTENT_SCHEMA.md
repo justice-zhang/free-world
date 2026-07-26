@@ -211,7 +211,8 @@ Schema 兼容规则：
 - Schema 1：Character/旧 Skill/Enemy/Map。
 - Schema 2：在 Schema 1 上增加 Status；旧 Skill 仍不可执行。
 - Schema 3：可包含完整 M4 Skill；Schema 3 中的 Skill 必须完整配置模块和至少一个 Effect。
-- Schema 1/2 继续可加载，现有 Catalog Hash 不因新字段改变；升级到可执行 Skill 必须重 Bake。
+- Schema 4：增加可执行 Enemy、Map 和 Encounter；Schema 4 中的 Enemy/Map 必须包含完整 M5 数据。
+- Schema 1/2/3 继续可加载，现有 Catalog Hash 不因新字段改变；升级内容必须重 Bake。
 
 四个 M4 Fixture 使用 `test.*` ContentId 和 `placeholder.presentation.*` 表现 ID，属于
 development-only Placeholder 内容，不得进入 release label。
@@ -401,3 +402,52 @@ Assets/GameAssets/Placeholder/TestStatusContent/
 
 Burning 使用 AddStacks + Fire 周期伤害，Slow 使用 RefreshDuration + MoveSpeed Modifier，
 Shielded 使用 ReplaceIfStronger + 临时护盾容量。三者仅为测试 Fixture，不是正式内容。
+
+## 13. M5 敌人、地图与 Encounter Schema 4
+
+Schema 4 首次增加 `encounter` kind，并为 Enemy/Map 增加纯运行时字段。旧 Schema 1–3
+Enemy/Map 仍走原构造和原 Hash 字段顺序；只有 Schema 4 定义追加 M5 标记与字段。
+
+```text
+RuntimeEnemyDefinition
+├─ BaseMaxHealth / CollisionRadius / BaseMoveSpeed / BaseDamage / AttackRange
+├─ AttackSkillId
+├─ ExperienceReward / LootReward
+├─ VisualProfileId / Tags[]
+└─ Behavior
+   ├─ MovementMode: Chase / KeepDistance / Charge / Ranged
+   ├─ PreferredDistance / DecisionInterval
+   ├─ ChargeWindup / ChargeDuration / ChargeSpeedMultiplier
+   ├─ AttackCooldown
+   └─ SeparationRadius / SeparationWeight / ObstacleAvoidanceWeight
+
+RuntimeMapDefinition
+├─ RuntimeProviderId / SceneAddress
+├─ BoundsMode: Finite / ChunkedInfinite
+├─ Minimum / Maximum / ChunkSize / ActiveChunkRadius
+├─ EncounterScheduleId / VisualProfileId
+├─ Obstacles[]: axis-aligned Minimum / Maximum
+└─ Anchors[]: stable ContentId / Position
+
+RuntimeEncounterSchedule
+├─ MaximumConcurrentEnemies / MinimumSpawnDistance / MaximumSpawnDistance
+└─ Phases[]
+   ├─ StartTime / EndTime
+   ├─ BudgetPerSecond Start/End
+   ├─ SpawnInterval Start/End
+   ├─ MaximumConcurrentEnemies / SpawnPattern / optional AnchorId
+   ├─ EnemyEntries[]: EnemyId / Weight / BudgetCost / GroupMin/Max / Elite
+   └─ BossRules[]: EnemyId / SpawnTime / Pattern / optional AnchorId
+```
+
+AttackSkillId 必须解析为 Schema 3+ 可执行 Skill；Map 的 EncounterScheduleId 必须指向
+Encounter；Encounter 的普通和 Boss 条目必须指向 Schema 4 Enemy。VisualProfileId 是稳定
+表现边界 ID，当前不要求 Registry 中存在 Unity 表现对象。
+
+Encounter phase 必须从 0 秒开始、时间连续、曲线值有限且合法；Boss 时间必须落在所属
+phase 内。Ring、Edge、Cluster、Line、Ambush、Portal、FixedAnchor 和 OffscreenRandom 是
+Schema 4 的固定 pattern 集合，Portal/FixedAnchor 必须配置稳定 AnchorId。
+
+M5 Placeholder Pack 位于 `Assets/GameAssets/Placeholder/TestM5Content/`，包含四种普通敌人、
+一个 Boss、同一个五分钟 Encounter 和两个分别使用 finite/chunked-infinite provider 的地图。
+两个 Scene 只含占位根对象；刷怪时间线不存储在 Scene 或 MonoBehaviour 中。

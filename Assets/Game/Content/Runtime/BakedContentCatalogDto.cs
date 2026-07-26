@@ -386,11 +386,20 @@ namespace Game.Content.Runtime
         /// <summary>Gets or sets collision radius for enemy definitions.</summary>
         public float collisionRadius;
 
+        /// <summary>Gets or sets schema-4 enemy runtime data.</summary>
+        public EnemyRuntimeDefinitionDto enemyRuntime;
+
         /// <summary>Gets or sets the registered map runtime provider ID.</summary>
         public string runtimeProviderId;
 
         /// <summary>Gets or sets the map scene address.</summary>
         public string sceneAddress;
+
+        /// <summary>Gets or sets schema-4 map runtime data.</summary>
+        public MapRuntimeDefinitionDto mapRuntime;
+
+        /// <summary>Gets or sets schema-4 encounter schedule data.</summary>
+        public EncounterScheduleDefinitionDto encounterSchedule;
 
         /// <summary>Gets or sets the stable status stacking-policy token.</summary>
         public string stackingPolicy;
@@ -509,6 +518,30 @@ namespace Game.Content.Runtime
                         tagResult.Value);
 
                 case RuntimeContentKinds.Enemy:
+                    if (schemaVersion >= ContentPackTopology.EnemyMapEncounterSchemaVersion)
+                    {
+                        if (enemyRuntime == null)
+                        {
+                            return Result<RuntimeContentDefinition>.Failure(
+                                new Error(
+                                    ErrorCode.InvalidCatalog,
+                                    "Schema 4 enemy is missing runtime data.",
+                                    idResult.Value,
+                                    packId,
+                                    sourceAssetPath));
+                        }
+
+                        return enemyRuntime.ToDefinition(
+                            packId,
+                            idResult.Value,
+                            localizedNameKey,
+                            localizedDescriptionKey,
+                            sourceAssetPath,
+                            tagResult.Value,
+                            baseMaxHealth,
+                            collisionRadius);
+                    }
+
                     return Result<RuntimeContentDefinition>.Success(
                         new RuntimeEnemyDefinition(
                             idResult.Value,
@@ -520,6 +553,30 @@ namespace Game.Content.Runtime
                             collisionRadius));
 
                 case RuntimeContentKinds.Map:
+                    if (schemaVersion >= ContentPackTopology.EnemyMapEncounterSchemaVersion)
+                    {
+                        if (mapRuntime == null)
+                        {
+                            return Result<RuntimeContentDefinition>.Failure(
+                                new Error(
+                                    ErrorCode.InvalidCatalog,
+                                    "Schema 4 map is missing runtime data.",
+                                    idResult.Value,
+                                    packId,
+                                    sourceAssetPath));
+                        }
+
+                        return mapRuntime.ToDefinition(
+                            packId,
+                            idResult.Value,
+                            localizedNameKey,
+                            localizedDescriptionKey,
+                            sourceAssetPath,
+                            tagResult.Value,
+                            runtimeProviderId,
+                            sceneAddress);
+                    }
+
                     return Result<RuntimeContentDefinition>.Success(
                         new RuntimeMapDefinition(
                             idResult.Value,
@@ -529,6 +586,28 @@ namespace Game.Content.Runtime
                             tagResult.Value,
                             runtimeProviderId,
                             sceneAddress));
+
+                case RuntimeContentKinds.Encounter:
+                    if (schemaVersion < ContentPackTopology.EnemyMapEncounterSchemaVersion ||
+                        encounterSchedule == null)
+                    {
+                        return Result<RuntimeContentDefinition>.Failure(
+                            new Error(
+                                ErrorCode.UnsupportedSchemaVersion,
+                                "Encounter schedules require content schema " +
+                                ContentPackTopology.EnemyMapEncounterSchemaVersion + " runtime data.",
+                                idResult.Value,
+                                packId,
+                                sourceAssetPath));
+                    }
+
+                    return encounterSchedule.ToDefinition(
+                        packId,
+                        idResult.Value,
+                        localizedNameKey,
+                        localizedDescriptionKey,
+                        sourceAssetPath,
+                        tagResult.Value);
 
                 case RuntimeContentKinds.Status:
                 {
@@ -689,11 +768,20 @@ namespace Game.Content.Runtime
             {
                 dto.baseMaxHealth = enemy.BaseMaxHealth;
                 dto.collisionRadius = enemy.CollisionRadius;
+                if (enemy.HasM5Data)
+                    dto.enemyRuntime = EnemyRuntimeDefinitionDto.FromDefinition(enemy);
             }
             else if (definition is RuntimeMapDefinition map)
             {
                 dto.runtimeProviderId = map.RuntimeProviderId;
                 dto.sceneAddress = map.SceneAddress;
+                if (map.HasM5Data)
+                    dto.mapRuntime = MapRuntimeDefinitionDto.FromDefinition(map);
+            }
+            else if (definition is RuntimeEncounterSchedule encounter)
+            {
+                dto.encounterSchedule =
+                    EncounterScheduleDefinitionDto.FromDefinition(encounter);
             }
             else if (definition is RuntimeStatusDefinition status)
             {

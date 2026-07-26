@@ -41,7 +41,13 @@ namespace Game.Simulation
         SkillDelivery = 10,
 
         /// <summary>Resolves generic effect execution commands into simulation APIs.</summary>
-        SkillEffectResolution = 11
+        SkillEffectResolution = 11,
+
+        /// <summary>Advances encounter budgets and emits buffered spawn requests.</summary>
+        SpawnScheduler = 12,
+
+        /// <summary>Advances centralized enemy behavior and steering.</summary>
+        EnemyDecision = 13
     }
 
     /// <summary>
@@ -134,6 +140,25 @@ namespace Game.Simulation
                 new SnapshotBuildSystem());
         }
 
+        /// <summary>Creates the explicit M5 encounter, enemy, skill, and combat order.</summary>
+        public static SimulationPipeline CreateM5Default()
+        {
+            return new SimulationPipeline(
+                new SpawnSchedulerSystem(),
+                new EnemyDecisionSystem(),
+                new SkillTriggerSystem(),
+                new MovementSystem(),
+                new SkillDeliverySystem(),
+                new SkillEffectResolutionSystem(),
+                new DamageResolutionSystem(),
+                new StatusTickSystem(),
+                new DeathSystem(),
+                new LifetimeSystem(),
+                new CleanupSystem(),
+                new EventFlushSystem(),
+                new SnapshotBuildSystem());
+        }
+
         internal void Execute(SimulationWorld world)
         {
             for (var index = 0; index < systems.Length; index++)
@@ -162,7 +187,10 @@ namespace Game.Simulation
             SimulationPipeline pipeline = null,
             RuntimeStatusCatalog statusCatalog = null,
             CombatRules? combatRules = null,
-            SkillRuntime skillRuntime = null)
+            SkillRuntime skillRuntime = null,
+            EnemyRuntime enemyRuntime = null,
+            IMapRuntime mapRuntime = null,
+            EncounterScheduler encounterScheduler = null)
         {
             if (initialEntityCapacity <= 0)
             {
@@ -185,6 +213,9 @@ namespace Game.Simulation
             StatusCatalog = statusCatalog ?? new RuntimeStatusCatalog();
             CombatRules = combatRules ?? Game.Simulation.CombatRules.Default;
             Skills = skillRuntime ?? SkillRuntime.CreateEmpty(initialEntityCapacity);
+            Enemies = enemyRuntime ?? EnemyRuntime.CreateEmpty(initialEntityCapacity);
+            Map = mapRuntime;
+            Encounter = encounterScheduler;
             Pipeline = pipeline ?? SimulationPipeline.CreateM4Default();
             random = new RandomStream(seed);
             damageRandom = random.Derive(0x44414D414745UL);
@@ -239,6 +270,15 @@ namespace Game.Simulation
         /// <summary>Gets the modular M4 skill runtime.</summary>
         public SkillRuntime Skills { get; }
 
+        /// <summary>Gets the centralized M5 enemy runtime.</summary>
+        public EnemyRuntime Enemies { get; }
+
+        /// <summary>Gets the optional pure M5 map runtime.</summary>
+        public IMapRuntime Map { get; }
+
+        /// <summary>Gets the optional M5 encounter scheduler.</summary>
+        public EncounterScheduler Encounter { get; }
+
         /// <summary>Gets the fixed explicit system pipeline.</summary>
         public SimulationPipeline Pipeline { get; }
 
@@ -280,6 +320,30 @@ namespace Game.Simulation
             }
 
             return handle;
+        }
+
+        /// <summary>Assigns the player actor used by enemy decisions and encounter spawning.</summary>
+        public void SetPlayer(EntityHandle player)
+        {
+            if (!Actors.Contains(player)) throw new ArgumentException("Player must be a live actor.", nameof(player));
+            Enemies.SetPlayer(player);
+        }
+
+        internal bool TryGetPlayerPosition(out Vector2 position)
+        {
+            if (Enemies.Player.IsValid && Actors.TryRead(Enemies.Player, out var state))
+            {
+                position = state.Position;
+                return true;
+            }
+
+            position = default;
+            return false;
+        }
+
+        internal bool IsHostileTarget(SpatialEntity owner, SpatialEntity candidate)
+        {
+            return Enemies.IsHostile(owner, candidate);
         }
 
         /// <summary>Queues damage for the centralized resolution stage.</summary>
@@ -467,6 +531,7 @@ namespace Game.Simulation
             removedPosition = state.Position;
             SpatialGrid.Remove(new SpatialEntity(kind, handle));
             Skills.OnEntityRemoved(kind, handle);
+            if (kind == EntityKind.Actor) Enemies.OnEntityRemoved(handle);
             switch (kind)
             {
                 case EntityKind.Actor:

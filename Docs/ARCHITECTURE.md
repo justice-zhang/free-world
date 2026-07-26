@@ -394,3 +394,46 @@ Targeting 只查询统一 SpatialGrid；结果、Trigger、Effect 和 Delivery �
 运行时不访问 SkillAuthoring、不解析 LevelPatch 字符串、不用 LINQ/反射，也不为技能创建
 MonoBehaviour。`SkillPreviewHarness` 使用同一纯模拟管线和固定随机种子输出 DPS、命中数与
 触发次数，UI 属于后续里程碑。
+
+## 13. M5 敌人、刷怪与地图运行时
+
+M5 保持原程序集方向。`Game.Content.Runtime` 只保存 Schema 4 定义；
+`Game.Simulation` 编译 Enemy/Skill 的 load-local index，并集中持有行为 sidecar、Spawn
+Request Buffer、地图 Provider 和 Encounter Scheduler。Scene 不参与模拟决策。
+
+```text
+EncounterScheduler → SpawnRequestBuffer
+                           │
+                           ▼ Cleanup（唯一结构写入点）
+IMapRuntime ◄── EnemyDecisionSystem ──► EnemyRuntime sidecar
+                           │
+                           ▼
+                    M4 SkillRuntime → M3 Combat
+```
+
+M5 Pipeline 为：
+
+```text
+SpawnScheduler → EnemyDecision → SkillTrigger → Movement → SkillDelivery
+→ SkillEffectResolution → DamageResolution → StatusTick → Death → Lifetime
+→ Cleanup → EventFlush → SnapshotBuild
+```
+
+所有敌人在 `EnemyDecisionSystem` 的单次稠密遍历中推进 Chase、KeepDistance、Charge
+Windup/Charging/Recovering 和 RangedAttack 状态。局部分离复用 SpatialGrid 查询缓冲；
+障碍规避通过 `IMapRuntime.ResolveMovement` 校正期望步长。没有逐敌人 Update、NavMeshAgent、
+全局寻路或按敌人类型派生的 Controller 树。
+
+`FiniteArenaMapRuntime` 以有限矩形和轴对齐障碍提供 Walkable、采样及滑轴回退。
+`ChunkedInfiniteMapRuntime` 的 M5 最小版本把玩家所在 chunk 周围
+`(2 × ActiveChunkRadius + 1)²` 个区块视为逻辑活动窗口；区块签名只由 run seed 和坐标决定。
+窗口外区块在 M5 不持有实体或生成对象，因此释放等价于从活动窗口移除坐标，没有 Scene
+或 Unity Object 生命周期。正式区块内容流送、持久化与表现复用留给后续里程碑。
+
+Encounter 与 Map 通过稳定 EncounterScheduleId 解耦；同一 Encounter 可由两个 Provider
+复用。Scheduler 线性采样预算/间隔曲线、按权重选择敌人和群组，并在普通刷怪上为未触发
+Boss 预留并发槽。Boss rule 使用一次性标记，结构创建只在 Cleanup 应用。
+
+Enemy 与 Player 共用 M4 SkillRuntime。目标过滤通过 Enemy sidecar 判断双方阵营；没有 M5
+敌人的旧 M4 World 保留“除 Owner 外均可选”的兼容行为。DifficultySnapshot 在 Run 创建时
+冻结 Health、Damage、Speed、Spawn Rate、Elite Probability 和 Reward 倍率。

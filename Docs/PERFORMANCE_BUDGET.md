@@ -91,3 +91,12 @@ M2-M6 先使用可验证的单线程实现。只有 Profiler 或基准测试证�
 ## 6. 性能回归门禁
 
 M10 后，任何改变模拟或大量内容的 PR 都必须运行固定种子基准。超过已批准基线的阈值时，必须解释或修复后才能合并。
+
+## 7. M5 阶段证据边界
+
+M5 的 EditMode Headless Harness 在 finite 与 chunked-infinite 地图上各推进五分钟（9000 Tick），
+验证固定种子、并发上限、Boss 一次性、有限位置、清理后实体计数和无效 Handle。它使用小型
+Placeholder Encounter，是正确性/泄漏门禁，不是 1,500 敌人目标规模性能基准。
+
+30 分钟 Soak、1,500/3,000/5,000 实体压力和 Tick 分位 JSON 在 M5 均为 `NOT RUN`，继续固定
+在 M10 执行。M5 不据五分钟正确性 Harness 宣称达到最终性能预算。
