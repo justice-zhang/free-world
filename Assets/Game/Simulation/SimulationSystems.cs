@@ -253,6 +253,7 @@ namespace Game.Simulation
             world.Commands.Clear();
             world.Enemies.ApplyPendingSpawns(world);
             world.Skills.ApplyPendingSpawns(world);
+            world.Progression?.ApplyPendingPickups(world);
         }
     }
 

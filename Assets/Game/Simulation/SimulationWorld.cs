@@ -47,7 +47,16 @@ namespace Game.Simulation
         SpawnScheduler = 12,
 
         /// <summary>Advances centralized enemy behavior and steering.</summary>
-        EnemyDecision = 13
+        EnemyDecision = 13,
+
+        /// <summary>Attracts and collects run progression pickups.</summary>
+        Pickup = 14,
+
+        /// <summary>Applies collected experience and queues level gains.</summary>
+        Experience = 15,
+
+        /// <summary>Produces a deterministic level-up choice request.</summary>
+        LevelUpRequest = 16
     }
 
     /// <summary>
@@ -153,6 +162,28 @@ namespace Game.Simulation
                 new DamageResolutionSystem(),
                 new StatusTickSystem(),
                 new DeathSystem(),
+                new LifetimeSystem(),
+                new CleanupSystem(),
+                new EventFlushSystem(),
+                new SnapshotBuildSystem());
+        }
+
+        /// <summary>Creates the M6 encounter, combat, pickup, and progression order.</summary>
+        public static SimulationPipeline CreateM6Default()
+        {
+            return new SimulationPipeline(
+                new SpawnSchedulerSystem(),
+                new EnemyDecisionSystem(),
+                new SkillTriggerSystem(),
+                new MovementSystem(),
+                new SkillDeliverySystem(),
+                new SkillEffectResolutionSystem(),
+                new DamageResolutionSystem(),
+                new StatusTickSystem(),
+                new DeathSystem(),
+                new PickupSystem(),
+                new ExperienceSystem(),
+                new LevelUpRequestSystem(),
                 new LifetimeSystem(),
                 new CleanupSystem(),
                 new EventFlushSystem(),
@@ -278,6 +309,9 @@ namespace Game.Simulation
 
         /// <summary>Gets the optional M5 encounter scheduler.</summary>
         public EncounterScheduler Encounter { get; }
+
+        /// <summary>Gets the optional run-local M6 progression runtime.</summary>
+        public ProgressionRuntime Progression { get; private set; }
 
         /// <summary>Gets the fixed explicit system pipeline.</summary>
         public SimulationPipeline Pipeline { get; }
@@ -431,6 +465,32 @@ namespace Game.Simulation
             return CreateEntity(EntityKind.Pickup, initialState);
         }
 
+        /// <summary>Attaches M6 progression to a live player exactly once.</summary>
+        public ProgressionRuntime InitializeProgression(
+            BuildRuntimeCatalog catalog,
+            EntityHandle player,
+            ulong runSeed,
+            ExperienceCurve? curve = null,
+            int skillSlots = 6,
+            int passiveSlots = 6,
+            ContentTag[] mapTags = null)
+        {
+            if (Progression != null) throw new InvalidOperationException("Progression is already initialized.");
+            if (!Actors.Contains(player)) throw new ArgumentException("Player must be a live actor.", nameof(player));
+            Progression = new ProgressionRuntime(
+                catalog,
+                Actors,
+                Skills,
+                player,
+                runSeed,
+                curve,
+                skillSlots,
+                passiveSlots,
+                mapTags,
+                Math.Max(16, Actors.Count));
+            return Progression;
+        }
+
         internal long ExecutingTick => Tick + 1;
 
         internal DeathRequestBuffer DeathRequests { get; }
@@ -532,6 +592,7 @@ namespace Game.Simulation
             SpatialGrid.Remove(new SpatialEntity(kind, handle));
             Skills.OnEntityRemoved(kind, handle);
             if (kind == EntityKind.Actor) Enemies.OnEntityRemoved(handle);
+            if (kind == EntityKind.Pickup) Progression?.OnPickupRemoved(handle);
             switch (kind)
             {
                 case EntityKind.Actor:

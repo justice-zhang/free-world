@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07bb492730a842e8b1069d48f5dc0278, type: 3}
+  m_Name: TestForceSynergy
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.SynergyAuthoring
+  contentId: test.synergy.force
+  localizedNameKey: content.test.synergy.force.name
+  localizedDescriptionKey: content.test.synergy.force.description
+  tags:
+  - content.placeholder
+  - build.synergy.force
+  conditions:
+  - type: 2
+    content: {fileID: 0}
+    tag: build.force
+    integerValue: 1
+    statId: 
+    floatValue: 0
+  outputs:
+  - type: 1
+    modifier:
+      statId: base.stat.range
+      operation: 2
+      value: 0.15
+      priority: 0
+      stackingGroup: 
+    sourceContent: {fileID: 0}
+    targetContent: {fileID: 0}
+    effect:
+      moduleId: 
+      value0: 0
+      value1: 0
+      value2: 0
+      int0: 0
+      int1: 0
+      referenceId0: 
+      referenceId1: 
+      tag0: 
+      statId0: 
+      flags: 0
+  - type: 2
+    modifier:
+      statId: 
+      operation: 1
+      value: 0
+      priority: 0
+      stackingGroup: 
+    sourceContent: {fileID: 0}
+    targetContent: {fileID: 11400000, guid: 96bfb77be18473c4fb211a1af2819c36, type: 2}
+    effect:
+      moduleId: 
+      value0: 0
+      value1: 0
+      value2: 0
+      int0: 0
+      int1: 0
+      referenceId0: 
+      referenceId1: 
+      tag0: 
+      statId0: 
+      flags: 0
+  - type: 3
+    modifier:
+      statId: 
+      operation: 1
+      value: 0
+      priority: 0
+      stackingGroup: 
+    sourceContent: {fileID: 11400000, guid: bd747ef357063564197d1a88d27d7b6b, type: 2}
+    targetContent: {fileID: 0}
+    effect:
+      moduleId: base.effect.damage
+      value0: 2
+      value1: 1
+      value2: 0
+      int0: 1
+      int1: 1
+      referenceId0: 
+      referenceId1: 
+      tag0: 
+      statId0: 
+      flags: 0

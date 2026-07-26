@@ -159,3 +159,30 @@ Tools > Free World > M5 > Configure Test Enemy Map Content
 
 输出位于 `Assets/GameAssets/Placeholder/TestM5Content`。测试 Scene 只包含程序化占位根对象；
 刷怪时间线和障碍真值来自纯 Content Definition，不得添加地图刷怪 MonoBehaviour 或正式资源。
+
+## 10. M6 构筑与升级作者数据
+
+Passive、Trait、UpgradeOffer、Synergy 和 Evolution 必须位于 Schema 5 Pack：
+
+- Passive 的 MaximumLevel 为正，LevelModifier 指定合法等级和稳定 StatId；
+- Offer 目标只能是可执行 Skill、Passive 或 Evolution，Weight 必须为正有限值；
+- Synergy 至少一个 Condition 和 Output，使用 Schema 5 登记的固定操作码；
+- Evolution 的来源/结果必须是不同的可执行 Skill，被动引用必须唯一；
+- 跨 Pack 的 Skill/Status/内容引用必须声明 Pack Dependency；
+- UI 不保存或实现前置、互斥、权重、满槽和满级规则。
+
+创建或重建 M6 Placeholder Fixture：
+
+```text
+Tools > Free World > M6 > Configure Test Build Content
+```
+
+命令行入口：
+
+```powershell
+& $env:UNITY_PATH -batchmode -nographics -projectPath <project> `
+  -executeMethod Game.Editor.M6TestBuildSetup.RunFromCommandLine
+```
+
+输出位于 `Assets/GameAssets/Placeholder/TestBuildContent`。当前两个 Synergy 和一个 Evolution
+只验证配置能力，不代表正式构筑、数值平衡或发布内容。

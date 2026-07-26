@@ -28,6 +28,21 @@ namespace Game.Content.Runtime
 
         /// <summary>Identifies an M5 encounter schedule definition.</summary>
         public const string Encounter = "encounter";
+
+        /// <summary>Identifies an M6 passive definition.</summary>
+        public const string Passive = "passive";
+
+        /// <summary>Identifies an M6 trait definition.</summary>
+        public const string Trait = "trait";
+
+        /// <summary>Identifies an M6 weighted upgrade-offer definition.</summary>
+        public const string Offer = "offer";
+
+        /// <summary>Identifies an M6 build synergy definition.</summary>
+        public const string Synergy = "synergy";
+
+        /// <summary>Identifies an M6 skill evolution definition.</summary>
+        public const string Evolution = "evolution";
     }
 
     /// <summary>

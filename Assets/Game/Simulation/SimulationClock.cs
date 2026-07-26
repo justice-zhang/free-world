@@ -126,13 +126,20 @@ namespace Game.Simulation
                 world.BeginTickBatch();
             }
 
+            var executedTicks = 0;
             for (var tickIndex = 0; tickIndex < availableTicks; tickIndex++)
             {
                 world.RunTick();
                 Clock.CompleteAccumulatedTick();
+                executedTicks++;
+                if (world.Progression != null && world.Progression.PauseRequested)
+                {
+                    Clock.Pause();
+                    break;
+                }
             }
 
-            return availableTicks;
+            return executedTicks;
         }
 
         /// <summary>Executes exactly one debug tick while paused.</summary>

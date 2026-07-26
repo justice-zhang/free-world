@@ -18,7 +18,7 @@ namespace Game.Content.Runtime
         /// <summary>
         /// Gets the newest content schema version understood by this runtime.
         /// </summary>
-        public const int SupportedSchemaVersion = 4;
+        public const int SupportedSchemaVersion = 5;
 
         /// <summary>
         /// Gets the first schema version that permits serialized status definitions.
@@ -34,6 +34,12 @@ namespace Game.Content.Runtime
         /// Gets the first schema version that permits executable enemies, maps, and encounters.
         /// </summary>
         public const int EnemyMapEncounterSchemaVersion = 4;
+
+        /// <summary>
+        /// Gets the first schema version that permits passive, trait, offer,
+        /// synergy, and evolution definitions.
+        /// </summary>
+        public const int BuildProgressionSchemaVersion = 5;
 
         /// <summary>
         /// Returns whether a content schema version can be loaded by this runtime.

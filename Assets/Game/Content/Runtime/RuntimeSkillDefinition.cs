@@ -713,6 +713,11 @@ namespace Game.Content.Runtime
         /// <summary>Gets path-resolved level patches in author order.</summary>
         public IReadOnlyList<SkillLevelPatch> LevelPatches => levelPatchesView;
 
+        /// <summary>Gets the highest authored one-based skill level.</summary>
+        public int MaximumLevel => levelPatches.Length == 0
+            ? 1
+            : levelPatches[levelPatches.Length - 1].Level;
+
         internal RuntimeSkillDefinition BindReferences(
             Func<ContentId, RuntimeContentIndex> resolver)
         {

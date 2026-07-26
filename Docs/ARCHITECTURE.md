@@ -437,3 +437,41 @@ Boss 预留并发槽。Boss rule 使用一次性标记，结构创建只在 Clea
 Enemy 与 Player 共用 M4 SkillRuntime。目标过滤通过 Enemy sidecar 判断双方阵营；没有 M5
 敌人的旧 M4 World 保留“除 Owner 外均可选”的兼容行为。DifficultySnapshot 在 Run 创建时
 冻结 Health、Damage、Speed、Spawn Rate、Elite Probability 和 Reward 倍率。
+
+## 14. M6 局内成长、构筑与 Run 协调
+
+M6 保持程序集方向不变。Content.Runtime 保存 Schema 5；Simulation 在 Run 开始前编译引用，
+Application 只协调时钟和命令，UI 尚不参与候选生成。
+
+```text
+Enemy Death → pending XP Pickup → Cleanup create
+                                  ↓
+PickupSystem → ExperienceSystem → LevelUpRequestSystem
+                                      ↓
+                            UpgradeOfferSet / PauseRequested
+                                      ↓
+Application RunSession → Select / Reroll / Banish / Skip
+                                      ↓
+                                  BuildState
+```
+
+M6 Pipeline 为：
+
+```text
+SpawnScheduler → EnemyDecision → SkillTrigger → Movement → SkillDelivery
+→ SkillEffectResolution → DamageResolution → StatusTick → Death
+→ Pickup → Experience → LevelUpRequest → Lifetime → Cleanup
+→ EventFlush → SnapshotBuild
+```
+
+`BuildState` 集中持有 Skill/Passive Inventory、Trait、标签计数、激活 Synergy、进化资格、
+Modifier 和技能附加 Effect。技能类不判断流派；Synergy/Evolution 只解释已验证的通用操作码。
+结构创建仍仅在 Cleanup 发生。
+
+`OfferGenerator` 从 Run Seed 派生固定 Offer 流，不消耗战斗或刷怪流。历史记录包含动作序号、
+流 RootSeed、调用前后计数、最多三个 OfferId 和动作主体 ID，可用于复现候选与选择路径。
+候选数组只在 SimulationClock 已请求暂停的升级阶段产生。
+
+`RunSession` 将 `PauseRequested` 映射到 SimulationClock Pause 和 GameState.LevelUpChoice；选择或
+跳过后恢复时钟。RunResult 冻结 Tick、时长、等级、库存数、联动数、击杀、拾取、经验和候选
+动作统计。M7 只能读取这些接口并提交命令，不能直接写 Store 或重新实现过滤。
