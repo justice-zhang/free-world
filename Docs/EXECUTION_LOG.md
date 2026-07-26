@@ -306,7 +306,7 @@ Enemy/Map/Encounter、`IMapRuntime`、Spawn Request Buffer、Difficulty Snapshot
 |---|---|
 | M7 实现提交 | `abdd15969023d3c3f9ba968063aae99a800d5264` |
 | M7 远程分支 | `codex/m7-presentation-ui-input` |
-| M7 实现合并 | GitHub PR；`framework-m7` 指向该 PR 的最终 merge commit |
+| M7 实现合并 | GitHub PR #13；`framework-m7` 指向该 PR 的最终 merge commit |
 | 严格审查修复 | 修复同批次 Removed 事件与 Snapshot 同步的重复释放风险、Input TestFixture 销毁顺序，并清理 Input Asset 行尾空格 |
 
 ### 最终检查
