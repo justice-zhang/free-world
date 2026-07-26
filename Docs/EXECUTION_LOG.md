@@ -253,7 +253,7 @@ Enemy/Map/Encounter、`IMapRuntime`、Spawn Request Buffer、Difficulty Snapshot
 - Unity：`6000.3.20f1`
 - 实现报告：`Docs/Reports/2026-07-26-m6-build-progression.md`
 - 审查报告：`Docs/Reports/2026-07-26-m6-strict-review.md`
-- 最终标签：合并后创建 `framework-m6`
+- 最终标签：`framework-m6`
 
 ### 集成记录
 
@@ -261,7 +261,7 @@ Enemy/Map/Encounter、`IMapRuntime`、Spawn Request Buffer、Difficulty Snapshot
 |---|---|
 | M6 实现提交 | `fc66a1d47036bbcd29698a2b3b251154f55cfd66` |
 | M6 远程分支 | `codex/m6-build-progression` |
-| M6 实现合并 | 待本分支 GitHub PR 创建后补录；`framework-m6` 将指向最终 merge commit |
+| M6 实现合并 | GitHub PR #12；`framework-m6` 指向该 PR 的最终 merge commit |
 | 严格审查修复 | 修复 Unity JsonUtility 空嵌套 DTO、具体 ScriptableObject 文件名绑定、Synergy 热路径 RuntimeContentIndex 比较，并补齐 AddEffectOp 行为证据 |
 
 ### 最终检查
