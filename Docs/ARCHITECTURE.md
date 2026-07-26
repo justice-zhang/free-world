@@ -229,6 +229,24 @@ M2 网格使用 `EntityKind + EntityHandle` 唯一索引实体，支持插入、
 
 ActorView、ProjectileView 和 PickupView 只更新显示和提交输入，不计算伤害、经验、死亡或掉落。
 
+M7 以单个 `PresentationCoordinator` 对快照做集合对账。Actor、Projectile、Area、Pickup
+分别进入持久池；池只在容量不足时扩容，View 内没有独立 `Update`。`RunSession` 可把敌人
+EntityHandle 解析为稳定 `VisualProfileId`，`VisualProfileCatalog` 只做表现资源匹配；未命中、
+玩家或当前没有实例级表现 ID 的实体统一使用运行时生成的方形 Sprite、按 EntityKind 着色。
+
+```text
+FixedTickRunner
+  -> RenderSnapshot -----------------------> View Pool reconcile/interpolate
+  -> SimulationEventBuffer (same batch) ---> exact-handle release
+  -> CombatEventBuffer --------------------> Hit/Death/Status requests
+                                               -> pooled VFX
+                                               -> pooled test-tone AudioSource
+                                               -> shared-Canvas damage numbers
+```
+
+事件消费者只在 `RunSession.Advance` 实际执行 Tick 后、下一批次开始前读取一次，符合 M2
+事件缓冲的单生产者批次契约。表现请求不会反向调用伤害、经验、死亡或掉落系统。
+
 M2 `RenderSnapshot` 格式：
 
 ```text
@@ -243,6 +261,28 @@ Entries[]
 Tick 开始前捕获 Previous，Cleanup 后捕获 Current。新创建实体以前后相同状态进入
 快照；本 Tick 删除的实体不进入 Current，并由 `SimulationEventType.Removed` 通知未来
 View 释放。位置按夹紧到 `[0, 1]` 的 alpha 线性插值，朝向按最短角路径插值。
+
+### 7.1 输入、UI 与摄像机
+
+`M7InputRouter` 持有 `Gameplay`、`UI`、`Debug` 三个 Action Map。RunHUD 仅启用 Gameplay，
+其余页面仅启用 UI，Debug 在开发框架阶段保持启用。键鼠和 Gamepad 绑定进入同一命令入口；
+UI 不读取 Simulation Store。
+
+```text
+Bootstrap -> MainMenu -> CharacterSelect -> MapSelect -> Loading -> RunHUD
+                                ContentError <-/             |
+RunHUD <-> Pause -> Settings                              LevelUpDraft
+   |          |                                               |
+   +----------+-----------------> RunResult ------------------+
+                                      |
+                                   MainMenu
+```
+
+页面由 `GameFlowPresenter` 把 `GameState` 和 UI-safe 数据投影为只含本地化 Key 的
+`UiPageViewModel`。`RuntimeUiRoot` 使用一个共享 Canvas；伤害数字只在该 Canvas 的共享层中池化。
+Settings 的运行时模型包含重映射接口、摇杆死区、震动强度、屏幕震动、闪光强度、伤害数字和
+自动瞄准策略。`PresentationCameraRig` 只跟随 View Transform，提供边界夹紧、Shake Request 和
+总效果开关，不读取模拟 Store。
 
 ## 8. 地图运行时
 

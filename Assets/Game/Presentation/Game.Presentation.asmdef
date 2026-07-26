@@ -3,7 +3,10 @@
   "rootNamespace": "Game.Presentation",
   "references": [
     "Game.Application",
-    "Game.Simulation"
+    "Game.Simulation",
+    "Game.Core",
+    "Unity.InputSystem",
+    "Unity.ugui"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

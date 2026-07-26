@@ -6,8 +6,13 @@
     "Game.Content.Runtime",
     "Game.Core",
     "Game.Infrastructure",
+    "Game.Presentation",
+    "Game.Simulation",
+    "Game.UI",
     "Game.Platform.Abstractions",
-    "Game.Platform.Null"
+    "Game.Platform.Null",
+    "Unity.InputSystem",
+    "Unity.InputSystem.TestFramework"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

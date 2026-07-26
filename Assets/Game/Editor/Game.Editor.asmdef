@@ -6,6 +6,8 @@
     "Game.Content.Authoring",
     "Game.Content.Runtime",
     "Game.Infrastructure",
+    "Game.Presentation",
+    "Unity.InputSystem",
     "Unity.Addressables",
     "Unity.Addressables.Editor"
   ],

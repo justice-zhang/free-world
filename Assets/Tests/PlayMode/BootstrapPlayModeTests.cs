@@ -2,6 +2,8 @@ using System.Collections;
 using Game.Application;
 using Game.Core;
 using Game.Infrastructure;
+using Game.Presentation;
+using Game.UI;
 using Game.Platform.Null;
 using NUnit.Framework;
 using UnityEngine;
@@ -58,12 +60,25 @@ namespace Game.Tests.PlayMode
             var bootstrapper = GetOnlyBootstrapper();
             var skillId = ContentId.Create("test.skill.pulse").Value;
 
-            Assert.That(bootstrapper.ContentSummary.PackCount, Is.EqualTo(1));
-            Assert.That(bootstrapper.ContentSummary.DefinitionCount, Is.EqualTo(4));
+            Assert.That(bootstrapper.ContentSummary.PackCount, Is.EqualTo(4));
+            Assert.That(bootstrapper.ContentSummary.DefinitionCount, Is.EqualTo(27));
             Assert.That(
                 bootstrapper.Application.ContentRegistry.TryGet(skillId, out var entry),
                 Is.True);
             Assert.That(entry.SourcePackId.Value, Is.EqualTo("test.pack.m1"));
+        }
+
+        [UnityTest]
+        public IEnumerator BootstrapComposesM7UiInputAndPresentation()
+        {
+            yield return LoadBootstrapScene();
+            var host = Object.FindFirstObjectByType<M7RuntimeHost>();
+
+            Assert.That(host, Is.Not.Null);
+            Assert.That(host.Ui.CurrentPage, Is.EqualTo(UiPageId.MainMenu));
+            Assert.That(host.Input.UiMap.enabled, Is.True);
+            Assert.That(host.Input.GameplayMap.enabled, Is.False);
+            Assert.That(host.Presentation.ActiveViewCount, Is.Zero);
         }
 
         [UnityTest]

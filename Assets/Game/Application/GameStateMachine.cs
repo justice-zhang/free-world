@@ -10,6 +10,12 @@ namespace Game.Application
         /// </summary>
         public GameState CurrentState { get; private set; }
 
+        /// <summary>Enters the bootstrap state.</summary>
+        public void EnterBootstrap()
+        {
+            CurrentState = GameState.Bootstrap;
+        }
+
         /// <summary>
         /// Enters the empty main-menu state.
         /// </summary>
@@ -24,6 +30,30 @@ namespace Game.Application
             CurrentState = GameState.InRun;
         }
 
+        /// <summary>Enters character selection.</summary>
+        public void EnterCharacterSelect()
+        {
+            CurrentState = GameState.CharacterSelect;
+        }
+
+        /// <summary>Enters map selection.</summary>
+        public void EnterMapSelect()
+        {
+            CurrentState = GameState.MapSelect;
+        }
+
+        /// <summary>Enters the run loading state.</summary>
+        public void EnterLoading()
+        {
+            CurrentState = GameState.Loading;
+        }
+
+        /// <summary>Enters the player pause state.</summary>
+        public void EnterPause()
+        {
+            CurrentState = GameState.Pause;
+        }
+
         /// <summary>Enters the paused level-up command state.</summary>
         public void EnterLevelUpChoice()
         {
@@ -34,6 +64,18 @@ namespace Game.Application
         public void EnterRunResult()
         {
             CurrentState = GameState.RunResult;
+        }
+
+        /// <summary>Enters settings.</summary>
+        public void EnterSettings()
+        {
+            CurrentState = GameState.Settings;
+        }
+
+        /// <summary>Enters the recoverable content-error page.</summary>
+        public void EnterContentError()
+        {
+            CurrentState = GameState.ContentError;
         }
     }
 }

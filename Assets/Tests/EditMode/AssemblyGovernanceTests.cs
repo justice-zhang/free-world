@@ -38,12 +38,26 @@ namespace Game.Tests.EditMode
                         "Game.Application",
                         "Game.Content.Runtime",
                         "Game.Core",
+                        "Game.Simulation",
+                        "Game.Presentation",
+                        "Game.UI",
+                        "Unity.InputSystem",
                         "Game.Platform.Abstractions",
                         "Game.Platform.Null"
                     }
                 },
-                { "Game.Presentation", new[] { "Game.Application", "Game.Simulation" } },
-                { "Game.UI", new[] { "Game.Application" } },
+                {
+                    "Game.Presentation",
+                    new[]
+                    {
+                        "Game.Application",
+                        "Game.Simulation",
+                        "Game.Core",
+                        "Unity.InputSystem",
+                        "Unity.ugui"
+                    }
+                },
+                { "Game.UI", new[] { "Game.Application", "Unity.ugui" } },
                 { "Game.Platform.Null", new[] { "Game.Platform.Abstractions" } },
                 {
                     "Game.Editor",
@@ -53,6 +67,8 @@ namespace Game.Tests.EditMode
                         "Game.Content.Authoring",
                         "Game.Content.Runtime",
                         "Game.Infrastructure",
+                        "Game.Presentation",
+                        "Unity.InputSystem",
                         "Unity.Addressables",
                         "Unity.Addressables.Editor"
                     }
@@ -72,6 +88,7 @@ namespace Game.Tests.EditMode
                         "Game.UI",
                         "Game.Platform.Null",
                         "Game.Editor",
+                        "Unity.InputSystem",
                         "Unity.Addressables.Editor"
                     }
                 },
@@ -83,8 +100,13 @@ namespace Game.Tests.EditMode
                         "Game.Content.Runtime",
                         "Game.Core",
                         "Game.Infrastructure",
+                        "Game.Presentation",
+                        "Game.Simulation",
+                        "Game.UI",
                         "Game.Platform.Abstractions",
-                        "Game.Platform.Null"
+                        "Game.Platform.Null",
+                        "Unity.InputSystem",
+                        "Unity.InputSystem.TestFramework"
                     }
                 }
             };

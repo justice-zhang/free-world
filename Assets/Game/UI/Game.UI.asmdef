@@ -2,7 +2,8 @@
   "name": "Game.UI",
   "rootNamespace": "Game.UI",
   "references": [
-    "Game.Application"
+    "Game.Application",
+    "Unity.ugui"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

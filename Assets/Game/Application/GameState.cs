@@ -1,7 +1,7 @@
 namespace Game.Application
 {
     /// <summary>
-    /// Identifies the application state available in the M0 framework.
+    /// Identifies the application state exposed to presentation and UI.
     /// </summary>
     public enum GameState
     {
@@ -22,6 +22,27 @@ namespace Game.Application
         LevelUpChoice = 3,
 
         /// <summary>The immutable result of the latest run is available.</summary>
-        RunResult = 4
+        RunResult = 4,
+
+        /// <summary>The bootstrap shell is initializing content and services.</summary>
+        Bootstrap = 5,
+
+        /// <summary>The player is choosing a character.</summary>
+        CharacterSelect = 6,
+
+        /// <summary>The player is choosing a map.</summary>
+        MapSelect = 7,
+
+        /// <summary>A run is being assembled without advancing simulation.</summary>
+        Loading = 8,
+
+        /// <summary>An active run is paused by the player.</summary>
+        Pause = 9,
+
+        /// <summary>The settings page is open.</summary>
+        Settings = 10,
+
+        /// <summary>Content startup or run assembly failed.</summary>
+        ContentError = 11
     }
 }

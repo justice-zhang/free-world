@@ -13,6 +13,7 @@
     "Game.UI",
     "Game.Platform.Null",
     "Game.Editor",
+    "Unity.InputSystem",
     "Unity.Addressables.Editor"
   ],
   "includePlatforms": [

@@ -15,7 +15,7 @@
 | M0-KI-002 | RESOLVED | Low | 打开的 Office 文档会产生未跟踪的 `~$*.docx` 临时锁文件，污染 Git 状态。 | `.gitignore` 精确忽略 `~$*.docx`，不删除用户正在使用的临时文件。 |
 | M0-KI-003 | RESOLVED | High | Unity CLI 日志偶尔包含 Licensing Client 握手或令牌刷新错误，失败启动甚至可能返回 0。 | 三个脚本均清除对应旧结果；测试要求有效 Passed XML，验证要求 PASS 标记，构建要求新 EXE、PASS 标记和有效 Build Manifest。缺少任一证据必须判定 FAIL。 |
 | M0-KI-004 | ACCEPTED | Low | Windows Player 冒烟测试进入 MainMenu 并稳定运行 8 秒后被主动终止，进程退出码为 `-1`。 | 该值代表测试主动关闭，不是崩溃；日志不得出现未处理异常。后续自动化应增加显式退出命令。 |
-| M0-KI-005 | ACCEPTED | None | M0 的 MainMenu 是黑色空场景，没有正式 UI。 | 符合 M0 禁止提前实现玩法和正式菜单的范围；表现与 UI 在 M7 实现。 |
+| M0-KI-005 | RESOLVED | None | M0 的 MainMenu 是黑色空场景，没有正式 UI。 | M7 已提供程序化 Placeholder UI、完整页面流和键鼠/手柄导航；正式皮肤仍不属于框架资源。 |
 | M0-KI-006 | PLANNED | None | 性能与 30 分钟 Soak Test 未执行。 | M0 无正式模拟负载；在模拟内核和压力场景具备后按性能里程碑执行。 |
 | M0-KI-007 | ACCEPTED | Low | Unity 自动生成的 `.meta` 和 Addressables YAML 含空值尾随空格，完整里程碑 `git diff --check` 会报告这些生成字段。 | 手写 C#、PowerShell、Markdown、JSON 和 asmdef 必须通过 whitespace 检查；不手工批量重写 Unity 序列化文件。 |
 
@@ -79,7 +79,7 @@
 |---|---|---|---|---|
 | M5-KI-001 | ACCEPTED | Low | ChunkedInfiniteMapRuntime 当前只维护确定性区块签名和逻辑活动窗口，不含正式地形内容流送、区块存档或表现对象池。 | 这是 M5 提示词要求的最小版本；后续表现/内容工具里程碑通过现有 IMapRuntime 边界扩展，不把流送逻辑写入 Scene。 |
 | M5-KI-002 | ACCEPTED | Low | 障碍输入仅支持轴对齐矩形和滑轴回退，复杂静态几何不会生成全局路径。 | 普通敌人继续使用 Steering、局部分离和轻量规避；只有证据证明需要时才提交通用寻路 Change Request。 |
-| M5-KI-003 | ACCEPTED | Low | VisualProfileId 已是稳定表现边界 ID，但具体 Profile 内容和运行时 View 解析尚未实现。 | M7 实现 View Pool/表现桥接时消费该 ID；Simulation 不持有 Unity Object。 |
+| M5-KI-003 | RESOLVED | Low | VisualProfileId 已是稳定表现边界 ID，但具体 Profile 内容和运行时 View 解析尚未实现。 | M7 通过 RunSession 只读边界解析敌人 VisualProfileId，Presentation Catalog 匹配；缺失时使用程序化 fallback，Simulation 不持有 Unity Object。 |
 | M5-KI-004 | PLANNED | Medium | M5 未运行 30 分钟 Soak 和 1,500/3,000/5,000 目标实体压力基准。 | 五分钟 Headless 只证明小型 Encounter 的正确性和有界清理；目标规模与性能 JSON 在 M10 执行，当前不得描述为通过。 |
 
 当前没有阻止 M6 开始的 `OPEN` 问题。
@@ -91,8 +91,19 @@
 | M6-KI-001 | RESOLVED | High | Unity `JsonUtility` 会把不适用于某类 Synergy Output 的嵌套 DTO 恢复为空对象，旧解析器按非 null 判断并尝试解析空 Effect/Modifier，导致有效 baked Pack 验证失败。 | DTO 按 Output Type 只解析对应字段；真实 `JsonUtility` round-trip 与 Project Validation 已覆盖。 |
 | M6-KI-002 | RESOLVED | High | 多个具体 ScriptableObject 类型最初与共享作者类放在同一文件，Unity 生成 Placeholder 时无法稳定解析脚本，资产可能出现 `m_Script: 0`。 | Passive/Trait/Synergy/Evolution/UpgradeOffer 具体类已拆分到同名文件；重新生成 Pack 后无缺失脚本，验证 PASS。 |
 | M6-KI-003 | ACCEPTED | Low | Synergy 在条件首次满足时一次性激活并锁存；后续因 Evolution 消费或替换而不再满足条件时，不撤销已应用的 Modifier、Effect、Trait 或 Unlock。 | M6 将条件定义为激活条件并保证输出只应用一次，避免反复抖动；需要可撤销联动时必须先提出通用 Schema/生命周期 Change Request。 |
-| M6-KI-004 | ACCEPTED | Low | M6 没有升级 UI，只有应用层 `RunSession` 命令接口和 `UpgradeOfferSet`。 | 符合 M6 验收边界；M7 View/UI 只展示候选并提交命令，不复制过滤、权重或构筑规则。 |
+| M6-KI-004 | RESOLVED | Low | M6 没有升级 UI，只有应用层 `RunSession` 命令接口和 `UpgradeOfferSet`。 | M7 LevelUpDraft 只展示 UI-safe 候选投影并提交 Select/Skip/Reroll 命令；过滤、权重和构筑规则仍在 Simulation。 |
 | M6-KI-005 | ACCEPTED | Low | 10 分钟自动玩家 Harness 使用小型 Placeholder Encounter，不输出 Tick 分位、GC 或内存趋势。 | 只把结果用于成长链路、确定性和显式清理证明，不外推为目标规模性能结论。 |
 | M6-KI-006 | PLANNED | Medium | M6 未运行 30 分钟 Soak 和 1,500 敌人、3,000 投射物、5,000 拾取物压力基准。 | 当前为 `NOT RUN`；M10 使用固定种子场景输出性能 JSON 后再判断性能门禁。 |
 
 当前没有阻止 M7 开始的 `OPEN` 问题。
+
+## M7
+
+| ID | 状态 | 严重度 | 问题与影响 | 处理 |
+|---|---|---|---|---|
+| M7-KI-001 | ACCEPTED | Low | Placeholder UI 当前显示 Localization Key，不包含正式语言表、字体回退或伪本地化裁切证据。 | M7 保证逻辑中只传 Key；M8 接入 Localization Table 后执行伪本地化和字体覆盖。 |
+| M7-KI-002 | ACCEPTED | Low | Projectile、Area、Pickup 和玩家当前没有实例级 VisualProfileId，因而使用 EntityKind 程序化 fallback。 | 敌人已消费稳定 VisualProfileId；未来若需要实例级外观，先扩展通用只读 Snapshot 身份，不把 Unity Object 放入 Simulation。 |
+| M7-KI-003 | PLANNED | Medium | 四类 View/VFX/Audio/伤害数字已池化，但尚未在 1,500/3,000/5,000 目标规模测量池命中、GC 和帧时间。 | 本次只声明生命周期与功能 PASS；M10 输出目标规模性能 JSON 前不得宣称性能门禁通过。 |
+| M7-KI-004 | ACCEPTED | Low | Debug Action Map 在框架开发阶段始终启用，包含触发一次真实升级流程和完成测试局的入口。 | 仅用于 Placeholder 验收；Release 配置门禁在发布前必须禁用 Debug Map。 |
+
+当前没有阻止 M8 开始的 `OPEN` 问题。

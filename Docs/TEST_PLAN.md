@@ -56,7 +56,7 @@
 > -\> Show Result  
 > -\> Save Profile
 
-还需验证：
+M7 自动化覆盖：
 
 - 手柄完成完整流程
 
@@ -68,7 +68,15 @@
 
 - 缺失正式资源时使用程序化占位
 
-- 伪本地化无明显裁切
+- Snapshot 插值、四类 View 绑定/回收、Generation 失效拒绝
+
+- Hit/Death/Status 表现请求、VFX/伤害数字回收和共享 Canvas
+
+- 场景释放后无 View、池 Owner 或输入订阅残留
+
+仍需验证：
+
+- 伪本地化无明显裁切（M8 Localization 接入后执行）
 
 ## 3. Headless Soak Test
 
