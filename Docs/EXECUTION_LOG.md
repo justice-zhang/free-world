@@ -157,3 +157,47 @@ Generation Handle、Command/Event Buffer 和固定 Pipeline，不得绕过 Clean
 M4 只能从带 `framework-m3` 标签的最终 `main` 创建独立分支；必须复用 M3
 的 Stat、Damage、Status、ProcDepth 和事件契约，不得让技能绕过
 `DamageResolutionSystem` 直接写入 Health。
+
+## M4：模块化技能运行时
+
+- 状态：`COMPLETE`
+- 日期：2026-07-26
+- Unity：`6000.3.20f1`
+- 实现报告：`Docs/Reports/2026-07-26-m4-skill-runtime.md`
+- 审查报告：`Docs/Reports/2026-07-26-m4-strict-review.md`
+- 最终标签：`framework-m4`
+
+### 集成记录
+
+| 项目 | 记录 |
+|---|---|
+| M4 实现提交 | `0f5df90c5f3224052c2ca3711b22fcd1e5d56f6f` |
+| M4 远程分支 | `codex/m4-skill-runtime` |
+| M4 实现合并 | GitHub PR #8；`framework-m4` 指向该 PR 的最终 merge commit |
+| 严格审查修复 | 同一 PR 内修复 LevelPatch 累积结果验证、Secondary Skill 可执行性与传递注册、实例清理/代际句柄，以及 Heal 的 ActorStore 边界；增加回归测试 |
+
+### 最终检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| Git diff、日志与范围 | PASS | 相对 `framework-m3` 修改 19、新增 47、删除 0；全部属于 M4 实现、Placeholder 测试夹具、测试、治理或集成记录；分支从 `framework-m3` 演进 |
+| Bootstrap Scene 静态检查 | PASS | M4 未修改 `.unity` 或 EditorBuildSettings；Build Settings 仅启用 `Assets/Scenes/Bootstrap.unity`；场景无缺失脚本或冲突标记，GameBootstrapper 引用有效 |
+| asmdef 与禁用模式 | PASS | asmdef 依赖无缺失、无循环；`Game.Core`/`Game.Simulation` 不引用 UnityEngine；禁用查找、Resources、运行时反射/高频 LINQ、Service Locator、高频 Instantiate/Destroy 和 View 直写均为零命中 |
+| Unity 编译 | PASS | 最终 EditMode、PlayMode、验证和 Development Build 均完成脚本编译，无 C# 编译失败 |
+| EditMode | PASS | `TestResults/M4StrictReviewFinal2EditMode/editmode.xml`：125/125，0 failed，0 skipped |
+| PlayMode | PASS | `TestResults/M4StrictReviewFinal2PlayMode/playmode.xml`：5/5，0 failed，0 skipped |
+| 内容/工程验证 | PASS | `TestResults/M4StrictReviewFinal2Validation/validation.log`：`[Project Validation] PASS` |
+| Windows Development Build | PASS | Manifest：`Succeeded`、`StandaloneWindows64`、Development；EXE SHA-256 `5D7EEB5359C2E35E4EB1F6A5844B25C3D7556795BD2F15EC234A2011406BC9C6` |
+| Release Build | NOT RUN | M4 适用门禁为 Windows Development Build；Release 留待正式发布阶段 |
+| 性能/Soak | NOT RUN | 30 分钟 Soak 和目标实体规模压力测试按计划在 M10 执行 |
+
+### 已知问题
+
+`Docs/KNOWN_ISSUES.md` 已登记 M4-KI-001 至 M4-KI-008；其中四项严格审查失败已解决，
+其余为已接受限制或 M10 计划项。当前没有阻止 M5 开始的 OPEN 问题。
+
+### 下一步
+
+M5 只能从带 `framework-m4` 标签的最终 `main` 创建独立分支；必须复用 M4 的显式模块
+注册、RuntimeContentIndex、稳定 ContentId、类型化 LevelPatch 和 ProcDepth 契约，不得为
+普通新技能增加专用控制器。

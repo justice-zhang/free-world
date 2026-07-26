@@ -3,7 +3,8 @@
 - 任务：M4 模块化技能运行时严格只读审查与最小修复
 - 里程碑：M4
 - 分支：`codex/m4-skill-runtime`
-- Git Commit：未创建
+- 实现提交：`0f5df90c5f3224052c2ca3711b22fcd1e5d56f6f`
+- GitHub PR：[#8](https://github.com/justice-zhang/free-world/pull/8)
 - 日期：2026-07-26
 - 里程碑结论：`PASS`
 
@@ -29,10 +30,11 @@
 
 ### 2.1 审查开始时的完整 Git 范围
 
-相对 `framework-m3`：16 个已跟踪修改、46 个未跟踪新增、0 个删除。加入本审查报告后，
-最终为 17 个已跟踪修改、47 个未跟踪新增、0 个删除。
+相对 `framework-m3`：审查开始时为 16 个已跟踪修改、46 个未跟踪新增、0 个删除；加入
+本审查报告后为 17 个已跟踪修改、47 个未跟踪新增、0 个删除。发布集成记录和已知问题
+同步完成后，PR #8 的最终范围为 19 个已跟踪修改、47 个新增、0 个删除。
 
-已跟踪修改（17）：
+最终已跟踪修改（19）：
 
 ```text
 Assets/Game/Content/Authoring/ContentBaker.cs
@@ -51,6 +53,8 @@ Docs/ARCHITECTURE.md
 Docs/CONTENT_AUTHORING_WORKFLOW.md
 Docs/CONTENT_SCHEMA.md
 Docs/EFFECT_MODULES.md
+Docs/EXECUTION_LOG.md
+Docs/KNOWN_ISSUES.md
 Docs/TEST_PLAN.md
 ```
 
