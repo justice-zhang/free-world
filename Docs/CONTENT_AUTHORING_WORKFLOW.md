@@ -2,8 +2,8 @@
 
 ## 1. 适用范围
 
-本文记录 M1 的 Character/Enemy/Map、M3 Status 及 M4 Skill 的作者数据流程。它只生产
-可验证的内容数据和通用行为，不在作者对象中运行模拟逻辑。
+本文记录 Character、Skill、Passive、Trait、Enemy、Status、Evolution、Synergy、Map、Encounter
+与 Pack 的作者数据流程。它只生产可验证的内容数据和通用行为，不在作者对象中运行模拟逻辑。
 
 ## 2. 新建 Pack
 
@@ -186,3 +186,17 @@ Tools > Free World > M6 > Configure Test Build Content
 
 输出位于 `Assets/GameAssets/Placeholder/TestBuildContent`。当前两个 Synergy 和一个 Evolution
 只验证配置能力，不代表正式构筑、数值平衡或发布内容。
+
+## 11. M9 向导、验证与打包
+
+非程序人员优先使用 `Tools > Free World > M9 > Content Creation Wizard`。先创建 Pack 和被引用
+内容，再创建依赖它们的 Character、Enemy、Evolution、Encounter 或 Map。向导自动生成 canonical
+ID、分类目录、双语 Key、Addressables 标签、测试模板、Placeholder 来源记录和 baked Catalog；
+不会修改硬编码 Registry。
+
+完成作者数据后依次使用 Validator、Wave Timeline/Skill Preview 和 Content Pack Builder。完整操作、
+CLI 与错误处理见 `Docs/EDITOR_TOOLS.md`；打包格式和 Hash 语义见
+`Docs/CONTENT_PACK_BUILDER.md`。
+
+M9 Fixture 位于 `Assets/GameAssets/Placeholder/M9EditorTools`，包含全部十种 Definition，以及第二
+角色、第二技能和第二地图。Fixture 只证明数据扩展能力，不代表正式内容或平衡结果。

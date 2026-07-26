@@ -1,0 +1,16 @@
+{
+    "schemaVersion": 1,
+    "contentId": "test.enemy.m9",
+    "contentKind": "enemy",
+    "authoringAsset": "Assets/GameAssets/Placeholder/M9EditorTools/m9_tools/Content/Enemies/M9.asset",
+    "expectedLocalizationKeys": [
+        "content.test.enemy.m9.name",
+        "content.test.enemy.m9.description"
+    ],
+    "checks": [
+        "bakes",
+        "localization-keys-resolve",
+        "addressables-labels-present",
+        "project-validation-pass"
+    ]
+}

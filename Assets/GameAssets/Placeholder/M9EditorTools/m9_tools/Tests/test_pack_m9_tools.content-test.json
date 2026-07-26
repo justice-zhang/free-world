@@ -1,0 +1,13 @@
+{
+    "schemaVersion": 1,
+    "contentId": "test.pack.m9_tools",
+    "contentKind": "pack",
+    "authoringAsset": "Assets/GameAssets/Placeholder/M9EditorTools/m9_tools/M9ToolsContentPack.asset",
+    "expectedLocalizationKeys": [],
+    "checks": [
+        "bakes",
+        "localization-keys-resolve",
+        "addressables-labels-present",
+        "project-validation-pass"
+    ]
+}

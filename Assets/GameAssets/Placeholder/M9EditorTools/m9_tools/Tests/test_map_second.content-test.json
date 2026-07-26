@@ -1,0 +1,16 @@
+{
+    "schemaVersion": 1,
+    "contentId": "test.map.second",
+    "contentKind": "map",
+    "authoringAsset": "Assets/GameAssets/Placeholder/M9EditorTools/m9_tools/Content/Maps/Second.asset",
+    "expectedLocalizationKeys": [
+        "content.test.map.second.name",
+        "content.test.map.second.description"
+    ],
+    "checks": [
+        "bakes",
+        "localization-keys-resolve",
+        "addressables-labels-present",
+        "project-validation-pass"
+    ]
+}

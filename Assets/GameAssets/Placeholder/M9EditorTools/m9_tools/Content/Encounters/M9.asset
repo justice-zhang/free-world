@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3599d91c04484c73b92ddd4bdcb1fd04, type: 3}
+  m_Name: M9
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.EncounterScheduleAuthoring
+  contentId: test.encounter.m9
+  localizedNameKey: content.test.encounter.m9.name
+  localizedDescriptionKey: content.test.encounter.m9.description
+  tags:
+  - content.placeholder
+  - content.encounter
+  maximumConcurrentEnemies: 32
+  minimumSpawnDistance: 10
+  maximumSpawnDistance: 16
+  phases:
+  - startTimeSeconds: 0
+    endTimeSeconds: 60
+    budgetPerSecondStart: 1
+    budgetPerSecondEnd: 2
+    spawnIntervalStart: 1
+    spawnIntervalEnd: 0.5
+    maximumConcurrentEnemies: 32
+    spawnPattern: 1
+    anchorId: 
+    enemies:
+    - enemy: {fileID: 11400000, guid: 4d9fb283a76173547adf31562e567344, type: 2}
+      weight: 1
+      budgetCost: 1
+      minimumGroupSize: 1
+      maximumGroupSize: 2
+      elite: 0
+    bosses: []

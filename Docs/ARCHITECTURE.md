@@ -31,7 +31,7 @@
 
 ## 2. Assembly Definition
 
-| **Assembly**               | **职责**                             | **M8 实际直接依赖**                                                       |
+| **Assembly**               | **职责**                             | **M9 实际直接依赖**                                                       |
 |----------------------------|--------------------------------------|---------------------------------------------------------------------------|
 | Game.Core                  | ID、标签、结果、随机数、基础工具     | 无                                                                        |
 | Game.Content.Runtime       | 烘焙后的纯运行时定义                 | Game.Core                                                                 |
@@ -44,11 +44,11 @@
 | Game.UI                    | 菜单、HUD、升级选择、结算、本地化适配 | Unity、Game.Application、Unity Localization                               |
 | Game.Platform.Null         | 无平台环境实现                       | Game.Platform.Abstractions、Game.Core                                     |
 | Game.Platform.Steam        | 后续 Steam 适配（M0 未创建）         | Game.Platform.Abstractions                                                |
-| Game.Editor                | 验证、Bake、Placeholder、场景与构建工具 | Unity Editor、Addressables Editor、Game.Core、Game.Content.Authoring、Game.Content.Runtime、Game.Infrastructure |
+| Game.Editor                | 验证、Bake、Placeholder、预览与构建工具 | Unity Editor、Addressables Editor、Game.Core、Game.Content.Authoring、Game.Content.Runtime、Game.Simulation、Game.Infrastructure |
 | Game.Tests.EditMode        | 治理、内容与纯模拟内核测试           | 产品程序集、Game.Editor、Unity Test Framework                             |
 | Game.Tests.PlayMode        | Bootstrap 内容加载和生命周期测试     | Game.Core、Game.Content.Runtime、Game.Application、Game.Infrastructure、Game.Platform.Abstractions、Game.Platform.Null、Unity Test Framework |
 
-M8 实际依赖图（省略 Unity Package 与测试程序集）：
+M9 实际依赖图（省略 Unity Package 与测试程序集）：
 
 ```text
 Game.Core
@@ -70,6 +70,7 @@ Game.Application ─┬─ Game.Infrastructure
 Game.Core ───────────────┐
 Game.Content.Authoring ──┤
 Game.Content.Runtime ────┼─ Game.Editor
+Game.Simulation ─────────┤
 Game.Infrastructure ─────┘
 ```
 
@@ -536,3 +537,27 @@ Modifier 和技能附加 Effect。技能类不判断流派；Synergy/Evolution �
 `RunSession` 将 `PauseRequested` 映射到 SimulationClock Pause 和 GameState.LevelUpChoice；选择或
 跳过后恢复时钟。RunResult 冻结 Tick、时长、等级、库存数、联动数、击杀、拾取、经验和候选
 动作统计。M7 只能读取这些接口并提交命令，不能直接写 Store 或重新实现过滤。
+
+## 15. M9 内容生产工具边界
+
+M9 的 EditorWindow 是薄界面；Creation、Validation、Timeline、Preview 和 Pack Build 规则都在
+独立服务中，可由测试或命令行复用。向导写 Authoring/Localization/Addressables 后立即通过现有
+Baker 生成 Catalog，不维护第二套 Registry。
+
+```text
+Content Authoring ── Bake ──► ContentRegistry
+       │                         │
+       ├─ Validator/Pack Builder │
+       └─ Editor Windows ────────┼─► WaveTimelineAnalyzer
+                                 └─► SkillPreviewHarness
+                                          │
+                                          └─ Fixed Tick Simulation
+```
+
+`Game.Editor → Game.Simulation` 是允许的最外层单向依赖。Timeline Scheduler 与 Editor 共用
+`EncounterTimelineSampler`；Skill UI 调用同一个 Headless Harness。Simulation 不认识 EditorWindow、
+AssetDatabase、ScriptableObject 或 UnityEngine，且不把预览日志放入高频运行时路径。
+
+Development Build 允许程序化 Placeholder 用于框架验收；非 Development Build 在普通 Project
+Validation 之后追加 Release 门禁。Placeholder、缺失/不合格 provenance、Hash 不一致、未登记
+Third Party 或内容错误都会抛出 `BuildFailedException`，不存在全局忽略入口。

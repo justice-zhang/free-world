@@ -1,0 +1,16 @@
+{
+    "schemaVersion": 1,
+    "contentId": "test.skill.second",
+    "contentKind": "skill",
+    "authoringAsset": "Assets/GameAssets/Placeholder/M9EditorTools/m9_tools/Content/Skills/Second.asset",
+    "expectedLocalizationKeys": [
+        "content.test.skill.second.name",
+        "content.test.skill.second.description"
+    ],
+    "checks": [
+        "bakes",
+        "localization-keys-resolve",
+        "addressables-labels-present",
+        "project-validation-pass"
+    ]
+}

@@ -82,3 +82,15 @@ Build Preprocessor 必须阻止：
 - 文件 Hash 与记录不一致
 
 上线前按当时最新平台政策和法律要求复核。
+
+M9 起，Project Validation 会对 `Assets/GameAssets/AI` 中每个非元数据输出执行实际 SHA-256 检查。
+记录可来自资产目录或祖先目录中的 `provenance.json`，也可来自根目录 `ASSET_PROVENANCE.csv`：
+
+- JSON 必须是 Schema 1，列出相对路径、来源类别、工具、模型版本、每个输出文件名对应的 64 位
+  `outputSha256`、权利确认、条款快照、商业复核和 `approved-for-release` 状态；
+- CSV 必须至少提供资产 ID、相对路径、来源类别、工具/提供者、模型/版本、参考权利确认、条款、
+  `sha256`、商业复核和状态；
+- 缺记录、缺 Hash、Hash 不一致、未复核或未批准均为构建失败，不能用文件改名或 Release 参数绕过；
+- Placeholder 的 `provenance.placeholder.json` 只说明开发来源，不是正式 provenance，Release 仍会阻止。
+
+修改正式输出后必须重新计算 Hash、由授权人员复核并更新记录；不得只改记录来掩盖来源变化。

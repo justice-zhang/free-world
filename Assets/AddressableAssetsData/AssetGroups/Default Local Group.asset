@@ -15,11 +15,35 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 0a36f78d28f50a844ad887ca617647e8
   m_SerializeEntries:
+  - m_GUID: 00219a5deb9e1784b969ee37f6993044
+    m_Address: test.skill.second
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.test.m9_tools
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 13d392ec42d440f44a3410d5c517fe57
     m_Address: Assets/GameAssets/Placeholder/line.png
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ca65cd373c917c42803bfa5ccc6c1f8
+    m_Address: test.synergy.m9
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.test.m9_tools
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2fa6bec503f20a0469eb23fd3e4bde01
+    m_Address: test.map.second
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.test.m9_tools
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3bf5b1ddd86513042b3d9e8567175a44
@@ -29,11 +53,83 @@ MonoBehaviour:
     - development-only
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 45ac768e11a66d34196c5e383d7dfe23
+    m_Address: test.passive.m9
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.test.m9_tools
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4d9fb283a76173547adf31562e567344
+    m_Address: test.enemy.m9
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.test.m9_tools
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5013181cee96bfd4aac5fc7493c99e18
     m_Address: Assets/GameAssets/Placeholder/circle.png
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 91f510b0e4c79c3489dbf6c535f4e1dd
+    m_Address: test.character.second
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.test.m9_tools
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b5b14f17f97f25242b9833837bdd2211
+    m_Address: test.encounter.m9
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.test.m9_tools
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c15ae542527d879419b777cf85e8e2df
+    m_Address: test.status.m9
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.test.m9_tools
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ccc952a129f1bad4a871f0a5ff4b9002
+    m_Address: packs/test.pack.m9_tools/catalog
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.test.m9_tools
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ccf48bef4148451418cbea3ed81333f5
+    m_Address: test.evolution.m9
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.test.m9_tools
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e47326a114b73da4e8197ecbb5992e09
+    m_Address: test.pack.m9_tools
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.test.m9_tools
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ff6ada72bdfbbf1479bb11268e9d121b
+    m_Address: test.trait.m9
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.test.m9_tools
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0

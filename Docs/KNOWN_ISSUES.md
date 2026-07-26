@@ -118,3 +118,14 @@
 | M8-KI-004 | PLANNED | Medium | 低频存档 I/O、Localization、平台边界未执行 30 分钟 Soak 或目标实体规模性能基准。 | 当前为 `NOT RUN`；M10 按性能预算输出 30 分钟和 1,500/3,000/5,000 压力 JSON。 |
 
 当前没有阻止 M9 开始的 `OPEN` 问题。
+
+## M9
+
+| ID | 状态 | 严重度 | 问题与影响 | 处理 |
+|---|---|---|---|---|
+| M9-KI-001 | ACCEPTED | Low | Content Creation Wizard 固定生成程序化 Placeholder、占位双语正文和 `provenance.placeholder.json`，不能直接转为正式发布内容。 | 正式内容仍必须单独完成翻译、资产 provenance、商业许可复核并移除 Placeholder/Development 标签；Release 门禁不可绕过。 |
+| M9-KI-002 | ACCEPTED | Low | Wave Timeline 是作者数据理论产出，Skill Preview 使用固定静止目标；两者不代表最终数值平衡或高并发性能。 | 只用于相同输入的设计回归；目标规模与长时间数据由 M10 性能 Harness 输出。 |
+| M9-KI-003 | ACCEPTED | Low | Content Pack Builder 当前输出未签名的 loose JSON Catalog 和审计报告，不提供远端发布、DLC 下载、签名或 Workshop 生命周期。 | 保持 M9 内容生产/审计范围；正式分发后端必须复用稳定 Pack/Hash 边界并单独审批。 |
+| M9-KI-004 | PLANNED | Medium | M9 未执行 30 分钟 Soak 和 1,500 敌人、3,000 投射物、5,000 拾取物目标规模测试。 | 当前明确为 `NOT RUN`；M10 运行固定种子压力场景并输出性能 JSON。 |
+
+当前没有阻止 M10 开始的 `OPEN` 问题。

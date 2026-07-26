@@ -427,6 +427,86 @@ MonoBehaviour:
     m_Key: platform.failed
     m_Metadata:
       m_Items: []
+  - m_Id: 14164788502528
+    m_Key: content.test.skill.second.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14164838834176
+    m_Key: content.test.skill.second.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14166436864000
+    m_Key: content.test.character.second.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14166436864001
+    m_Key: content.test.character.second.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14167640629248
+    m_Key: content.test.passive.m9.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14167640629249
+    m_Key: content.test.passive.m9.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14168915697664
+    m_Key: content.test.trait.m9.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14168915697665
+    m_Key: content.test.trait.m9.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14170358538240
+    m_Key: content.test.status.m9.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14170358538241
+    m_Key: content.test.status.m9.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171637800960
+    m_Key: content.test.enemy.m9.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14171637800961
+    m_Key: content.test.enemy.m9.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14172975783936
+    m_Key: content.test.encounter.m9.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14172975783937
+    m_Key: content.test.encounter.m9.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14174259240960
+    m_Key: content.test.map.second.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14174259240961
+    m_Key: content.test.map.second.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14175492366336
+    m_Key: content.test.synergy.m9.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14175492366337
+    m_Key: content.test.synergy.m9.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14176771629056
+    m_Key: content.test.evolution.m9.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14176771629057
+    m_Key: content.test.evolution.m9.description
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

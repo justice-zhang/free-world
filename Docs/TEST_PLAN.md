@@ -228,3 +228,21 @@ M3 未引入 Jobs、Burst 或新的第三方运行时依赖。
 
 M8 文件 I/O 和平台调用只在低频 Application Event 发生，不属于固定 Tick 性能热点。30 分钟 Soak、
 1,500/3,000/5,000 压力和性能分位 JSON 继续为 `NOT RUN`，在 M10 执行。
+
+## 13. M9 已落地覆盖
+
+- 向导 Fixture 覆盖 Pack 和十种 Definition；每种 Definition 可 Bake，并具有双语 Key、Pack/
+  Placeholder/Development Addressables 标签、测试模板和来源占位。
+- 第二角色、第二技能和第二地图加载到同一 Registry；Fixture 目录无 C#，不修改核心程序集。
+- Content Pack Builder 对相同输入两次生成一致 Content Hash 和 Catalog SHA-256，报告包含版本、
+  依赖、Catalog、标签和 Hash。
+- Release Policy 对 Placeholder 路径或标签返回稳定阻断码；实际 CLI 负向门禁必须非零退出并输出
+  `M9-RELEASE-PLACEHOLDER`。
+- provenance 缺失与输出 SHA-256 不一致分别产生可定位错误；正式 Project Validation 复用该逻辑。
+- SpawnSecondarySkill 循环返回稳定 ContentId 路径。
+- Wave Timeline 的预算/间隔与 Runtime Scheduler 共用精确采样器，并输出阶段预算、权重、理论并发、
+  生命、经验和 Boss 时间。
+- Skill Editor Service 与 Headless Harness 在相同 Seed、等级、属性和目标数下结果一致，并报告范围、
+  命中盒、DPS、命中、触发、分配和有限日志。
+- 完整 EditMode、PlayMode、Project Validation、Pack CLI 和 Windows Development Build 仍是 M9
+  最终门禁；30 分钟 Soak 和目标实体压力测试为 `NOT RUN`，保留到 M10。
