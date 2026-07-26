@@ -4,6 +4,7 @@
 - 审查提示词：`Docs/Survivors_Codex_Documentation_Pack/Prompts/13_MILESTONE_REVIEW_GATE.md`
 - 分支：`codex/m5-enemy-spawn-map`
 - 基线：`framework-m4` / `ae4e02c2737c778a40d6f9ef24fdc8642d787a72`
+- 实现提交：`cc307b1dee4b9d45bf82aa8b0caf63685c7508fd`
 - Unity：`6000.3.20f1`
 - 日期：2026-07-26
 

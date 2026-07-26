@@ -3,7 +3,7 @@
 - 任务：敌人、刷怪、遭遇与地图运行时
 - 里程碑：M5
 - 分支：`codex/m5-enemy-spawn-map`
-- Git Commit：待严格审查和 GitHub 集成后回填
+- Git Commit：`cc307b1dee4b9d45bf82aa8b0caf63685c7508fd`
 - 日期：2026-07-26
 
 ## 1. 实现范围
@@ -99,7 +99,7 @@ git diff --check
 ## 9. 未完成项
 
 - 当前 M5 强制交付项无未完成项。
-- 严格里程碑审查和 GitHub 集成尚待本报告之后完成。
+- 严格里程碑审查已 PASS；GitHub PR #9 已创建，待本报告的集成记录提交后合并。
 
 ## 10. 下一步前置条件
 
