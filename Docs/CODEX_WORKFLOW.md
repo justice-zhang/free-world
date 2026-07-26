@@ -10,9 +10,17 @@
 
 3\. Docs/ARCHITECTURE.md
 
-4\. 当前里程碑提示词指定的文档
+4\. Docs/CONTENT_SCHEMA.md
 
-5\. 当前代码与测试
+5\. Docs/CODEX_WORKFLOW.md
+
+6\. Docs/AGENT_COLLABORATION.md
+
+7\. Docs/EXECUTION_ORDER.md
+
+8\. 当前里程碑提示词指定的文档
+
+9\. 当前代码与测试
 
 ## 实施流程
 
@@ -51,6 +59,16 @@
 ## 结果报告模板
 
 使用 Templates/CODEX_RESULT_REPORT.md。
+
+## 双 Agent 协作
+
+两个 Agent 协作时必须遵守 `Docs/AGENT_COLLABORATION.md`：
+
+- 当前任务只有一个 Owner 可以写实现分支；
+- 默认只有当前 Owner 在工作，另一个 Agent 等待干净交接；
+- 所有权转移使用 `Templates/AGENT_HANDOFF_TEMPLATE.md`；
+- 接管者必须独立核验 Git、Unity、权限和当前环境基线；
+- 当前里程碑未 merge/tag 前，任何 Agent 都不得开始下一里程碑。
 
 ## 变更升级
 

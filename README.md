@@ -23,6 +23,7 @@
    ├─ TEST_PLAN.md
    ├─ PERFORMANCE_BUDGET.md
    ├─ CODEX_WORKFLOW.md
+   ├─ AGENT_COLLABORATION.md
    ├─ EXECUTION_ORDER.md
    ├─ DEFINITION_OF_DONE.md
    ├─ AI_ASSET_PIPELINE.md
@@ -52,12 +53,15 @@
 | `Docs/SAVE_FORMAT.md` | 存档、迁移、内容缺失和云同步边界。 |
 | `Docs/TEST_PLAN.md` | EditMode、PlayMode、Soak 和扩展性测试。 |
 | `Docs/PERFORMANCE_BUDGET.md` | 性能目标、测量规则和回归门禁。 |
+| `Docs/CODEX_WORKFLOW.md` | Codex 单任务实施、测试和报告流程。 |
+| `Docs/AGENT_COLLABORATION.md` | 两个 Agent 轮流完成整棒任务时的干净交接、证据和冲突规则。 |
 | `Docs/EXECUTION_ORDER.md` | M0—M10 实施顺序。 |
 | `Docs/EXECUTION_LOG.md` | 已完成里程碑的提交、门禁和标签记录。 |
 | `Docs/KNOWN_ISSUES.md` | 已知问题、接受限制和后续处理状态。 |
 | `Docs/DEFINITION_OF_DONE.md` | 框架冻结前必须满足的条件。 |
 | `AI_ASSET_POLICY.md` | 正式 AI 资源的治理和发布门禁。 |
 | `THIRD_PARTY_NOTICES.md` | 第三方代码与资产登记。 |
+| `Templates/AGENT_HANDOFF_TEMPLATE.md` | 两个 Agent 转移任务所有权时使用的结构化交接模板。 |
 
 ## 核心原则
 
