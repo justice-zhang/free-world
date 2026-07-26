@@ -48,6 +48,8 @@ git diff --stat
 git status -sb
 git commit -m "docs: define two-agent relay workflow"
 git commit --amend --no-edit
+git push -u origin codex/two-agent-collaboration
+gh pr create --repo free-world-team/free-world --base main --head codex/two-agent-collaboration
 ```
 
 ## 5. 测试结果
@@ -87,13 +89,13 @@ Markdown，且自动范围检查确认没有产品代码、资产、Scene、Pack
 ## 9. 未完成项
 
 - 当前文档范围无未完成项。
-- 协作规范提交已创建；尚未推送分支或创建 PR。
+- 协作规范分支已推送并通过 GitHub PR #10 集成；最终合并状态以 GitHub PR 和 `main` 历史为准。
 
 ## 10. 下一步前置条件
 
 - 后续任一 Agent 开始任务时按 `AGENTS.md` 新读取顺序阅读协作规范。
 - 下一次正常轮换使用 `Templates/AGENT_HANDOFF_TEMPLATE.md`。
-- 若需要将本次文档发布到远程，由用户明确授权提交、推送和 PR。
+- PR #10 合并并清理功能分支后，下一棒 Agent 才能把该状态视为正常 READY 交接点。
 
 ## 11. 结论
 
