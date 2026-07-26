@@ -177,44 +177,6 @@ namespace Game.Content.Runtime
     }
 
     /// <summary>
-    /// Runtime skill metadata. M1 stores data only and does not execute skills.
-    /// </summary>
-    public sealed class RuntimeSkillDefinition : RuntimeContentDefinition
-    {
-        /// <summary>
-        /// Initializes pure runtime skill metadata.
-        /// </summary>
-        public RuntimeSkillDefinition(
-            ContentId id,
-            string localizedNameKey,
-            string localizedDescriptionKey,
-            string sourceAssetPath,
-            ContentTag[] tags,
-            float cooldownSeconds)
-            : base(
-                id,
-                localizedNameKey,
-                localizedDescriptionKey,
-                sourceAssetPath,
-                tags,
-                Array.Empty<ContentId>())
-        {
-            CooldownSeconds = cooldownSeconds;
-        }
-
-        /// <inheritdoc />
-        public override string Kind => RuntimeContentKinds.Skill;
-
-        /// <summary>Gets the cooldown metadata in seconds.</summary>
-        public float CooldownSeconds { get; }
-
-        protected override void AppendTypeSpecificDeterministicData(StringBuilder builder)
-        {
-            ContentHashUtility.AppendFloat(builder, CooldownSeconds);
-        }
-    }
-
-    /// <summary>
     /// Runtime enemy metadata. M1 stores data only and does not spawn entities.
     /// </summary>
     public sealed class RuntimeEnemyDefinition : RuntimeContentDefinition

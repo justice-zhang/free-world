@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0095a8991d6fc4cb5ceafd762b1862, type: 3}
+  m_Name: TestDamageAura
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.SkillAuthoring
+  contentId: test.skill.damage_aura
+  localizedNameKey: content.test.skill.damage_aura.name
+  localizedDescriptionKey: content.test.skill.damage_aura.description
+  tags:
+  - content.placeholder
+  - delivery.aura
+  - damage.area
+  cooldownSeconds: 2
+  resourceCost: 0
+  modularRuntimeEnabled: 1
+  trigger:
+    moduleId: base.trigger.timer
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+  condition:
+    moduleId: base.condition.always
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+  targeting:
+    moduleId: base.targeting.self
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+  delivery:
+    moduleId: base.delivery.aura
+    value0: 3
+    value1: 1.5
+    value2: 0.25
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: placeholder.presentation.damage_aura
+  effects:
+  - moduleId: base.effect.damage
+    value0: 3
+    value1: 1
+    value2: 0
+    int0: 1
+    int1: 1
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    statId0: 
+    flags: 0
+  levelPatches: []

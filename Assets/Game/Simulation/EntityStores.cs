@@ -450,6 +450,21 @@ namespace Game.Simulation
                 : 0;
         }
 
+        internal bool TryApplyHealing(EntityHandle handle, float amount)
+        {
+            if (float.IsNaN(amount) || float.IsInfinity(amount) || amount < 0f ||
+                !TryGetCombat(handle, out var record) ||
+                record.DeathPending || record.Dead)
+            {
+                return false;
+            }
+
+            record.ReconcileHealthMaximum();
+            var maximum = record.Stats.Get(BuiltInStatIndices.Health);
+            record.HealthCurrent = Math.Min(maximum, record.HealthCurrent + amount);
+            return true;
+        }
+
         internal bool TryGetCombat(
             EntityHandle handle,
             out ActorCombatRecord record)

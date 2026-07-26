@@ -353,3 +353,44 @@ Movement → DamageResolution → StatusTick → Death → Lifetime
 `SimulationWorld.RunTick` 在 Pipeline 返回后无条件完成一次幂等事件 Flush，因此显式
 测试 Pipeline 即使省略 `EventFlushSystem` 也不会静默丢失 Tick 内战斗事件。M2 的
 `CreateM2Default` 顺序保持不变。
+
+## 12. M4 模块化技能运行时
+
+M4 不改变程序集依赖方向：`Game.Content.Runtime` 定义纯 Skill Schema，
+`Game.Content.Authoring` 负责 ScriptableObject 与 Baker，`Game.Simulation` 只依赖 Core 和
+Content.Runtime。表现资源通过稳定 PresentationId 留在边界外。
+
+```text
+Game.Content.Authoring
+        │ Bake / Validate
+        ▼
+Game.Content.Runtime ── Registry bind ──► RuntimeContentIndex
+        │
+        ▼
+Game.Simulation
+  SkillModuleRegistry → SkillRuntimeCatalog → SkillInstance
+        │                                     │
+        └──────── executor refs ◄─────────────┘
+```
+
+Composition Root 显式构造 `SkillModuleRegistry`，没有运行时反射扫描或全局 Service Locator。
+Runtime Catalog 在 Run 开始前把稳定模块 ID 解析为 executor，把内容引用和 StatId 解析为紧凑
+索引，并预构建全部等级。两个角色实例共享不可变编译定义，各自持有 Owner、等级和冷却。
+
+M4 默认 Pipeline 为：
+
+```text
+SkillTrigger → Movement → SkillDelivery → SkillEffectResolution
+→ DamageResolution → StatusTick → Death → Lifetime
+→ Cleanup → EventFlush → SnapshotBuild
+```
+
+Timer 与上一 Tick 的 OnHit/OnKill/OnDamageTaken/OnStatusApplied 事件在 SkillTrigger 消费；
+OnPickup 由后续拾取模块通过同一命令入口提交。移动之后推进 Projectile/Area/Aura/Orbit，
+EffectResolution 再把通用命令路由到 M3 Damage/Status API。二次技能保留来源上下文并增加
+ProcDepth。Cleanup 继续是结构创建/删除的唯一应用点。
+
+Targeting 只查询统一 SpatialGrid；结果、Trigger、Effect 和 Delivery 都使用可复用结构缓冲。
+运行时不访问 SkillAuthoring、不解析 LevelPatch 字符串、不用 LINQ/反射，也不为技能创建
+MonoBehaviour。`SkillPreviewHarness` 使用同一纯模拟管线和固定随机种子输出 DPS、命中数与
+触发次数，UI 属于后续里程碑。

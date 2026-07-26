@@ -245,6 +245,7 @@ namespace Game.Simulation
             }
 
             world.Commands.Clear();
+            world.Skills.ApplyPendingSpawns(world);
         }
     }
 

@@ -204,6 +204,34 @@ namespace Game.Content.Authoring
                             definitionPaths[index]));
                 }
 
+                if (definitionResult.Value is RuntimeSkillDefinition skill)
+                {
+                    if (skill.IsExecutable &&
+                        pack.SchemaVersion < ContentPackTopology.ModularSkillSchemaVersion)
+                    {
+                        return Result<BakedContentCatalog>.Failure(
+                            new Error(
+                                ErrorCode.UnsupportedSchemaVersion,
+                                "Executable modular skills require content schema " +
+                                ContentPackTopology.ModularSkillSchemaVersion + " or newer.",
+                                skill.Id,
+                                packId,
+                                definitionPaths[index]));
+                    }
+
+                    if (!skill.IsExecutable &&
+                        pack.SchemaVersion >= ContentPackTopology.ModularSkillSchemaVersion)
+                    {
+                        return Result<BakedContentCatalog>.Failure(
+                            new Error(
+                                ErrorCode.InvalidAuthoringData,
+                                "Skills in schema 3 packs must enable modular runtime authoring.",
+                                skill.Id,
+                                packId,
+                                definitionPaths[index]));
+                    }
+                }
+
                 definitions[index] = definitionResult.Value;
             }
 

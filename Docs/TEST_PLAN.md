@@ -148,3 +148,25 @@
 
 完整 30 分钟 Soak 和 1,500/3,000/5,000 实体压力 JSON 仍按性能预算在 M10 门禁启用；
 M3 未引入 Jobs、Burst 或新的第三方运行时依赖。
+
+## 9. M4 已落地覆盖
+
+- Timer、OnHit、OnKill、OnDamageTaken、OnPickup、OnStatusApplied 六种 Trigger 的匹配、
+  冷却与触发计数。
+- Self、Nearest、Random、Circle、Cone、Line、Ring、RandomPointAroundPlayer 在 SpatialGrid
+  上的几何结果、稳定排序和固定种子选择。
+- Projectile、Area、Aura、Orbit 的 Cleanup 创建、移动/跟随、重复命中、扫掠碰撞、过期
+  和实体删除；Instant 直接命令路径由 Effect 测试覆盖。
+- Damage/ApplyStatus 进入 M3 请求管线；Heal、RemoveStatus、Knockback、Pull、ModifyStat、
+  SpawnSecondarySkill、GrantShield、GainResource 的统一命令解析。
+- Schema 3 作者数据和 JSON round-trip、确定性 Hash、Runtime Definition 无 Unity Object、
+  缺失模块 ID、错误内容引用类型、SpawnSecondarySkill 可执行 Skill 引用，以及 LevelPatch
+  路径/下标/类型、连续等级、浮点非有限累积结果和整数溢出验证。
+- LevelPatch 的 Add/Multiply/Override 累积结果；同一 Compiled Definition 被两个角色的独立
+  Skill Instance 复用；Owner 删除时实例释放、代际句柄失效与槽位安全复用；多级二次技能
+  递归注册、ProcDepth 逐级传播与上限截断。
+- 单体投射物、环绕物、地面区域和伤害光环四个 Placeholder Fixture 在固定种子预览中产生
+  稳定 DPS、命中数和触发次数，且不需要专用 MonoBehaviour。
+
+完整 30 分钟 Soak、实体压力和性能预算对比仍按 M10 门禁执行；M4 未引入 Jobs、Burst 或
+第三方运行时依赖。

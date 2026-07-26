@@ -130,7 +130,8 @@ M1 的 `ContentVersion` 使用严格的 `major.minor.patch` 非负整数格式�
 M1 已实现的最小运行时定义为：
 
 - `RuntimeCharacterDefinition`：本地化 Key、基础生命/速度、初始技能 ID。
-- `RuntimeSkillDefinition`：本地化 Key、冷却元数据；不含执行逻辑。
+- `RuntimeSkillDefinition`：Schema 1/2 为本地化 Key 和冷却元数据；Schema 3 增加 M4
+  可执行模块数据，旧格式不会被静默推断为可执行技能。
 - `RuntimeEnemyDefinition`：本地化 Key、生命和碰撞半径；不含实体或刷怪逻辑。
 - `RuntimeMapDefinition`：本地化 Key、Runtime Provider ID 和 Scene Address；不加载场景。
 - `RuntimeStatusDefinition`（M3 / Schema 2）：生命周期、叠层、驱散、免疫和经烘焙的
@@ -176,6 +177,44 @@ Targeting：Self、Nearest、Random、LowestHealth、HighestHealth、Cone、Circ
 Delivery：Instant、Projectile、Area、Aura、Orbit、Beam、Chain、Summon、Trap。
 
 Effects：Damage、Heal、ApplyStatus、RemoveStatus、Knockback、Pull、ModifyStat、SpawnEntity、SpawnSecondarySkill、GrantShield、GainResource、Execute、Split、Repeat。
+
+### 5.1 M4 Skill Schema 3
+
+Schema 3 的 `skill` 定义新增：
+
+```text
+RuntimeSkillDefinition
+├─ Id / Localization Keys / Tags
+├─ CooldownSeconds / ResourceCost
+├─ Trigger: SkillModuleDefinition
+├─ Condition: SkillModuleDefinition
+├─ Targeting: SkillModuleDefinition
+├─ Delivery: SkillModuleDefinition + PresentationId
+├─ Effects: EffectOp[]
+└─ LevelPatches: SkillLevelPatch[]
+```
+
+`SkillModuleDefinition` 是稳定 Module ContentId 加 `Value0..3`、`Int0..1` 和可选稳定
+PresentationId。模块 ID 必须存在于显式白名单和 Composition Root 注册表，运行时不扫描
+程序集。
+
+`EffectOp` 在磁盘和 Hash 中保留稳定 `ReferenceId0/1`；成功构建 ContentRegistry 后绑定为
+当前加载生命周期的 `RuntimeContentIndex`。ApplyStatus 的 Ref0 必须指向 Status，
+SpawnSecondarySkill 的 Ref0 必须指向可执行 Skill。存档只允许稳定 ID。
+
+LevelPatch 的 JSON 字段为 `level`、`path`、`valueType`、`operation`、`floatValue` 或
+`integerValue`。Baker/DTO 只接受 `Docs/EFFECT_MODULES.md` 登记的路径并转换为 enum slot；
+运行时定义不包含路径字符串。等级从 2 连续增长，同等级按作者顺序应用。
+
+Schema 兼容规则：
+
+- Schema 1：Character/旧 Skill/Enemy/Map。
+- Schema 2：在 Schema 1 上增加 Status；旧 Skill 仍不可执行。
+- Schema 3：可包含完整 M4 Skill；Schema 3 中的 Skill 必须完整配置模块和至少一个 Effect。
+- Schema 1/2 继续可加载，现有 Catalog Hash 不因新字段改变；升级到可执行 Skill 必须重 Bake。
+
+四个 M4 Fixture 使用 `test.*` ContentId 和 `placeholder.presentation.*` 表现 ID，属于
+development-only Placeholder 内容，不得进入 release label。
 
 ## 6. 构筑
 

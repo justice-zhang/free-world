@@ -57,3 +57,18 @@
 | M3-KI-005 | PLANNED | Medium | M3 未运行 30 分钟 Soak 和 1,500/3,000/5,000 实体压力基准。 | 当前性能数据为 `NOT RUN`；M10 使用固定种子压力场景输出性能 JSON，再依证据决定 Jobs/Burst 后端。 |
 
 当前没有阻止 M4 开始的 `OPEN` 问题。
+
+## M4
+
+| ID | 状态 | 严重度 | 问题与影响 | 处理 |
+|---|---|---|---|---|
+| M4-KI-001 | RESOLVED | High | LevelPatch 曾只验证路径和操作数，逐级累积可产生非有限浮点、32 位整数溢出或非法 Effect 参数。 | ContentValidator 现在按等级应用并验证累积结果；float 非有限值和 int 溢出回归测试已覆盖。 |
+| M4-KI-002 | RESOLVED | High | SpawnSecondarySkill 曾接受不可执行的旧 Schema Skill，且只预注册一层引用，三级调用链会静默中断。 | 引用必须指向可执行 Skill；secondary 引用递归预注册并通过已有实例去重防环；一层和三级 ProcDepth 测试已覆盖。 |
+| M4-KI-003 | RESOLVED | Medium | Actor 删除时 Skill Instance 曾不释放，实例计数与固定 Tick 扫描上界会持续增长，旧句柄也无法安全复用。 | 实例槽增加空闲链表和 ushort 代际；Owner 删除释放全部实例并使旧句柄失效；删除/复用测试已覆盖。 |
+| M4-KI-004 | RESOLVED | Medium | Heal resolver 曾直接写 ActorCombatRecord.HealthCurrent，不符合 Skill 不直接修改 Health 的验收边界。 | Health 变更下沉到 ActorStore 的程序集内部 TryApplyHealing；Skill 文件对 HealthCurrent 静态搜索零命中，既有 Heal 行为测试通过。 |
+| M4-KI-005 | ACCEPTED | Low | OnPickup Trigger 已有纯模拟提交入口，但尚无实际拾取事件生产者。 | M4 只交付并测试 Trigger 契约；实际 Pickup 流程在后续对应里程碑接入，不在 M4 扩张。 |
+| M4-KI-006 | ACCEPTED | Low | Skill Preview 使用固定静止目标和有限窗口，不代表最终移动构筑或高并发性能。 | 仅将 Preview 作为固定种子 DPS、命中和触发次数回归工具；不把结果外推为性能预算。 |
+| M4-KI-007 | PLANNED | Medium | M4 未运行 30 分钟 Soak 和 1,500/3,000/5,000 实体压力基准。 | 当前为 `NOT RUN`；M10 使用固定种子压力场景输出性能 JSON 后再决定 Jobs/Burst 优化。 |
+| M4-KI-008 | ACCEPTED | Low | 最终 Validation 日志中 Unity 公共配置请求出现 Curl 42/超时，同时启动阶段有已知 LicenseClient 握手噪声。 | 脚本仍以 exit 0 完成并输出 `[Project Validation] PASS`；测试 XML、Build PASS 标记和 `Succeeded` Manifest 均独立有效。若后续缺少任一门禁证据，必须按 FAIL 处理。 |
+
+当前没有阻止 M5 开始的 `OPEN` 问题。
