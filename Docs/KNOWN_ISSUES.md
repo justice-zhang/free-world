@@ -83,3 +83,16 @@
 | M5-KI-004 | PLANNED | Medium | M5 未运行 30 分钟 Soak 和 1,500/3,000/5,000 目标实体压力基准。 | 五分钟 Headless 只证明小型 Encounter 的正确性和有界清理；目标规模与性能 JSON 在 M10 执行，当前不得描述为通过。 |
 
 当前没有阻止 M6 开始的 `OPEN` 问题。
+
+## M6
+
+| ID | 状态 | 严重度 | 问题与影响 | 处理 |
+|---|---|---|---|---|
+| M6-KI-001 | RESOLVED | High | Unity `JsonUtility` 会把不适用于某类 Synergy Output 的嵌套 DTO 恢复为空对象，旧解析器按非 null 判断并尝试解析空 Effect/Modifier，导致有效 baked Pack 验证失败。 | DTO 按 Output Type 只解析对应字段；真实 `JsonUtility` round-trip 与 Project Validation 已覆盖。 |
+| M6-KI-002 | RESOLVED | High | 多个具体 ScriptableObject 类型最初与共享作者类放在同一文件，Unity 生成 Placeholder 时无法稳定解析脚本，资产可能出现 `m_Script: 0`。 | Passive/Trait/Synergy/Evolution/UpgradeOffer 具体类已拆分到同名文件；重新生成 Pack 后无缺失脚本，验证 PASS。 |
+| M6-KI-003 | ACCEPTED | Low | Synergy 在条件首次满足时一次性激活并锁存；后续因 Evolution 消费或替换而不再满足条件时，不撤销已应用的 Modifier、Effect、Trait 或 Unlock。 | M6 将条件定义为激活条件并保证输出只应用一次，避免反复抖动；需要可撤销联动时必须先提出通用 Schema/生命周期 Change Request。 |
+| M6-KI-004 | ACCEPTED | Low | M6 没有升级 UI，只有应用层 `RunSession` 命令接口和 `UpgradeOfferSet`。 | 符合 M6 验收边界；M7 View/UI 只展示候选并提交命令，不复制过滤、权重或构筑规则。 |
+| M6-KI-005 | ACCEPTED | Low | 10 分钟自动玩家 Harness 使用小型 Placeholder Encounter，不输出 Tick 分位、GC 或内存趋势。 | 只把结果用于成长链路、确定性和显式清理证明，不外推为目标规模性能结论。 |
+| M6-KI-006 | PLANNED | Medium | M6 未运行 30 分钟 Soak 和 1,500 敌人、3,000 投射物、5,000 拾取物压力基准。 | 当前为 `NOT RUN`；M10 使用固定种子场景输出性能 JSON 后再判断性能门禁。 |
+
+当前没有阻止 M7 开始的 `OPEN` 问题。

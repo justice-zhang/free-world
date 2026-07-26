@@ -245,3 +245,48 @@ M5 只能从带 `framework-m4` 标签的最终 `main` 创建独立分支；必�
 M6 只能从带 `framework-m5` 标签的最终 `main` 创建独立分支；必须复用 M5 的 Content 驱动
 Enemy/Map/Encounter、`IMapRuntime`、Spawn Request Buffer、Difficulty Snapshot 和集中式敌人
 系统，不得把刷怪时间线或逐敌人逻辑写入 Scene MonoBehaviour。
+
+## M6：局内成长、构筑、联动与进化
+
+- 状态：`COMPLETE`
+- 日期：2026-07-26
+- Unity：`6000.3.20f1`
+- 实现报告：`Docs/Reports/2026-07-26-m6-build-progression.md`
+- 审查报告：`Docs/Reports/2026-07-26-m6-strict-review.md`
+- 最终标签：合并后创建 `framework-m6`
+
+### 集成记录
+
+| 项目 | 记录 |
+|---|---|
+| M6 实现提交 | `fc66a1d47036bbcd29698a2b3b251154f55cfd66` |
+| M6 远程分支 | `codex/m6-build-progression` |
+| M6 实现合并 | 待本分支 GitHub PR 创建后补录；`framework-m6` 将指向最终 merge commit |
+| 严格审查修复 | 修复 Unity JsonUtility 空嵌套 DTO、具体 ScriptableObject 文件名绑定、Synergy 热路径 RuntimeContentIndex 比较，并补齐 AddEffectOp 行为证据 |
+
+### 最终检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| Git diff、日志与范围 | PASS | 相对 M6 基线新增 73、修改 19、删除 0，共 92 个实现文件；全部属于 M6 Schema、运行时、Placeholder、测试或同步文档 |
+| Scene / asmdef / Packages / ProjectSettings | PASS | 均无变更；Build Settings 继续使用已验收 Bootstrap |
+| asmdef 与禁用模式 | PASS | Core/Simulation 无 UnityEngine；Find、Resources、全局随机、Service Locator、高频 LINQ/反射、逐敌人 Update 均零命中 |
+| Unity 编译 | PASS | 最终 EditMode、PlayMode、验证和 Development Build 均完成脚本编译，无 C# 编译失败 |
+| EditMode | PASS | `TestResults/M6Final/editmode.xml`：154/154，0 failed，0 skipped |
+| PlayMode | PASS | `TestResults/M6Final/playmode.xml`：5/5，0 failed，0 skipped |
+| 内容/工程验证 | PASS | `TestResults/M6Final/validation.log`：`[Project Validation] PASS` |
+| Windows Development Build | PASS | Manifest：`Succeeded`、`StandaloneWindows64`、Development；EXE SHA-256 `5D7EEB5359C2E35E4EB1F6A5844B25C3D7556795BD2F15EC234A2011406BC9C6` |
+| 10 分钟自动局 | PASS | 同一 Seed 两次各 18,000 Tick，统计/Checksum 一致、显式清理无泄漏、无效 Handle 为 0 |
+| Release Build | NOT RUN | M6 适用门禁为 Windows Development Build；Release 留待正式发布阶段 |
+| 性能/Soak | NOT RUN | 30 分钟和 1,500/3,000/5,000 目标实体压力 JSON 固定在 M10 执行 |
+
+### 已知问题
+
+`Docs/KNOWN_ISSUES.md` 已登记 M6-KI-001 至 M6-KI-006；两项审查问题已解决，其余为已接受
+边界或 M10 计划项。当前没有阻止 M7 开始的 `OPEN` 问题。
+
+### 下一步
+
+先通过 GitHub PR 合并 M6、创建并推送 `framework-m6`，再从最终 `main`/`framework-m6`
+创建 M7 独立分支。M7 只消费 `RunSession`、`UpgradeOfferSet` 和 `RenderSnapshot`，不得把
+候选生成、构筑资格或模拟真值复制到 View/UI。
