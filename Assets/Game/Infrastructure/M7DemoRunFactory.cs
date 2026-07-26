@@ -20,7 +20,10 @@ namespace Game.Infrastructure
     /// </summary>
     internal static class M7DemoRunFactory
     {
-        private const ulong DemoSeed = 0x4D3750524553454EUL;
+        public const ulong DemoSeed = 0x4D3750524553454EUL;
+        public const string DemoCharacterId = "test.character.runner";
+        public const string DemoMapId = "test.map.finite_arena";
+        public const string DemoInitialSkillId = "test.skill.single_projectile";
 
         public static Result<M7DemoRunContext> Create(
             ContentRegistry content,
@@ -28,9 +31,9 @@ namespace Game.Infrastructure
         {
             if (content == null) throw new ArgumentNullException(nameof(content));
             if (stateMachine == null) throw new ArgumentNullException(nameof(stateMachine));
-            var mapId = RequireId("test.map.finite_arena");
+            var mapId = RequireId(DemoMapId);
             var encounterId = RequireId("test.encounter.five_minute");
-            var initialSkillId = RequireId("test.skill.single_projectile");
+            var initialSkillId = RequireId(DemoInitialSkillId);
             if (!content.TryGet(mapId, out RuntimeMapDefinition map))
                 return Failure("M7 Placeholder map is missing.");
             if (!content.TryGet(encounterId, out RuntimeEncounterSchedule schedule))

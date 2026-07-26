@@ -335,3 +335,47 @@ Enemy/Map/Encounter、`IMapRuntime`、Spawn Request Buffer、Difficulty Snapshot
 先通过 GitHub PR 合并 M7、创建并推送 `framework-m7`，再从最终 `main`/`framework-m7`
 创建 M8 独立分支。M8 接入 Localization Table、伪本地化、字体覆盖和内容工具时，必须继续
 复用 M7 Presenter/ViewModel 边界，不把正式文本或内容规则硬编码到 UI。
+
+## M8：版本化存档、本地化与平台边界
+
+- 状态：`COMPLETE`
+- 日期：2026-07-26
+- Unity：`6000.3.20f1`
+- 实现报告：`Docs/Reports/2026-07-26-m8-save-localization-platform.md`
+- 审查报告：`Docs/Reports/2026-07-26-m8-strict-review.md`
+- 最终标签：`framework-m8`
+
+### 集成记录
+
+| 项目 | 记录 |
+|---|---|
+| M8 实现提交 | `baddd6914c07a173cc4a6091886f1580c9a1f29d` |
+| M8 远程分支 | `codex/m8-save-localization-platform` |
+| M8 实现合并 | GitHub PR #14；`framework-m8` 指向该 PR 的最终 merge commit |
+| 严格审查修复 | 修复 Unity Context 异步文件死锁、Pseudo 运行时回退、Localization Editor 验证源、异步平台路由，并补齐 103 Key 正式门禁 |
+
+### 最终检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| Git diff、日志与范围 | PASS | 相对 `framework-m7` 新增/修改 100 个实现文件、删除 0；全部属于 M8 代码、Unity Localization 资产、测试或同步文档 |
+| Scene / ProjectSettings | PASS | Scene 无变更；Build Settings 只登记 Localization Settings，Bootstrap 仍为唯一启用 Scene |
+| asmdef 与禁用模式 | PASS | Assembly 治理测试通过；Core/Simulation 无 Unity/平台污染；禁用查找、Resources.Load、Service Locator、BinaryFormatter 零命中 |
+| Unity 编译 | PASS | 最终测试、验证和 Development Build 均无 C# 编译失败 |
+| EditMode | PASS | `TestResults/M8Final/editmode.xml`：172/172，0 failed，0 skipped |
+| PlayMode | PASS | `TestResults/M8Final/playmode.xml`：9/9，0 failed，0 skipped |
+| 内容/工程验证 | PASS | `TestResults/M8Final/validation.log`：`[Project Validation] PASS`；103 个双语 Key |
+| Windows Development Build | PASS | Manifest：`Succeeded`、`StandaloneWindows64`、Development；EXE SHA-256 `5D7EEB...C9C6` |
+| Release Build | NOT RUN | M8 适用门禁为 Windows Development Build；Release 留待正式发布阶段 |
+| 性能/Soak | NOT RUN | 30 分钟和 1,500/3,000/5,000 目标规模压力 JSON 固定在 M10 |
+
+### 已知问题
+
+`Docs/KNOWN_ISSUES.md` 已登记 M8-KI-001 至 M8-KI-004，均为已接受限制或 M10 计划项；当前没有
+阻止 M9 开始的 `OPEN` 问题。
+
+### 下一步
+
+M9 只能从带 `framework-m8` 标签的最终 `main` 创建独立分支。真实平台实现必须替换现有 Facade
+子服务并消费 Application Event/Cloud Conflict 边界，不得让 SDK 进入 Simulation；若扩展完整续局
+格式，必须新增连续存档迁移和 ADR/Change Request。

@@ -74,9 +74,11 @@ M7 自动化覆盖：
 
 - 场景释放后无 View、池 Owner 或输入订阅残留
 
-仍需验证：
+M8 自动化覆盖：
 
-- 伪本地化无明显裁切（M8 Localization 接入后执行）
+- 无 Steam 环境从 Bootstrap 到设置、开局、结算的完整本地流程。
+- 英文、简体中文和扩展伪本地化解析；运行时 CJK 字体覆盖。
+- 设置离开页面时保存，开局创建恢复文件，结算保存 Profile 并删除恢复文件。
 
 ## 3. Headless Soak Test
 
@@ -210,4 +212,19 @@ M3 未引入 Jobs、Burst 或新的第三方运行时依赖。
 - 同一 Seed 的十分钟自动移动/拾取/升级运行两次，比较 Tick、等级、击杀、拾取、选择数和校验值。
 
 十分钟 Harness 是 M6 正确性、确定性和清理门禁，不是目标实体规模性能证明。30 分钟 Soak、
+1,500/3,000/5,000 压力和性能分位 JSON 继续为 `NOT RUN`，在 M10 执行。
+
+## 12. M8 已落地覆盖
+
+- Settings、Profile、RunRecovery 三类 Schema 2 文档 round-trip；JSON 不含 RuntimeContentIndex。
+- 异步原子写入在 temp flush 后取消仍保留主文件并清理 temp。
+- 主文件 SHA-256 失败时恢复上一备份；无备份时返回 ChecksumMismatch。
+- Settings v1 固定样本通过显式注册表迁移到 v2；三类迁移链均已注册。
+- Profile 缺失解锁保留 ID 并告警；RunRecovery 缺少必需内容返回 MissingContent。
+- 英文、简中和 Pseudo Locale 实际解析；Project Validation 检查两张表全部固定/内容 Key 非空。
+- 云冲突覆盖本地较新、远端较新和分叉；Null 的五个子服务无需 Steam SDK 即完成调用。
+- Simulation Assembly 静态验证不引用 Platform；应用事件路由完成统计/成就边界。
+- PlayMode 覆盖语言呈现、CJK 字体、设置保存、恢复文件和 Profile 生命周期。
+
+M8 文件 I/O 和平台调用只在低频 Application Event 发生，不属于固定 Tick 性能热点。30 分钟 Soak、
 1,500/3,000/5,000 压力和性能分位 JSON 继续为 `NOT RUN`，在 M10 执行。

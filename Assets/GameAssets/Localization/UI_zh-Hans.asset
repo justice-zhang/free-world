@@ -1,0 +1,435 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UI_zh-Hans
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: zh-Hans
+  m_SharedData: {fileID: 11400000, guid: cc92ffcafacf02d4fad1cd86eb48f7fa, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 1072685056
+    m_Localized: "\u6B63\u5728\u542F\u52A8"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599616
+    m_Localized: "\u81EA\u7531\u4E16\u754C\u6846\u67B6"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599617
+    m_Localized: "\u5F00\u59CB\u6D4B\u8BD5\u5C40"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599618
+    m_Localized: "\u8BBE\u7F6E"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599619
+    m_Localized: "\u9009\u62E9\u89D2\u8272"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599620
+    m_Localized: "\u9009\u62E9\u5730\u56FE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599621
+    m_Localized: "\u52A0\u8F7D\u4E2D"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599622
+    m_Localized: "\u6D4B\u8BD5\u5C40"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599623
+    m_Localized: "\u5DF2\u6682\u505C"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599624
+    m_Localized: "\u7EE7\u7EED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599625
+    m_Localized: "\u8BBE\u7F6E"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599626
+    m_Localized: "\u7ED3\u675F\u672C\u5C40"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599627
+    m_Localized: "\u9009\u62E9\u5347\u7EA7"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599628
+    m_Localized: "\u8DF3\u8FC7"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599629
+    m_Localized: "\u672C\u5C40\u7ED3\u7B97"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599630
+    m_Localized: "\u8FD4\u56DE\u4E3B\u83DC\u5355"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599631
+    m_Localized: "\u5DF2\u5B8C\u6210"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599632
+    m_Localized: "\u5DF2\u5931\u8D25"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599633
+    m_Localized: "\u5DF2\u653E\u5F03"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599634
+    m_Localized: "\u8BBE\u7F6E"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599635
+    m_Localized: "\u91CD\u6620\u5C04\u6309\u952E"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599636
+    m_Localized: "\u6447\u6746\u6B7B\u533A"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599637
+    m_Localized: "\u9707\u52A8"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599638
+    m_Localized: "\u5C4F\u5E55\u9707\u52A8"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599639
+    m_Localized: "\u95EA\u5149\u5F3A\u5EA6"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599640
+    m_Localized: "\u4F24\u5BB3\u6570\u5B57"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599641
+    m_Localized: "\u81EA\u52A8\u7784\u51C6"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599642
+    m_Localized: "\u8BED\u8A00"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599643
+    m_Localized: "\u5185\u5BB9\u9519\u8BEF"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599644
+    m_Localized: "\u8FD4\u56DE\u4E3B\u83DC\u5355"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599645
+    m_Localized: "\u672A\u627E\u5230\u5DF2\u6709\u5B58\u6863\u3002"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599646
+    m_Localized: "\u4FDD\u5B58\u5DF2\u53D6\u6D88\u3002"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599647
+    m_Localized: "\u65E0\u6CD5\u8BBF\u95EE\u5B58\u6863\u6587\u4EF6\u3002"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599648
+    m_Localized: "\u5B58\u6863\u683C\u5F0F\u65E0\u6548\u3002"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599649
+    m_Localized: "\u5B58\u6863\u6821\u9A8C\u5931\u8D25\u3002"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599650
+    m_Localized: "\u8BE5\u5B58\u6863\u9700\u8981\u66F4\u65B0\u7248\u672C\u7684\u6E38\u620F\u3002"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599651
+    m_Localized: "\u8BE5\u5B58\u6863\u65E0\u6CD5\u8FC1\u79FB\u3002"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599652
+    m_Localized: "\u5C40\u5185\u6062\u590D\u6240\u9700\u5185\u5BB9\u7F3A\u5931\uFF0C\u65E0\u6CD5\u7EE7\u7EED\u3002"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599653
+    m_Localized: "\u5DF2\u6062\u590D\u4E0A\u4E00\u4EFD\u5B58\u6863\u5907\u4EFD\u3002"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599654
+    m_Localized: "\u5DF2\u4FDD\u7559\u7F3A\u5931\u89E3\u9501\u9879\u7528\u4E8E\u8BCA\u65AD\u3002"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599655
+    m_Localized: "\u5E73\u53F0\u670D\u52A1\u4E0D\u53EF\u7528\uFF1B\u4ECD\u53EF\u8FDB\u884C\u672C\u5730\u6E38\u620F\u3002"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599656
+    m_Localized: "\u5E73\u53F0\u64CD\u4F5C\u5DF2\u53D6\u6D88\u3002"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599657
+    m_Localized: "[\u5360\u4F4D] force"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599658
+    m_Localized: "[\u5360\u4F4D] force description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599659
+    m_Localized: "[\u5360\u4F4D] reach"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599660
+    m_Localized: "[\u5360\u4F4D] reach description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599661
+    m_Localized: "[\u5360\u4F4D] prepared"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988224
+    m_Localized: "[\u5360\u4F4D] prepared description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988225
+    m_Localized: "[\u5360\u4F4D] projectile area"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988226
+    m_Localized: "[\u5360\u4F4D] projectile area description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988227
+    m_Localized: "[\u5360\u4F4D] single"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988228
+    m_Localized: "[\u5360\u4F4D] single description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988229
+    m_Localized: "[\u5360\u4F4D] orbit"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988230
+    m_Localized: "[\u5360\u4F4D] orbit description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988231
+    m_Localized: "[\u5360\u4F4D] force"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988232
+    m_Localized: "[\u5360\u4F4D] force description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988233
+    m_Localized: "[\u5360\u4F4D] reach"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988234
+    m_Localized: "[\u5360\u4F4D] reach description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988235
+    m_Localized: "[\u5360\u4F4D] evolution"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988236
+    m_Localized: "[\u5360\u4F4D] evolution description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988237
+    m_Localized: "[\u5360\u4F4D] force"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988238
+    m_Localized: "[\u5360\u4F4D] force description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988239
+    m_Localized: "[\u5360\u4F4D] reach orbit"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988240
+    m_Localized: "[\u5360\u4F4D] reach orbit description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988241
+    m_Localized: "[\u5360\u4F4D] runner"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988242
+    m_Localized: "[\u5360\u4F4D] runner description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988243
+    m_Localized: "[\u5360\u4F4D] pulse"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988244
+    m_Localized: "[\u5360\u4F4D] pulse description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988245
+    m_Localized: "[\u5360\u4F4D] placeholder"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988246
+    m_Localized: "[\u5360\u4F4D] placeholder description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988247
+    m_Localized: "[\u5360\u4F4D] arena"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988248
+    m_Localized: "[\u5360\u4F4D] arena description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988249
+    m_Localized: "[\u5360\u4F4D] chaser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988250
+    m_Localized: "[\u5360\u4F4D] chaser description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988251
+    m_Localized: "[\u5360\u4F4D] keep distance"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988252
+    m_Localized: "[\u5360\u4F4D] keep distance description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988253
+    m_Localized: "[\u5360\u4F4D] charger"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988254
+    m_Localized: "[\u5360\u4F4D] charger description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988255
+    m_Localized: "[\u5360\u4F4D] ranged"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988256
+    m_Localized: "[\u5360\u4F4D] ranged description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988257
+    m_Localized: "[\u5360\u4F4D] boss"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988258
+    m_Localized: "[\u5360\u4F4D] boss description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988259
+    m_Localized: "[\u5360\u4F4D] five minute"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988260
+    m_Localized: "[\u5360\u4F4D] five minute description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988261
+    m_Localized: "[\u5360\u4F4D] finite arena"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988262
+    m_Localized: "[\u5360\u4F4D] finite arena description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988263
+    m_Localized: "[\u5360\u4F4D] chunked infinite"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988264
+    m_Localized: "[\u5360\u4F4D] chunked infinite description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988265
+    m_Localized: "[\u5360\u4F4D] single projectile"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988266
+    m_Localized: "[\u5360\u4F4D] single projectile description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988267
+    m_Localized: "[\u5360\u4F4D] orbit"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988268
+    m_Localized: "[\u5360\u4F4D] orbit description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988269
+    m_Localized: "[\u5360\u4F4D] ground area"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988270
+    m_Localized: "[\u5360\u4F4D] ground area description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988271
+    m_Localized: "[\u5360\u4F4D] damage aura"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988272
+    m_Localized: "[\u5360\u4F4D] damage aura description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988273
+    m_Localized: "[\u5360\u4F4D] burning"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988274
+    m_Localized: "[\u5360\u4F4D] burning description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988275
+    m_Localized: "[\u5360\u4F4D] slow"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988276
+    m_Localized: "[\u5360\u4F4D] slow description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988277
+    m_Localized: "[\u5360\u4F4D] shielded"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988278
+    m_Localized: "[\u5360\u4F4D] shielded description"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4047217090560
+    m_Localized: "\u5E73\u53F0\u64CD\u4F5C\u5931\u8D25\uFF1B\u4ECD\u53EF\u8FDB\u884C\u672C\u5730\u6E38\u620F\u3002"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

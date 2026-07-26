@@ -101,9 +101,20 @@
 
 | ID | 状态 | 严重度 | 问题与影响 | 处理 |
 |---|---|---|---|---|
-| M7-KI-001 | ACCEPTED | Low | Placeholder UI 当前显示 Localization Key，不包含正式语言表、字体回退或伪本地化裁切证据。 | M7 保证逻辑中只传 Key；M8 接入 Localization Table 后执行伪本地化和字体覆盖。 |
+| M7-KI-001 | RESOLVED | Low | Placeholder UI 当前显示 Localization Key，不包含正式语言表、字体回退或伪本地化裁切证据。 | M8 已接入英文、简中、Pseudo String Table，运行时解析 Key、使用 Windows CJK 动态字体候选，并以 EditMode/PlayMode 验证三语言和中文字符覆盖。 |
 | M7-KI-002 | ACCEPTED | Low | Projectile、Area、Pickup 和玩家当前没有实例级 VisualProfileId，因而使用 EntityKind 程序化 fallback。 | 敌人已消费稳定 VisualProfileId；未来若需要实例级外观，先扩展通用只读 Snapshot 身份，不把 Unity Object 放入 Simulation。 |
 | M7-KI-003 | PLANNED | Medium | 四类 View/VFX/Audio/伤害数字已池化，但尚未在 1,500/3,000/5,000 目标规模测量池命中、GC 和帧时间。 | 本次只声明生命周期与功能 PASS；M10 输出目标规模性能 JSON 前不得宣称性能门禁通过。 |
 | M7-KI-004 | ACCEPTED | Low | Debug Action Map 在框架开发阶段始终启用，包含触发一次真实升级流程和完成测试局的入口。 | 仅用于 Placeholder 验收；Release 配置门禁在发布前必须禁用 Debug Map。 |
 
 当前没有阻止 M8 开始的 `OPEN` 问题。
+
+## M8
+
+| ID | 状态 | 严重度 | 问题与影响 | 处理 |
+|---|---|---|---|---|
+| M8-KI-001 | ACCEPTED | Low | `run_recovery.json` 当前在开局记录 Seed、角色、地图和初始技能，结算时删除；尚未周期保存完整局中 Snapshot，也没有“继续本局”UI。 | M8 交付恢复文档、迁移、校验和缺失内容拒绝边界；在定义完整可重建 Snapshot 前不得假称任意时刻恢复。 |
+| M8-KI-002 | ACCEPTED | Low | Cloud 只有 Revision、冲突分类和 Null 服务，没有远端传输、用户冲突选择页面或真实 Steam SDK。 | 符合 M8 禁止集成真实 SDK 的范围；后续平台任务通过 `ICloudSyncService` 接入，本地文件始终是真值。 |
+| M8-KI-003 | ACCEPTED | Low | Placeholder UI 的简中覆盖依赖 Windows 已安装的微软雅黑/黑体等系统字体候选，不随游戏分发正式字体资产。 | 首发目标 Windows x64 的 PlayMode 已验证中文字符；正式品牌字体必须在来源、嵌入许可和 fallback 完成后单独导入。 |
+| M8-KI-004 | PLANNED | Medium | 低频存档 I/O、Localization、平台边界未执行 30 分钟 Soak 或目标实体规模性能基准。 | 当前为 `NOT RUN`；M10 按性能预算输出 30 分钟和 1,500/3,000/5,000 压力 JSON。 |
+
+当前没有阻止 M9 开始的 `OPEN` 问题。

@@ -4,6 +4,8 @@ using Game.Core;
 using Game.Platform.Abstractions;
 using Game.Platform.Null;
 using System.Collections.Generic;
+using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,6 +26,7 @@ namespace Game.Infrastructure
         [SerializeField] private Camera presentationCamera;
         [SerializeField] private InputActionAsset inputActions;
         private GameApplication application;
+        private M8RuntimeServices persistence;
 
         /// <summary>
         /// Gets the initialized application instance.
@@ -34,6 +37,9 @@ namespace Game.Infrastructure
         /// Gets the platform facade created by this composition root.
         /// </summary>
         public IPlatformFacade PlatformFacade => application?.Platform;
+
+        /// <summary>Gets M8 persistence and application-event services.</summary>
+        public M8RuntimeServices Persistence => persistence;
 
         /// <summary>
         /// Gets the current high-level state.
@@ -72,8 +78,9 @@ namespace Game.Infrastructure
             activeInstance = this;
             DontDestroyOnLoad(gameObject);
 
+            var platform = new NullPlatformFacade();
             application = new GameApplication(
-                new NullPlatformFacade(),
+                platform,
                 new GameStateMachine(),
                 new ContentRegistry());
             application.StateMachine.EnterBootstrap();
@@ -124,21 +131,43 @@ namespace Game.Infrastructure
                 return;
             }
 
+            var packVersions = new SavePackVersion[catalogs.Count];
+            for (var index = 0; index < catalogs.Count; index++)
+                packVersions[index] = new SavePackVersion(catalogs[index].Manifest.PackId, catalogs[index].Manifest.Version);
+            var storage = new LocalFileSaveStorage(ResolveSaveRoot());
+            var coordinator = new SaveCoordinator(storage, new UnityJsonSaveCodec(), application.ContentRegistry);
+            persistence = new M8RuntimeServices(application, coordinator, platform, packVersions);
+            persistence.Initialize();
+
             var host = gameObject.AddComponent<M7RuntimeHost>();
-            host.Initialize(application, presentationCamera, inputActions);
+            host.Initialize(application, presentationCamera, inputActions, persistence);
 
             Debug.Log(
                 "[Bootstrap] Loaded content: packs=" + initialization.Value.PackCount +
                 ", entries=" + initialization.Value.DefinitionCount +
-                "; NullPlatformFacade and M7 runtime initialized; entered MainMenu.");
+                "; M8 local save/localization and NullPlatformFacade initialized; entered MainMenu.");
         }
 
         private void OnDestroy()
         {
             if (activeInstance == this)
             {
+                persistence?.Dispose();
+                persistence = null;
                 activeInstance = null;
             }
+        }
+
+        /// <summary>Resolves the isolated Editor or persistent Player save directory.</summary>
+        public static string ResolveSaveRoot()
+        {
+            var overridePath = Environment.GetEnvironmentVariable("AZURESWORD_SAVE_ROOT");
+            if (!string.IsNullOrWhiteSpace(overridePath)) return Path.GetFullPath(overridePath);
+#if UNITY_EDITOR
+            return Path.Combine(UnityEngine.Application.temporaryCachePath, "AzureSwordEditorSaves", System.Diagnostics.Process.GetCurrentProcess().Id.ToString());
+#else
+            return Path.Combine(UnityEngine.Application.persistentDataPath, "Saves");
+#endif
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]

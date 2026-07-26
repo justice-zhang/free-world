@@ -1,0 +1,435 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UI_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: cc92ffcafacf02d4fad1cd86eb48f7fa, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 1072685056
+    m_Localized: Starting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599616
+    m_Localized: Free World Framework
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599617
+    m_Localized: Start Test Run
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599618
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599619
+    m_Localized: Select Character
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599620
+    m_Localized: Select Map
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599621
+    m_Localized: Loading
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599622
+    m_Localized: Test Run
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599623
+    m_Localized: Paused
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599624
+    m_Localized: Resume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599625
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599626
+    m_Localized: End Run
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599627
+    m_Localized: Choose Upgrade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599628
+    m_Localized: Skip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599629
+    m_Localized: Run Result
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599630
+    m_Localized: Main Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599631
+    m_Localized: Completed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599632
+    m_Localized: Defeated
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599633
+    m_Localized: Abandoned
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599634
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599635
+    m_Localized: Rebind Controls
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599636
+    m_Localized: Stick Deadzone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599637
+    m_Localized: Vibration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599638
+    m_Localized: Screen Shake
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599639
+    m_Localized: Flash Intensity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599640
+    m_Localized: Damage Numbers
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599641
+    m_Localized: Auto Aim
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599642
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599643
+    m_Localized: Content Error
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599644
+    m_Localized: Main Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599645
+    m_Localized: No previous save was found.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599646
+    m_Localized: Saving was cancelled.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599647
+    m_Localized: The save file could not be accessed.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599648
+    m_Localized: The save format is invalid.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599649
+    m_Localized: The save checksum is invalid.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599650
+    m_Localized: This save requires a newer game version.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599651
+    m_Localized: This save cannot be migrated.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599652
+    m_Localized: This run cannot resume because content is missing.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599653
+    m_Localized: The previous save backup was restored.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599654
+    m_Localized: An unavailable unlock was retained for diagnostics.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599655
+    m_Localized: Platform services are unavailable; local play remains enabled.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599656
+    m_Localized: The platform operation was cancelled.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599657
+    m_Localized: '[Placeholder] force'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599658
+    m_Localized: '[Placeholder] force description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599659
+    m_Localized: '[Placeholder] reach'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599660
+    m_Localized: '[Placeholder] reach description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1135599661
+    m_Localized: '[Placeholder] prepared'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988224
+    m_Localized: '[Placeholder] prepared description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988225
+    m_Localized: '[Placeholder] projectile area'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988226
+    m_Localized: '[Placeholder] projectile area description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988227
+    m_Localized: '[Placeholder] single'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988228
+    m_Localized: '[Placeholder] single description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988229
+    m_Localized: '[Placeholder] orbit'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988230
+    m_Localized: '[Placeholder] orbit description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988231
+    m_Localized: '[Placeholder] force'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988232
+    m_Localized: '[Placeholder] force description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988233
+    m_Localized: '[Placeholder] reach'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988234
+    m_Localized: '[Placeholder] reach description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988235
+    m_Localized: '[Placeholder] evolution'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988236
+    m_Localized: '[Placeholder] evolution description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988237
+    m_Localized: '[Placeholder] force'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988238
+    m_Localized: '[Placeholder] force description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988239
+    m_Localized: '[Placeholder] reach orbit'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988240
+    m_Localized: '[Placeholder] reach orbit description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988241
+    m_Localized: '[Placeholder] runner'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988242
+    m_Localized: '[Placeholder] runner description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988243
+    m_Localized: '[Placeholder] pulse'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988244
+    m_Localized: '[Placeholder] pulse description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988245
+    m_Localized: '[Placeholder] placeholder'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988246
+    m_Localized: '[Placeholder] placeholder description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988247
+    m_Localized: '[Placeholder] arena'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988248
+    m_Localized: '[Placeholder] arena description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988249
+    m_Localized: '[Placeholder] chaser'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988250
+    m_Localized: '[Placeholder] chaser description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988251
+    m_Localized: '[Placeholder] keep distance'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988252
+    m_Localized: '[Placeholder] keep distance description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988253
+    m_Localized: '[Placeholder] charger'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988254
+    m_Localized: '[Placeholder] charger description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988255
+    m_Localized: '[Placeholder] ranged'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988256
+    m_Localized: '[Placeholder] ranged description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988257
+    m_Localized: '[Placeholder] boss'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988258
+    m_Localized: '[Placeholder] boss description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988259
+    m_Localized: '[Placeholder] five minute'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988260
+    m_Localized: '[Placeholder] five minute description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988261
+    m_Localized: '[Placeholder] finite arena'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988262
+    m_Localized: '[Placeholder] finite arena description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988263
+    m_Localized: '[Placeholder] chunked infinite'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988264
+    m_Localized: '[Placeholder] chunked infinite description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988265
+    m_Localized: '[Placeholder] single projectile'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988266
+    m_Localized: '[Placeholder] single projectile description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988267
+    m_Localized: '[Placeholder] orbit'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988268
+    m_Localized: '[Placeholder] orbit description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988269
+    m_Localized: '[Placeholder] ground area'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988270
+    m_Localized: '[Placeholder] ground area description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988271
+    m_Localized: '[Placeholder] damage aura'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988272
+    m_Localized: '[Placeholder] damage aura description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988273
+    m_Localized: '[Placeholder] burning'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988274
+    m_Localized: '[Placeholder] burning description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988275
+    m_Localized: '[Placeholder] slow'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988276
+    m_Localized: '[Placeholder] slow description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988277
+    m_Localized: '[Placeholder] shielded'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1143988278
+    m_Localized: '[Placeholder] shielded description'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4047217090560
+    m_Localized: The platform operation failed; local play remains enabled.
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

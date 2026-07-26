@@ -69,7 +69,7 @@ namespace Game.UI
     {
         private static readonly string[] Empty = Array.Empty<string>();
         private static readonly string[] MainMenuOptions = { "ui.main_menu.start", "ui.main_menu.settings" };
-        private static readonly string[] CharacterOptions = { "content.test.character.name" };
+        private static readonly string[] CharacterOptions = { "content.test.character.runner.name" };
         private static readonly string[] MapOptions = { "content.test.map.finite_arena.name" };
         private static readonly string[] PauseOptions = { "ui.pause.resume", "ui.pause.settings", "ui.pause.end_run" };
         private static readonly string[] ResultOptions = { "ui.result.main_menu" };
@@ -82,23 +82,27 @@ namespace Game.UI
             "ui.settings.screen_shake",
             "ui.settings.flash_intensity",
             "ui.settings.damage_numbers",
-            "ui.settings.auto_aim"
+            "ui.settings.auto_aim",
+            "ui.settings.language"
         };
 
         private readonly IGameFlowController flow;
         private readonly IGameFlowView view;
         private readonly IInputRebindService rebindService;
+        private readonly ILocalizationService localization;
         private readonly UiPageViewModel model = new UiPageViewModel();
         private readonly string[] upgradeOptions = new string[3];
 
         public GameFlowPresenter(
             IGameFlowController flowController,
             IGameFlowView flowView,
-            IInputRebindService inputRebindService)
+            IInputRebindService inputRebindService,
+            ILocalizationService localizationService)
         {
             flow = flowController ?? throw new ArgumentNullException(nameof(flowController));
             view = flowView ?? throw new ArgumentNullException(nameof(flowView));
             rebindService = inputRebindService ?? throw new ArgumentNullException(nameof(inputRebindService));
+            localization = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
             Refresh();
         }
 
@@ -251,6 +255,9 @@ namespace Game.UI
                     break;
                 case 6:
                     settings.SetAutoAim((AutoAimStrategy)(((int)settings.AutoAim + 1) % 4));
+                    break;
+                case 7:
+                    localization.SelectNextLocale();
                     break;
             }
         }

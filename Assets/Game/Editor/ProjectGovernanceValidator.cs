@@ -88,6 +88,7 @@ namespace Game.Editor
                 projectRoot,
                 AddressableAssetSettingsDefaultObject.GetSettings(false));
             ContentProjectValidator.AppendCurrentProject(report);
+            LocalizationProjectValidator.AppendCurrentProject(report);
             return report;
         }
 

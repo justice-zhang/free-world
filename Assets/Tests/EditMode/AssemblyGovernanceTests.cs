@@ -42,6 +42,7 @@ namespace Game.Tests.EditMode
                         "Game.Presentation",
                         "Game.UI",
                         "Unity.InputSystem",
+                        "Unity.Localization",
                         "Game.Platform.Abstractions",
                         "Game.Platform.Null"
                     }
@@ -57,8 +58,8 @@ namespace Game.Tests.EditMode
                         "Unity.ugui"
                     }
                 },
-                { "Game.UI", new[] { "Game.Application", "Unity.ugui" } },
-                { "Game.Platform.Null", new[] { "Game.Platform.Abstractions" } },
+                { "Game.UI", new[] { "Game.Application", "Unity.ugui", "Unity.Localization", "Unity.ResourceManager" } },
+                { "Game.Platform.Null", new[] { "Game.Platform.Abstractions", "Game.Core" } },
                 {
                     "Game.Editor",
                     new[]
@@ -69,6 +70,8 @@ namespace Game.Tests.EditMode
                         "Game.Infrastructure",
                         "Game.Presentation",
                         "Unity.InputSystem",
+                        "Unity.Localization",
+                        "Unity.Localization.Editor",
                         "Unity.Addressables",
                         "Unity.Addressables.Editor"
                     }
@@ -89,6 +92,8 @@ namespace Game.Tests.EditMode
                         "Game.Platform.Null",
                         "Game.Editor",
                         "Unity.InputSystem",
+                        "Unity.Localization",
+                        "Unity.Localization.Editor",
                         "Unity.Addressables.Editor"
                     }
                 },
@@ -106,7 +111,8 @@ namespace Game.Tests.EditMode
                         "Game.Platform.Abstractions",
                         "Game.Platform.Null",
                         "Unity.InputSystem",
-                        "Unity.InputSystem.TestFramework"
+                        "Unity.InputSystem.TestFramework",
+                        "Unity.Localization"
                     }
                 }
             };

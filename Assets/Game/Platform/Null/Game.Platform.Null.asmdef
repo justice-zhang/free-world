@@ -2,7 +2,8 @@
   "name": "Game.Platform.Null",
   "rootNamespace": "Game.Platform.Null",
   "references": [
-    "Game.Platform.Abstractions"
+    "Game.Platform.Abstractions",
+    "Game.Core"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

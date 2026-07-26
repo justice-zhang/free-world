@@ -12,7 +12,8 @@
     "Game.Platform.Abstractions",
     "Game.Platform.Null",
     "Unity.InputSystem",
-    "Unity.InputSystem.TestFramework"
+    "Unity.InputSystem.TestFramework",
+    "Unity.Localization"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],
