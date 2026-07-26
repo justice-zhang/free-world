@@ -295,6 +295,7 @@ namespace Game.Simulation
         private SkillTriggerContext[] triggerEvents;
         private int triggerEventCount;
         private RandomStream random;
+        private IBuildEffectProvider buildEffects;
 
         /// <summary>Initializes an M4 skill runtime from a compiled catalog.</summary>
         public SkillRuntime(
@@ -364,6 +365,26 @@ namespace Game.Simulation
 
             instance.Level = level;
             return true;
+        }
+
+        /// <summary>Removes one owned skill instance without touching the actor entity.</summary>
+        public bool RemoveInstance(SkillInstanceHandle handle)
+        {
+            if (!TryGetInstance(handle, out _)) return false;
+            var slot = handle.Value;
+            instances[slot] = null;
+            instanceGenerations[slot] = NextGeneration(instanceGenerations[slot]);
+            freeInstanceSlots[slot] = firstFreeInstanceSlot;
+            firstFreeInstanceSlot = slot;
+            InstanceCount--;
+            return true;
+        }
+
+        /// <summary>Checks whether a compiled skill and level can be instantiated.</summary>
+        public bool CanAddInstance(RuntimeContentIndex skillIndex, int level = 1)
+        {
+            return catalog.TryGet(skillIndex, out var definition) &&
+                   level >= 1 && level <= definition.MaximumLevel;
         }
 
         /// <summary>Sets current owner resource used by skill costs.</summary>
@@ -565,7 +586,14 @@ namespace Game.Simulation
                     level.GetEffectAt(index));
             }
 
+            buildEffects?.QueueAddedEffects(instance.Definition.Index, Commands, context);
+
             HitCount++;
+        }
+
+        internal void SetBuildEffectProvider(IBuildEffectProvider provider)
+        {
+            buildEffects = provider;
         }
 
         internal void QueueSecondary(

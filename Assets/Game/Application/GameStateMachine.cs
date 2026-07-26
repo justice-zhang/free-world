@@ -17,5 +17,23 @@ namespace Game.Application
         {
             CurrentState = GameState.MainMenu;
         }
+
+        /// <summary>Enters an actively advancing run.</summary>
+        public void EnterRun()
+        {
+            CurrentState = GameState.InRun;
+        }
+
+        /// <summary>Enters the paused level-up command state.</summary>
+        public void EnterLevelUpChoice()
+        {
+            CurrentState = GameState.LevelUpChoice;
+        }
+
+        /// <summary>Enters the immutable run-result state.</summary>
+        public void EnterRunResult()
+        {
+            CurrentState = GameState.RunResult;
+        }
     }
 }

@@ -187,3 +187,19 @@ M3 未引入 Jobs、Burst 或新的第三方运行时依赖。
 
 五分钟 Harness 是小型 Placeholder Encounter 的正确性门禁。30 分钟 Soak、1,500 敌人、
 3,000 投射物、5,000 拾取物及性能分位 JSON 在 M5 为 `NOT RUN`，继续按计划在 M10 执行。
+
+## 11. M6 已落地覆盖
+
+- XP 多级溢出、等级曲线、死亡奖励拾取、OnPickup 生产和 LevelUp Request。
+- Skill/Passive 槽位、重复升级、最大等级、满槽拒绝和显式替换策略。
+- Offer 权重、前置、互斥、满级/满槽过滤；固定派生流可复现，Reroll 序列可预测且变化，
+  Banish 后不再出现，Skip/Select 进入历史。
+- OwnsContent、HasTagCount、SkillLevelAtLeast、StatAtLeast、MapHasTag 条件；AddModifier、
+  UnlockOffer、AddEffectOp、TransformSkill、GrantTrait 输出。
+- Evolution 技能转换、资格重算、被动消费和构筑标签更新。
+- RunSession 在升级请求时暂停 SimulationClock，通过命令选择并恢复，结束后生成不可变结果。
+- Schema 5 DTO round-trip、确定性 Hash，以及 Unity 可恢复的 M6 ScriptableObject Placeholder Pack。
+- 同一 Seed 的十分钟自动移动/拾取/升级运行两次，比较 Tick、等级、击杀、拾取、选择数和校验值。
+
+十分钟 Harness 是 M6 正确性、确定性和清理门禁，不是目标实体规模性能证明。30 分钟 Soak、
+1,500/3,000/5,000 压力和性能分位 JSON 继续为 `NOT RUN`，在 M10 执行。

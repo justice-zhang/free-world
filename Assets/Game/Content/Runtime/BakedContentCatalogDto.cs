@@ -401,6 +401,9 @@ namespace Game.Content.Runtime
         /// <summary>Gets or sets schema-4 encounter schedule data.</summary>
         public EncounterScheduleDefinitionDto encounterSchedule;
 
+        /// <summary>Gets or sets schema-5 build/progression data.</summary>
+        public M6RuntimeDefinitionDto buildProgression;
+
         /// <summary>Gets or sets the stable status stacking-policy token.</summary>
         public string stackingPolicy;
 
@@ -683,6 +686,33 @@ namespace Game.Content.Runtime
                             behaviorResult.Value));
                 }
 
+                case RuntimeContentKinds.Passive:
+                case RuntimeContentKinds.Trait:
+                case RuntimeContentKinds.Offer:
+                case RuntimeContentKinds.Synergy:
+                case RuntimeContentKinds.Evolution:
+                    if (schemaVersion < ContentPackTopology.BuildProgressionSchemaVersion ||
+                        buildProgression == null)
+                    {
+                        return Result<RuntimeContentDefinition>.Failure(
+                            new Error(
+                                ErrorCode.UnsupportedSchemaVersion,
+                                "Build/progression definitions require content schema " +
+                                ContentPackTopology.BuildProgressionSchemaVersion + " runtime data.",
+                                idResult.Value,
+                                packId,
+                                sourceAssetPath));
+                    }
+
+                    return buildProgression.ToDefinition(
+                        kind,
+                        packId,
+                        idResult.Value,
+                        localizedNameKey,
+                        localizedDescriptionKey,
+                        sourceAssetPath,
+                        tagResult.Value);
+
                 default:
                     return Result<RuntimeContentDefinition>.Failure(
                         new Error(
@@ -832,6 +862,14 @@ namespace Game.Content.Runtime
                 }
 
                 dto.shieldCapacity = behavior.ShieldCapacity;
+            }
+            else if (definition is RuntimePassiveDefinition ||
+                     definition is RuntimeTraitDefinition ||
+                     definition is RuntimeUpgradeOfferDefinition ||
+                     definition is RuntimeSynergyDefinition ||
+                     definition is RuntimeEvolutionDefinition)
+            {
+                dto.buildProgression = M6RuntimeDefinitionDto.FromDefinition(definition);
             }
             else
             {

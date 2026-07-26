@@ -301,6 +301,19 @@ namespace Game.Content.Authoring
                             definitionPaths[index]));
                 }
 
+                if (M6ContentValidation.IsBuildProgressionDefinition(definitionResult.Value) &&
+                    pack.SchemaVersion < ContentPackTopology.BuildProgressionSchemaVersion)
+                {
+                    return Result<BakedContentCatalog>.Failure(
+                        new Error(
+                            ErrorCode.UnsupportedSchemaVersion,
+                            "Build/progression definitions require content schema " +
+                            ContentPackTopology.BuildProgressionSchemaVersion + " or newer.",
+                            definitionResult.Value.Id,
+                            packId,
+                            definitionPaths[index]));
+                }
+
                 definitions[index] = definitionResult.Value;
             }
 

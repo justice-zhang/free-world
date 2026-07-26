@@ -251,6 +251,20 @@ namespace Game.Content.Runtime
                                 definition.SourceAssetPath));
                     }
 
+                    if (M6ContentValidation.IsBuildProgressionDefinition(definition) &&
+                        catalog.Manifest.SchemaVersion <
+                        ContentPackTopology.BuildProgressionSchemaVersion)
+                    {
+                        report.Add(
+                            new Error(
+                                ErrorCode.UnsupportedSchemaVersion,
+                                "Build/progression definitions require content schema " +
+                                ContentPackTopology.BuildProgressionSchemaVersion + " or newer.",
+                                definition.Id,
+                                packId,
+                                definition.SourceAssetPath));
+                    }
+
                     ValidateDefinitionValues(definition, packId, report);
                 }
             }
@@ -353,6 +367,13 @@ namespace Game.Content.Runtime
                             }
                         }
                     }
+
+
+                    M6ContentValidation.ValidateReferenceTypes(
+                        definition,
+                        definitionsById,
+                        packId,
+                        report);
                 }
             }
 
@@ -416,6 +437,10 @@ namespace Game.Content.Runtime
             else if (definition is RuntimeStatusDefinition status)
             {
                 message = ValidateStatusDefinition(status);
+            }
+            else if (M6ContentValidation.IsBuildProgressionDefinition(definition))
+            {
+                message = M6ContentValidation.ValidateDefinitionValues(definition);
             }
 
             if (message != null)

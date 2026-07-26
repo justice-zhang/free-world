@@ -212,7 +212,8 @@ Schema 兼容规则：
 - Schema 2：在 Schema 1 上增加 Status；旧 Skill 仍不可执行。
 - Schema 3：可包含完整 M4 Skill；Schema 3 中的 Skill 必须完整配置模块和至少一个 Effect。
 - Schema 4：增加可执行 Enemy、Map 和 Encounter；Schema 4 中的 Enemy/Map 必须包含完整 M5 数据。
-- Schema 1/2/3 继续可加载，现有 Catalog Hash 不因新字段改变；升级内容必须重 Bake。
+- Schema 5：增加 Passive、Trait、Offer、Synergy 和 Evolution；这些定义只能出现在 Schema 5 Pack。
+- Schema 1/2/3/4 继续可加载，现有 Catalog Hash 不因新字段改变；升级内容必须重 Bake。
 
 四个 M4 Fixture 使用 `test.*` ContentId 和 `placeholder.presentation.*` 表现 ID，属于
 development-only Placeholder 内容，不得进入 release label。
@@ -451,3 +452,46 @@ Schema 4 的固定 pattern 集合，Portal/FixedAnchor 必须配置稳定 Anchor
 M5 Placeholder Pack 位于 `Assets/GameAssets/Placeholder/TestM5Content/`，包含四种普通敌人、
 一个 Boss、同一个五分钟 Encounter 和两个分别使用 finite/chunked-infinite provider 的地图。
 两个 Scene 只含占位根对象；刷怪时间线不存储在 Scene 或 MonoBehaviour 中。
+
+## 14. M6 构筑、候选与进化 Schema 5
+
+Schema 5 新增五个 kind：`passive`、`trait`、`offer`、`synergy`、`evolution`。所有引用在磁盘
+保存稳定 ContentId，并在 `BuildRuntimeCatalog` 创建时解析为本次 Registry 的紧凑索引。
+
+```text
+RuntimePassiveDefinition
+├─ MaximumLevel
+└─ LevelModifiers[]: Level + StatId/Operation/Value/Priority/StackingGroup
+
+RuntimeTraitDefinition
+└─ Modifiers[]
+
+RuntimeUpgradeOfferDefinition
+├─ TargetContentId: executable Skill / Passive / Evolution
+├─ Weight / InitiallyUnlocked
+├─ Prerequisites[]
+└─ MutuallyExclusiveIds[]
+
+RuntimeSynergyDefinition
+├─ Conditions[]
+└─ Outputs[]
+
+RuntimeEvolutionDefinition
+├─ RequiredSkillId / RequiredSkillLevel / RequiredPassiveIds[]
+├─ AdditionalConditions[]
+├─ ResultSkillId
+└─ ConsumePolicy: retain_required_passives / consume_required_passives
+```
+
+Condition wire token 固定为 `owns_content`、`has_tag_count`、`skill_level_at_least`、
+`stat_at_least`、`map_has_tag`。Synergy Output 固定为 `add_modifier`、`unlock_offer`、
+`add_effect_op`、`transform_skill`、`grant_trait`。新增操作必须先通过 Change Request，不能按
+具体流派 ContentId 分支。
+
+Offer 的权重必须为正有限值；条件操作数、Modifier、Effect 引用和目标类型在完整 Catalog
+集合上验证。技能/被动已满级、槽位已满、互斥命中、前置不满足、未解锁或进化不具备资格时
+不会进入候选池。Banish 作用于本次 Run 的 Offer ID，不修改内容资产。
+
+M6 Placeholder Pack 位于 `Assets/GameAssets/Placeholder/TestBuildContent/`，包含两个 Passive、
+一个 Trait、两个 Synergy、一个 Evolution 和五个 Offer。它依赖 M4 测试技能 Pack，只用于
+开发验证，不是正式构筑或平衡内容。
