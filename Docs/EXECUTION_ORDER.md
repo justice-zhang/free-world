@@ -47,6 +47,22 @@
 > I. 通过后提交、合并、打标签 framework-mX  
 > J. 更新执行日志和已知问题
 
+### 3.1 双 Agent 推荐循环
+
+默认采用完整里程碑轮流接力：
+
+```text
+Agent A：独立完成 Mx 预检 → 实现 → 审查 → PR → merge → tag → 分支清理
+Agent A：在干净 main 上提交交接
+Agent B：接管预检后独立完成 M(x+1) 的完整闭环
+Agent B：在干净 main 上提交交接
+Agent A：接管 M(x+2)
+```
+
+一般只有当前这一棒的 Agent 在工作。实现—审查双 Agent 同时参与或不同 worktree 并行只在
+用户明确要求时启用。完整角色、Git 所有权、证据和冲突规则见
+`Docs/AGENT_COLLABORATION.md`；交接消息使用 `Templates/AGENT_HANDOFF_TEMPLATE.md`。
+
 ## 4. 依赖顺序
 
 > Preflight  

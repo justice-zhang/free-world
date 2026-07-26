@@ -20,9 +20,10 @@
 3. `Docs/ARCHITECTURE.md`
 4. `Docs/CONTENT_SCHEMA.md`
 5. `Docs/CODEX_WORKFLOW.md`
-6. `Docs/EXECUTION_ORDER.md`
-7. 当前里程碑提示词
-8. 与当前任务相关的 ADR、测试计划和性能预算
+6. `Docs/AGENT_COLLABORATION.md`
+7. `Docs/EXECUTION_ORDER.md`
+8. 当前里程碑提示词
+9. 与当前任务相关的 ADR、测试计划和性能预算
 
 如果文档之间冲突，优先级为：
 
@@ -85,6 +86,8 @@
 - 不批量创建正式内容。
 - 计划不超过 10 条，并说明将执行的测试。
 - 里程碑未通过审查门禁，不得开始下一里程碑。
+- 多个 Agent 协作时必须遵守 `Docs/AGENT_COLLABORATION.md`。同一时刻只能有一个 Agent
+  处于活跃工作状态；该 Agent 完成集成并在干净 `main` 上交接后，下一 Agent 才开始工作。
 
 ## 6. 测试与真实性
 
