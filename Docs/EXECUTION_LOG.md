@@ -393,9 +393,9 @@ M9 只能从带 `framework-m8` 标签的最终 `main` 创建独立分支。真�
 
 | 项目 | 记录 |
 |---|---|
-| M9 实现提交 | `PENDING` |
+| M9 实现提交 | `f29dcabc6b5cbafb6ae70531b8853fb1c36aefbb` |
 | M9 远程分支 | `codex/m9-editor-tools` |
-| M9 实现合并 | `PENDING` |
+| M9 实现合并 | GitHub PR #15；`framework-m9` 指向该 PR 的最终 merge commit |
 | 严格审查修复 | 收敛 Placeholder 诊断、补全 provenance 权利/来源字段、真实 Release 负向 Build 与公共 API 文档 |
 
 ### 最终检查

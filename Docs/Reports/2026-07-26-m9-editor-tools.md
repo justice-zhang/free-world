@@ -3,7 +3,7 @@
 - 任务：编辑器工具与内容生产工作流
 - 里程碑：M9
 - 分支：`codex/m9-editor-tools`
-- Git Commit：`PENDING`（首次提交后回填）
+- Git Commit：`f29dcabc6b5cbafb6ae70531b8853fb1c36aefbb`
 - 日期：2026-07-26
 
 ## 1. 实现范围
@@ -79,6 +79,9 @@ rg -n <禁用模式> Assets/Game/Editor Assets/Game/Simulation Assets/Tests/Edit
 git diff --check
 git diff --name-status framework-m8
 git log --oneline --decorate --graph
+git commit -m "feat: implement M9 editor tools and content workflow"
+git push -u origin codex/m9-editor-tools
+gh pr create --repo free-world-team/free-world --base main --head codex/m9-editor-tools
 ```
 
 基线 EditMode 首次启动在生成 XML 前触发 Unity 主线程断言并由 Crash Handler 终止；该次为 FAIL，
@@ -130,7 +133,7 @@ git log --oneline --decorate --graph
 
 ## 10. 下一步前置条件
 
-- 先通过 PR 合并到 `main`，确认最终 merge commit 与 `framework-m9` 一致并清理功能分支。
+- GitHub PR #15 合并后，确认最终 merge commit 与 `framework-m9` 一致并清理功能分支。
 - M10 必须从该干净基线开始，实际运行性能、Soak、CI 和冻结门禁。
 
 ## 11. 结论
