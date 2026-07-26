@@ -28,7 +28,8 @@
 ## 3. 关键架构决定
 
 - 默认协作单位是完整的一棒，而不是把一个里程碑拆给两个 Agent 同时开发。
-- 正常交接只能发生在 `main` 干净、最终 tag 已推送、功能分支已删除且没有运行中操作的节点。
+- 正常交接只能发生在 `main` 干净、适用的 tag 关系已核验、功能分支已删除且没有运行中操作的
+  节点；里程碑任务的最终 tag 等于 HEAD，非里程碑任务保留最近已验收 tag 并验证其为 HEAD 祖先。
 - 下一 Agent 不继承上一 Agent 的当前环境 PASS；接管后必须独立核验 Git、Unity、权限和基线。
 - 中途换人属于异常交接，必须标记 `BLOCKED` 并保留现场，不能伪装成 READY。
 - 本次不产生 ADR，因为没有改变运行时、Schema、存档、程序集或平台架构。
@@ -50,6 +51,7 @@ git commit -m "docs: define two-agent relay workflow"
 git commit --amend --no-edit
 git push -u origin codex/two-agent-collaboration
 gh pr create --repo free-world-team/free-world --base main --head codex/two-agent-collaboration
+git merge-base --is-ancestor framework-m5 main
 ```
 
 ## 5. 测试结果
@@ -58,7 +60,7 @@ gh pr create --repo free-world-team/free-world --base main --head codex/two-agen
 |---|---|---|
 | 文档必需文件 | PASS | 新规范、模板和四个入口文件均存在 |
 | 文档交叉引用 | PASS | AGENTS、工作流、执行顺序和 README 均引用新规范/模板 |
-| 干净交接不变量 | PASS | main、三方 SHA、CLEAN、分支删除、无运行操作六项均被自动检查到 |
+| 干净交接不变量 | PASS | `HEAD = origin/main`；里程碑 tag 同点或最近已验收 tag 为 HEAD 祖先；另含 CLEAN、分支删除和无运行操作 |
 | 变更范围 | PASS | Git 状态没有 Assets、Packages 或 ProjectSettings 改动 |
 | whitespace | PASS | `git diff --check` 无错误 |
 | 编译 | NOT RUN | 纯 Markdown/治理规则任务，没有代码改动 |
