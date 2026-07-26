@@ -138,10 +138,16 @@ namespace Game.Simulation
         {
             for (var index = 0; index < world.Actors.Count; index++)
             {
+                var handle = world.Actors.GetHandleAt(index);
+                if (world.Actors.IsDeathPending(handle))
+                {
+                    continue;
+                }
+
                 var state = world.Actors.GetStateAt(index);
                 if (TickLifetime(ref state, world.DeltaTimeSeconds))
                 {
-                    world.Commands.Remove(EntityKind.Actor, world.Actors.GetHandleAt(index));
+                    world.Commands.Remove(EntityKind.Actor, handle);
                 }
 
                 world.Actors.SetStateAt(index, state);

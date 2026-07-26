@@ -11,9 +11,28 @@ namespace Game.Content.Runtime
     public static class ContentPackTopology
     {
         /// <summary>
-        /// Gets the content schema version understood by this runtime.
+        /// Gets the oldest content schema version understood by this runtime.
         /// </summary>
-        public const int SupportedSchemaVersion = 1;
+        public const int MinimumSupportedSchemaVersion = 1;
+
+        /// <summary>
+        /// Gets the newest content schema version understood by this runtime.
+        /// </summary>
+        public const int SupportedSchemaVersion = 2;
+
+        /// <summary>
+        /// Gets the first schema version that permits serialized status definitions.
+        /// </summary>
+        public const int StatusDefinitionSchemaVersion = 2;
+
+        /// <summary>
+        /// Returns whether a content schema version can be loaded by this runtime.
+        /// </summary>
+        public static bool IsSchemaVersionSupported(int schemaVersion)
+        {
+            return schemaVersion >= MinimumSupportedSchemaVersion &&
+                   schemaVersion <= SupportedSchemaVersion;
+        }
 
         /// <summary>
         /// Sorts manifests so dependencies precede consumers while preserving input order on ties.
@@ -56,14 +75,15 @@ namespace Game.Content.Runtime
                             manifest.SourceAssetPath));
                 }
 
-                if (manifest.SchemaVersion != SupportedSchemaVersion)
+                if (!IsSchemaVersionSupported(manifest.SchemaVersion))
                 {
                     return Result<ContentPackManifest[]>.Failure(
                         new Error(
                             ErrorCode.UnsupportedSchemaVersion,
                             "Pack '" + manifest.PackId + "' uses schema " +
-                            manifest.SchemaVersion + "; supported schema is " +
-                            SupportedSchemaVersion + ".",
+                            manifest.SchemaVersion + "; supported schema range is [" +
+                            MinimumSupportedSchemaVersion + ", " +
+                            SupportedSchemaVersion + "].",
                             default,
                             manifest.PackId,
                             manifest.SourceAssetPath));

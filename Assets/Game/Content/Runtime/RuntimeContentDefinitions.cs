@@ -21,6 +21,9 @@ namespace Game.Content.Runtime
 
         /// <summary>Identifies a map definition.</summary>
         public const string Map = "map";
+
+        /// <summary>Identifies a status-effect definition.</summary>
+        public const string Status = "status";
     }
 
     /// <summary>

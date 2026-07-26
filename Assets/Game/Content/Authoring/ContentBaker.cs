@@ -89,13 +89,15 @@ namespace Game.Content.Authoring
                         packPath));
             }
 
-            if (pack.SchemaVersion != ContentPackTopology.SupportedSchemaVersion)
+            if (!ContentPackTopology.IsSchemaVersionSupported(pack.SchemaVersion))
             {
                 return Result<BakedContentCatalog>.Failure(
                     new Error(
                         ErrorCode.UnsupportedSchemaVersion,
                         "Authoring pack schema " + pack.SchemaVersion +
-                        " is not supported.",
+                        " is outside the supported range [" +
+                        ContentPackTopology.MinimumSupportedSchemaVersion + ", " +
+                        ContentPackTopology.SupportedSchemaVersion + "].",
                         default,
                         packId,
                         packPath));
@@ -185,6 +187,21 @@ namespace Game.Content.Authoring
                 if (!definitionResult.IsSuccess)
                 {
                     return Result<BakedContentCatalog>.Failure(definitionResult.Error);
+                }
+
+                if (definitionResult.Value is RuntimeStatusDefinition &&
+                    pack.SchemaVersion <
+                    ContentPackTopology.StatusDefinitionSchemaVersion)
+                {
+                    return Result<BakedContentCatalog>.Failure(
+                        new Error(
+                            ErrorCode.UnsupportedSchemaVersion,
+                            "Status definitions require content schema " +
+                            ContentPackTopology.StatusDefinitionSchemaVersion +
+                            " or newer.",
+                            definitionResult.Value.Id,
+                            packId,
+                            definitionPaths[index]));
                 }
 
                 definitions[index] = definitionResult.Value;

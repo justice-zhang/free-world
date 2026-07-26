@@ -31,7 +31,7 @@
 
 ## 2. Assembly Definition
 
-| **Assembly**               | **职责**                             | **M2 实际直接依赖**                                                       |
+| **Assembly**               | **职责**                             | **M3 实际直接依赖**                                                       |
 |----------------------------|--------------------------------------|---------------------------------------------------------------------------|
 | Game.Core                  | ID、标签、结果、随机数、基础工具     | 无                                                                        |
 | Game.Content.Runtime       | 烘焙后的纯运行时定义                 | Game.Core                                                                 |
@@ -48,7 +48,7 @@
 | Game.Tests.EditMode        | 治理、内容与纯模拟内核测试           | 产品程序集、Game.Editor、Unity Test Framework                             |
 | Game.Tests.PlayMode        | Bootstrap 内容加载和生命周期测试     | Game.Core、Game.Content.Runtime、Game.Application、Game.Infrastructure、Game.Platform.Abstractions、Game.Platform.Null、Unity Test Framework |
 
-M2 实际依赖图（省略测试程序集）：
+M3 实际依赖图（省略测试程序集）：
 
 ```text
 Game.Core
@@ -307,3 +307,49 @@ View 释放。位置按夹紧到 `[0, 1]` 的 alpha 线性插值，朝向按最�
 - 任意系统访问全局 Service Locator
 
 - 依赖 Script Execution Order 解决逻辑顺序
+
+## 11. M3 属性、伤害与状态边界
+
+M3 在 M2 Store 上增加 Generation-safe 的 Actor 战斗侧车。公开 API 只返回不可变
+`Health`、`Shield`、`ActiveStatus` 和属性值；技能、状态和测试入口只能提交请求，不能
+直接写生命。`DamageResolutionSystem` 是伤害导致的 Health 唯一写入者。
+
+稳定 `StatId` 位于 `Game.Core`，当前 Run 内由 `StatCatalog` 映射为 `StatIndex`。
+Modifier 加入时把 StackingGroup 映射为集合内紧凑整数；属性求值只比较整数和数组，
+不进行字符串比较或创建临时集合。Actor slot 复用时同时复用 Stat、Modifier 和 Status
+数组，高频出生/死亡不会为已经达到的并发高水位重复创建战斗记录。
+
+伤害结算顺序固定为：
+
+```text
+验证目标、类型与 ProcDepth
+→ 规范化 BaseValue
+→ 来源 Damage 属性
+→ 固定随机流暴击
+→ Physical Armor 或元素 Resistance（True 跳过）
+→ 单包伤害边界
+→ Shield
+→ Health
+→ DamageApplied
+→ 首次致死 DeathRequest
+```
+
+状态申请只携带来源、目标、来源 ContentId、Status RuntimeContentIndex、Strength 和
+ProcDepth。Modifier、周期伤害与临时护盾行为固定在经验证和 Baker 转换的
+`RuntimeStatusDefinition.Behavior` 中，申请者不能覆盖。系统不按 Burning、Slow 或
+Shielded 的 ContentId 分支。
+
+临时护盾按实例、层数和 Strength 计算容量贡献；刷新不重复扩容，替换、过期或驱散会
+回收对应容量。周期伤害只排入下一次 DamageResolution，且继承并递增 ProcDepth。
+`DeathPending` Actor 不再推进状态或 Modifier。
+
+M3 默认 Pipeline 为：
+
+```text
+Movement → DamageResolution → StatusTick → Death → Lifetime
+→ Cleanup → EventFlush → SnapshotBuild
+```
+
+`SimulationWorld.RunTick` 在 Pipeline 返回后无条件完成一次幂等事件 Flush，因此显式
+测试 Pipeline 即使省略 `EventFlushSystem` 也不会静默丢失 Tick 内战斗事件。M2 的
+`CreateM2Default` 顺序保持不变。

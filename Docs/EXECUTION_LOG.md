@@ -118,3 +118,42 @@ M2 只能从带 `framework-m1` 标签的最终 `main` 创建独立分支；M1 �
 M3 只能从带 `framework-m2` 标签的最终 `main` 创建独立分支；必须复用 M2 的
 Generation Handle、Command/Event Buffer 和固定 Pipeline，不得绕过 Cleanup
 进行系统遍历期结构变化。
+
+## M3：属性、伤害、护盾与状态系统
+
+- 状态：`COMPLETE`
+- 日期：2026-07-26
+- Unity：`6000.3.20f1`
+- 实现报告：`Docs/Reports/2026-07-26-m3-combat-status.md`
+- 审查报告：`Docs/Reports/2026-07-26-m3-strict-review.md`
+- 最终标签：`framework-m3`
+
+### 集成记录
+
+| 项目 | 记录 |
+|---|---|
+| M3 实现提交 | `719a40e7b3afba7a98307df2113e811551755e7b` |
+| M3 远程分支 | `codex/m3-combat-status` |
+| M3 实现合并 | GitHub PR #7；`framework-m3` 指向该 PR 的最终 merge commit |
+| 审查修复 | 同一 PR 内修复临时护盾耗尽后过期不发容量变化事件，以及有限护盾容量聚合溢出为正无穷；增加回归测试 |
+
+### 最终检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| Git diff 与范围 | PASS | 相对 `framework-m2` 修改 15、新增 43、删除 0；全部属于 M3 实现、Placeholder Fixture、测试或文档 |
+| Bootstrap Scene 静态检查 | PASS | 工作树与 M2 `HEAD` Blob 均为 `79e997fe895c6a7ba0ee053b38052b7870587580`；Build Settings 只启用 Bootstrap；引用有效 |
+| asmdef 与禁用模式 | PASS | 无 asmdef 改动、无循环；Simulation 禁用 API、UnityEngine 引用和 View 直写零命中 |
+| Unity 编译 | PASS | 最终 EditMode、PlayMode、验证和 Build 均完成脚本编译，无 C# error/warning |
+| EditMode | PASS | `TestResults/M3StrictReviewFinal/editmode.xml`：97/97 |
+| PlayMode | PASS | `TestResults/M3StrictReviewFinal/playmode.xml`：5/5 |
+| 内容/工程验证 | PASS | `TestResults/M3StrictReviewFinal/validation.log`：`[Project Validation] PASS` |
+| Windows Development Build | PASS | Manifest：`Succeeded`、`StandaloneWindows64`、Development；EXE SHA-256 `5D7EEB5359C2E35E4EB1F6A5844B25C3D7556795BD2F15EC234A2011406BC9C6` |
+| Release Build | NOT RUN | M3 适用门禁为 Windows Development Build；Release 留待正式发布阶段 |
+| 性能/Soak | NOT RUN | 30 分钟 Soak 和目标实体规模压力 JSON 固定在 M10 执行 |
+
+### 下一步
+
+M4 只能从带 `framework-m3` 标签的最终 `main` 创建独立分支；必须复用 M3
+的 Stat、Damage、Status、ProcDepth 和事件契约，不得让技能绕过
+`DamageResolutionSystem` 直接写入 Health。

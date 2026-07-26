@@ -36,6 +36,21 @@ namespace Game.Content.Runtime
             }
 
             var runtimeManifest = manifestResult.Value;
+            if (!ContentPackTopology.IsSchemaVersionSupported(
+                    runtimeManifest.SchemaVersion))
+            {
+                return Result<BakedContentCatalog>.Failure(
+                    new Error(
+                        ErrorCode.UnsupportedSchemaVersion,
+                        "Serialized pack schema " + runtimeManifest.SchemaVersion +
+                        " is outside the supported range [" +
+                        ContentPackTopology.MinimumSupportedSchemaVersion + ", " +
+                        ContentPackTopology.SupportedSchemaVersion + "].",
+                        default,
+                        runtimeManifest.PackId,
+                        runtimeManifest.SourceAssetPath));
+            }
+
             var sourceDefinitions = definitions ?? Array.Empty<RuntimeContentDefinitionDto>();
             var runtimeDefinitions = new RuntimeContentDefinition[sourceDefinitions.Length];
             for (var index = 0; index < sourceDefinitions.Length; index++)
@@ -51,8 +66,9 @@ namespace Game.Content.Runtime
                             runtimeManifest.SourceAssetPath));
                 }
 
-                var definitionResult =
-                    sourceDefinitions[index].ToDefinition(runtimeManifest.PackId);
+                var definitionResult = sourceDefinitions[index].ToDefinition(
+                    runtimeManifest.PackId,
+                    runtimeManifest.SchemaVersion);
                 if (!definitionResult.IsSuccess)
                 {
                     return Result<BakedContentCatalog>.Failure(definitionResult.Error);
@@ -308,7 +324,7 @@ namespace Game.Content.Runtime
     }
 
     /// <summary>
-    /// Union DTO for the typed M1 runtime definition set.
+    /// Union DTO for the explicitly supported runtime definition set.
     /// </summary>
     [Serializable]
     public sealed class RuntimeContentDefinitionDto
@@ -352,7 +368,72 @@ namespace Game.Content.Runtime
         /// <summary>Gets or sets the map scene address.</summary>
         public string sceneAddress;
 
-        internal Result<RuntimeContentDefinition> ToDefinition(ContentId packId)
+        /// <summary>Gets or sets the stable status stacking-policy token.</summary>
+        public string stackingPolicy;
+
+        /// <summary>Gets or sets the default status lifetime in seconds.</summary>
+        public float durationSeconds;
+
+        /// <summary>Gets or sets the maximum status stack or instance count.</summary>
+        public int maxStacks;
+
+        /// <summary>Gets or sets the status periodic tick interval in seconds.</summary>
+        public float tickIntervalSeconds;
+
+        /// <summary>Gets or sets canonical tags that may dispel the status.</summary>
+        public string[] dispelTags;
+
+        /// <summary>Gets or sets canonical target immunity tags that block the status.</summary>
+        public string[] immunityTags;
+
+        /// <summary>Gets or sets whether the status installs a statistic modifier.</summary>
+        public bool statusModifierEnabled;
+
+        /// <summary>Gets or sets the stable statistic ID modified by the status.</summary>
+        public string statusModifierStatId;
+
+        /// <summary>Gets or sets the stable modifier-operation token.</summary>
+        public string statusModifierOperation;
+
+        /// <summary>Gets or sets the modifier value at strength one and one stack.</summary>
+        public float statusModifierValue;
+
+        /// <summary>Gets or sets modifier priority.</summary>
+        public int statusModifierPriority;
+
+        /// <summary>Gets or sets the optional stable modifier stacking-group ID.</summary>
+        public string statusModifierStackingGroup;
+
+        /// <summary>Gets or sets whether the status deals periodic damage.</summary>
+        public bool periodicDamageEnabled;
+
+        /// <summary>Gets or sets the stable periodic damage-type token.</summary>
+        public string periodicDamageType;
+
+        /// <summary>Gets or sets the periodic damage tag mask.</summary>
+        public ulong periodicDamageTags;
+
+        /// <summary>Gets or sets periodic damage at strength one and one stack.</summary>
+        public float periodicDamageValue;
+
+        /// <summary>Gets or sets periodic critical eligibility.</summary>
+        public bool periodicCanCritical;
+
+        /// <summary>Gets or sets the periodic proc coefficient.</summary>
+        public float periodicProcCoefficient;
+
+        /// <summary>Gets or sets periodic knockback X.</summary>
+        public float periodicKnockbackX;
+
+        /// <summary>Gets or sets periodic knockback Y.</summary>
+        public float periodicKnockbackY;
+
+        /// <summary>Gets or sets temporary shield capacity granted by the status.</summary>
+        public float shieldCapacity;
+
+        internal Result<RuntimeContentDefinition> ToDefinition(
+            ContentId packId,
+            int schemaVersion)
         {
             var idResult = CatalogDtoParsing.ParseCanonicalId(
                 id,
@@ -428,6 +509,80 @@ namespace Game.Content.Runtime
                             runtimeProviderId,
                             sceneAddress));
 
+                case RuntimeContentKinds.Status:
+                {
+                    if (schemaVersion <
+                        ContentPackTopology.StatusDefinitionSchemaVersion)
+                    {
+                        return Result<RuntimeContentDefinition>.Failure(
+                            new Error(
+                                ErrorCode.UnsupportedSchemaVersion,
+                                "Serialized status definitions require content schema " +
+                                ContentPackTopology.StatusDefinitionSchemaVersion +
+                                " or newer.",
+                                idResult.Value,
+                                packId,
+                                sourceAssetPath));
+                    }
+
+                    if (!StatusStackingPolicyCodec.TryParse(
+                            stackingPolicy,
+                            out var runtimeStackingPolicy))
+                    {
+                        return Result<RuntimeContentDefinition>.Failure(
+                            new Error(
+                                ErrorCode.InvalidCatalog,
+                                "Unsupported status stacking policy '" +
+                                (stackingPolicy ?? string.Empty) + "'.",
+                                idResult.Value,
+                                packId,
+                                sourceAssetPath));
+                    }
+
+                    var dispelResult = CatalogDtoParsing.ParseTags(
+                        dispelTags,
+                        packId,
+                        idResult.Value,
+                        sourceAssetPath);
+                    if (!dispelResult.IsSuccess)
+                    {
+                        return Result<RuntimeContentDefinition>.Failure(dispelResult.Error);
+                    }
+
+                    var immunityResult = CatalogDtoParsing.ParseTags(
+                        immunityTags,
+                        packId,
+                        idResult.Value,
+                        sourceAssetPath);
+                    if (!immunityResult.IsSuccess)
+                    {
+                        return Result<RuntimeContentDefinition>.Failure(immunityResult.Error);
+                    }
+
+                    var behaviorResult = ToStatusBehavior(
+                        packId,
+                        idResult.Value);
+                    if (!behaviorResult.IsSuccess)
+                    {
+                        return Result<RuntimeContentDefinition>.Failure(behaviorResult.Error);
+                    }
+
+                    return Result<RuntimeContentDefinition>.Success(
+                        new RuntimeStatusDefinition(
+                            idResult.Value,
+                            localizedNameKey,
+                            localizedDescriptionKey,
+                            sourceAssetPath,
+                            tagResult.Value,
+                            runtimeStackingPolicy,
+                            durationSeconds,
+                            maxStacks,
+                            tickIntervalSeconds,
+                            dispelResult.Value,
+                            immunityResult.Value,
+                            behaviorResult.Value));
+                }
+
                 default:
                     return Result<RuntimeContentDefinition>.Failure(
                         new Error(
@@ -452,7 +607,14 @@ namespace Game.Content.Runtime
                 tags = new string[definition.Tags.Count],
                 startingSkillIds = Array.Empty<string>(),
                 runtimeProviderId = string.Empty,
-                sceneAddress = string.Empty
+                sceneAddress = string.Empty,
+                stackingPolicy = string.Empty,
+                statusModifierStatId = string.Empty,
+                statusModifierOperation = string.Empty,
+                statusModifierStackingGroup = string.Empty,
+                periodicDamageType = string.Empty,
+                dispelTags = Array.Empty<string>(),
+                immunityTags = Array.Empty<string>()
             };
 
             for (var index = 0; index < definition.Tags.Count; index++)
@@ -484,6 +646,56 @@ namespace Game.Content.Runtime
                 dto.runtimeProviderId = map.RuntimeProviderId;
                 dto.sceneAddress = map.SceneAddress;
             }
+            else if (definition is RuntimeStatusDefinition status)
+            {
+                dto.stackingPolicy =
+                    StatusStackingPolicyCodec.ToSerializedValue(status.StackingPolicy);
+                dto.durationSeconds = status.DurationSeconds;
+                dto.maxStacks = status.MaxStacks;
+                dto.tickIntervalSeconds = status.TickIntervalSeconds;
+                dto.dispelTags = new string[status.DispelTags.Count];
+                for (var index = 0; index < status.DispelTags.Count; index++)
+                {
+                    dto.dispelTags[index] = status.DispelTags[index].Value;
+                }
+
+                dto.immunityTags = new string[status.ImmunityTags.Count];
+                for (var index = 0; index < status.ImmunityTags.Count; index++)
+                {
+                    dto.immunityTags[index] = status.ImmunityTags[index].Value;
+                }
+
+                var behavior = status.Behavior;
+                var modifier = behavior.Modifier;
+                dto.statusModifierEnabled = modifier.Enabled;
+                if (modifier.Enabled)
+                {
+                    dto.statusModifierStatId = modifier.StatId.Value;
+                    dto.statusModifierOperation =
+                        ModifierOperationCodec.ToSerializedValue(modifier.Operation);
+                    dto.statusModifierValue = modifier.Value;
+                    dto.statusModifierPriority = modifier.Priority;
+                    dto.statusModifierStackingGroup = modifier.StackingGroup.IsValid
+                        ? modifier.StackingGroup.Value
+                        : string.Empty;
+                }
+
+                var periodic = behavior.PeriodicDamage;
+                dto.periodicDamageEnabled = periodic.Enabled;
+                if (periodic.Enabled)
+                {
+                    dto.periodicDamageType =
+                        DamageTypeCodec.ToSerializedValue(periodic.DamageType);
+                    dto.periodicDamageTags = (ulong)periodic.Tags;
+                    dto.periodicDamageValue = periodic.BaseValue;
+                    dto.periodicCanCritical = periodic.CanCritical;
+                    dto.periodicProcCoefficient = periodic.ProcCoefficient;
+                    dto.periodicKnockbackX = periodic.Knockback.X;
+                    dto.periodicKnockbackY = periodic.Knockback.Y;
+                }
+
+                dto.shieldCapacity = behavior.ShieldCapacity;
+            }
             else
             {
                 throw new ArgumentException(
@@ -492,6 +704,108 @@ namespace Game.Content.Runtime
             }
 
             return dto;
+        }
+
+        private Result<RuntimeStatusBehavior> ToStatusBehavior(
+            ContentId packId,
+            ContentId ownerId)
+        {
+            var modifier = default(RuntimeStatusModifier);
+            if (statusModifierEnabled)
+            {
+                if (!ContentId.IsCanonical(statusModifierStatId))
+                {
+                    return StatusBehaviorFailure(
+                        "Serialized status modifier StatId must be lowercase canonical text.",
+                        packId,
+                        ownerId);
+                }
+
+                var statResult = StatId.Create(
+                    statusModifierStatId,
+                    packId,
+                    sourceAssetPath);
+                if (!statResult.IsSuccess)
+                {
+                    return Result<RuntimeStatusBehavior>.Failure(statResult.Error);
+                }
+
+                if (!ModifierOperationCodec.TryParse(
+                        statusModifierOperation,
+                        out var operation))
+                {
+                    return StatusBehaviorFailure(
+                        "Unsupported serialized status modifier operation '" +
+                        (statusModifierOperation ?? string.Empty) + "'.",
+                        packId,
+                        ownerId);
+                }
+
+                var stackingGroup = default(ContentId);
+                if (!string.IsNullOrEmpty(statusModifierStackingGroup))
+                {
+                    var groupResult = CatalogDtoParsing.ParseCanonicalId(
+                        statusModifierStackingGroup,
+                        packId,
+                        sourceAssetPath,
+                        "status modifier stacking-group ID");
+                    if (!groupResult.IsSuccess)
+                    {
+                        return Result<RuntimeStatusBehavior>.Failure(groupResult.Error);
+                    }
+
+                    stackingGroup = groupResult.Value;
+                }
+
+                modifier = new RuntimeStatusModifier(
+                    statResult.Value,
+                    operation,
+                    statusModifierValue,
+                    statusModifierPriority,
+                    stackingGroup);
+            }
+
+            var periodic = default(RuntimeStatusPeriodicDamage);
+            if (periodicDamageEnabled)
+            {
+                if (!DamageTypeCodec.TryParse(
+                        periodicDamageType,
+                        out var damageType))
+                {
+                    return StatusBehaviorFailure(
+                        "Unsupported serialized periodic damage type '" +
+                        (periodicDamageType ?? string.Empty) + "'.",
+                        packId,
+                        ownerId);
+                }
+
+                periodic = new RuntimeStatusPeriodicDamage(
+                    damageType,
+                    (DamageTags)periodicDamageTags,
+                    periodicDamageValue,
+                    periodicCanCritical,
+                    periodicProcCoefficient,
+                    new System.Numerics.Vector2(
+                        periodicKnockbackX,
+                        periodicKnockbackY));
+            }
+
+            return Result<RuntimeStatusBehavior>.Success(
+                new RuntimeStatusBehavior(modifier, periodic, shieldCapacity));
+        }
+
+        private Result<RuntimeStatusBehavior> StatusBehaviorFailure(
+            string message,
+            ContentId packId,
+            ContentId ownerId)
+        {
+            return Result<RuntimeStatusBehavior>.Failure(
+                new Error(
+                    ErrorCode.InvalidCatalog,
+                    message,
+                    ownerId,
+                    packId,
+                    sourceAssetPath));
         }
     }
 

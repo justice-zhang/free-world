@@ -45,3 +45,15 @@
 | M2-KI-006 | PLANNED | Medium | 单线程 Dictionary 网格/快照索引尚未完成目标实体规模基准和 30 分钟 Soak。 | M2 保持正确性优先；M10 使用固定种子压力场景输出性能 JSON，再依据证据决定 Jobs/Burst 后端。 |
 
 当前没有阻止 M3 开始的 `OPEN` 问题。
+
+## M3
+
+| ID | 状态 | 严重度 | 问题与影响 | 处理 |
+|---|---|---|---|---|
+| M3-KI-001 | RESOLVED | High | 临时护盾已耗尽时，状态过期只改变最大容量，旧实现不发 `ShieldChanged`，表现层可能保留过期容量。 | 事件现在携带 Current 和 Maximum 的前后值，最大值单独变化也发事件；`ConsumedTemporaryShieldStillEmitsCapacityChangeWhenItExpires` 已覆盖。 |
+| M3-KI-002 | RESOLVED | High | 两个各自有限的护盾容量相加可溢出为正无穷，旧实现会接受状态并污染 Shield 数值。 | 聚合结果在任何状态写入和事件产生前验证为有限非负值，失败时原子回滚；`TemporaryShieldApplicationRejectsAggregateCapacityOverflow` 已覆盖。 |
+| M3-KI-003 | ACCEPTED | Low | 状态的 Dispel/Immunity 标签匹配当前为线性比较，大量并发状态时可能成为热点。 | M3 保持无每 Tick 临时集合的正确性实现；M10 在目标规模基准证明为热点后才调整索引结构。 |
+| M3-KI-004 | ACCEPTED | Low | M3 的每个状态定义只表达一项 Modifier、一项周期效果和一项临时护盾，不是完整效果列表。 | 这是 M3 Placeholder 和最小 Schema 边界；多效果组合只能在 M4 通用技能/效果模块中扩展，不硬编码到伤害系统。 |
+| M3-KI-005 | PLANNED | Medium | M3 未运行 30 分钟 Soak 和 1,500/3,000/5,000 实体压力基准。 | 当前性能数据为 `NOT RUN`；M10 使用固定种子压力场景输出性能 JSON，再依证据决定 Jobs/Burst 后端。 |
+
+当前没有阻止 M4 开始的 `OPEN` 问题。
