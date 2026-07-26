@@ -30,6 +30,18 @@ namespace Game.Application
         public void SetFlashIntensity(float value) => FlashIntensity = Clamp01(value);
         public void SetDamageNumbersEnabled(bool value) => DamageNumbersEnabled = value;
 
+        /// <summary>Applies persisted accessibility values through existing validation setters.</summary>
+        public void Apply(SettingsSaveData data)
+        {
+            if (data == null) return;
+            SetStickDeadzone(data.StickDeadzone);
+            SetVibrationIntensity(data.VibrationIntensity);
+            SetScreenShakeEnabled(data.ScreenShakeEnabled);
+            SetFlashIntensity(data.FlashIntensity);
+            SetDamageNumbersEnabled(data.DamageNumbersEnabled);
+            SetAutoAim(data.AutoAim);
+        }
+
         public void SetAutoAim(AutoAimStrategy value)
         {
             if (value < AutoAimStrategy.Nearest || value > AutoAimStrategy.Disabled)

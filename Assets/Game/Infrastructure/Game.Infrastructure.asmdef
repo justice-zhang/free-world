@@ -9,6 +9,7 @@
     "Game.Presentation",
     "Game.UI",
     "Unity.InputSystem",
+    "Unity.Localization",
     "Game.Platform.Abstractions",
     "Game.Platform.Null"
   ],

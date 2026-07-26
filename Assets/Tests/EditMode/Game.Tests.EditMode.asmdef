@@ -14,6 +14,8 @@
     "Game.Platform.Null",
     "Game.Editor",
     "Unity.InputSystem",
+    "Unity.Localization",
+    "Unity.Localization.Editor",
     "Unity.Addressables.Editor"
   ],
   "includePlatforms": [

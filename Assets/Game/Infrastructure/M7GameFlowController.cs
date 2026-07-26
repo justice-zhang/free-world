@@ -130,6 +130,11 @@ namespace Game.Infrastructure
                     return 0;
                 }
                 Session = creation.Value.Session;
+                application.Events.Publish(ApplicationEvent.RunStarted(
+                    M7DemoRunFactory.DemoSeed,
+                    RequireId(M7DemoRunFactory.DemoCharacterId),
+                    RequireId(M7DemoRunFactory.DemoMapId),
+                    RequireId(M7DemoRunFactory.DemoInitialSkillId)));
                 return 0;
             }
 
@@ -162,6 +167,14 @@ namespace Game.Infrastructure
                 result.DurationSeconds,
                 result.Level,
                 result.Statistics.EnemyDefeats);
+            application.Events.Publish(ApplicationEvent.RunCompleted(LatestResult));
+        }
+
+        private static ContentId RequireId(string value)
+        {
+            var result = ContentId.Create(value);
+            if (!result.IsSuccess) throw new InvalidOperationException(result.Error.ToString());
+            return result.Value;
         }
     }
 }

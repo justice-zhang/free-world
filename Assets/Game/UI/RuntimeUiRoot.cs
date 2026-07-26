@@ -6,23 +6,31 @@ namespace Game.UI
 {
     /// <summary>
     /// One programmatic placeholder Canvas shared by every M7 page and presentation
-    /// overlay. Text displays localization keys until M8 connects Localization.
+    /// overlay. Localization keys are resolved through Unity Localization.
     /// </summary>
     public sealed class RuntimeUiRoot : MonoBehaviour, IGameFlowView
     {
+        private static readonly string[] RuntimeFontCandidates =
+        {
+            "Microsoft YaHei UI", "Microsoft YaHei", "SimHei", "Arial Unicode MS", "Arial"
+        };
         private readonly StringBuilder builder = new StringBuilder(256);
         private Canvas canvas;
         private Text pageText;
         private Font runtimeFont;
+        private ILocalizationService localization;
 
         public Canvas SharedCanvas => canvas;
         public UiPageId CurrentPage { get; private set; }
         public int RenderedOptionCount { get; private set; }
         public int RenderedSelectedIndex { get; private set; }
 
-        public void Initialize()
+        public string RenderedText => pageText == null ? string.Empty : pageText.text;
+
+        public void Initialize(ILocalizationService localizationService = null)
         {
             if (canvas != null) return;
+            localization = localizationService;
             canvas = gameObject.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             gameObject.AddComponent<CanvasScaler>();
@@ -45,13 +53,22 @@ namespace Game.UI
             textRect.offsetMin = new Vector2(24f, 24f);
             textRect.offsetMax = new Vector2(-24f, -24f);
             pageText = textObject.GetComponent<Text>();
-            runtimeFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            runtimeFont = Font.CreateDynamicFontFromOSFont(RuntimeFontCandidates, 20);
+            if (runtimeFont == null) runtimeFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             pageText.font = runtimeFont;
             pageText.fontSize = 20;
             pageText.alignment = TextAnchor.UpperLeft;
             pageText.color = Color.white;
             pageText.horizontalOverflow = HorizontalWrapMode.Wrap;
             pageText.verticalOverflow = VerticalWrapMode.Overflow;
+        }
+
+        /// <summary>Reports whether the runtime fallback font can render a localized character.</summary>
+        public bool SupportsCharacter(char character)
+        {
+            if (runtimeFont == null) return false;
+            runtimeFont.RequestCharactersInTexture(character.ToString(), pageText == null ? 20 : pageText.fontSize);
+            return runtimeFont.HasCharacter(character);
         }
 
         public void Show(UiPageViewModel model)
@@ -61,16 +78,18 @@ namespace Game.UI
             RenderedOptionCount = model.OptionCount;
             RenderedSelectedIndex = model.SelectedIndex;
             builder.Clear();
-            builder.Append(model.TitleKey);
+            builder.Append(Resolve(model.TitleKey));
             for (var index = 0; index < model.OptionCount; index++)
             {
                 builder.Append('\n');
                 builder.Append(index == model.SelectedIndex ? "> " : "  ");
-                builder.Append(model.GetOptionKey(index));
+                builder.Append(Resolve(model.GetOptionKey(index)));
             }
 
             pageText.text = builder.ToString();
         }
+
+        private string Resolve(string key) => localization == null ? key : localization.Resolve(key);
 
         private void OnDestroy()
         {

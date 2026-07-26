@@ -33,6 +33,7 @@ namespace Game.Application
             StateMachine = stateMachine ?? throw new ArgumentNullException(nameof(stateMachine));
             ContentRegistry = contentRegistry ??
                 throw new ArgumentNullException(nameof(contentRegistry));
+            Events = new ApplicationEventStream();
         }
 
         /// <summary>
@@ -49,6 +50,9 @@ namespace Game.Application
         /// Gets the stable-ID content registry owned by the application.
         /// </summary>
         public ContentRegistry ContentRegistry { get; }
+
+        /// <summary>Gets application events used by persistence and platform adapters.</summary>
+        public ApplicationEventStream Events { get; }
 
         /// <summary>
         /// Gets the summary from the successful startup content load.

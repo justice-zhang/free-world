@@ -31,7 +31,7 @@
 
 ## 2. Assembly Definition
 
-| **Assembly**               | **职责**                             | **M3 实际直接依赖**                                                       |
+| **Assembly**               | **职责**                             | **M8 实际直接依赖**                                                       |
 |----------------------------|--------------------------------------|---------------------------------------------------------------------------|
 | Game.Core                  | ID、标签、结果、随机数、基础工具     | 无                                                                        |
 | Game.Content.Runtime       | 烘焙后的纯运行时定义                 | Game.Core                                                                 |
@@ -39,16 +39,16 @@
 | Game.Platform.Abstractions | 平台、云、成就接口                   | Game.Core                                                                 |
 | Game.Application           | 状态机、Run 协调、内容加载、保存协调 | Game.Core、Game.Content.Runtime、Game.Simulation、Game.Platform.Abstractions |
 | Game.Content.Authoring     | ScriptableObject 作者数据与 Baker    | Unity、Game.Core、Game.Content.Runtime                                    |
-| Game.Infrastructure        | Composition Root 与基础设施入口      | Unity、Game.Core、Game.Content.Runtime、Game.Application、Game.Platform.Abstractions、Game.Platform.Null |
+| Game.Infrastructure        | Composition Root、存档与基础设施入口 | Unity、Game.Core、Game.Content.Runtime、Game.Application、Game.Platform.Abstractions、Game.Platform.Null、Unity Localization |
 | Game.Presentation          | View、动画、特效、音频、摄像机       | Unity、Game.Application、Game.Simulation                                  |
-| Game.UI                    | 菜单、HUD、升级选择、结算            | Unity、Game.Application                                                   |
-| Game.Platform.Null         | 无平台环境实现                       | Game.Platform.Abstractions                                                |
+| Game.UI                    | 菜单、HUD、升级选择、结算、本地化适配 | Unity、Game.Application、Unity Localization                               |
+| Game.Platform.Null         | 无平台环境实现                       | Game.Platform.Abstractions、Game.Core                                     |
 | Game.Platform.Steam        | 后续 Steam 适配（M0 未创建）         | Game.Platform.Abstractions                                                |
 | Game.Editor                | 验证、Bake、Placeholder、场景与构建工具 | Unity Editor、Addressables Editor、Game.Core、Game.Content.Authoring、Game.Content.Runtime、Game.Infrastructure |
 | Game.Tests.EditMode        | 治理、内容与纯模拟内核测试           | 产品程序集、Game.Editor、Unity Test Framework                             |
 | Game.Tests.PlayMode        | Bootstrap 内容加载和生命周期测试     | Game.Core、Game.Content.Runtime、Game.Application、Game.Infrastructure、Game.Platform.Abstractions、Game.Platform.Null、Unity Test Framework |
 
-M3 实际依赖图（省略测试程序集）：
+M8 实际依赖图（省略 Unity Package 与测试程序集）：
 
 ```text
 Game.Core
@@ -111,6 +111,11 @@ M1 在上述组合中增加 `ContentRegistry`。Bootstrap 从 Scene 显式引用
 测试 Catalog TextAsset 读取 JSON，立即转换为纯 DTO/Runtime Catalog、验证并注册，
 输出摘要后进入空 `MainMenu`。作者 ScriptableObject、AssetDatabase 和 Unity Object
 不会进入 Application、Runtime Catalog 或 Simulation。
+
+M8 在同一组合根创建 `LocalFileSaveStorage`、`UnityJsonSaveCodec`、`SaveCoordinator`、
+`M8RuntimeServices`、`UnityLocalizationService` 和同一个 `NullPlatformFacade`。存档加载先于 M7
+Runtime Host，使 Locale、Binding 和可访问性设置在首屏呈现前生效；Application Event 同时驱动
+低频本地保存和平台路由，不进入固定 Tick。
 
 ## 4. 固定 Tick 与时钟
 
@@ -284,6 +289,10 @@ Settings 的运行时模型包含重映射接口、摇杆死区、震动强度�
 自动瞄准策略。`PresentationCameraRig` 只跟随 View Transform，提供边界夹紧、Shake Request 和
 总效果开关，不读取模拟 Store。
 
+M8 的 Presenter 仍只产生 Key；`UnityLocalizationService` 在 View 边界从 `UI` String Table 解析
+`en`、`zh-Hans` 或 Pseudo。Project Validation 检查所有固定 UI/诊断 Key 与 baked 内容 Key 在英、
+中表均非空。设置只保存 Locale Code，语言正文不会进入 Application 或存档。
+
 ## 8. 地图运行时
 
 > public interface IMapRuntime  
@@ -323,6 +332,18 @@ Settings 的运行时模型包含重映射接口、摇杆死区、震动强度�
 > }
 
 初始只实现 NullPlatformFacade。Steam SDK 只存在于单独 Assembly，不反向污染游戏逻辑。
+
+M8 的子服务固定为 Achievements、Stats、Cloud、RichPresence 和 Identity。应用层
+`ApplicationEventStream` 发布 SettingsChanged、RunStarted、RunCompleted；存档服务处理三个本地
+文件生命周期，平台路由只从 RunCompleted 更新统计/成就。云冲突策略比较 Local、Remote 与最后
+同步校验和；双方分叉时返回 RequireUserChoice，不静默覆盖。
+
+## 9.1 存档隔离
+
+`Game.Application` 定义三个纯数据文档和 `ISaveStorage` / Codec / Migration 合约；Unity 文件和
+JsonUtility 实现只存在于 Infrastructure。写入顺序为 temp flush、上一版本 backup、同卷 atomic
+replace；外层 SHA-256 信封先校验后迁移。Profile 缺失解锁保留 ID 并告警，RunRecovery 缺少角色、
+地图或已拥有内容时明确拒绝恢复。完整 wire 规则见 `Docs/SAVE_FORMAT.md`。
 
 ## 10. 禁止 API 与模式
 

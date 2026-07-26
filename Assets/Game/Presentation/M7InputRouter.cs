@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Game.Application;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -106,6 +107,33 @@ namespace Game.Presentation
         public void RemoveAllBindingOverrides()
         {
             actions?.RemoveAllBindingOverrides();
+        }
+
+        /// <summary>Captures non-empty binding overrides as settings-safe pure data.</summary>
+        public SavedBindingOverride[] CaptureBindingOverrides()
+        {
+            if (actions == null) return Array.Empty<SavedBindingOverride>();
+            var captured = new List<SavedBindingOverride>();
+            foreach (var map in actions.actionMaps)
+            foreach (var action in map.actions)
+            for (var index = 0; index < action.bindings.Count; index++)
+            {
+                var path = action.bindings[index].overridePath;
+                if (!string.IsNullOrEmpty(path))
+                    captured.Add(new SavedBindingOverride(map.name + "/" + action.name, index, path));
+            }
+            return captured.ToArray();
+        }
+
+        /// <summary>Applies persisted overrides through the normal rebind validation path.</summary>
+        public void ApplyBindingOverrides(IReadOnlyList<SavedBindingOverride> overrides)
+        {
+            if (overrides == null) return;
+            for (var index = 0; index < overrides.Count; index++)
+            {
+                var item = overrides[index];
+                ApplyBindingOverride(item.ActionName, item.BindingIndex, item.ControlPath);
+            }
         }
 
         public void SetGamepadVibration(float lowFrequency, float highFrequency, float intensity)

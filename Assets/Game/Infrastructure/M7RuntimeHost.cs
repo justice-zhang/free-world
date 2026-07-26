@@ -16,22 +16,28 @@ namespace Game.Infrastructure
         private RunSession lastSession;
         private GameState lastState;
         private bool initialized;
+        private GameApplication application;
 
         public M7GameFlowController Flow { get; private set; }
         public M7InputRouter Input { get; private set; }
         public RuntimeUiRoot Ui { get; private set; }
         public PresentationCoordinator Presentation { get; private set; }
+        public ILocalizationService Localization { get; private set; }
 
         public void Initialize(
             GameApplication application,
             Camera presentationCamera,
-            InputActionAsset inputActions = null)
+            InputActionAsset inputActions = null,
+            M8RuntimeServices runtimeServices = null)
         {
             if (initialized) throw new InvalidOperationException("M7RuntimeHost is already initialized.");
+            this.application = application ?? throw new ArgumentNullException(nameof(application));
+            Localization = new UnityLocalizationService();
+            if (runtimeServices?.Settings != null) Localization.SelectLocale(runtimeServices.Settings.LocaleCode);
             var uiObject = new GameObject("M7_UI");
             uiObject.transform.SetParent(transform, false);
             Ui = uiObject.AddComponent<RuntimeUiRoot>();
-            Ui.Initialize();
+            Ui.Initialize(Localization);
 
             var presentationObject = new GameObject("M7_Presentation");
             presentationObject.transform.SetParent(transform, false);
@@ -39,9 +45,11 @@ namespace Game.Infrastructure
 
             Input = gameObject.AddComponent<M7InputRouter>();
             Input.Initialize(inputActions);
+            if (runtimeServices?.Settings != null) Input.ApplyBindingOverrides(runtimeServices.Settings.BindingOverrides);
             Flow = new M7GameFlowController(application);
+            Flow.Settings.Apply(runtimeServices?.Settings);
             Presentation.Initialize(Ui.SharedCanvas, Flow.Settings);
-            presenter = new GameFlowPresenter(Flow, Ui, Input);
+            presenter = new GameFlowPresenter(Flow, Ui, Input, Localization);
 
             if (presentationCamera == null)
             {
@@ -108,7 +116,10 @@ namespace Game.Infrastructure
             Presentation.TickEffects((float)elapsedSeconds);
             if (lastState != Flow.CurrentState)
             {
+                var previousState = lastState;
                 lastState = Flow.CurrentState;
+                if (previousState == GameState.Settings && Flow.CurrentState != GameState.Settings)
+                    application.Events.Publish(ApplicationEvent.SettingsChanged(CaptureSettings()));
                 presenter.Refresh();
                 ApplyStateMode();
             }
@@ -127,6 +138,20 @@ namespace Game.Infrastructure
         private void OnDebugCompleteRun()
         {
             Flow.EndRun(RunEndReason.Completed);
+        }
+
+        private SettingsSaveData CaptureSettings()
+        {
+            var settings = Flow.Settings;
+            return new SettingsSaveData(
+                Localization.SelectedLocaleCode,
+                settings.StickDeadzone,
+                settings.VibrationIntensity,
+                settings.ScreenShakeEnabled,
+                settings.FlashIntensity,
+                settings.DamageNumbersEnabled,
+                settings.AutoAim,
+                Input.CaptureBindingOverrides());
         }
 
         private void OnDestroy()

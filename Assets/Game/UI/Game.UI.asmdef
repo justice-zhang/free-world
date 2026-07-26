@@ -3,7 +3,9 @@
   "rootNamespace": "Game.UI",
   "references": [
     "Game.Application",
-    "Unity.ugui"
+    "Unity.ugui",
+    "Unity.Localization",
+    "Unity.ResourceManager"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],
