@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 using Game.Core;
 
@@ -24,6 +25,9 @@ namespace Game.Content.Runtime
 
         /// <summary>Identifies a status-effect definition.</summary>
         public const string Status = "status";
+
+        /// <summary>Identifies an M5 encounter schedule definition.</summary>
+        public const string Encounter = "encounter";
     }
 
     /// <summary>
@@ -202,6 +206,46 @@ namespace Game.Content.Runtime
         {
             BaseMaxHealth = baseMaxHealth;
             CollisionRadius = collisionRadius;
+            HasM5Data = false;
+            Behavior = default;
+        }
+
+        /// <summary>Initializes schema-4 enemy combat, behavior, reward, and presentation metadata.</summary>
+        public RuntimeEnemyDefinition(
+            ContentId id,
+            string localizedNameKey,
+            string localizedDescriptionKey,
+            string sourceAssetPath,
+            ContentTag[] tags,
+            float baseMaxHealth,
+            float collisionRadius,
+            float baseMoveSpeed,
+            float baseDamage,
+            float attackRange,
+            ContentId attackSkillId,
+            float experienceReward,
+            float lootReward,
+            ContentId visualProfileId,
+            RuntimeEnemyBehavior behavior)
+            : base(
+                id,
+                localizedNameKey,
+                localizedDescriptionKey,
+                sourceAssetPath,
+                tags,
+                attackSkillId.IsValid ? new[] { attackSkillId } : Array.Empty<ContentId>())
+        {
+            BaseMaxHealth = baseMaxHealth;
+            CollisionRadius = collisionRadius;
+            BaseMoveSpeed = baseMoveSpeed;
+            BaseDamage = baseDamage;
+            AttackRange = attackRange;
+            AttackSkillId = attackSkillId;
+            ExperienceReward = experienceReward;
+            LootReward = lootReward;
+            VisualProfileId = visualProfileId;
+            Behavior = behavior;
+            HasM5Data = true;
         }
 
         /// <inheritdoc />
@@ -213,10 +257,33 @@ namespace Game.Content.Runtime
         /// <summary>Gets the collision radius.</summary>
         public float CollisionRadius { get; }
 
+        /// <summary>Gets whether schema-4 runtime fields were baked.</summary>
+        public bool HasM5Data { get; }
+
+        public float BaseMoveSpeed { get; }
+        public float BaseDamage { get; }
+        public float AttackRange { get; }
+        public ContentId AttackSkillId { get; }
+        public float ExperienceReward { get; }
+        public float LootReward { get; }
+        public ContentId VisualProfileId { get; }
+        public RuntimeEnemyBehavior Behavior { get; }
+
         protected override void AppendTypeSpecificDeterministicData(StringBuilder builder)
         {
             ContentHashUtility.AppendFloat(builder, BaseMaxHealth);
             ContentHashUtility.AppendFloat(builder, CollisionRadius);
+            if (!HasM5Data) return;
+
+            ContentHashUtility.AppendInt(builder, 1);
+            ContentHashUtility.AppendFloat(builder, BaseMoveSpeed);
+            ContentHashUtility.AppendFloat(builder, BaseDamage);
+            ContentHashUtility.AppendFloat(builder, AttackRange);
+            ContentHashUtility.AppendToken(builder, AttackSkillId.Value);
+            ContentHashUtility.AppendFloat(builder, ExperienceReward);
+            ContentHashUtility.AppendFloat(builder, LootReward);
+            ContentHashUtility.AppendToken(builder, VisualProfileId.Value);
+            Behavior.AppendDeterministicData(builder);
         }
     }
 
@@ -225,6 +292,11 @@ namespace Game.Content.Runtime
     /// </summary>
     public sealed class RuntimeMapDefinition : RuntimeContentDefinition
     {
+        private readonly RuntimeMapObstacle[] obstacles;
+        private readonly RuntimeMapAnchor[] anchors;
+        private readonly IReadOnlyList<RuntimeMapObstacle> obstaclesView;
+        private readonly IReadOnlyList<RuntimeMapAnchor> anchorsView;
+
         /// <summary>
         /// Initializes pure runtime map metadata.
         /// </summary>
@@ -246,6 +318,59 @@ namespace Game.Content.Runtime
         {
             RuntimeProviderId = runtimeProviderId ?? string.Empty;
             SceneAddress = sceneAddress ?? string.Empty;
+            HasM5Data = false;
+            obstacles = Array.Empty<RuntimeMapObstacle>();
+            anchors = Array.Empty<RuntimeMapAnchor>();
+            obstaclesView = Array.AsReadOnly(obstacles);
+            anchorsView = Array.AsReadOnly(anchors);
+        }
+
+        /// <summary>Initializes a schema-4 pure map-runtime definition.</summary>
+        public RuntimeMapDefinition(
+            ContentId id,
+            string localizedNameKey,
+            string localizedDescriptionKey,
+            string sourceAssetPath,
+            ContentTag[] tags,
+            string runtimeProviderId,
+            string sceneAddress,
+            MapBoundsMode boundsMode,
+            Vector2 minimum,
+            Vector2 maximum,
+            float chunkSize,
+            int activeChunkRadius,
+            ContentId encounterScheduleId,
+            ContentId visualProfileId,
+            RuntimeMapObstacle[] mapObstacles,
+            RuntimeMapAnchor[] mapAnchors)
+            : base(
+                id,
+                localizedNameKey,
+                localizedDescriptionKey,
+                sourceAssetPath,
+                tags,
+                encounterScheduleId.IsValid
+                    ? new[] { encounterScheduleId }
+                    : Array.Empty<ContentId>())
+        {
+            RuntimeProviderId = runtimeProviderId ?? string.Empty;
+            SceneAddress = sceneAddress ?? string.Empty;
+            BoundsMode = boundsMode;
+            Minimum = minimum;
+            Maximum = maximum;
+            ChunkSize = chunkSize;
+            ActiveChunkRadius = activeChunkRadius;
+            EncounterScheduleId = encounterScheduleId;
+            VisualProfileId = visualProfileId;
+            obstacles = mapObstacles == null
+                ? Array.Empty<RuntimeMapObstacle>()
+                : (RuntimeMapObstacle[])mapObstacles.Clone();
+            anchors = mapAnchors == null
+                ? Array.Empty<RuntimeMapAnchor>()
+                : (RuntimeMapAnchor[])mapAnchors.Clone();
+            obstaclesView = Array.AsReadOnly(obstacles);
+            anchorsView = Array.AsReadOnly(anchors);
+            HasM5Data = true;
         }
 
         /// <inheritdoc />
@@ -257,10 +382,49 @@ namespace Game.Content.Runtime
         /// <summary>Gets the scene address consumed by a later map loader.</summary>
         public string SceneAddress { get; }
 
+        public bool HasM5Data { get; }
+        public MapBoundsMode BoundsMode { get; }
+        public Vector2 Minimum { get; }
+        public Vector2 Maximum { get; }
+        public float ChunkSize { get; }
+        public int ActiveChunkRadius { get; }
+        public ContentId EncounterScheduleId { get; }
+        public ContentId VisualProfileId { get; }
+        public IReadOnlyList<RuntimeMapObstacle> Obstacles => obstaclesView;
+        public IReadOnlyList<RuntimeMapAnchor> Anchors => anchorsView;
+
         protected override void AppendTypeSpecificDeterministicData(StringBuilder builder)
         {
             ContentHashUtility.AppendToken(builder, RuntimeProviderId);
             ContentHashUtility.AppendToken(builder, SceneAddress);
+            if (!HasM5Data) return;
+
+            ContentHashUtility.AppendInt(builder, 1);
+            ContentHashUtility.AppendInt(builder, (int)BoundsMode);
+            ContentHashUtility.AppendFloat(builder, Minimum.X);
+            ContentHashUtility.AppendFloat(builder, Minimum.Y);
+            ContentHashUtility.AppendFloat(builder, Maximum.X);
+            ContentHashUtility.AppendFloat(builder, Maximum.Y);
+            ContentHashUtility.AppendFloat(builder, ChunkSize);
+            ContentHashUtility.AppendInt(builder, ActiveChunkRadius);
+            ContentHashUtility.AppendToken(builder, EncounterScheduleId.Value);
+            ContentHashUtility.AppendToken(builder, VisualProfileId.Value);
+            ContentHashUtility.AppendInt(builder, obstacles.Length);
+            for (var index = 0; index < obstacles.Length; index++)
+            {
+                ContentHashUtility.AppendFloat(builder, obstacles[index].Minimum.X);
+                ContentHashUtility.AppendFloat(builder, obstacles[index].Minimum.Y);
+                ContentHashUtility.AppendFloat(builder, obstacles[index].Maximum.X);
+                ContentHashUtility.AppendFloat(builder, obstacles[index].Maximum.Y);
+            }
+
+            ContentHashUtility.AppendInt(builder, anchors.Length);
+            for (var index = 0; index < anchors.Length; index++)
+            {
+                ContentHashUtility.AppendToken(builder, anchors[index].Id.Value);
+                ContentHashUtility.AppendFloat(builder, anchors[index].Position.X);
+                ContentHashUtility.AppendFloat(builder, anchors[index].Position.Y);
+            }
         }
     }
 }

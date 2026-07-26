@@ -131,3 +131,31 @@ Tools > Free World > M4 > Configure Test Skill Content
 输出位于 `Assets/GameAssets/Placeholder/TestSkillContent`，包含单体投射物、环绕物、地面区域
 和伤害光环及 Schema 3 baked JSON。它们只使用 `placeholder.presentation.*` ID，不创建 Prefab、
 VFX、音频或专用 MonoBehaviour，不得加入 release label。
+
+## 9. M5 敌人、地图与 Encounter 作者数据
+
+需要可执行敌人、地图运行时或 Encounter 的 Pack 必须显式使用 Schema 4：
+
+- Enemy 填写基础生命/伤害/移动/碰撞、Attack Skill 引用、奖励、VisualProfileId 和行为参数；
+- Map 填写已登记 Runtime Provider、Scene Address、边界或区块参数、Encounter 引用、
+  VisualProfileId、简化障碍和稳定 AnchorId；
+- Encounter 独立于 Map Scene，填写连续 Phase、预算/间隔曲线、权重、群组、Elite、Boss、
+  Spawn Pattern 和并发上限；
+- Portal 与 FixedAnchor 必须引用 Map Definition 中的稳定 AnchorId；
+- Enemy Attack Skill 必须指向可执行的 Schema 3+ Skill；跨 Pack 引用必须声明 Pack Dependency。
+
+创建或重建 M5 Placeholder Fixture：
+
+```text
+Tools > Free World > M5 > Configure Test Enemy Map Content
+```
+
+命令行入口：
+
+```powershell
+& $env:UNITY_PATH -batchmode -nographics -projectPath <project> `
+  -executeMethod Game.Editor.M5TestContentSetup.RunFromCommandLine
+```
+
+输出位于 `Assets/GameAssets/Placeholder/TestM5Content`。测试 Scene 只包含程序化占位根对象；
+刷怪时间线和障碍真值来自纯 Content Definition，不得添加地图刷怪 MonoBehaviour 或正式资源。

@@ -758,7 +758,8 @@ namespace Game.Simulation
                         candidate.Entity == record.Instance.Owner ||
                         candidate.Entity == record.LastTarget ||
                         !world.Actors.Contains(candidate.Entity.Handle) ||
-                        world.Actors.IsDeathPending(candidate.Entity.Handle))
+                        world.Actors.IsDeathPending(candidate.Entity.Handle) ||
+                        !world.IsHostileTarget(record.Instance.Owner, candidate.Entity))
                     {
                         continue;
                     }

@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3599d91c04484c73b92ddd4bdcb1fd04, type: 3}
+  m_Name: TestFiveMinuteEncounter
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.EncounterScheduleAuthoring
+  contentId: test.encounter.five_minute
+  localizedNameKey: content.test.encounter.five_minute.name
+  localizedDescriptionKey: content.test.encounter.five_minute.description
+  tags:
+  - content.placeholder
+  - encounter.test
+  maximumConcurrentEnemies: 48
+  minimumSpawnDistance: 8
+  maximumSpawnDistance: 12
+  phases:
+  - startTimeSeconds: 0
+    endTimeSeconds: 100
+    budgetPerSecondStart: 1.5
+    budgetPerSecondEnd: 3
+    spawnIntervalStart: 1.2
+    spawnIntervalEnd: 0.8
+    maximumConcurrentEnemies: 24
+    spawnPattern: 1
+    anchorId: 
+    enemies:
+    - enemy: {fileID: 11400000, guid: b7f64d6d44a16414f9e4b5a74849a88f, type: 2}
+      weight: 3
+      budgetCost: 1
+      minimumGroupSize: 1
+      maximumGroupSize: 3
+      elite: 0
+    - enemy: {fileID: 11400000, guid: 7fca24794f85bc14e8e7ab7032f5ff58, type: 2}
+      weight: 1
+      budgetCost: 2
+      minimumGroupSize: 1
+      maximumGroupSize: 2
+      elite: 0
+    bosses: []
+  - startTimeSeconds: 100
+    endTimeSeconds: 200
+    budgetPerSecondStart: 3
+    budgetPerSecondEnd: 5
+    spawnIntervalStart: 0.8
+    spawnIntervalEnd: 0.5
+    maximumConcurrentEnemies: 36
+    spawnPattern: 3
+    anchorId: 
+    enemies:
+    - enemy: {fileID: 11400000, guid: b1e0bf55d46f69b4d9d24277f53161f3, type: 2}
+      weight: 2
+      budgetCost: 3
+      minimumGroupSize: 1
+      maximumGroupSize: 2
+      elite: 0
+    - enemy: {fileID: 11400000, guid: 84ac7bbfd292f5942b51ba8dbcf1cd36, type: 2}
+      weight: 2
+      budgetCost: 2
+      minimumGroupSize: 1
+      maximumGroupSize: 3
+      elite: 0
+    - enemy: {fileID: 11400000, guid: b7f64d6d44a16414f9e4b5a74849a88f, type: 2}
+      weight: 1
+      budgetCost: 1
+      minimumGroupSize: 2
+      maximumGroupSize: 4
+      elite: 1
+    bosses:
+    - enemy: {fileID: 11400000, guid: cb5b724e1f3385843b7688b2d8ae8346, type: 2}
+      spawnTimeSeconds: 150
+      pattern: 7
+      anchorId: test.anchor.boss
+  - startTimeSeconds: 200
+    endTimeSeconds: 300
+    budgetPerSecondStart: 5
+    budgetPerSecondEnd: 7
+    spawnIntervalStart: 0.5
+    spawnIntervalEnd: 0.35
+    maximumConcurrentEnemies: 48
+    spawnPattern: 8
+    anchorId: 
+    enemies:
+    - enemy: {fileID: 11400000, guid: b7f64d6d44a16414f9e4b5a74849a88f, type: 2}
+      weight: 2
+      budgetCost: 1
+      minimumGroupSize: 2
+      maximumGroupSize: 5
+      elite: 0
+    - enemy: {fileID: 11400000, guid: 7fca24794f85bc14e8e7ab7032f5ff58, type: 2}
+      weight: 1
+      budgetCost: 2
+      minimumGroupSize: 1
+      maximumGroupSize: 3
+      elite: 0
+    - enemy: {fileID: 11400000, guid: b1e0bf55d46f69b4d9d24277f53161f3, type: 2}
+      weight: 1
+      budgetCost: 3
+      minimumGroupSize: 1
+      maximumGroupSize: 2
+      elite: 0
+    - enemy: {fileID: 11400000, guid: 84ac7bbfd292f5942b51ba8dbcf1cd36, type: 2}
+      weight: 2
+      budgetCost: 2
+      minimumGroupSize: 1
+      maximumGroupSize: 3
+      elite: 0
+    bosses: []
