@@ -428,3 +428,50 @@ M9 只能从带 `framework-m8` 标签的最终 `main` 创建独立分支。真�
 先通过 GitHub PR 合并 M9、创建并推送 `framework-m9`，清理功能分支并回到干净 `main`。M10
 必须从该标签开始，实际执行 30 分钟 Soak、1,500/3,000/5,000 压力、性能 JSON、CI 与框架冻结；
 不得把 M9 Preview 数据当作性能门禁。
+
+## M10：性能、CI、构建与框架冻结
+
+- 状态：`COMPLETE`
+- 日期：2026-07-28
+- Unity：`6000.3.20f1`
+- 实现报告：`Docs/Reports/2026-07-28-m10-performance-ci-freeze.md`
+- 审查报告：`Docs/Reports/2026-07-28-m10-strict-review.md`
+- 冻结签字：`Docs/FRAMEWORK_FREEZE_SIGNOFF.md`
+- 最终标签：`framework-m10`（PR 合并后创建）
+
+### 集成记录
+
+| 项目 | 记录 |
+|---|---|
+| M10 实现提交 | `d74936c1047db5235935a41d9bc33caecf858f2a` |
+| 干净克隆修复提交 | `da8980694e7d3713a9dda0781ff35ee6b77496c8` |
+| M10 远程分支 | `codex/m10-performance-ci-freeze` |
+| 严格审查修复 | PlayMode Scene Processor null 边界、VFX 构造器二进制兼容、Release 混合组防漏打、Unity 子进程等待、Windows 长路径 Manifest 哈希 |
+
+### 最终检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| EditMode | PASS | 根工作区与干净克隆均 187/187，0 failed，0 skipped |
+| PlayMode | PASS | 根工作区与干净克隆均 9/9，0 failed，0 skipped |
+| 内容/工程验证 | PASS | Project Validation PASS，包含五个核心程序集 API Freeze |
+| 30 分钟目标规模 | PASS | 54,000 Tick；1,500/3,000/5,000；Tick p99 10.9851 ms；0 B 分配；0 GC；无持续增长 |
+| Windows Development Build | PASS | 干净克隆 Manifest 绑定 `da89806`、clean=true、四项测试证据 pass |
+| Windows Release Build | PASS | 非 Development、Placeholder=0；EXE SHA-256 `34C4E304...56A8F` |
+| Release Player | PASS | 60 Tick、4 actors、0 invalid handles、退出码 0 |
+| 独立干净克隆 | PASS | 完整流水线 7 个阶段全部退出码 0，结束后源码树无差异 |
+| GitHub Actions 实际运行 | NOT RUN | 自托管 workflow 已提交；组织 Runner 尚未配置/触发 |
+
+第一次干净克隆的测试、验证和性能均 PASS，但 Development Manifest 在 264 字符路径上失败；该轮
+整体为 FAIL，未被计作最终通过。修复后从新提交完整重跑并 PASS。
+
+### 已知问题
+
+`Docs/KNOWN_ISSUES.md` 已关闭此前 M3-M9 的目标规模计划项，并登记 M10-KI-001 至 M10-KI-004；
+当前没有阻止框架冻结的 `OPEN` 问题。
+
+### 下一步
+
+通过 GitHub PR 合并 M10 后创建 `framework-m10`，删除远程/本地功能分支并回到干净 `main`。
+正式内容生产必须继续遵守冻结 API、Release provenance/许可证门禁和性能回归基线；破坏性变化先
+提交 ADR、兼容性与迁移计划。

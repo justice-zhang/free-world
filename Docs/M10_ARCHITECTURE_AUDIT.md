@@ -4,7 +4,7 @@
 - 目标分支：`codex/m10-performance-ci-freeze`
 - Unity：`6000.3.20f1`
 - 审计日期：2026-07-28
-- 最终结论：在 M10 全部门禁完成前为 `NOT RUN`
+- 最终结论：`PASS`
 
 ## 1. Assembly 与依赖方向
 
@@ -51,7 +51,14 @@
 - 最终审查必须核对 Git diff/日志、Scene/ProjectSettings、禁用模式、完整测试、30 分钟 Soak、两个
   构建、Release Player、干净克隆与文档。任何未实际执行项只能写 `NOT RUN`。
 
-## 6. 当前审计状态
+## 6. 最终审计状态
 
-架构实现已完成初检；正式 54,000 Tick、最终两个 Build、Release Player、干净克隆和严格审查的
-最终状态将在实际执行后写入 M10 结果与严格审查报告。本文件不预先把这些项目声明为通过。
+- Assembly 治理、禁用模式、内容/存档/本地化/平台和资产来源：PASS。
+- 正式 54,000 Tick：PASS；Tick p99 10.9851 ms、0 B 热路径分配、无持续内存增长。
+- 提交 `da8980694e7d3713a9dda0781ff35ee6b77496c8` 的独立干净克隆：187/187、9/9、
+  Validation、性能、Development、Release 与 Release Player 全部 PASS。
+- GitHub 自托管 workflow 实际运行：NOT RUN；工作流和等价干净克隆脚本已完成，限制登记为
+  M10-KI-003。
+
+审查未发现范围外功能、Assembly 循环、Simulation 引擎污染、正式/第三方资产新增或 Release
+Placeholder 绕过。严格审查详情见 `Docs/Reports/2026-07-28-m10-strict-review.md`。
