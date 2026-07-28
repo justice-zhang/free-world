@@ -1,0 +1,73 @@
+name: Windows Framework Freeze
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  framework-freeze:
+    runs-on: [self-hosted, Windows, X64, unity]
+    timeout-minutes: 120
+    env:
+      M10_EVIDENCE_ROOT: TestResults/M10CI
+    steps:
+      - name: Clean checkout
+        uses: actions/checkout@v4
+        with:
+          clean: true
+          fetch-depth: 0
+
+      - name: Verify locked Unity installation
+        shell: pwsh
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:UNITY_PATH)) { throw 'UNITY_PATH is not configured on the runner.' }
+          if (-not (Test-Path -LiteralPath $env:UNITY_PATH -PathType Leaf)) { throw "UNITY_PATH is invalid: $env:UNITY_PATH" }
+          $locked = ((Get-Content ProjectSettings/ProjectVersion.txt | Select-String '^m_EditorVersion:').Line -split ':', 2)[1].Trim()
+          $installed = Split-Path -Leaf (Split-Path -Parent (Split-Path -Parent $env:UNITY_PATH))
+          if ($installed -ne $locked) { throw "Unity mismatch: project=$locked runner=$installed" }
+
+      - name: EditMode
+        shell: pwsh
+        run: ./Scripts/test.ps1 -Platform EditMode -ResultsDirectory $env:M10_EVIDENCE_ROOT
+
+      - name: PlayMode
+        shell: pwsh
+        run: ./Scripts/test.ps1 -Platform PlayMode -ResultsDirectory $env:M10_EVIDENCE_ROOT
+
+      - name: Project validation
+        shell: pwsh
+        run: ./Scripts/validate.ps1 -LogPath "$env:M10_EVIDENCE_ROOT/validation.log"
+
+      - name: Thirty-minute simulated soak
+        shell: pwsh
+        run: ./Scripts/run-performance.ps1 -OutputPath "$env:M10_EVIDENCE_ROOT/performance.json" -LogPath "$env:M10_EVIDENCE_ROOT/performance.log"
+
+      - name: Windows Development
+        shell: pwsh
+        run: ./Scripts/build-windows.ps1 -LogPath "$env:M10_EVIDENCE_ROOT/build-development.log" -EvidenceRoot $env:M10_EVIDENCE_ROOT
+
+      - name: Windows Release
+        shell: pwsh
+        run: ./Scripts/build-windows-release.ps1 -LogPath "$env:M10_EVIDENCE_ROOT/build-release.log" -EvidenceRoot $env:M10_EVIDENCE_ROOT
+
+      - name: Release player smoke
+        shell: pwsh
+        run: ./Scripts/run-player-smoke.ps1 -LogPath "$env:M10_EVIDENCE_ROOT/release-player.log" -ResultPath "$env:M10_EVIDENCE_ROOT/release-player.json"
+
+      - name: Verify source tree unchanged
+        shell: pwsh
+        run: |
+          if (git diff --name-only) { throw 'Tracked working-tree changes were produced by CI.' }
+          if (git diff --cached --name-only) { throw 'Staged changes were produced by CI.' }
+          if (git ls-files --others --exclude-standard) { throw 'Untracked project files were produced by CI.' }
+
+      - name: Upload evidence and players
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-framework-freeze-${{ github.sha }}
+          path: |
+            TestResults/M10CI
+            Builds/WindowsDevelopment
+            Builds/WindowsRelease

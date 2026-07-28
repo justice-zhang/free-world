@@ -114,3 +114,25 @@ Seed 运行两次并比较 Run 统计与校验值。该测试证明小型 Placeh
 
 30 分钟 Soak、1,500 敌人、3,000 投射物、5,000 拾取物及性能 JSON 在 M6 仍为 `NOT RUN`，
 继续固定在 M10 执行。
+
+## 9. M10 固定基准与优化决定
+
+M10 正式配置为 30 Hz、54,000 Tick、预热 300 Tick、1,500 Enemy、3,000 Projectile、5,000
+Pickup 和 200 活动 VFX。JSON 必须报告：
+
+- Tick 与渲染 CPU average/p95/p99/max；
+- EnemyDecision、Movement、Lifetime、Cleanup、SnapshotBuild 的累计/平均/最大值；
+- 每模拟分钟的 Mono、Native 和 GC Heap 样本，以及持续增长判断；
+- 热路径分配、GC collection、实体峰值、对象池命中/扩容/失败/丢弃；
+- 触发链截断、无效句柄、最终实体数量与确定性 Checksum。
+
+实现后短测（相同实体规模、300 个测量 Tick）的 Tick p99 为 7.0635 ms，渲染 CPU p99 为
+1.2974 ms，热路径分配 0 B、GC collection 0。EnemyDecision 平均约 2.5470 ms，是已测最热系统；
+Movement 与 SnapshotBuild 依次约 1.4100 ms、0.9700 ms。该证据没有显示迁移 Jobs/Burst 的必要性，
+因此 M10 保持现有稠密批处理后端。若正式 54,000 Tick 失败，此决定必须重新审查，不能以短测覆盖。
+
+正式 30 分钟模拟时间结果为 PASS：54,000 Tick 的平均/p95/p99/max 分别为 8.9125/10.2952/
+10.9851/20.2094 ms；108,000 个渲染 CPU 探针样本为 0.6014/0.9809/1.2482/3.4024 ms。
+31 个内存样本中托管段增长 0 B，Native 分段趋势为 -2,894 B；热路径分配 0 B，三代 GC 均为 0，
+无无效句柄、触发截断或 VFX 丢弃。最终 Checksum 为 `13193d7c4cc3251a`，机器与完整数据见
+`TestResults/M10Final/performance.json` 和 M10 结果报告。

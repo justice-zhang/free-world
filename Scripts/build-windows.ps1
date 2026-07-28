@@ -2,7 +2,8 @@
 param(
     [string]$ProjectPath = '',
     [string]$OutputPath = 'Builds/WindowsDevelopment/AzureSword.exe',
-    [string]$LogPath = 'TestResults/build-windows.log'
+    [string]$LogPath = 'TestResults/build-windows.log',
+    [string]$EvidenceRoot = 'TestResults/M10Final'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -39,6 +40,11 @@ $absoluteLogPath = if ([IO.Path]::IsPathRooted($LogPath)) {
     [IO.Path]::GetFullPath((Join-Path $projectRoot $LogPath))
 }
 New-Item -ItemType Directory -Path (Split-Path -Parent $absoluteLogPath) -Force | Out-Null
+$absoluteEvidenceRoot = if ([IO.Path]::IsPathRooted($EvidenceRoot)) {
+    [IO.Path]::GetFullPath($EvidenceRoot)
+} else {
+    [IO.Path]::GetFullPath((Join-Path $projectRoot $EvidenceRoot))
+}
 $outputDirectory = Split-Path -Parent $absoluteOutputPath
 $manifestPath = Join-Path $outputDirectory 'BuildManifest.json'
 
@@ -49,8 +55,10 @@ foreach ($generatedPath in @($absoluteOutputPath, $absoluteLogPath, $manifestPat
 }
 
 $previousBuildOutput = $env:BUILD_OUTPUT
+$previousEvidenceRoot = $env:M10_EVIDENCE_ROOT
 try {
     $env:BUILD_OUTPUT = $absoluteOutputPath
+    $env:M10_EVIDENCE_ROOT = $absoluteEvidenceRoot
     $arguments = @(
         '-batchmode',
         '-nographics',
@@ -61,11 +69,16 @@ try {
     $process = Start-Process `
         -FilePath $unityExecutable `
         -ArgumentList $arguments `
-        -Wait `
         -PassThru `
         -WindowStyle Hidden
+    # Start-Process -Wait follows the full descendant process tree on Windows.
+    # Unity build helpers can outlive the Editor even after a successful build,
+    # so wait for the Editor process itself and then read its real exit code.
+    [void]$process.WaitForExit()
+    $process.Refresh()
 } finally {
     $env:BUILD_OUTPUT = $previousBuildOutput
+    $env:M10_EVIDENCE_ROOT = $previousEvidenceRoot
 }
 
 Write-Host "Windows Development Build Unity exit code: $($process.ExitCode)"

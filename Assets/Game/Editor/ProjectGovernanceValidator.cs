@@ -89,6 +89,7 @@ namespace Game.Editor
                 AddressableAssetSettingsDefaultObject.GetSettings(false));
             ContentProjectValidator.AppendCurrentProject(report);
             LocalizationProjectValidator.AppendCurrentProject(report);
+            CoreApiFreezeValidator.AppendCurrentProject(report);
             return report;
         }
 

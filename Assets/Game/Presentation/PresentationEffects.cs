@@ -22,25 +22,73 @@ namespace Game.Presentation
         private readonly List<PooledVfx> active = new List<PooledVfx>(16);
         private readonly Transform root;
         private readonly Sprite sprite;
+        private readonly int maximumCapacity;
 
+        /// <summary>Creates an unbounded pool compatible with the original M7 behavior.</summary>
         public VfxRequestPool(Transform owner, Sprite fallbackSprite)
+            : this(owner, fallbackSprite, int.MaxValue)
+        {
+        }
+
+        /// <summary>Creates a pool with an explicit simultaneous-effect capacity.</summary>
+        public VfxRequestPool(Transform owner, Sprite fallbackSprite, int maximumCapacity)
         {
             root = owner ?? throw new ArgumentNullException(nameof(owner));
             sprite = fallbackSprite ?? throw new ArgumentNullException(nameof(fallbackSprite));
+            if (maximumCapacity <= 0) throw new ArgumentOutOfRangeException(nameof(maximumCapacity));
+            this.maximumCapacity = maximumCapacity;
         }
 
+        /// <summary>Gets the number of effects currently leased from the pool.</summary>
         public int ActiveCount => active.Count;
+        /// <summary>Gets the number of effect objects created by this pool.</summary>
         public int CreatedCount => all.Count;
+        /// <summary>Gets the highest simultaneous active count observed.</summary>
+        public int PeakActiveCount { get; private set; }
+        /// <summary>Gets the number of acquisitions served by an available object.</summary>
+        public long HitCount { get; private set; }
+        /// <summary>Gets the number of objects created to expand the pool.</summary>
+        public long ExpansionCount { get; private set; }
+        /// <summary>Gets the number of acquisitions rejected at capacity.</summary>
+        public long FailedAcquireCount { get; private set; }
+        /// <summary>Gets the number of VFX requests dropped at capacity.</summary>
+        public long DroppedRequestCount { get; private set; }
 
+        /// <summary>Spawns an effect using the original fire-and-forget contract.</summary>
         public void Spawn(Vector2 position, Color color, float size, float duration)
         {
-            var effect = available.Count > 0 ? available.Pop() : Create();
+            TrySpawn(position, color, size, duration);
+        }
+
+        /// <summary>Tries to spawn an effect and returns false when the bounded pool is full.</summary>
+        public bool TrySpawn(Vector2 position, Color color, float size, float duration)
+        {
+            PooledVfx effect;
+            if (available.Count > 0)
+            {
+                effect = available.Pop();
+                HitCount++;
+            }
+            else if (all.Count < maximumCapacity)
+            {
+                effect = Create();
+                ExpansionCount++;
+            }
+            else
+            {
+                FailedAcquireCount++;
+                DroppedRequestCount++;
+                return false;
+            }
+
             effect.Object.transform.position = new Vector3(position.x, position.y, -0.1f);
             effect.Object.transform.localScale = Vector3.one * Mathf.Max(0.05f, size);
             effect.Renderer.color = color;
             effect.Remaining = Mathf.Max(0.01f, duration);
             effect.Object.SetActive(true);
             active.Add(effect);
+            if (active.Count > PeakActiveCount) PeakActiveCount = active.Count;
+            return true;
         }
 
         public void Tick(float unscaledDeltaTime)

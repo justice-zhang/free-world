@@ -84,6 +84,7 @@ namespace Game.Editor
                 throw new BuildFailedException(validation.Issues[0].ToString());
             }
 
+            var sourceState = BuildManifestWriter.CaptureSourceState();
             var absoluteOutput = Path.GetFullPath(outputPath);
             var outputDirectory = Path.GetDirectoryName(absoluteOutput);
             if (string.IsNullOrEmpty(outputDirectory))
@@ -107,12 +108,18 @@ namespace Game.Editor
                     "Windows Development Build failed with result " + report.summary.result + ".");
             }
 
-            WriteBuildManifest(outputDirectory, absoluteOutput, report);
+            BuildManifestWriter.Write(
+                outputDirectory,
+                absoluteOutput,
+                report,
+                "WindowsDevelopment",
+                true,
+                sourceState);
             Debug.Log("[M0 Build] PASS: " + absoluteOutput);
             return report;
         }
 
-        private static void RemoveTemporaryAddressablesLinkXml()
+        internal static void RemoveTemporaryAddressablesLinkXml()
         {
             var settings = AddressableAssetSettingsDefaultObject.GetSettings(false);
             if (settings == null)
@@ -148,33 +155,5 @@ namespace Game.Editor
             }
         }
 
-        private static void WriteBuildManifest(
-            string outputDirectory,
-            string outputPath,
-            BuildReport report)
-        {
-            var manifest = new DevelopmentBuildManifest
-            {
-                unityVersion = UnityEngine.Application.unityVersion,
-                buildTarget = BuildTarget.StandaloneWindows64.ToString(),
-                development = true,
-                executable = outputPath.Replace('\\', '/'),
-                result = report.summary.result.ToString(),
-                generatedAtUtc = DateTime.UtcNow.ToString("O")
-            };
-            var json = JsonUtility.ToJson(manifest, true);
-            File.WriteAllText(Path.Combine(outputDirectory, "BuildManifest.json"), json);
-        }
-
-        [Serializable]
-        private sealed class DevelopmentBuildManifest
-        {
-            public string unityVersion;
-            public string buildTarget;
-            public bool development;
-            public string executable;
-            public string result;
-            public string generatedAtUtc;
-        }
     }
 }

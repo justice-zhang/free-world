@@ -47,9 +47,10 @@ $arguments = @(
 $process = Start-Process `
     -FilePath $unityExecutable `
     -ArgumentList $arguments `
-    -Wait `
     -PassThru `
     -WindowStyle Hidden
+[void]$process.WaitForExit()
+$process.Refresh()
 Write-Host "Validation Unity exit code: $($process.ExitCode)"
 if ($process.ExitCode -ne 0) {
     exit $process.ExitCode
