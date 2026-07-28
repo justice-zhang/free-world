@@ -54,7 +54,7 @@
 | M3-KI-002 | RESOLVED | High | 两个各自有限的护盾容量相加可溢出为正无穷，旧实现会接受状态并污染 Shield 数值。 | 聚合结果在任何状态写入和事件产生前验证为有限非负值，失败时原子回滚；`TemporaryShieldApplicationRejectsAggregateCapacityOverflow` 已覆盖。 |
 | M3-KI-003 | ACCEPTED | Low | 状态的 Dispel/Immunity 标签匹配当前为线性比较，大量并发状态时可能成为热点。 | M3 保持无每 Tick 临时集合的正确性实现；M10 在目标规模基准证明为热点后才调整索引结构。 |
 | M3-KI-004 | ACCEPTED | Low | M3 的每个状态定义只表达一项 Modifier、一项周期效果和一项临时护盾，不是完整效果列表。 | 这是 M3 Placeholder 和最小 Schema 边界；多效果组合只能在 M4 通用技能/效果模块中扩展，不硬编码到伤害系统。 |
-| M3-KI-005 | PLANNED | Medium | M3 未运行 30 分钟 Soak 和 1,500/3,000/5,000 实体压力基准。 | 当前性能数据为 `NOT RUN`；M10 使用固定种子压力场景输出性能 JSON，再依证据决定 Jobs/Burst 后端。 |
+| M3-KI-005 | RESOLVED | Medium | M3 未运行 30 分钟 Soak 和 1,500/3,000/5,000 实体压力基准。 | M10 已实际完成 54,000 Tick、1,500/3,000/5,000 目标规模，Tick p99 10.9851 ms、0 B 热路径分配、无持续内存增长；无需迁移 Jobs/Burst。 |
 
 当前没有阻止 M4 开始的 `OPEN` 问题。
 
@@ -68,7 +68,7 @@
 | M4-KI-004 | RESOLVED | Medium | Heal resolver 曾直接写 ActorCombatRecord.HealthCurrent，不符合 Skill 不直接修改 Health 的验收边界。 | Health 变更下沉到 ActorStore 的程序集内部 TryApplyHealing；Skill 文件对 HealthCurrent 静态搜索零命中，既有 Heal 行为测试通过。 |
 | M4-KI-005 | ACCEPTED | Low | OnPickup Trigger 已有纯模拟提交入口，但尚无实际拾取事件生产者。 | M4 只交付并测试 Trigger 契约；实际 Pickup 流程在后续对应里程碑接入，不在 M4 扩张。 |
 | M4-KI-006 | ACCEPTED | Low | Skill Preview 使用固定静止目标和有限窗口，不代表最终移动构筑或高并发性能。 | 仅将 Preview 作为固定种子 DPS、命中和触发次数回归工具；不把结果外推为性能预算。 |
-| M4-KI-007 | PLANNED | Medium | M4 未运行 30 分钟 Soak 和 1,500/3,000/5,000 实体压力基准。 | 当前为 `NOT RUN`；M10 使用固定种子压力场景输出性能 JSON 后再决定 Jobs/Burst 优化。 |
+| M4-KI-007 | RESOLVED | Medium | M4 未运行 30 分钟 Soak 和 1,500/3,000/5,000 实体压力基准。 | M10 正式与干净克隆目标规模 Soak 均 PASS；固定 Checksum 一致，未发现需要 Jobs/Burst 的预算超限热点。 |
 | M4-KI-008 | ACCEPTED | Low | 最终 Validation 日志中 Unity 公共配置请求出现 Curl 42/超时，同时启动阶段有已知 LicenseClient 握手噪声。 | 脚本仍以 exit 0 完成并输出 `[Project Validation] PASS`；测试 XML、Build PASS 标记和 `Succeeded` Manifest 均独立有效。若后续缺少任一门禁证据，必须按 FAIL 处理。 |
 
 当前没有阻止 M5 开始的 `OPEN` 问题。
@@ -80,7 +80,7 @@
 | M5-KI-001 | ACCEPTED | Low | ChunkedInfiniteMapRuntime 当前只维护确定性区块签名和逻辑活动窗口，不含正式地形内容流送、区块存档或表现对象池。 | 这是 M5 提示词要求的最小版本；后续表现/内容工具里程碑通过现有 IMapRuntime 边界扩展，不把流送逻辑写入 Scene。 |
 | M5-KI-002 | ACCEPTED | Low | 障碍输入仅支持轴对齐矩形和滑轴回退，复杂静态几何不会生成全局路径。 | 普通敌人继续使用 Steering、局部分离和轻量规避；只有证据证明需要时才提交通用寻路 Change Request。 |
 | M5-KI-003 | RESOLVED | Low | VisualProfileId 已是稳定表现边界 ID，但具体 Profile 内容和运行时 View 解析尚未实现。 | M7 通过 RunSession 只读边界解析敌人 VisualProfileId，Presentation Catalog 匹配；缺失时使用程序化 fallback，Simulation 不持有 Unity Object。 |
-| M5-KI-004 | PLANNED | Medium | M5 未运行 30 分钟 Soak 和 1,500/3,000/5,000 目标实体压力基准。 | 五分钟 Headless 只证明小型 Encounter 的正确性和有界清理；目标规模与性能 JSON 在 M10 执行，当前不得描述为通过。 |
+| M5-KI-004 | RESOLVED | Medium | M5 未运行 30 分钟 Soak 和 1,500/3,000/5,000 目标实体压力基准。 | M10 使用生产 EnemyRuntime/稠密 Store 实际保持 1,500/3,000/5,000，54,000 Tick 后无效句柄为零。 |
 
 当前没有阻止 M6 开始的 `OPEN` 问题。
 
@@ -93,7 +93,7 @@
 | M6-KI-003 | ACCEPTED | Low | Synergy 在条件首次满足时一次性激活并锁存；后续因 Evolution 消费或替换而不再满足条件时，不撤销已应用的 Modifier、Effect、Trait 或 Unlock。 | M6 将条件定义为激活条件并保证输出只应用一次，避免反复抖动；需要可撤销联动时必须先提出通用 Schema/生命周期 Change Request。 |
 | M6-KI-004 | RESOLVED | Low | M6 没有升级 UI，只有应用层 `RunSession` 命令接口和 `UpgradeOfferSet`。 | M7 LevelUpDraft 只展示 UI-safe 候选投影并提交 Select/Skip/Reroll 命令；过滤、权重和构筑规则仍在 Simulation。 |
 | M6-KI-005 | ACCEPTED | Low | 10 分钟自动玩家 Harness 使用小型 Placeholder Encounter，不输出 Tick 分位、GC 或内存趋势。 | 只把结果用于成长链路、确定性和显式清理证明，不外推为目标规模性能结论。 |
-| M6-KI-006 | PLANNED | Medium | M6 未运行 30 分钟 Soak 和 1,500 敌人、3,000 投射物、5,000 拾取物压力基准。 | 当前为 `NOT RUN`；M10 使用固定种子场景输出性能 JSON 后再判断性能门禁。 |
+| M6-KI-006 | RESOLVED | Medium | M6 未运行 30 分钟 Soak 和 1,500 敌人、3,000 投射物、5,000 拾取物压力基准。 | M10 正式 54,000 Tick 与提交后干净克隆完整基准均 PASS。 |
 
 当前没有阻止 M7 开始的 `OPEN` 问题。
 
@@ -103,7 +103,7 @@
 |---|---|---|---|---|
 | M7-KI-001 | RESOLVED | Low | Placeholder UI 当前显示 Localization Key，不包含正式语言表、字体回退或伪本地化裁切证据。 | M8 已接入英文、简中、Pseudo String Table，运行时解析 Key、使用 Windows CJK 动态字体候选，并以 EditMode/PlayMode 验证三语言和中文字符覆盖。 |
 | M7-KI-002 | ACCEPTED | Low | Projectile、Area、Pickup 和玩家当前没有实例级 VisualProfileId，因而使用 EntityKind 程序化 fallback。 | 敌人已消费稳定 VisualProfileId；未来若需要实例级外观，先扩展通用只读 Snapshot 身份，不把 Unity Object 放入 Simulation。 |
-| M7-KI-003 | PLANNED | Medium | 四类 View/VFX/Audio/伤害数字已池化，但尚未在 1,500/3,000/5,000 目标规模测量池命中、GC 和帧时间。 | 本次只声明生命周期与功能 PASS；M10 输出目标规模性能 JSON 前不得宣称性能门禁通过。 |
+| M7-KI-003 | RESOLVED | Medium | 四类 View/VFX/Audio/伤害数字已池化，但尚未在 1,500/3,000/5,000 目标规模测量池命中、GC 和帧时间。 | M10 的 200 VFX 容量探针达到峰值 200，2,700,000 次池命中，0 失败/丢弃；渲染 CPU p99 1.2482 ms，GC 为 0。 |
 | M7-KI-004 | ACCEPTED | Low | Debug Action Map 在框架开发阶段始终启用，包含触发一次真实升级流程和完成测试局的入口。 | 仅用于 Placeholder 验收；Release 配置门禁在发布前必须禁用 Debug Map。 |
 
 当前没有阻止 M8 开始的 `OPEN` 问题。
@@ -115,7 +115,7 @@
 | M8-KI-001 | ACCEPTED | Low | `run_recovery.json` 当前在开局记录 Seed、角色、地图和初始技能，结算时删除；尚未周期保存完整局中 Snapshot，也没有“继续本局”UI。 | M8 交付恢复文档、迁移、校验和缺失内容拒绝边界；在定义完整可重建 Snapshot 前不得假称任意时刻恢复。 |
 | M8-KI-002 | ACCEPTED | Low | Cloud 只有 Revision、冲突分类和 Null 服务，没有远端传输、用户冲突选择页面或真实 Steam SDK。 | 符合 M8 禁止集成真实 SDK 的范围；后续平台任务通过 `ICloudSyncService` 接入，本地文件始终是真值。 |
 | M8-KI-003 | ACCEPTED | Low | Placeholder UI 的简中覆盖依赖 Windows 已安装的微软雅黑/黑体等系统字体候选，不随游戏分发正式字体资产。 | 首发目标 Windows x64 的 PlayMode 已验证中文字符；正式品牌字体必须在来源、嵌入许可和 fallback 完成后单独导入。 |
-| M8-KI-004 | PLANNED | Medium | 低频存档 I/O、Localization、平台边界未执行 30 分钟 Soak 或目标实体规模性能基准。 | 当前为 `NOT RUN`；M10 按性能预算输出 30 分钟和 1,500/3,000/5,000 压力 JSON。 |
+| M8-KI-004 | RESOLVED | Medium | 低频存档 I/O、Localization、平台边界未执行 30 分钟 Soak 或目标实体规模性能基准。 | M10 完整测试、Validation、目标规模 Soak 和无 Steam 的 Release Player 均 PASS；低频边界未进入固定 Tick。 |
 
 当前没有阻止 M9 开始的 `OPEN` 问题。
 
@@ -126,6 +126,17 @@
 | M9-KI-001 | ACCEPTED | Low | Content Creation Wizard 固定生成程序化 Placeholder、占位双语正文和 `provenance.placeholder.json`，不能直接转为正式发布内容。 | 正式内容仍必须单独完成翻译、资产 provenance、商业许可复核并移除 Placeholder/Development 标签；Release 门禁不可绕过。 |
 | M9-KI-002 | ACCEPTED | Low | Wave Timeline 是作者数据理论产出，Skill Preview 使用固定静止目标；两者不代表最终数值平衡或高并发性能。 | 只用于相同输入的设计回归；目标规模与长时间数据由 M10 性能 Harness 输出。 |
 | M9-KI-003 | ACCEPTED | Low | Content Pack Builder 当前输出未签名的 loose JSON Catalog 和审计报告，不提供远端发布、DLC 下载、签名或 Workshop 生命周期。 | 保持 M9 内容生产/审计范围；正式分发后端必须复用稳定 Pack/Hash 边界并单独审批。 |
-| M9-KI-004 | PLANNED | Medium | M9 未执行 30 分钟 Soak 和 1,500 敌人、3,000 投射物、5,000 拾取物目标规模测试。 | 当前明确为 `NOT RUN`；M10 运行固定种子压力场景并输出性能 JSON。 |
+| M9-KI-004 | RESOLVED | Medium | M9 未执行 30 分钟 Soak 和 1,500 敌人、3,000 投射物、5,000 拾取物目标规模测试。 | M10 正式和干净克隆性能 JSON 均 PASS，固定 Checksum 为 `13193d7c4cc3251a`。 |
 
 当前没有阻止 M10 开始的 `OPEN` 问题。
+
+## M10
+
+| ID | 状态 | 严重度 | 问题与影响 | 处理 |
+|---|---|---|---|---|
+| M10-KI-001 | ACCEPTED | Low | Headless 性能 JSON 的 Render 指标是 Null Device 下的 Snapshot 插值与池化 VFX CPU 探针，不是正式内容的 GPU Frame Time。 | 指标名称和环境已在 JSON 中明确；正式美术/Shader/目标 GPU 到位后需另跑 GPU/RenderDoc 基线，不得把本数据外推为正式内容渲染预算。 |
+| M10-KI-002 | ACCEPTED | Low | 成功 Release 是内容为空的框架管线验证，不包含可销售正式内容。 | 实际 Scene/Addressables 输入通过门禁且 Placeholder 为 0；正式内容仍必须完成 provenance、许可证、本地化与 Release 标签审查。 |
+| M10-KI-003 | ACCEPTED | Low | 自托管 GitHub Actions 工作流已提交，但组织 Runner 上的实际 workflow run 尚未执行。 | 当前状态为 `NOT RUN`；等价的提交后独立干净克隆完整流水线已 PASS。配置带 `self-hosted, Windows, X64, unity` 标签且预激活 Unity 后再运行 CI。 |
+| M10-KI-004 | RESOLVED | Medium | 首次干净克隆 Development Build 在 264 字符 Addressables 路径上完成 Player 后，Manifest 哈希读取失败。 | Windows 哈希使用扩展长路径，默认临时目录缩短；新提交的第二次完整干净克隆两个 Build 与 Player 均 PASS。 |
+
+当前没有阻止框架冻结的 `OPEN` 问题。

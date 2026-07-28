@@ -246,3 +246,20 @@ M8 文件 I/O 和平台调用只在低频 Application Event 发生，不属于�
   命中盒、DPS、命中、触发、分配和有限日志。
 - 完整 EditMode、PlayMode、Project Validation、Pack CLI 和 Windows Development Build 仍是 M9
   最终门禁；30 分钟 Soak 和目标实体压力测试为 `NOT RUN`，保留到 M10。
+
+## 14. M10 性能、发布与冻结覆盖
+
+- 目标配置固定为 1,500 Enemy、3,000 Projectile、5,000 Pickup、200 VFX，30 Hz 推进 54,000 Tick；
+  配置、实际数量、有限坐标、无效句柄和最终 Checksum 全部写入 JSON。
+- 同一目标配置先运行双实例确定性检查；正式测量前预热 300 Tick，预热后的固定 Tick 分配为 0 B。
+- 记录 Tick 与渲染 CPU average/p95/p99/max，EnemyDecision/Movement/Lifetime/Cleanup/Snapshot 分系统
+  计时，每模拟分钟采样托管/Native/GC 内存，并记录 GC、池、触发截断和 VFX 丢弃。
+- EditMode 覆盖目标计数、确定性、热路径零分配、VFX 池复用/容量/丢弃和非法配置。
+- PlayMode 与 Project Validation 必须在最终实现上重跑；API Freeze 漂移是 Validation 失败。
+- Windows Development 和非 Development Release verification 都必须实际成功并生成完整 Manifest；
+  Release Player 必须启动并输出 60 Tick Smoke JSON。
+- `verify-clean-clone.ps1` 在独立克隆执行完整测试、验证、目标规模性能、两个 Build 和 Player Smoke。
+- GitHub Actions 只有实际 Runner 成功时才是 PASS；仅验证工作流文件或本地脚本不能替代 CI 运行。
+
+正式结果在 `Docs/Reports/2026-07-28-m10-performance-ci-freeze.md` 中按 PASS/FAIL/NOT RUN 记录，
+不得用短测或历史里程碑证据替代 54,000 Tick 与最终构建。

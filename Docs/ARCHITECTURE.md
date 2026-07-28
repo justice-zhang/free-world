@@ -561,3 +561,26 @@ AssetDatabase、ScriptableObject 或 UnityEngine，且不把预览日志放入�
 Development Build 允许程序化 Placeholder 用于框架验收；非 Development Build 在普通 Project
 Validation 之后追加 Release 门禁。Placeholder、缺失/不合格 provenance、Hash 不一致、未登记
 Third Party 或内容错误都会抛出 `BuildFailedException`，不存在全局忽略入口。
+
+## 16. M10 性能证据、构建与冻结边界
+
+M10 保持 Simulation 架构和 30 Hz Tick 不变。`M10StressScenario` 只组合既有稠密 Store、
+EnemyDecision、Movement、Lifetime、Cleanup 和 Snapshot，以固定种子创建实际目标数量；Editor 命令
+只负责预热、测量、内存/池指标和 JSON，不把 Unity Profiler 或构建逻辑带入 Simulation。
+
+```text
+Pure target-scale Simulation ──► timing/memory/pool JSON
+                                    │
+EditMode / PlayMode / Validation ───┼──► BuildManifest
+                                    │
+Development Player ─────────────────┤
+Release verification + Smoke ───────┘
+```
+
+Release Validator 以实际 `IncludeInBuild` Addressables Group 和 Build Scene 依赖为边界。框架验证构建
+使用临时纯程序化 Smoke Scene，并只在构建作用域排除 development-only/placeholder Group；finally
+恢复 Editor 状态。它证明 Release 管线而不是宣布 Placeholder 已成为正式内容。
+
+`Game.Editor → Game.Application` 是 M10 新增的最外层直接依赖，用于读取 Save Schema 和生成完整
+Manifest；依赖不反向。五个稳定程序集的 public/protected 签名 Hash 被 Project Validation 冻结，
+后续变更须经 ADR 和迁移审查。完整决定见 ADR 0012。

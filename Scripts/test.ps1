@@ -67,9 +67,10 @@ function Invoke-UnityTests {
     $process = Start-Process `
         -FilePath $unityExecutable `
         -ArgumentList $arguments `
-        -Wait `
         -PassThru `
         -WindowStyle Hidden
+    [void]$process.WaitForExit()
+    $process.Refresh()
     Write-Host "$TestPlatform Unity exit code: $($process.ExitCode)"
     if ($process.ExitCode -ne 0) {
         return $process.ExitCode

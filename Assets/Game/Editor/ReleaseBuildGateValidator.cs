@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Settings;
+using UnityEditor.AddressableAssets.Settings.GroupSchemas;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 namespace Game.Editor
@@ -35,47 +38,88 @@ namespace Game.Editor
     /// <summary>Applies non-bypassable Release-only project checks.</summary>
     public static class ReleaseBuildGateValidator
     {
-        /// <summary>Appends a representative Release-only issue in the current project.</summary>
+        /// <summary>Appends issues for Addressables groups that will enter the current build.</summary>
         public static void AppendCurrentProject(ValidationReport report)
         {
             if (report == null) throw new ArgumentNullException(nameof(report));
-            var placeholderReported = false;
             var settings = AddressableAssetSettingsDefaultObject.GetSettings(false);
             if (settings != null)
             {
                 for (var groupIndex = 0; groupIndex < settings.groups.Count; groupIndex++)
                 {
                     var group = settings.groups[groupIndex];
-                    if (group == null) continue;
+                    if (group == null || !IsIncludedInBuild(group)) continue;
                     foreach (var entry in group.entries)
                     {
                         var path = AssetDatabase.GUIDToAssetPath(entry.guid);
                         var issue = ReleaseBuildPolicy.ValidateEntry(path, entry.labels);
                         if (issue == null) continue;
                         report.Add(issue.Code, issue.Message);
-                        placeholderReported = true;
-                        break;
+                        return;
                     }
-
-                    if (placeholderReported) break;
                 }
             }
+        }
 
-            var placeholderRoot = Path.GetFullPath(PlaceholderAssetGenerator.OutputFolder);
-            if (!placeholderReported && Directory.Exists(placeholderRoot))
+        /// <summary>Appends an issue when a built scene or one of its dependencies is Placeholder.</summary>
+        public static void AppendSceneDependencies(ValidationReport report, string scenePath)
+        {
+            if (report == null) throw new ArgumentNullException(nameof(report));
+            if (string.IsNullOrWhiteSpace(scenePath)) return;
+            var settings = AddressableAssetSettingsDefaultObject.GetSettings(false);
+            var dependencies = AssetDatabase.GetDependencies(scenePath, true);
+            Array.Sort(dependencies, StringComparer.Ordinal);
+            for (var index = 0; index < dependencies.Length; index++)
             {
-                var files = Directory.GetFiles(placeholderRoot, "*", SearchOption.AllDirectories);
-                for (var index = 0; index < files.Length; index++)
+                var path = dependencies[index];
+                var entry = settings?.FindAssetEntry(AssetDatabase.AssetPathToGUID(path));
+                var issue = ReleaseBuildPolicy.ValidateEntry(path, entry?.labels);
+                if (issue == null) continue;
+                report.Add(issue.Code, issue.Message);
+                return;
+            }
+        }
+
+        internal static bool IsIncludedInBuild(AddressableAssetGroup group)
+        {
+            var schema = group?.GetSchema<BundledAssetGroupSchema>();
+            return schema == null || schema.IncludeInBuild;
+        }
+
+        internal static int CountIncludedPlaceholderEntries()
+        {
+            var count = 0;
+            var settings = AddressableAssetSettingsDefaultObject.GetSettings(false);
+            if (settings == null) return 0;
+            for (var groupIndex = 0; groupIndex < settings.groups.Count; groupIndex++)
+            {
+                var group = settings.groups[groupIndex];
+                if (group == null || !IsIncludedInBuild(group)) continue;
+                foreach (var entry in group.entries)
                 {
-                    if (files[index].EndsWith(".meta", StringComparison.OrdinalIgnoreCase) ||
-                        string.Equals(Path.GetFileName(files[index]), ".gitkeep", StringComparison.OrdinalIgnoreCase))
-                        continue;
-                    report.Add(
-                        "M9-RELEASE-PLACEHOLDER",
-                        files[index].Replace('\\', '/') + " is inside the Placeholder tree.");
-                    break;
+                    var path = AssetDatabase.GUIDToAssetPath(entry.guid);
+                    if (ReleaseBuildPolicy.ValidateEntry(path, entry.labels) != null) count++;
                 }
             }
+
+            return count;
+        }
+    }
+
+    /// <summary>Validates the dependencies of every scene actually processed for Release.</summary>
+    internal sealed class ReleaseSceneBuildProcessor : IProcessSceneWithReport
+    {
+        public int callbackOrder => -1000;
+
+        public void OnProcessScene(Scene scene, BuildReport report)
+        {
+            // The Test Runner also invokes scene processors while loading PlayMode scenes,
+            // but there is no player BuildReport in that path.
+            if (report == null) return;
+            if ((report.summary.options & BuildOptions.Development) != 0) return;
+            var validation = new ValidationReport();
+            ReleaseBuildGateValidator.AppendSceneDependencies(validation, scene.path);
+            if (!validation.IsValid) throw new BuildFailedException(validation.Issues[0].ToString());
         }
     }
 
@@ -133,7 +177,7 @@ namespace Game.Editor
                     ? "Builds/M9ReleaseGateNegative/AzureSword.exe"
                     : configuredOutput;
                 var observedBuildBlock = false;
-                Application.LogCallback capture = (condition, stackTrace, type) =>
+                UnityEngine.Application.LogCallback capture = (condition, stackTrace, type) =>
                 {
                     if ((condition ?? string.Empty).IndexOf(
                             "M9-RELEASE-PLACEHOLDER",
@@ -141,7 +185,7 @@ namespace Game.Editor
                         observedBuildBlock = true;
                 };
                 BuildReport report;
-                Application.logMessageReceived += capture;
+                UnityEngine.Application.logMessageReceived += capture;
                 try
                 {
                     report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
@@ -154,7 +198,7 @@ namespace Game.Editor
                 }
                 finally
                 {
-                    Application.logMessageReceived -= capture;
+                    UnityEngine.Application.logMessageReceived -= capture;
                 }
 
                 if (report.summary.result == BuildResult.Succeeded)

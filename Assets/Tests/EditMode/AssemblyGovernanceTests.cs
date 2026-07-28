@@ -67,6 +67,7 @@ namespace Game.Tests.EditMode
                         "Game.Core",
                         "Game.Content.Authoring",
                         "Game.Content.Runtime",
+                        "Game.Application",
                         "Game.Simulation",
                         "Game.Infrastructure",
                         "Game.Presentation",
