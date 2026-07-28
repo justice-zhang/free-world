@@ -212,11 +212,22 @@ namespace Game.Editor
 
         internal static string HashFile(string path)
         {
-            using (var stream = File.OpenRead(path))
+            using (var stream = File.OpenRead(ForFileSystemAccess(path)))
             using (var sha = SHA256.Create())
             {
                 return ToHex(sha.ComputeHash(stream));
             }
+        }
+
+        private static string ForFileSystemAccess(string path)
+        {
+            var fullPath = Path.GetFullPath(path);
+            if (Path.DirectorySeparatorChar != '\\' ||
+                fullPath.StartsWith("\\\\?\\", StringComparison.Ordinal))
+                return fullPath;
+            return fullPath.StartsWith("\\\\", StringComparison.Ordinal)
+                ? "\\\\?\\UNC\\" + fullPath.Substring(2)
+                : "\\\\?\\" + fullPath;
         }
 
         private static string HashText(string text)

@@ -15,7 +15,7 @@ if ([string]::IsNullOrWhiteSpace($Branch)) {
     $Branch = (& git -C $sourceRoot rev-parse --abbrev-ref HEAD).Trim()
 }
 if ([string]::IsNullOrWhiteSpace($WorkRoot)) {
-    $WorkRoot = Join-Path $env:TEMP ('free-world-m10-clean-' + [Guid]::NewGuid().ToString('N'))
+    $WorkRoot = Join-Path $env:TEMP ('fw-m10-' + [Guid]::NewGuid().ToString('N'))
 }
 if ([string]::IsNullOrWhiteSpace($EvidenceOutput)) {
     $EvidenceOutput = Join-Path $sourceRoot 'TestResults/M10CleanCloneEvidence'
@@ -28,7 +28,7 @@ $resolvedWorkRoot = [IO.Path]::GetFullPath($WorkRoot)
 if (Test-Path -LiteralPath $resolvedWorkRoot) {
     throw "Clean-clone target already exists: $resolvedWorkRoot"
 }
-$cloneRoot = Join-Path $resolvedWorkRoot 'free-world'
+$cloneRoot = Join-Path $resolvedWorkRoot 'repo'
 New-Item -ItemType Directory -Path $resolvedWorkRoot | Out-Null
 
 try {
