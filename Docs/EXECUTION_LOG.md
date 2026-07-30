@@ -460,7 +460,7 @@ M9 只能从带 `framework-m8` 标签的最终 `main` 创建独立分支。真�
 | Windows Release Build | PASS | 非 Development、Placeholder=0；EXE SHA-256 `34C4E304...56A8F` |
 | Release Player | PASS | 60 Tick、4 actors、0 invalid handles、退出码 0 |
 | 独立干净克隆 | PASS | 完整流水线 7 个阶段全部退出码 0，结束后源码树无差异 |
-| GitHub Actions 实际运行 | NOT RUN | 自托管 workflow 已提交；组织 Runner 尚未配置/触发 |
+| GitHub Actions 实际运行 | NOT RUN | 运行 `#30338477997` 已触发，但自托管 Job 约 24 小时后取消且步骤数为 0；Runner 尚未实际执行门禁 |
 
 第一次干净克隆的测试、验证和性能均 PASS，但 Development Manifest 在 264 字符路径上失败；该轮
 整体为 FAIL，未被计作最终通过。修复后从新提交完整重跑并 PASS。
@@ -475,3 +475,34 @@ M9 只能从带 `framework-m8` 标签的最终 `main` 创建独立分支。真�
 通过 GitHub PR 合并 M10 后创建 `framework-m10`，删除远程/本地功能分支并回到干净 `main`。
 正式内容生产必须继续遵守冻结 API、Release provenance/许可证门禁和性能回归基线；破坏性变化先
 提交 ADR、兼容性与迁移计划。
+
+## Post-M10：文档状态清理
+
+- 状态：`COMPLETE`
+- 日期：2026-07-30
+- 基线：`8198c5e`（`framework-m10` / `main`）
+- 结果报告：`Docs/Reports/2026-07-30-document-status-cleanup.md`
+
+### 清理范围
+
+本次仅根据已接受的 M6、M8、M10 验收证据校准历史文档状态，不修改运行时代码、Content Schema、
+资产、包配置或 ADR。`M0-KI-004`、`M0-KI-006`、`M1-KI-004`、`M1-KI-005`、`M2-KI-006`
+和 `M4-KI-005` 已改为 `RESOLVED`。
+
+GitHub Actions 运行 `#30338477997` 的最新状态也已复核：工作流确已触发，但自托管 Job 未执行
+任何步骤并在约 24 小时后取消，因此 CI 门禁继续如实记录为 `NOT RUN`，`M10-KI-003` 保持
+`ACCEPTED`。
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| 文档状态一致性 | PASS | 6 个历史计划/限制项均由后续里程碑验收证据支持；真实未完成项未关闭 |
+| GitHub Actions 状态 | PASS | GitHub API 返回运行 `#30338477997` 为 `cancelled`，Job `steps=[]` |
+| 目标文件差异与空白 | PASS | 仅本节、`KNOWN_ISSUES.md` 和结果报告进入提交；目标文档通过 `git diff --check` |
+| Unity 编译、测试与构建 | NOT RUN | 本次为纯文档状态清理，不修改可执行输入 |
+
+### 下一步
+
+激活匹配标签并已预激活 Unity 的 Windows x64 自托管 Runner，重新运行框架冻结 workflow，取得
+真实 CI 步骤结果后再更新 `M10-KI-003`；不得用本地等价流水线替代 GitHub CI 的执行结论。
