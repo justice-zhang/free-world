@@ -1,0 +1,8 @@
+1.先读取\free-world\Docs\Survivors_Codex_Documentation_Pack\Prompts\00_MASTER_CONTROL.md；
+2.再完成\free-world\Docs\Survivors_Codex_Documentation_Pack\Prompts\07_M5_ENEMY_SPAWN_MAP.md
+3.第2步完成后进行\free-world\Docs\Survivors_Codex_Documentation_Pack\Prompts\13_MILESTONE_REVIEW_GATE.md
+4.确保前三步完成后进行：
+1）.检查 Git diff、日志和场景
+2）.通过后提交并创建远程github仓库分支PR，然后合并到主分支mian，将该分支打标签 framework-mX的Tag，然后删除原分支，切换为main
+3）.更新执行日志和已知问题
+5.前4步完成后将第2步的Mx+1
