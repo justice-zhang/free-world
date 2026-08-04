@@ -47,3 +47,10 @@
 - 每个 `DOD-*` 在 G3 报告中必须指向日志/XML/JSON/Manifest/Player 证据。
 - `NOT RUN` 不能关闭需求；它只表示尚无证据。
 - 产品范围变化必须同时更新 00、03、05、06 和受影响模块，避免只改一处数量。
+
+## 4. G0.2 Change Request 状态
+
+- `CR-01`—`CR-09` 已接受并映射至 `CR-2026-004`—`CR-2026-012`。
+- `CR-10` 已拆分为公共 Stat `CR-2026-013` 与 Damage Policy `CR-2026-014`，两项均接受。
+- `CR-11` 映射至 `CR-2026-015` 并延期；当前 Demo 只允许检测、提示和清理不完整 Run。
+- 完整矩阵见 [07_CHANGE_REQUEST_DECISIONS.md](07_CHANGE_REQUEST_DECISIONS.md)。接受只授权 G0.3 契约设计，状态列中的 CR 依赖尚不表示实现完成。

@@ -531,3 +531,37 @@ GitHub Actions 运行 `#30338477997` 的最新状态也已复核：工作流确�
 ### 下一步
 
 只进入 G0.2 CR 决策包；CR-01—CR-11 未形成明确结论前不得修改冻结核心程序集。
+
+## Qinglan Demo G0.2：Change Request 决策
+
+- 状态：`COMPLETE`
+- 日期：2026-08-04
+- 分支：`codex/qinglan-demo-implementation`
+- 决策记录：`Docs/DemoDevelopment/07_CHANGE_REQUEST_DECISIONS.md`
+- 结果报告：`Docs/Reports/2026-08-04-g0-2-change-request-decisions.md`
+
+### 决策结果
+
+| 范围 | 结果 |
+|---|---|
+| CR-01—CR-09 | `ACCEPTED`，映射至 `CR-2026-004`—`CR-2026-012` |
+| CR-10 | `SPLIT`，公共 Stat 与 Damage Policy 分别映射至 `CR-2026-013`、`CR-2026-014`，两项接受 |
+| CR-11 | `DEFERRED`，映射至 `CR-2026-015`；Demo 禁止提供“继续本局” |
+
+接受只授权进入 G0.3 ADR、Schema/API、迁移和测试契约设计，不表示代码已实现。G0.2 不修改运行时、
+Content Schema、Save Schema、Package 或资产。
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| CR 结构与编号 | PASS | 12 文件；每份 1 个 H1、1—9 节、状态和 Demo CR 映射完整 |
+| 决策覆盖 | PASS | `CR-01`—`CR-11` 在决策矩阵均有且仅有明确结论 |
+| 文档链接与格式 | PASS | 相对链接目标存在，Markdown 围栏配对，`git diff --check` 通过 |
+| Unity 编译、测试、构建、性能 | NOT RUN | 纯文档决策包，不修改任何可执行输入；沿用 G0.1 当前基线证据 |
+
+### 下一步
+
+只进入 G0.3 跨模块契约包：先定 Content Schema 6，再定 Pipeline/所有者/事件/随机流，随后定
+Profile Save Schema 3，最后完成 ADR、API Freeze 变更计划、迁移与测试矩阵。G0.3 完成前不实施
+CR-2026-004—014。

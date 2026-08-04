@@ -145,8 +145,10 @@
 
 | ID | 状态 | 严重度 | 问题与影响 | 处理 |
 |---|---|---|---|---|
-| QD-KI-001 | PLANNED | High | CR-01—CR-11 尚未形成正式决定，G1/G2 多项核心能力被阻塞。 | G0.2 逐项评审为 `ACCEPTED`、`REJECTED`、`DEFERRED` 或 `SPLIT`；G0.3 再为接受项完成 ADR、迁移和测试契约。 |
+| QD-KI-001 | RESOLVED | High | CR-01—CR-11 曾未形成正式决定，G1/G2 多项核心能力被阻塞。 | G0.2 已形成 12 份正式 CR：CR-01—09 接受、CR-10 拆为属性/伤害策略两项接受、CR-11 延期；决定见 `DemoDevelopment/07_CHANGE_REQUEST_DECISIONS.md`。 |
 | QD-KI-002 | ACCEPTED | Medium | Demo 设计提交尚未合并 `main`；用户要求在单一新分支连续开发，与路线文档默认“每包独立分支并先合并”不同。 | 以 `codex/qinglan-demo-implementation` 为唯一 Owner 分支，每个工作包单独提交并 Push；未经新授权不自动合并 `main` 或打标签。 |
 | QD-KI-003 | PLANNED | High | 正式角色、敌人、地图、UI、VFX、音频、字体和商业本地化尚无完整 provenance、许可证和目标硬件证据。 | G0.4 固化生产/预算/权利清单；G3 仅导入可审计资产，任何缺失都阻断 Release。 |
+| QD-KI-004 | PLANNED | High | 已接受 CR 尚未形成 ADR、Schema 6、Profile Schema 3、公共 API Freeze、迁移和测试契约。 | G0.3 按 CR-2026-004—014 完成契约；在此之前不得修改冻结核心程序集。 |
+| QD-KI-005 | ACCEPTED | Low | CR-11 完整 Run Recovery 延期，Demo 不支持任意 Tick 继续本局。 | 只检测不完整记录、显示本地化提示并在明确开始新局后清理；不得显示 Continue 或把不完整 Run 结算为胜利。 |
 
-当前没有阻止 G0.2 文档决策包的 `OPEN` 问题；QD-KI-001 与 QD-KI-003 阻止依赖实现或 Release，不能被跳过。
+当前没有阻止 G0.3 契约包的 `OPEN` 问题；QD-KI-004 阻止依赖代码实现，QD-KI-003 阻止 Release，不能被跳过。

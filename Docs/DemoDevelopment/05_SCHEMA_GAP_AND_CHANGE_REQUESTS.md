@@ -80,3 +80,9 @@ G0.2 结束时每项只能是：
 - `SPLIT`：拆成独立可审查 CR。
 
 在状态确定前，依赖模块只可做接口无关的内容清单和程序化视觉原型，不得修改冻结核心程序集。
+
+## 8. G0.2 最终决定（2026-08-04）
+
+正式决定与 Change Request 映射见 [07_CHANGE_REQUEST_DECISIONS.md](07_CHANGE_REQUEST_DECISIONS.md)。
+CR-01—CR-09 为 `ACCEPTED`；CR-10 为 `SPLIT`，拆成公共 Stat 和 Damage Policy 两项；CR-11 为
+`DEFERRED`。接受项只进入 G0.3 契约设计，尚未授权跳过 ADR、迁移、测试或 API Freeze 门禁直接实现。
