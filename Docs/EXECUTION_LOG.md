@@ -602,3 +602,41 @@ CR-2026-004—014。
 
 只进入 G0.4：固化正式资产、音频、字体、本地化、性能预算、权利/provenance 和交付清单。
 G0.4 不实施代码；G1.1 才能按已批准最大面修改冻结程序集。
+
+## Qinglan Demo G0.4：资产、音频、字体、本地化与权利计划
+
+- 状态：`COMPLETE`
+- 日期：2026-08-04
+- 分支：`codex/qinglan-demo-implementation`
+- 生产计划：`Docs/DemoDevelopment/09_G0_4_ASSET_PRODUCTION_PLAN.md`
+- 机器清单：`Docs/DemoDevelopment/Assets/G0_4_ASSET_MANIFEST.csv`
+- Provenance 模板：`Docs/DemoDevelopment/Assets/G0_4_PROVENANCE_TEMPLATE.json`
+- 结果报告：`Docs/Reports/2026-08-04-g0-4-asset-production-plan.md`
+
+### 冻结结果
+
+| 批次 | 数量 | 首次执行 |
+|---|---:|---|
+| ART | 27 | G3.1 |
+| AUDIO | 9 | G3.2 |
+| FONT | 2 | G3.3 |
+| LOC | 3 | G3.3 |
+
+每批均记录最低文件数、源/运行格式、纹理/时长预算、Addressables Group、类别标签、来源计划和
+Owner 工作包。正式 Group 同时要求基础 `release` 和类别 Release 标签。AI/第一方/第三方均有
+生成/取得→技术/创意→权利→批准状态机；FirstParty 自动校验缺口已如实登记 QD-KI-007。
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| CSV 完整性 | PASS | 41 行、ID 唯一、字段/数量/工作包合法；27＋9＋2＋3 与计划一致 |
+| Provenance 模板 | PASS | JSON 可解析，Schema 1 必需字段完整，默认 planned/未商业复核，不能误进 Release |
+| 官方候选来源 | PASS | Noto CJK 官方仓库/许可证和 OpenAI 当前条款 URL 已核对；只作为 G3 取得日复核输入 |
+| 文档链接/格式/空白 | PASS | 相对链接、H1、围栏、尾随空白与 `git diff --check` 通过 |
+| Unity/资产导入/Build/GPU/音频 | NOT RUN | G0.4 明确为计划包，没有二进制或可执行输入变化 |
+
+### 下一步
+
+进入 G1.1，先实施 G0.3 批准的通用 Schema/Runtime/API/Save 骨架与 Fixture。正式二进制继续留在
+G3.1—G3.3，不能混入 G1 数据切片。

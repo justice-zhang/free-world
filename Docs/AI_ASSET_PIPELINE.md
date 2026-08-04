@@ -94,3 +94,8 @@ M9 起，Project Validation 会对 `Assets/GameAssets/AI` 中每个非元数据�
 - Placeholder 的 `provenance.placeholder.json` 只说明开发来源，不是正式 provenance，Release 仍会阻止。
 
 修改正式输出后必须重新计算 Hash、由授权人员复核并更新记录；不得只改记录来掩盖来源变化。
+
+Qinglan Demo 的批准生产批次、预算、目录和生成日权利复核见
+`Docs/DemoDevelopment/09_G0_4_ASSET_PRODUCTION_PLAN.md`。该计划要求 FirstParty 程序化正式资产使用
+与 AI 同等级的脚本/参数/Seed/Hash/审核记录，并要求 G3.1 将 provenance 校验从 AI 目录扩展到所有
+实际 Release 输入；当前验证器只扫描 AI，不能据此宣称 FirstParty 已自动合规。

@@ -45,6 +45,9 @@ MetaNode、Insert、Collectible、Story、Facility；每种生成：同名资产
 | Localization | zh-Hans/en/Pseudo Key 和字体 |
 | Assets | Address、Release 标签、provenance、Third Party、Hash |
 
+G3.1 前必须把 provenance 扫描范围从 AI 扩展到全部实际 Release 输入；G3.3 必须验证 ThirdParty
+字体版本、许可文件和 Hash。详细批次与模板见 `../09_G0_4_ASSET_PRODUCTION_PLAN.md`。
+
 错误必须包含稳定错误码、Pack、ContentId、作者资产路径和引用链。
 
 ## 5. 预览工具

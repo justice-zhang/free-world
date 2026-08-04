@@ -97,10 +97,10 @@ Release 门禁。
 | 组 | 标签 | Development | Release |
 |---|---|---:|---:|
 | `QinglanDemo-Placeholder` | `pack.qinglan_demo`, `placeholder`, `development-only` | 允许 | 阻断 |
-| `QinglanDemo-Content` | `pack.qinglan_demo`, `content.release` | 允许 | 必须 |
-| `QinglanDemo-Visual` | `pack.qinglan_demo`, `visual.release` | 允许 | 必须 |
-| `QinglanDemo-Audio` | `pack.qinglan_demo`, `audio.release` | 允许 | 必须 |
-| `QinglanDemo-Localization` | `pack.qinglan_demo`, `localization.release` | 允许 | 必须 |
+| `QinglanDemo-Content` | `pack.qinglan_demo`, `release`, `content.release` | 允许 | 必须 |
+| `QinglanDemo-Visual` | `pack.qinglan_demo`, `release`, `visual.release` | 允许 | 必须 |
+| `QinglanDemo-Audio` | `pack.qinglan_demo`, `release`, `audio.release` | 允许 | 必须 |
+| `QinglanDemo-Localization` | `pack.qinglan_demo`, `release`, `localization.release` | 允许 | 必须 |
 
 每个 Addressables 地址只由内容或 Profile 间接引用；禁止 `Resources.Load`、重复地址和无 Owner 句柄。
 

@@ -61,6 +61,10 @@ Scene/Run/Phase 所有权明确；阶段结束清理 Boss-owned 表现，Run 结
 每个正式文件记录：Owner、来源类型、工具/模型版本、日期、提示词、输入引用、人工修改、许可证、
 允许平台/用途、源文件 Hash、输出 Hash、审核人。Hash 不一致、来源缺失、Third Party 未登记均阻断 Release。
 
+G0.4 的逐批数量、格式、显存/音频预算、字体候选和审核状态机见
+[09_G0_4_ASSET_PRODUCTION_PLAN.md](../09_G0_4_ASSET_PRODUCTION_PLAN.md) 及其 CSV；G3 不得用少于清单的
+静态图/测试音冒充完成。
+
 ## 8. 实机验证
 
 M10 Null Device Render 数据不能替代正式资产 GPU 基线。G3 在最低/推荐目标硬件测量 CPU/GPU Frame、
