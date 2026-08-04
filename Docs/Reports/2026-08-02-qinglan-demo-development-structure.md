@@ -1,15 +1,15 @@
 # Codex 结果报告
 
 - 任务：基于《剑起青岚》游戏系统总纲 V2.0 生成 Demo 完整开发结构与模块明细设计
-- 里程碑：G0 方案冻结文档（非功能里程碑）
-- 分支：`main`
-- Git Commit：未提交
+- 里程碑：G0.1 方案冻结文档（非功能里程碑）
+- 分支：`codex/qinglan-design-docs`
+- Git Commit：文档集 `31afc1f`；本报告首次提交 `1d6ceba`
 - 日期：2026-08-02
 
 ## 1. 实现范围
 
-创建 `Docs/DemoDevelopment/` 文档集，共 24 份 Markdown、113,361 bytes。交付包括：Demo 范围与
-完成定义、仓库/程序集/内容包结构、G0—G3 分支路线、150 个 `qinglan.*` 唯一 ID 引用、跨模块契约、
+创建 `Docs/DemoDevelopment/` 文档集，共 24 份 Markdown、113,339 bytes。交付包括：Demo 范围与
+完成定义、仓库/程序集/内容包结构、G0—G3 分支路线、148 个严格匹配的具体 `qinglan.*` ID 草案、跨模块契约、
 11 项 Schema/运行时缺口、20 条需求追踪，以及 16 个模块分支的详细开发设计。
 
 源文档 SHA-256：
@@ -33,7 +33,8 @@
 | `Docs/DemoDevelopment/Modules/*.md` | M01—M16 详细模块设计 |
 | `Docs/Reports/2026-08-02-qinglan-demo-development-structure.md` | 本结果报告 |
 
-既有未跟踪的 V2.0、世界观文档、旧报告和 `team.txt` 均未修改。
+G0.1 生成阶段未修改当时已有的 V2.0、世界观文档、旧报告和 `team.txt`；这些文件后来按用户指令
+在同一设计分支的独立提交中纳入版本控制，不属于 G0.1 文档生成范围。
 
 ## 3. 关键架构决定
 
@@ -74,7 +75,7 @@ PowerShell CR 定义与引用完整性检查
 | 构建 | NOT RUN | 未修改构建输入或门禁 |
 | 性能/Soak | NOT RUN | 未修改运行时；只引用既有 M10 基线 |
 | 24 文件、相对链接、重复标题、尾随空白 | PASS | `DOC_CHECK=PASS` |
-| Markdown 表格与 ContentId canonical/目录重复 | PASS | `TABLE_ID_CHECK=PASS`；156 次引用、150 个唯一 ID |
+| Markdown 表格与 ContentId canonical/目录重复 | PASS | `TABLE_ID_CHECK=PASS`；148 个严格匹配的具体 ID；模板前缀不计作 ID |
 | Demo 内容数量、10 条 DOD、20 条需求 | PASS | `SCOPE_COUNT_CHECK=PASS` |
 | CR-01—CR-11 定义与引用 | PASS | `CR_REFERENCE_CHECK=PASS` |
 | 最终 25 文件综合复核 | PASS | `FINAL_DOCUMENT_CHECK=PASS`；链接、标题、代码围栏、表格、ID、CR、范围均通过 |
@@ -95,7 +96,7 @@ Unity 编译、EditMode、PlayMode、内容验证、Development/Release Build、
 
 - 11 项 CR 尚未提交/接受；它们是实施前置条件，不是已批准设计。
 - 所有数值、正式 ContentId、六件藏品名称、正式资产和商业本地化尚未锁定。
-- V2.0 源文档当前为未跟踪文件；本文档集引用它，但未替用户提交或改写。
+- V2.0 源文档已在后续独立提交 `28df3fe` 纳入版本控制；G0.1 没有改写源文档。
 - 正式内容 GPU、1080p 60、1% Low、2000 敌人和完整 Demo Soak 均无新证据。
 
 ## 9. 未完成项

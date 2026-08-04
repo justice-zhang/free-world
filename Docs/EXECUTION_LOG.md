@@ -506,3 +506,28 @@ GitHub Actions 运行 `#30338477997` 的最新状态也已复核：工作流确�
 
 激活匹配标签并已预激活 Unity 的 Windows x64 自托管 Runner，重新运行框架冻结 workflow，取得
 真实 CI 步骤结果后再更新 `M10-KI-003`；不得用本地等价流水线替代 GitHub CI 的执行结论。
+
+## Qinglan Demo G0.1：开发结构与审计基线
+
+- 状态：`COMPLETE`
+- 日期：2026-08-04
+- Unity：`6000.3.20f1`
+- 原始文档提交：`31afc1f`
+- 原始报告提交：`1d6ceba`
+- 连续实现基线：`91961da`
+- 结果报告：`Docs/Reports/2026-08-04-g0-1-demo-structure-gate.md`
+
+### 最终检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| Demo 文档综合门禁 | PASS | 24 文件、148 个具体 ID、11 CR、10 DOD、20 需求；链接/标题/围栏/尾随空白通过 |
+| 源文件完整性 | PASS | V2.0 SHA-256 `F5F9B0E...359BC` |
+| EditMode | PASS | `TestResults/QinglanDemo/Baseline/editmode.xml`：187/187 |
+| PlayMode | PASS | `TestResults/QinglanDemo/Baseline/playmode.xml`：9/9 |
+| 内容/工程验证 | PASS | `TestResults/QinglanDemo/Baseline/validation.log`：`[Project Validation] PASS` |
+| Build / Performance / Soak | NOT RUN | G0.1 为纯文档与审计工作包 |
+
+### 下一步
+
+只进入 G0.2 CR 决策包；CR-01—CR-11 未形成明确结论前不得修改冻结核心程序集。
