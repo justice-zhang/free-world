@@ -584,3 +584,79 @@ Release Validator 以实际 `IncludeInBuild` Addressables Group 和 Build Scene 
 `Game.Editor → Game.Application` 是 M10 新增的最外层直接依赖，用于读取 Save Schema 和生成完整
 Manifest；依赖不反向。五个稳定程序集的 public/protected 签名 Hash 被 Project Validation 冻结，
 后续变更须经 ADR 和迁移审查。完整决定见 ADR 0012。
+
+## 17. Qinglan Demo G0.3 契约冻结
+
+ADR 0013—0015 接受 Content Schema 6、Demo 固定 Pipeline 和 Profile Save Schema 3。程序集依赖方向
+不变；新增能力仍分布在原层：
+
+```text
+Game.Content.Authoring --Bake/Validate--> Game.Content.Runtime (Schema 6)
+                                              |
+                                              v
+Game.Core ----------------------------> Game.Simulation
+                                              |
+                                              v
+Game.Application (Run/Meta/Save contracts) <- Game.Infrastructure
+          |
+          +--> Game.Platform.Abstractions / Game.UI / Game.Presentation
+```
+
+Simulation 不引用 Application、Infrastructure、UI、Presentation、Scene、Addressables 或平台。
+Content Runtime 不保存 Unity Object。Meta/Save 不进入固定 Tick。
+
+### 17.1 Demo Pipeline
+
+`SimulationPipeline.CreateQinglanDemo` 在 G1.1 按以下 24 项显式构造；旧 M2—M6 构造器和顺序保留：
+
+```text
+InputCommand → SpawnScheduler → MapObjectiveAndEvent → BossPhase
+→ EnemyDecision → SkillTrigger → Movement → CharacterMechanicAccumulate
+→ SkillDelivery → SkillEffectResolution → DamageResolution → RewardResolution
+→ CharacterMechanicReaction → StatusTick → Regeneration → Death
+→ LootAndReward → Pickup → Experience → LevelUpRequest → Lifetime
+→ Cleanup → EventFlush → SnapshotBuild
+```
+
+Map/Boss 使用上一完成 Tick 的战斗事件，避免对尚未结算状态形成反向依赖。Movement 输出分来源的
+解析位移；MechanicAccumulate 只读 PlayerCommand 部分。DamageResolution 是唯一伤害生命写入者，
+MechanicReaction 只读当前 Tick 实际 Shield/Health 损失。Reward 永远先形成请求/Run-local 事务，
+永久结果在 Application 结算。Cleanup 仍是唯一结构写入者，Snapshot 必须最后。
+
+Boss 在 Damage 后死亡时 Death 优先，不能用下一 Tick Phase 转换复活；非致命跨越多个阈值时，下
+一 Tick 按阶段顺序应用转换并得到一个最终阶段快照。Reward/Relic/Evolution 选择在 Tick Flush 后
+暂停下一次 SimulationClock Advance，UI 只能提交命令，不能重算资格。
+
+### 17.2 新 Runtime 所有者
+
+| Runtime | 独占真值 | 输入 | 输出 |
+|---|---|---|---|
+| CharacterMechanic | 资源、档位、最后伤害 Tick | 解析位移、DamageApplied | Modifier/Skill 请求、档位事件 |
+| Reward | 奖励事务、选择上下文、Run-local 货币 | Death/Map/Pickup 请求 | Combat/Build 请求、RunResultDelta |
+| MapObjective | Objective/Event/Landmark 状态 | 命令、上一 Tick 事件 | Rule/Reward 请求、只读快照 |
+| BossPhase | Boss 阶段、规则快照、owned entity policy | Health、Objective Rule | Skill/Arena/Cleanup 请求 |
+| EliteAffix | Spawn 时已绑定词缀组合 | Encounter Entry/Tags/RNG | Modifier/Skill/Death Reward |
+| Meta Coordinator | Profile 解锁、Loadout、幂等提交 | UI、RunResultDelta | 验证 Run Loadout、Profile 3 |
+
+任何 Runtime 不复制另一 Owner 的可变状态。跨 Owner 只通过纯值命令、事件或不可变快照。
+
+### 17.3 伤害、状态和随机
+
+伤害按合法性/死亡、免疫、Target＋DamageChannel 冷却、暴击/属性/抗性、屏障、Shield、Health、
+事件/冷却顺序执行。`DamageResolved` 报告全部结果；`DamageApplied` 只在 Shield 或 Health 减少时发出。
+状态消费先在固定容量计划中完整验证，再原子提交；Detonate 只按实际消费层数排队一次伤害。
+
+随机流固定隔离为 Combat、Skill、Encounter、Offer、MapEvent、Reward。唯一/首通奖励不随机。
+Presentation 随机不能反馈 Simulation。所有稳定 ID/Tag 在 Run 装配时解析，Tick 热路径禁止字符串查询。
+
+### 17.4 存档和结束事务
+
+Settings、Profile、RunRecovery 改为按 kind 独立当前版本：2、3、2。Profile 3 追加 Loadout、首通、
+唯一奖励、故事、藏品和已提交事务稳定 ID 集合。Profile v2→v3 不猜测历史首通，只初始化新集合。
+
+Run 结束固定为：冻结 → 不可变 RunResult → 校验/幂等合并 → 原子 Profile 保存 → 清理 Recovery →
+发布已提交事件 → 平台/页面转换。保存失败停在可重试状态。RunRecovery 不升级为完整 World 快照，
+Demo 不提供 Continue。
+
+完整字段、API 最大面、迁移和测试矩阵见
+`Docs/DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md`。

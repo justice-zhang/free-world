@@ -565,3 +565,40 @@ Content Schema、Save Schema、Package 或资产。
 只进入 G0.3 跨模块契约包：先定 Content Schema 6，再定 Pipeline/所有者/事件/随机流，随后定
 Profile Save Schema 3，最后完成 ADR、API Freeze 变更计划、迁移与测试矩阵。G0.3 完成前不实施
 CR-2026-004—014。
+
+## Qinglan Demo G0.3：Schema、API、Save 与测试契约
+
+- 状态：`COMPLETE`
+- 日期：2026-08-04
+- 分支：`codex/qinglan-demo-implementation`
+- ADR：0013、0014、0015（Accepted）
+- 契约冻结：`Docs/DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md`
+- 结果报告：`Docs/Reports/2026-08-04-g0-3-schema-api-save-contracts.md`
+
+### 冻结结果
+
+| 范围 | 决定 |
+|---|---|
+| Content | Schema 6 追加 14 kind、模块引用操作数/6 token、10 Reward op、4 Stat；Schema 1—5 保持兼容 |
+| Simulation | 24 项 Demo Pipeline；Owner、同 Tick、Cleanup、5 DamageChannel、状态事务和随机流隔离 |
+| Save | Settings 2、Profile 3、RunRecovery 2；Profile v1→2→3/v2→3、Loadout 与幂等结算 |
+| API Freeze | M10 五程序集 Hash 不变；G1.1 只允许批准追加，先保存旧 Hash 预期 FAIL diff 再更新 |
+| Test/Perf | G1.1—G3.6 证据目录、矩阵、配对短测、容量和回滚顺序 |
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| ADR/CR 映射 | PASS | 3 份 Accepted ADR；12 份 Formal CR 均回链；无“待 G0.3” |
+| Schema/Pipeline 一致性 | PASS | 两份权威规范均包含 14 kind；Pipeline 精确 24 项 |
+| API 基线保护 | PASS | `PUBLIC_API_FREEZE.md` 的 5 个 M10 Hash 原值仍存在，未提前更新 |
+| 链接/Markdown/空白 | PASS | 相对链接、围栏、标题、尾随空白综合检查通过 |
+| Unity 编译、测试、构建、性能 | NOT RUN | G0.3 只改文档契约，未修改可执行输入；执行矩阵从 G1.1 开始 |
+
+首次一致性校验因 PowerShell 文件筛选写法及一个手抄 Hash 首字符错误而 FAIL；修正校验命令后 PASS，
+没有为通过检查改写实际 M10 Hash。
+
+### 下一步
+
+只进入 G0.4：固化正式资产、音频、字体、本地化、性能预算、权利/provenance 和交付清单。
+G0.4 不实施代码；G1.1 才能按已批准最大面修改冻结程序集。

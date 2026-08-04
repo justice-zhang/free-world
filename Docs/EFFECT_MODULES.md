@@ -239,3 +239,23 @@ ApplyStatus 和 RemoveStatus 必须进入 M3 请求缓冲；Heal 只调用 Actor
 
 这些 Fixture 位于 `Assets/GameAssets/Placeholder/TestSkillContent`，不带 `release` 标签，不含
 正式或第三方资产，也没有专用控制器。
+
+## 14. Qinglan Demo Schema 6 模块追加
+
+ADR 0013/0014 接受以下通用模块；G1.1 实现前仍不可在内容中引用：
+
+| 类别 | 稳定 ID | 参数契约 |
+|---|---|---|
+| Condition | `base.condition.status_count_at_least` | Ref0 Status 或 Tag0；I0 最小层数；I1 目标域 |
+| Condition | `base.condition.target_has_status` | Ref0 Status 或 Tag0；I0 目标域 |
+| Targeting | `base.targeting.trigger_position` | V0 可选半径；I0 最大 Actor 数；0 可为纯位置 |
+| Delivery | `base.delivery.outbound_return` | V0/V1 出发/回返速度；V2 半径；V3 距离；I0 每相位命中数 |
+| Effect | `base.effect.consume_status` | Ref0 Status 或 Tag0；I0 消费层数；I1 不足策略 |
+| Effect | `base.effect.detonate_status` | Ref0 Status 或 Tag0；V0 每层系数；I0 最大层数 |
+
+Schema 6 `SkillModuleDefinition` 作者/磁盘边界追加 ReferenceId0/1、Tag0/1，Runtime Catalog 构造时
+绑定为紧凑操作数。Consume/Detonate 必须先完整验证再原子消费；Detonate 只按实际消费层数排一次
+Damage 请求。OutboundReturn 固定 Outbound→Turn→Return，相位内去重，Owner 失效只排 Cleanup。
+
+完整字段、Pipeline 和测试矩阵见 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md`。以后增加模块仍需
+新的 Change Request；不得按具体技能、状态或角色 ContentId 分支。

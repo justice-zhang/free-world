@@ -70,3 +70,42 @@ RunRecovery 都注册 `v1 -> v2` 固定样本；未来变化必须新增 `v2 -> 
 本地原子文件始终是真值来源。平台层只上传、下载和比较 Revision；本地较新可上传、远端较新可
 下载，双方偏离最后同步校验和时必须要求用户选择，禁止静默覆盖。Steam Cloud 不实现或替代
 `ISaveStorage`。
+
+## 8. Qinglan Demo Profile Schema 3
+
+ADR 0015 批准三个物理文档按 kind 独立演进：
+
+| 文档 | 当前版本 | G0.3 变化 |
+|---|---:|---|
+| Settings | 2 | 无字段变化 |
+| Profile | 3 | Loadout、首通、唯一奖励、故事、藏品和幂等事务 |
+| RunRecovery | 2 | 仍只作启动/未完成标记，不支持 Continue |
+
+`SaveSchema.CurrentVersion` 保留一个弃用周期并表示当前最高版本 3；新代码必须使用
+`GetCurrentVersion(SaveDocumentKind)` 或对应 kind 常量，不能再假设三个文档版本相同。
+
+Profile 3 在 v2 既有字段后追加：
+
+```text
+activeMetaLoadoutIds[]
+firstClearMapIds[]
+claimedUniqueRewardIds[]
+completedStoryIds[]
+collectedCollectibleIds[]
+committedTransactionIds[]
+```
+
+所有集合写入前按 canonical ContentId 排序/去重。`activeMetaLoadoutIds` 的 6 普通节点＋1 终端＋2
+嵌片容量、互斥、前置和解锁由 Meta Coordinator 对 Schema 6 定义验证；存档不保存槽位运行时索引。
+缺失内容保留原 ID 并返回本地化警告，当前 Run 使用安全默认 Loadout，未经用户确认不覆盖原文件。
+
+Profile v2→v3 迁移逐字段保留 v2 值，新集合全部初始化为空；不得从统计、解锁或货币猜测首通和唯一
+领取。v1 文件必须连续执行 v1→v2→v3。固定 Fixture 同时覆盖主文件、备份、取消、损坏、未来版本、
+重复迁移和写入中断。
+
+结算事务 ID 是 canonical ContentId，由 RunId、结果规则和稳定序号确定。内存合并先检查
+`committedTransactionIds`；已存在返回 `AlreadyCommitted`，不重复改变任何集合/货币/统计。只有原子
+Profile 写成功后才删除 Recovery、发布平台事件或显示“已保存”。
+
+CR-2026-015 完整局内恢复延期。检测到 `run_recovery.json` 时只显示本地化提示，用户明确开始新局
+后清理；不得显示 Continue，也不得把标记内容提交为胜利或首通。

@@ -148,7 +148,8 @@
 | QD-KI-001 | RESOLVED | High | CR-01—CR-11 曾未形成正式决定，G1/G2 多项核心能力被阻塞。 | G0.2 已形成 12 份正式 CR：CR-01—09 接受、CR-10 拆为属性/伤害策略两项接受、CR-11 延期；决定见 `DemoDevelopment/07_CHANGE_REQUEST_DECISIONS.md`。 |
 | QD-KI-002 | ACCEPTED | Medium | Demo 设计提交尚未合并 `main`；用户要求在单一新分支连续开发，与路线文档默认“每包独立分支并先合并”不同。 | 以 `codex/qinglan-demo-implementation` 为唯一 Owner 分支，每个工作包单独提交并 Push；未经新授权不自动合并 `main` 或打标签。 |
 | QD-KI-003 | PLANNED | High | 正式角色、敌人、地图、UI、VFX、音频、字体和商业本地化尚无完整 provenance、许可证和目标硬件证据。 | G0.4 固化生产/预算/权利清单；G3 仅导入可审计资产，任何缺失都阻断 Release。 |
-| QD-KI-004 | PLANNED | High | 已接受 CR 尚未形成 ADR、Schema 6、Profile Schema 3、公共 API Freeze、迁移和测试契约。 | G0.3 按 CR-2026-004—014 完成契约；在此之前不得修改冻结核心程序集。 |
+| QD-KI-004 | RESOLVED | High | 已接受 CR 曾未形成 ADR、Schema 6、Profile Schema 3、公共 API Freeze、迁移和测试契约。 | G0.3 已由 ADR 0013—0015 和 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md` 固化全部契约；现有 Hash 保持不变直到 G1.1 实现门禁。 |
 | QD-KI-005 | ACCEPTED | Low | CR-11 完整 Run Recovery 延期，Demo 不支持任意 Tick 继续本局。 | 只检测不完整记录、显示本地化提示并在明确开始新局后清理；不得显示 Continue 或把不完整 Run 结算为胜利。 |
+| QD-KI-006 | PLANNED | High | Schema 6、Demo Pipeline、Profile 3 和批准公共 API 仍只有契约，尚未实现或取得新 Freeze Hash 证据。 | G1.1 先实现通用骨架/Fixture，保存旧 Hash 预期 FAIL 签名 diff，再跑完整测试/Validation/性能短测/Development 并更新基线；G1.1 前不得创建依赖内容。 |
 
-当前没有阻止 G0.3 契约包的 `OPEN` 问题；QD-KI-004 阻止依赖代码实现，QD-KI-003 阻止 Release，不能被跳过。
+当前没有阻止 G0.4 资产计划包的 `OPEN` 问题；QD-KI-006 阻止 G1.2 及后续依赖内容，QD-KI-003 阻止 Release，不能被跳过。

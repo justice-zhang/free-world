@@ -54,3 +54,9 @@ Demo 的 DOD 不要求任意 Tick 继续本局。G2/G3 只允许：检测到 `ru
 4. 最后形成 ADR、公共 API Freeze 变更计划、测试矩阵和回滚顺序。
 
 G0.3 未完成前，G1/G2 只能继续使用现有纯内容能力，不得修改冻结核心程序集。
+
+## 6. G0.3 结果（2026-08-04）
+
+G0.3 已通过 ADR 0013、0014、0015 和
+[08_G0_3_CONTRACT_FREEZE.md](08_G0_3_CONTRACT_FREEZE.md) 固化 Schema 6、公共 API 最大面、24 项
+Pipeline、Profile 3、迁移、回滚和测试矩阵。实现仍从 G1.1 开始；现有冻结 Hash 尚未改变。

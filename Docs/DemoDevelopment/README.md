@@ -49,6 +49,7 @@ G3 发布候选
 | [05_SCHEMA_GAP_AND_CHANGE_REQUESTS.md](05_SCHEMA_GAP_AND_CHANGE_REQUESTS.md) | 现有能力、缺口、替代方案和 CR 优先级 |
 | [06_REQUIREMENTS_TRACEABILITY.md](06_REQUIREMENTS_TRACEABILITY.md) | 总纲需求到模块、测试和门禁的追踪矩阵 |
 | [07_CHANGE_REQUEST_DECISIONS.md](07_CHANGE_REQUEST_DECISIONS.md) | G0.2 CR-01—CR-11 正式决策、映射与 G0.3 输入顺序 |
+| [08_G0_3_CONTRACT_FREEZE.md](08_G0_3_CONTRACT_FREEZE.md) | G0.3 获批 Schema 6、公共 API、Pipeline、Profile 3、迁移与测试契约 |
 
 ## 4. 模块分支
 

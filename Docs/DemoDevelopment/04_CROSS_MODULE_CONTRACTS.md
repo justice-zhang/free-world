@@ -1,5 +1,10 @@
 # 04 跨模块契约
 
+- 状态：G0.3 `APPROVED`
+- 决策日期：2026-08-04
+- 权威 ADR：0013、0014、0015
+- 细化契约：[08_G0_3_CONTRACT_FREEZE.md](08_G0_3_CONTRACT_FREEZE.md)
+
 ## 1. 数据所有权
 
 | 真值 | Owner | 只读消费者 |
@@ -8,8 +13,11 @@
 | 技能实例、冷却、Delivery | SkillRuntime | Snapshot/Preview |
 | 敌人行为、Elite/Boss 标记 | EnemyRuntime | Encounter、Presentation |
 | 升级候选与 BuildState | ProgressionRuntime | RunSession、UI |
-| 地图目标与事件 | 获批 MapObjectiveRuntime | Encounter、Boss、Application |
-| Boss 阶段 | 获批 BossPhaseRuntime | Skill/Map/Presentation |
+| 地图目标与事件 | MapObjectiveRuntime | Encounter、Boss、Application |
+| Boss 阶段 | BossPhaseRuntime | Skill/Map/Presentation |
+| 角色机制资源与档位 | CharacterMechanicRuntime | Skill、UI、Presentation |
+| Run-local 奖励/选择事务 | RewardRuntime | Progression、Application、UI |
+| 局外定义、Loadout 与结果合并 | Meta Coordinator | Run Factory、UI、SaveCoordinator |
 | Run 状态与页面转换 | Application | UI、Infrastructure |
 | Profile/Settings/Recovery | SaveCoordinator | UI、Run Factory、Platform Router |
 | View/VFX/Audio 生命周期 | Presentation | 无反向写入 |
@@ -28,9 +36,9 @@ GameObject 判断风脉台是否完成。
 “乘风”按已解析的真实位移积累，只在执行 Simulation Tick 时变化；暂停期间不能由 Transform 位移
 或表现插值积累。
 
-## 3. 建议完整 Pipeline
+## 3. 获批 Demo Pipeline
 
-以下仅为需要 CR 审查的目标顺序，不代表已批准：
+G0.3 批准以下 G1/G2 目标顺序；旧 M2—M6 Pipeline 构造器继续保留用于兼容回归：
 
 ```text
 01 InputCommand
@@ -38,26 +46,30 @@ GameObject 判断风脉台是否完成。
 03 MapObjectiveAndEvent
 04 BossPhase
 05 EnemyDecision
-06 CharacterMechanic
-07 SkillTrigger
-08 Movement
+06 SkillTrigger
+07 Movement
+08 CharacterMechanicAccumulate
 09 SkillDelivery
 10 SkillEffectResolution
 11 DamageResolution
-12 StatusTick
-13 Death
-14 LootAndReward
-15 Pickup
-16 Experience
-17 LevelUpRequest
-18 Lifetime
-19 Cleanup
-20 EventFlush
-21 SnapshotBuild
+12 RewardResolution
+13 CharacterMechanicReaction
+14 StatusTick
+15 Regeneration
+16 Death
+17 LootAndReward
+18 Pickup
+19 Experience
+20 LevelUpRequest
+21 Lifetime
+22 Cleanup
+23 EventFlush
+24 SnapshotBuild
 ```
 
-新增/调整顺序属于 ADR 范围。所有结构创建/删除仍只由 Cleanup 应用；目标、Boss 和奖励系统只写
-命令/请求缓冲。
+所有结构创建/删除仍只由 Cleanup 应用；目标、Boss 和奖励系统只写命令/请求缓冲。Map/Boss 消费
+上一完成 Tick 的战斗事件；角色反应消费当前 Tick DamageResolution 的实际结果；选择请求只在 Tick
+完成后暂停下一 Tick。改变此顺序必须新增 ADR。
 
 ## 4. 命令
 
@@ -67,6 +79,7 @@ GameObject 判断风脉台是否完成。
 | Select/Reroll/Banish/Skip | UI | RunSession/Progression | UI 不重算候选 |
 | ActivateObjective | 玩家接近/交互适配 | MapObjectiveRuntime | 要求距离、状态和防重复验证 |
 | ClaimLandmark | Map Runtime | Reward Runtime | 唯一/重复规则由稳定 ID 决定 |
+| SelectReward/UseFallback | UI | RunSession/Reward Runtime | UI 不重算资格；同事务只提交一次 |
 | EndRun | Boss/失败/调试开发入口 | RunSession | Release 禁用调试入口 |
 | EquipNode/Insert | Hub UI | Meta Coordinator | 容量、互斥和解锁在应用真值验证 |
 
@@ -76,11 +89,12 @@ GameObject 判断风脉台是否完成。
 
 ```text
 CharacterMechanicTierChanged
+DamageResolved
 MapObjectiveStateChanged
 MapEventStarted / MapEventCompleted
 BossPhaseChanged
 RewardSpawned / RewardCollected
-RelicChoiceRequested / RelicSelected
+RewardChoiceRequested / RelicSelected / EvolutionSelected
 LandmarkDiscovered
 RunOutcomeCommitted
 MetaLoadoutChanged
@@ -127,9 +141,14 @@ Run 结束顺序：冻结时钟 → 得到不可变 RunResult → 计算合法�
 若 Profile 写入失败，UI 必须显示可恢复错误，不能展示“已保存”。唯一首通奖励以幂等稳定 ID 写入，
 重复提交不得重复发放。
 
+DamageResolution 的固定顺序为：合法性/死亡 → 免疫 → 按 Target＋DamageChannel 冷却 → 暴击/属性/抗性
+→ 屏障 → Shield → Health → 事件/冷却。只有 Shield 或 Health 实际减少才发 `DamageApplied`；完全
+屏障吸收、免疫、冷却或零伤害只允许发 `DamageResolved` 诊断/表现事件。
+
 ## 9. 版本和兼容性
 
 - Content Schema 变化：旧 Schema 1—5 继续可读；新 Pack 重 Bake；
-- Save Schema 变化：显式连续迁移，固定 Fixture，主/备份校验；
+- Save Schema 变化：Settings 2、Profile 3、RunRecovery 2 独立演进；Profile 显式 1→2→3 连续迁移，
+  固定 Fixture，主/备份校验；
 - 公共 API 变化：ADR、Freeze Hash 更新、完整门禁；
 - 表现 Profile 变化：不改变模拟 Hash，但必须更新资产清单和 Addressables Hash。

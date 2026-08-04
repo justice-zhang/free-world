@@ -213,7 +213,8 @@ Schema 兼容规则：
 - Schema 3：可包含完整 M4 Skill；Schema 3 中的 Skill 必须完整配置模块和至少一个 Effect。
 - Schema 4：增加可执行 Enemy、Map 和 Encounter；Schema 4 中的 Enemy/Map 必须包含完整 M5 数据。
 - Schema 5：增加 Passive、Trait、Offer、Synergy 和 Evolution；这些定义只能出现在 Schema 5 Pack。
-- Schema 1/2/3/4 继续可加载，现有 Catalog Hash 不因新字段改变；升级内容必须重 Bake。
+- Schema 6：增加 Demo 通用机制、奖励、地图、Boss/词缀和局外定义，并扩展模块引用操作数。
+- Schema 1/2/3/4/5 继续可加载，现有 Catalog Hash 不因新字段改变；升级内容必须重 Bake。
 
 四个 M4 Fixture 使用 `test.*` ContentId 和 `placeholder.presentation.*` 表现 ID，属于
 development-only Placeholder 内容，不得进入 release label。
@@ -495,3 +496,127 @@ Offer 的权重必须为正有限值；条件操作数、Modifier、Effect 引�
 M6 Placeholder Pack 位于 `Assets/GameAssets/Placeholder/TestBuildContent/`，包含两个 Passive、
 一个 Trait、两个 Synergy、一个 Evolution 和五个 Offer。它依赖 M4 测试技能 Pack，只用于
 开发验证，不是正式构筑或平衡内容。
+
+## 15. Qinglan Demo Content Schema 6
+
+Schema 6 由 ADR 0013 接受，首次增加下列 kind：
+
+```text
+character_mechanic
+reward
+pickup
+relic
+map_objective
+map_event
+landmark
+boss
+elite_affix
+meta_node
+meta_insert
+meta_facility
+story
+collectible
+```
+
+### 15.1 运行时定义
+
+```text
+RuntimeCharacterMechanicDefinition
+├─ ResourceId / GainSource / LossSource
+├─ MaximumValue / FreezeRules
+├─ Tiers[]: Threshold + Outputs[]
+└─ PresentationProfileId
+
+RuntimeRewardDefinition
+├─ Operations[]: RewardOp + Value/Integer/Reference/Tag operands
+├─ RepeatPolicy / UniqueKey / ChoiceFallback
+└─ PresentationProfileId
+
+RuntimePickupDefinition
+├─ RewardId / CollectionRadius / Lifetime
+├─ EligibilityTags / ExclusionTags
+└─ PresentationProfileId
+
+RuntimeRelicDefinition
+├─ MaximumLevel / Tags / Outputs[]
+├─ Prerequisites[] / MutuallyExclusiveIds[]
+└─ PresentationProfileId
+
+RuntimeMapObjectiveDefinition / RuntimeMapEventDefinition / RuntimeLandmarkDefinition
+├─ AnchorIds[] / TriggerRules[] / StateGraph
+├─ CompletionRules[] / RuleOutputs[] / RewardIds[]
+└─ PresentationProfileId
+
+RuntimeBossDefinition
+├─ EnemyId / AcceptedRuleIds[] / RewardId
+└─ Phases[]: EnterCondition + SkillSet + Resistance + ArenaRules + CleanupPolicy + ProfileId
+
+RuntimeEliteAffixDefinition
+├─ RequiredTags[] / ExcludedTags[] / MaximumGeneration
+├─ Modifiers[] / SkillIds[] / DeathOutputs[] / RewardMultiplier
+└─ PresentationProfileId
+
+RuntimeMetaNodeDefinition / RuntimeMetaInsertDefinition / RuntimeMetaFacilityDefinition
+├─ Cost / Prerequisites / MutuallyExclusiveIds[] / SlotOrCapacityRules
+└─ Trait/Offer/MapInfo/Page Outputs
+
+RuntimeStoryDefinition / RuntimeCollectibleDefinition
+├─ SequenceOrTopic / UnlockOrAcquireRule
+├─ Localization Keys / UniqueRule / FallbackRewardId
+└─ PresentationProfileId
+```
+
+Schema 6 Character 追加可选 `MechanicIds[]`；Map 追加 Objective/Event/Landmark 引用；Encounter
+Elite Entry 可引用 Affix Pool，Boss Rule 可引用 BossDefinition。Schema 1—5 不读取这些字段，默认
+行为与原 Hash 不变。旧 Schema 4/5 的 `Elite bool` 继续走历史倍率兼容路径，不伪装为词缀完成。
+
+### 15.2 模块与 Reward token
+
+`SkillModuleDefinition` 的 Schema 6 磁盘字段追加 `referenceId0/1` 和 `tag0/1`；成功加载后引用绑定为
+`RuntimeContentIndex`/紧凑标签操作数。新增稳定模块 ID：
+
+| 类别 | token | 关键语义 |
+|---|---|---|
+| Condition | `base.condition.status_count_at_least` | Ref0 Status 或 Tag0，I0 最小层数，I1 目标域 |
+| Condition | `base.condition.target_has_status` | Ref0 Status 或 Tag0，I0 目标域 |
+| Targeting | `base.targeting.trigger_position` | 从 Trigger Context 取纯值位置 |
+| Delivery | `base.delivery.outbound_return` | Outbound→Turn→Return；每相位命中去重 |
+| Effect | `base.effect.consume_status` | 先验证再原子消费，缺少时按 I1 策略 |
+| Effect | `base.effect.detonate_status` | 按实际消费层数排一次 Damage 请求 |
+
+Reward 操作 token 固定为：
+
+```text
+heal / apply_status / damage_area / collect_eligible_pickups
+grant_relic_choice / grant_evolution_choice
+add_currency / unlock_content / grant_unique / trigger_story
+```
+
+首次 Boss 奖励、脉印、唯一藏品和固定故事不得由概率或 Luck 决定。所有永久操作只形成稳定
+`RunResultDelta`，不能从 Simulation 写文件或调用平台。
+
+### 15.3 公共 Stat 追加
+
+只在现有 14 个内建索引末尾依次追加：
+
+```text
+14 base.stat.projectile_speed
+15 base.stat.critical_multiplier
+16 base.stat.experience_gain
+17 base.stat.knockback_resistance
+```
+
+这里的数字为零基 `StatIndex`，不得重排或复用。默认值分别为 1、2、1、0；CriticalMultiplier
+最小 1，ExperienceGain/ProjectileSpeed 必须为正有限值，KnockbackResistance 约束在 `[0,1]`。
+
+### 15.4 Hash、兼容与验证
+
+- Schema 6 Hash 对既有定义先写旧字段，再按本节字段顺序追加；不修改 Schema 1—5 Codec。
+- 作者顺序具有玩法语义的数组保持顺序；集合语义数组在 Baker canonical 排序/去重。
+- 每个引用按允许 kind 验证；稳定 ProfileId 可在表现 Catalog 延迟验证，但不能为空或非 canonical。
+- 状态图必须从初态可达且终态有界；Tier/Phase 阈值有序；概率、权重、容量和时间有限且合法。
+- Meta 拓扑无环，Loadout 容量/终端/插槽可满足；Boss 阶段、Elite 组合和 Reward fallback 可达。
+- 完整 Catalog 任一 Schema 6 错误都阻止 Registry 事务提交。
+
+G1.1 必须以独立程序化 Placeholder Fixture 覆盖全部 14 kind 和负例。正式 Qinglan 内容不得与
+Schema 骨架同包提前创建。完整公共契约见 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md`。

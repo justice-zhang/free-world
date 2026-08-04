@@ -136,3 +136,31 @@ Movement 与 SnapshotBuild 依次约 1.4100 ms、0.9700 ms。该证据没有显�
 31 个内存样本中托管段增长 0 B，Native 分段趋势为 -2,894 B；热路径分配 0 B，三代 GC 均为 0，
 无无效句柄、触发截断或 VFX 丢弃。最终 Checksum 为 `13193d7c4cc3251a`，机器与完整数据见
 `TestResults/M10Final/performance.json` 和 M10 结果报告。
+
+## 10. Qinglan Demo 新 Runtime 预算
+
+G0.3 不改变 30 Hz、1,500 Enemy、3,000 Projectile、5,000 Pickup、200 VFX 和 0 B 稳态分配目标。
+G1.1 先在单线程稠密结构上实现；没有基准证据不得提前迁移 Jobs/Burst/ECS。
+
+| 数据 | 预算/容量策略 | 超限行为 |
+|---|---|---|
+| Character Mechanic | 每 Actor 最多 4 个紧凑实例；Demo 玩家实际 1 | 拒绝 Run 装配并报告定义 ID |
+| DamageChannel 状态 | 每 Actor 最多 8 个活动通道槽 | 稳定回收最早到期槽并记录诊断；不得分配字典 |
+| Boss Phase | 每 Boss 最多 8 阶段 | Content Validation 阻断 |
+| Elite Affix | 每 Enemy 最多 3 个，Demo 代数最多 1 | Spawn 前拒绝非法组合 |
+| Map 状态 | 32 Objective、16 Event、32 Landmark | Map 装配失败，不在 Tick 中扩容 |
+| Reward Choice | 同时最多 1 个阻塞选择；历史初始 128 | 排队到下一 Tick；容量由 Run 装配预估 |
+| Reward Request | 初始容量至少等于 World actor capacity | 超容量增长计数非零即性能门禁失败 |
+
+G1.1 性能步骤：
+
+1. 在同一提交、同一机器、同一配置先重跑 M10 300-Tick 短基线，再运行启用空 Demo Runtime 的配对
+   短测；各跑三次，报告中位 p99、分系统时间、分配、GC、容量增长和 Checksum。
+2. 空 Demo Runtime 的 Tick p99 相对配对基线退化不得超过 15%，稳态分配必须 0 B，GC 为 0，所有
+   预估容量增长为 0；超出必须修复或新增性能 ADR，不能只提高阈值。
+3. Character Mechanic 单玩家推进 54,000 Tick，热路径 0 B、数值有限、无持续容量增长。
+4. G1.5/G1.6/G2.8 加入真实 Enemy/Affix/Encounter/Map/Boss/Reward 内容后分别重跑对应短测；G3.5
+   在目标硬件重跑正式 54,000 Tick 和 GPU/1% Low。
+
+历史 M10 JSON 是框架比较基线，不代表新增内容已通过。每个新报告必须同时保留实际配置和
+`TestResults/M10Final/performance.json` 对比，不得用 Preview 或小型正确性 Harness 替代。

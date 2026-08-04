@@ -54,3 +54,12 @@
 - `CR-10` 已拆分为公共 Stat `CR-2026-013` 与 Damage Policy `CR-2026-014`，两项均接受。
 - `CR-11` 映射至 `CR-2026-015` 并延期；当前 Demo 只允许检测、提示和清理不完整 Run。
 - 完整矩阵见 [07_CHANGE_REQUEST_DECISIONS.md](07_CHANGE_REQUEST_DECISIONS.md)。接受只授权 G0.3 契约设计，状态列中的 CR 依赖尚不表示实现完成。
+
+## 5. G0.3 契约状态
+
+- ADR 0013：R-002—R-014 所需 Schema 6、新模块和公共 Stat。
+- ADR 0014：R-001—R-012 的 Pipeline、Owner、Damage、Reward、Map、Boss、随机流和 Cleanup。
+- ADR 0015：R-012—R-014 的 Profile 3、Loadout、首通/唯一事务和 CR-11 延期边界。
+- [08_G0_3_CONTRACT_FREEZE.md](08_G0_3_CONTRACT_FREEZE.md) 把每个 Formal CR 映射到首次实现包和最低测试。
+
+状态仍为“契约已批准、实现未开始”。只有后续工作包的真实测试/构建证据可以把 R/DOD 条目改为 PASS。

@@ -263,3 +263,49 @@ M8 文件 I/O 和平台调用只在低频 Application Event 发生，不属于�
 
 正式结果在 `Docs/Reports/2026-07-28-m10-performance-ci-freeze.md` 中按 PASS/FAIL/NOT RUN 记录，
 不得用短测或历史里程碑证据替代 54,000 Tick 与最终构建。
+
+## 15. Qinglan Demo G0.3 契约测试计划
+
+ADR 0013—0015 和 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md` 批准下列实施门禁。G0.3 本身是
+纯文档契约包，表中测试从 G1.1/G2 对应实现包起执行；未执行时必须记录 `NOT RUN`。
+
+### 15.1 G1.1 Schema 与公共模块
+
+- Schema 1—5 固定 Catalog 逐字节/Hash Golden 不变；Schema 6 全部 14 kind DTO、Hash、Bake、Load
+  round-trip。
+- 每种新定义至少一个合法 Fixture 和引用 kind 错误、缺失引用、非有限数值、非法状态图/阈值负例。
+- 原 14 个 StatIndex 不变；新 4 项按 14—17 追加，默认值、范围、叠加和至少两个消费者覆盖。
+- Skill Module 引用操作数只在加载期绑定；未知 token/错误引用失败，Tick 中无字符串解析。
+- 回返 Delivery 覆盖 Outbound/Turn/Return、每相位去重、Owner 失效和 Cleanup。
+- Status 查询/消费/引爆覆盖 Ref/Tag、零层、部分不足、同 Tick 竞争、原子回滚和 TriggerPosition。
+
+### 15.2 Pipeline 与运行时
+
+- `CreateQinglanDemo` 精确断言 24 项顺序；旧 M2—M6 Pipeline 顺序逐项回归。
+- Map/Boss 使用上一 Tick 事件；Damage 后 MechanicReaction 使用当前 Tick 实际结果；选择在 Tick 边界
+  暂停，EventFlush 和 Snapshot 顺序不变。
+- 免疫、五类 DamageChannel、按 Target＋Channel 冷却、完全屏障、Shield/Health、零伤害和
+  `DamageResolved`/`DamageApplied` 事件矩阵。
+- 角色机制覆盖真实 PlayerCommand 位移、墙/暂停/传送/纠错/击退排除、跨档、同 Tick 多伤一次损失。
+- Reward 同事务重放、随机流隔离、唯一固定输出、空选择回退、Cleanup；Objective/Boss/Affix 各两个
+  通用 Fixture，核心源码具体 Qinglan ID 静态搜索零命中。
+
+### 15.3 Profile 3 与应用流
+
+- Settings 2、Profile 3、RunRecovery 2 各自 round-trip，Codec 按 kind 选择目标版本。
+- Profile v1→2→3、v2→3 固定 Envelope/Payload，迁移两次结果一致且不猜测首通。
+- Loadout 6＋1＋2、互斥、前置、缺失 ID、安全默认与保留原文件。
+- 胜利/失败/重复胜利/保存重试使用相同/不同事务 ID 的幂等矩阵。
+- 主文件、备份、temp、取消、校验失败、未来版本；成功保存前 Recovery 不删除、平台事件不发布。
+- 检测不完整 Recovery 只显示本地化提示并清理开始新局；没有 Continue，不能提交 Outcome。
+
+### 15.4 Freeze 与最终门禁
+
+- 旧 API Hash 下预期 Validation FAIL 并保存规范签名 diff；只允许 G0.3 清单中的追加项。
+- 更新 Hash 后完整 EditMode、PlayMode、Project Validation、性能短测和 Windows Development Build
+  全部重跑；任一 FAIL 不得把 G1.1 标记 COMPLETE。
+- G1.7 重跑完整 Pack/双语 Placeholder Development；G2.8 重跑垂直切片 PlayMode/Build；G3.6
+  运行 Release、Player Smoke、DOD-01—10 和合规门禁。
+
+证据目录固定为 `TestResults/QinglanDemo/<work-package>/`；XML、日志、JSON、Manifest 和文件 Hash
+必须在结果报告中逐项引用。
