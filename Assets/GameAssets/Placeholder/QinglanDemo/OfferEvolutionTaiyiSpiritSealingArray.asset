@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd948bc5a49f4791bef7812ac1bb2cb6, type: 3}
+  m_Name: OfferEvolutionTaiyiSpiritSealingArray
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.UpgradeOfferAuthoring
+  contentId: qinglan.offer.evolution.taiyi_spirit_sealing_array
+  localizedNameKey: content.qinglan.offer.evolution.taiyi_spirit_sealing_array.name
+  localizedDescriptionKey: content.qinglan.offer.evolution.taiyi_spirit_sealing_array.description
+  tags:
+  - content.placeholder
+  - build.offer
+  targetContent: {fileID: 11400000, guid: 0b1c8489cadaf79499cba86d3abe7755, type: 2}
+  weight: 1
+  initiallyUnlocked: 0
+  prerequisites: []
+  mutuallyExclusiveContent: []

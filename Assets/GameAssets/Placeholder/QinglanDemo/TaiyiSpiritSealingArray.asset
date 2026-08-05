@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0095a8991d6fc4cb5ceafd762b1862, type: 3}
+  m_Name: TaiyiSpiritSealingArray
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.SkillAuthoring
+  contentId: qinglan.skill.evolved.taiyi_spirit_sealing_array
+  localizedNameKey: content.qinglan.skill.evolved.taiyi_spirit_sealing_array.name
+  localizedDescriptionKey: content.qinglan.skill.evolved.taiyi_spirit_sealing_array.description
+  tags:
+  - content.placeholder
+  - skill.player
+  - skill.evolved
+  - weapon.talisman
+  - mechanic.mark
+  - delivery.area
+  cooldownSeconds: 1.6
+  resourceCost: 0
+  modularRuntimeEnabled: 1
+  trigger:
+    moduleId: base.trigger.timer
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  condition:
+    moduleId: base.condition.always
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  targeting:
+    moduleId: base.targeting.nearest
+    value0: 20
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 1
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  delivery:
+    moduleId: base.delivery.area
+    value0: 4
+    value1: 1.6
+    value2: 0.5
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: placeholder.presentation.qinglan.skill.taiyi_spirit_sealing_array
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  effects:
+  - moduleId: base.effect.damage
+    value0: 6
+    value1: 0
+    value2: 0
+    int0: 4
+    int1: 2
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    statId0: 
+    flags: 0
+  - moduleId: base.effect.apply_status
+    value0: 1
+    value1: 0
+    value2: 0
+    int0: 0
+    int1: 0
+    referenceId0: qinglan.status.marked
+    referenceId1: 
+    tag0: 
+    statId0: 
+    flags: 0
+  - moduleId: base.effect.spawn_secondary_skill
+    value0: 0
+    value1: 0
+    value2: 0
+    int0: 0
+    int1: 0
+    referenceId0: qinglan.skill.hidden.talisman_detonation
+    referenceId1: 
+    tag0: 
+    statId0: 
+    flags: 0
+  levelPatches: []

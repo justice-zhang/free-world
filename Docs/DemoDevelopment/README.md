@@ -53,6 +53,7 @@ G3 发布候选
 | [09_G0_4_ASSET_PRODUCTION_PLAN.md](09_G0_4_ASSET_PRODUCTION_PLAN.md) | G0.4 正式资产、音频、字体、本地化、预算与权利生产计划 |
 | [10_G1_2_CHARACTER_COMBAT_SLICE.md](10_G1_2_CHARACTER_COMBAT_SLICE.md) | G1.2 陆青野、乘风、七状态与固定 Seed 实施切片 |
 | [11_G1_3_WEAPON_SKILL_SLICE.md](11_G1_3_WEAPON_SKILL_SLICE.md) | G1.3 六武器、隐藏技能、预览 Golden 与回返/引爆/相位实施切片 |
+| [12_G1_4_PROGRESSION_SLICE.md](12_G1_4_PROGRESSION_SLICE.md) | G1.4 六心诀、18 Offer、三 Synergy、六显化资格与转换实施切片 |
 
 ## 4. 模块分支
 

@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcae3453841949b08eae0d2c975b0a4e, type: 3}
+  m_Name: LongBreath
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.PassiveAuthoring
+  contentId: qinglan.passive.long_breath
+  localizedNameKey: content.qinglan.passive.long_breath.name
+  localizedDescriptionKey: content.qinglan.passive.long_breath.description
+  tags:
+  - content.placeholder
+  - passive.player
+  - build.defense
+  - build.shield
+  maximumLevel: 5
+  levelModifiers:
+  - level: 1
+    modifier:
+      statId: base.stat.health
+      operation: 2
+      value: 0.05
+      priority: 100
+      stackingGroup: qinglan.stack.passive.long_breath.level_1.health
+  - level: 2
+    modifier:
+      statId: base.stat.armor
+      operation: 1
+      value: 1
+      priority: 100
+      stackingGroup: qinglan.stack.passive.long_breath.level_2.armor
+  - level: 3
+    modifier:
+      statId: base.stat.regeneration
+      operation: 1
+      value: 0.25
+      priority: 100
+      stackingGroup: qinglan.stack.passive.long_breath.level_3.regeneration
+  - level: 4
+    modifier:
+      statId: base.stat.health
+      operation: 2
+      value: 0.07
+      priority: 100
+      stackingGroup: qinglan.stack.passive.long_breath.level_4.health
+  - level: 5
+    modifier:
+      statId: base.stat.armor
+      operation: 1
+      value: 2
+      priority: 100
+      stackingGroup: qinglan.stack.passive.long_breath.level_5.armor

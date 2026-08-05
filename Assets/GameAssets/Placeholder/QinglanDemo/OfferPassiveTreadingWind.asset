@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd948bc5a49f4791bef7812ac1bb2cb6, type: 3}
+  m_Name: OfferPassiveTreadingWind
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.UpgradeOfferAuthoring
+  contentId: qinglan.offer.passive.treading_wind
+  localizedNameKey: content.qinglan.offer.passive.treading_wind.name
+  localizedDescriptionKey: content.qinglan.offer.passive.treading_wind.description
+  tags:
+  - content.placeholder
+  - build.offer
+  targetContent: {fileID: 11400000, guid: 356b701c90b07af45af837339bff6a71, type: 2}
+  weight: 1.15
+  initiallyUnlocked: 1
+  prerequisites: []
+  mutuallyExclusiveContent: []

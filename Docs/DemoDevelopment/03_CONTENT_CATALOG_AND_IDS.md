@@ -41,6 +41,17 @@
 | Evolution | `qinglan.evolution.mountain_boundary_seal` | 山河镇界印 | 震岳印＋长息功＋显化宝匣 |
 | Evolution | `qinglan.evolution.earth_vein_spring_branch` | 地脉生春枝 | 灵藤种＋采灵诀＋显化宝匣 |
 
+显化转换后的可执行 Skill 使用独立稳定 ID，避免把 Evolution 定义 ID 当作运行时技能身份：
+
+| Evolution | Result SkillId |
+|---|---|
+| 青岚流影剑 | `qinglan.skill.evolved.qinglan_flowing_shadow_sword` |
+| 太一镇灵符阵 | `qinglan.skill.evolved.taiyi_spirit_sealing_array` |
+| 赤炉百工轮 | `qinglan.skill.evolved.chilu_hundred_craft_wheel` |
+| 镜海潮生轮 | `qinglan.skill.evolved.mirror_sea_tide_wheel` |
+| 山河镇界印 | `qinglan.skill.evolved.mountain_boundary_seal` |
+| 地脉生春枝 | `qinglan.skill.evolved.earth_vein_spring_branch` |
+
 每个 Skill/Passive 等级都需要独立 UpgradeOffer。建议 ID：
 
 ```text
@@ -84,6 +95,7 @@ Offer 的权重、前置、互斥和满级过滤由 M6 现有候选真值处理�
 | 乘风 | `qinglan.resource.riding_wind` | 真实位移资源 |
 | 游风剑 | `qinglan.skill.hidden.yufeng_return` | 回返段 |
 | 游风剑 | `qinglan.skill.hidden.riding_wind_blade` | 满风势风刃 |
+| 青岚流影剑 | `qinglan.skill.hidden.flowing_shadow_wind_trail` | 有界流影风痕 |
 | 黄符 | `qinglan.skill.hidden.talisman_detonation` | 标记引爆 |
 | 飞轮 | `qinglan.skill.hidden.lihuo_return_explosion` | 回程爆裂 |
 | 听潮珠 | `qinglan.skill.hidden.tide_rising` | 涨潮吸附 |

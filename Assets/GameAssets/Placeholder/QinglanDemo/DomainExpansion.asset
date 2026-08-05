@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcae3453841949b08eae0d2c975b0a4e, type: 3}
+  m_Name: DomainExpansion
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.PassiveAuthoring
+  contentId: qinglan.passive.domain_expansion
+  localizedNameKey: content.qinglan.passive.domain_expansion.name
+  localizedDescriptionKey: content.qinglan.passive.domain_expansion.description
+  tags:
+  - content.placeholder
+  - passive.player
+  - build.area
+  - build.control
+  maximumLevel: 5
+  levelModifiers:
+  - level: 1
+    modifier:
+      statId: base.stat.range
+      operation: 2
+      value: 0.05
+      priority: 100
+      stackingGroup: qinglan.stack.passive.domain_expansion.level_1.primary
+  - level: 1
+    modifier:
+      statId: base.stat.duration
+      operation: 2
+      value: 0.06
+      priority: 110
+      stackingGroup: qinglan.stack.passive.domain_expansion.level_1.secondary
+  - level: 2
+    modifier:
+      statId: base.stat.range
+      operation: 2
+      value: 0.05
+      priority: 100
+      stackingGroup: qinglan.stack.passive.domain_expansion.level_2.primary
+  - level: 2
+    modifier:
+      statId: base.stat.duration
+      operation: 2
+      value: 0.06
+      priority: 110
+      stackingGroup: qinglan.stack.passive.domain_expansion.level_2.secondary
+  - level: 3
+    modifier:
+      statId: base.stat.range
+      operation: 2
+      value: 0.05
+      priority: 100
+      stackingGroup: qinglan.stack.passive.domain_expansion.level_3.primary
+  - level: 3
+    modifier:
+      statId: base.stat.duration
+      operation: 2
+      value: 0.06
+      priority: 110
+      stackingGroup: qinglan.stack.passive.domain_expansion.level_3.secondary
+  - level: 4
+    modifier:
+      statId: base.stat.range
+      operation: 2
+      value: 0.05
+      priority: 100
+      stackingGroup: qinglan.stack.passive.domain_expansion.level_4.primary
+  - level: 4
+    modifier:
+      statId: base.stat.duration
+      operation: 2
+      value: 0.06
+      priority: 110
+      stackingGroup: qinglan.stack.passive.domain_expansion.level_4.secondary
+  - level: 5
+    modifier:
+      statId: base.stat.range
+      operation: 2
+      value: 0.05
+      priority: 100
+      stackingGroup: qinglan.stack.passive.domain_expansion.level_5.primary
+  - level: 5
+    modifier:
+      statId: base.stat.duration
+      operation: 2
+      value: 0.06
+      priority: 110
+      stackingGroup: qinglan.stack.passive.domain_expansion.level_5.secondary

@@ -96,3 +96,22 @@ Offer 随机流必须独立于战斗、Encounter 和地图事件；历史保存�
 | UI PlayMode | 卡牌显示行为变化、标签、当前关系和不可选原因 |
 
 退出条件：六条显化均通过真实资格链获得，候选真值只在 Simulation，三条目标构筑可复现但不被保证。
+
+## 9. G1.4 实施冻结（2026-08-05）
+
+- `qinglan.pack.demo` 升级为 0.3.0 / Schema 6，共 68 个定义；本包新增 6 Passive、6 Result Skill、
+  1 个隐藏风痕 Skill、6 Evolution、18 Offer 和 3 Synergy。
+- 六个心诀的 Demo 显化准入等级批准为 1；Evolution 仍要求对应主武器 8 级。现有 Schema 没有
+  `PassiveLevelAtLeast`，不得借 `StatAtLeast` 间接冒充心诀等级。
+- 12 个 Skill/Passive Offer 在普通升级池中初始解锁；6 个 Evolution Offer 初始锁定，防止显化进入
+  Level-up Reroll/Banish/Skip 流。G1.7 的 Reward Choice Adapter 只提交 BuildState 已判定合格的锁定 Offer。
+- 三条 Synergy 使用 `OwnsContent` 和既有通用输出：移动御剑增加 ProjectileSpeed，符阵爆发增加一次
+  合法 Mark，草木铺场增加 Duration；不比较任何具体 Synergy ID。
+- 地脉生春枝固定为每次 OnKill 生成一个主藤丛和最多两个单代邻域，不允许由 Area 每次命中继续生成；
+  6 秒/20 目标固定预览从首轮 15,990 Hits 收敛到 480 Hits。
+- 青岚流影剑在 Timer 时点采样 Owner 位置形成短时风痕；真实移动来源仍由 M02 乘风状态机负责。
+  “静止时完全不落风痕”的专用触发器当前不存在，不得用内容 ID 分支补丁实现；G2 实机手感评审若要求
+  严格移动事件触发，必须先提交通用移动触发器 Change Request。
+- 山河镇界印通过 `OnDamageTaken`、冷却、护盾辅助技能和范围反震组合成短时安全窗口；不提供无敌。
+- 固定 Seed `0x47313450524F4752` 的六显化 6 秒/20 目标 Preview 已固化 DPS/Hits/Triggers Golden，
+  固定 Tick 托管分配为 0 B。

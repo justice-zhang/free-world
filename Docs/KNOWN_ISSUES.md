@@ -153,5 +153,7 @@
 | QD-KI-006 | RESOLVED | High | Schema 6、Demo Pipeline、Profile 3 和批准公共 API 曾只有契约，尚未实现或取得新 Freeze Hash 证据。 | G1.1 已实现通用骨架/Codec/Migration/Fixture，保留旧 Hash 预期差异并完成 203 EditMode、9 PlayMode、Validation、配对性能短测和 Windows x64 Development Build；新 Hash 见 `PUBLIC_API_FREEZE.md`。 |
 | QD-KI-007 | PLANNED | High | 当前 `AssetProvenanceValidator` 只主动扫描 AI 目录，FirstParty 正式资产尚无等价自动 provenance/Hash 门禁。 | G3.1 在任何 FirstParty 文件取得 `release` 标签前，把校验扩展到全部实际 Release 输入并补负向测试；仅有 sidecar 文档不能关闭。 |
 | QD-KI-008 | PLANNED | Medium | Noto CJK SC 只锁定官方候选和 OFL 1.1 许可路径，尚未固定发布版本、下载文件、SHA-256、Notice 或 TMP 缺字证据。 | G3.3 按官方发布固定版本/Hash，保存 LICENSE、登记每个路径并做简中/英文/Pseudo 缺字与裁切；任一缺失阻断 Release。 |
+| QD-KI-009 | PLANNED | Medium | G1.4 的六个 Evolution Offer 为防止混入普通升级流而保持锁定；BuildState 已能计算资格和原子转换，但显化宝匣尚无独立候选/回退/幂等事务。 | 按已批准 CR-2026-007 在 G1.7 实现 Reward Choice Context；完成前不得把普通 Level-up Offer 伪装成显化宝匣。 |
 
-当前没有阻止 G1.4 心诀与显化数据切片的 `OPEN` 问题；QD-KI-003/007/008 继续阻止 Release，不能被跳过。
+当前没有阻止 G1.5 敌人数据切片的 `OPEN` 问题；QD-KI-009 在 G1.7 前阻止显化宝匣闭环，
+QD-KI-003/007/008 继续阻止 Release，不能被跳过。

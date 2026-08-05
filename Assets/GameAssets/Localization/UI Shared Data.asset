@@ -731,6 +731,326 @@ MonoBehaviour:
     m_Key: content.qinglan.skill.hidden.vine_propagation.description
     m_Metadata:
       m_Items: []
+  - m_Id: 3671050799685632
+    m_Key: content.qinglan.passive.treading_wind.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178048
+    m_Key: content.qinglan.passive.treading_wind.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178049
+    m_Key: content.qinglan.passive.clear_mind.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178050
+    m_Key: content.qinglan.passive.clear_mind.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178051
+    m_Key: content.qinglan.passive.artifact_control.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178052
+    m_Key: content.qinglan.passive.artifact_control.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178053
+    m_Key: content.qinglan.passive.domain_expansion.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178054
+    m_Key: content.qinglan.passive.domain_expansion.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178055
+    m_Key: content.qinglan.passive.long_breath.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178056
+    m_Key: content.qinglan.passive.long_breath.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178057
+    m_Key: content.qinglan.passive.spirit_gathering.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178058
+    m_Key: content.qinglan.passive.spirit_gathering.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178059
+    m_Key: content.qinglan.skill.hidden.flowing_shadow_wind_trail.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178060
+    m_Key: content.qinglan.skill.hidden.flowing_shadow_wind_trail.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178061
+    m_Key: content.qinglan.skill.evolved.qinglan_flowing_shadow_sword.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178062
+    m_Key: content.qinglan.skill.evolved.qinglan_flowing_shadow_sword.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178063
+    m_Key: content.qinglan.skill.evolved.taiyi_spirit_sealing_array.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178064
+    m_Key: content.qinglan.skill.evolved.taiyi_spirit_sealing_array.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178065
+    m_Key: content.qinglan.skill.evolved.chilu_hundred_craft_wheel.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178066
+    m_Key: content.qinglan.skill.evolved.chilu_hundred_craft_wheel.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178067
+    m_Key: content.qinglan.skill.evolved.mirror_sea_tide_wheel.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178068
+    m_Key: content.qinglan.skill.evolved.mirror_sea_tide_wheel.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178069
+    m_Key: content.qinglan.skill.evolved.mountain_boundary_seal.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178070
+    m_Key: content.qinglan.skill.evolved.mountain_boundary_seal.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178071
+    m_Key: content.qinglan.skill.evolved.earth_vein_spring_branch.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178072
+    m_Key: content.qinglan.skill.evolved.earth_vein_spring_branch.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178073
+    m_Key: content.qinglan.synergy.moving_sword_path.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178074
+    m_Key: content.qinglan.synergy.moving_sword_path.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178075
+    m_Key: content.qinglan.synergy.talisman_detonation.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178076
+    m_Key: content.qinglan.synergy.talisman_detonation.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178077
+    m_Key: content.qinglan.synergy.living_garden.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178078
+    m_Key: content.qinglan.synergy.living_garden.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372352
+    m_Key: content.qinglan.offer.skill.yufeng_sword.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372353
+    m_Key: content.qinglan.offer.skill.yufeng_sword.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372354
+    m_Key: content.qinglan.offer.skill.yellow_talisman.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372355
+    m_Key: content.qinglan.offer.skill.yellow_talisman.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372356
+    m_Key: content.qinglan.offer.skill.lihuo_wheel.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372357
+    m_Key: content.qinglan.offer.skill.lihuo_wheel.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372358
+    m_Key: content.qinglan.offer.skill.tide_orb.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372359
+    m_Key: content.qinglan.offer.skill.tide_orb.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372360
+    m_Key: content.qinglan.offer.skill.zhenyue_seal.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372361
+    m_Key: content.qinglan.offer.skill.zhenyue_seal.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372362
+    m_Key: content.qinglan.offer.skill.spirit_vine_seed.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372363
+    m_Key: content.qinglan.offer.skill.spirit_vine_seed.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372364
+    m_Key: content.qinglan.offer.passive.treading_wind.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372365
+    m_Key: content.qinglan.offer.passive.treading_wind.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372366
+    m_Key: content.qinglan.offer.passive.clear_mind.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372367
+    m_Key: content.qinglan.offer.passive.clear_mind.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372368
+    m_Key: content.qinglan.offer.passive.artifact_control.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372369
+    m_Key: content.qinglan.offer.passive.artifact_control.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372370
+    m_Key: content.qinglan.offer.passive.domain_expansion.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372371
+    m_Key: content.qinglan.offer.passive.domain_expansion.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372372
+    m_Key: content.qinglan.offer.passive.long_breath.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372373
+    m_Key: content.qinglan.offer.passive.long_breath.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372374
+    m_Key: content.qinglan.offer.passive.spirit_gathering.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372375
+    m_Key: content.qinglan.offer.passive.spirit_gathering.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372376
+    m_Key: content.qinglan.offer.evolution.qinglan_flowing_shadow_sword.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372377
+    m_Key: content.qinglan.offer.evolution.qinglan_flowing_shadow_sword.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372378
+    m_Key: content.qinglan.offer.evolution.taiyi_spirit_sealing_array.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372379
+    m_Key: content.qinglan.offer.evolution.taiyi_spirit_sealing_array.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372380
+    m_Key: content.qinglan.offer.evolution.chilu_hundred_craft_wheel.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372381
+    m_Key: content.qinglan.offer.evolution.chilu_hundred_craft_wheel.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372382
+    m_Key: content.qinglan.offer.evolution.mirror_sea_tide_wheel.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372383
+    m_Key: content.qinglan.offer.evolution.mirror_sea_tide_wheel.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372384
+    m_Key: content.qinglan.offer.evolution.mountain_boundary_seal.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372385
+    m_Key: content.qinglan.offer.evolution.mountain_boundary_seal.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372386
+    m_Key: content.qinglan.offer.evolution.earth_vein_spring_branch.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372387
+    m_Key: content.qinglan.offer.evolution.earth_vein_spring_branch.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195487498240
+    m_Key: content.qinglan.evolution.qinglan_flowing_shadow_sword.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076096
+    m_Key: content.qinglan.evolution.qinglan_flowing_shadow_sword.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076097
+    m_Key: content.qinglan.evolution.taiyi_spirit_sealing_array.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076098
+    m_Key: content.qinglan.evolution.taiyi_spirit_sealing_array.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076099
+    m_Key: content.qinglan.evolution.chilu_hundred_craft_wheel.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076100
+    m_Key: content.qinglan.evolution.chilu_hundred_craft_wheel.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076101
+    m_Key: content.qinglan.evolution.mirror_sea_tide_wheel.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076102
+    m_Key: content.qinglan.evolution.mirror_sea_tide_wheel.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076103
+    m_Key: content.qinglan.evolution.mountain_boundary_seal.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076104
+    m_Key: content.qinglan.evolution.mountain_boundary_seal.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076105
+    m_Key: content.qinglan.evolution.earth_vein_spring_branch.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076106
+    m_Key: content.qinglan.evolution.earth_vein_spring_branch.description
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

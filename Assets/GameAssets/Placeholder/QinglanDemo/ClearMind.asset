@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcae3453841949b08eae0d2c975b0a4e, type: 3}
+  m_Name: ClearMind
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.PassiveAuthoring
+  contentId: qinglan.passive.clear_mind
+  localizedNameKey: content.qinglan.passive.clear_mind.name
+  localizedDescriptionKey: content.qinglan.passive.clear_mind.description
+  tags:
+  - content.placeholder
+  - passive.player
+  - build.talisman
+  - build.mark
+  maximumLevel: 5
+  levelModifiers:
+  - level: 1
+    modifier:
+      statId: base.stat.cooldown
+      operation: 2
+      value: -0.03
+      priority: 100
+      stackingGroup: qinglan.stack.passive.clear_mind.level_1.primary
+  - level: 1
+    modifier:
+      statId: base.stat.attack_speed
+      operation: 2
+      value: 0.03
+      priority: 110
+      stackingGroup: qinglan.stack.passive.clear_mind.level_1.secondary
+  - level: 2
+    modifier:
+      statId: base.stat.cooldown
+      operation: 2
+      value: -0.03
+      priority: 100
+      stackingGroup: qinglan.stack.passive.clear_mind.level_2.primary
+  - level: 2
+    modifier:
+      statId: base.stat.attack_speed
+      operation: 2
+      value: 0.03
+      priority: 110
+      stackingGroup: qinglan.stack.passive.clear_mind.level_2.secondary
+  - level: 3
+    modifier:
+      statId: base.stat.cooldown
+      operation: 2
+      value: -0.03
+      priority: 100
+      stackingGroup: qinglan.stack.passive.clear_mind.level_3.primary
+  - level: 3
+    modifier:
+      statId: base.stat.attack_speed
+      operation: 2
+      value: 0.03
+      priority: 110
+      stackingGroup: qinglan.stack.passive.clear_mind.level_3.secondary
+  - level: 4
+    modifier:
+      statId: base.stat.cooldown
+      operation: 2
+      value: -0.03
+      priority: 100
+      stackingGroup: qinglan.stack.passive.clear_mind.level_4.primary
+  - level: 4
+    modifier:
+      statId: base.stat.attack_speed
+      operation: 2
+      value: 0.03
+      priority: 110
+      stackingGroup: qinglan.stack.passive.clear_mind.level_4.secondary
+  - level: 5
+    modifier:
+      statId: base.stat.cooldown
+      operation: 2
+      value: -0.03
+      priority: 100
+      stackingGroup: qinglan.stack.passive.clear_mind.level_5.primary
+  - level: 5
+    modifier:
+      statId: base.stat.attack_speed
+      operation: 2
+      value: 0.03
+      priority: 110
+      stackingGroup: qinglan.stack.passive.clear_mind.level_5.secondary

@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0095a8991d6fc4cb5ceafd762b1862, type: 3}
+  m_Name: QinglanFlowingShadowSword
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.SkillAuthoring
+  contentId: qinglan.skill.evolved.qinglan_flowing_shadow_sword
+  localizedNameKey: content.qinglan.skill.evolved.qinglan_flowing_shadow_sword.name
+  localizedDescriptionKey: content.qinglan.skill.evolved.qinglan_flowing_shadow_sword.description
+  tags:
+  - content.placeholder
+  - skill.player
+  - skill.evolved
+  - weapon.sword
+  - mechanic.trail
+  - mechanic.return
+  cooldownSeconds: 1.35
+  resourceCost: 0
+  modularRuntimeEnabled: 1
+  trigger:
+    moduleId: base.trigger.timer
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  condition:
+    moduleId: base.condition.always
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  targeting:
+    moduleId: base.targeting.self
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  delivery:
+    moduleId: base.delivery.instant
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  effects:
+  - moduleId: base.effect.spawn_secondary_skill
+    value0: 0
+    value1: 0
+    value2: 0
+    int0: 0
+    int1: 0
+    referenceId0: qinglan.skill.weapon.yufeng_sword
+    referenceId1: 
+    tag0: 
+    statId0: 
+    flags: 0
+  - moduleId: base.effect.spawn_secondary_skill
+    value0: 0
+    value1: 0
+    value2: 0
+    int0: 0
+    int1: 0
+    referenceId0: qinglan.skill.hidden.flowing_shadow_wind_trail
+    referenceId1: 
+    tag0: 
+    statId0: 
+    flags: 0
+  levelPatches: []

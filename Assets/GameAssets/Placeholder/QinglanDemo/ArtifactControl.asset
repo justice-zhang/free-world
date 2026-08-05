@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcae3453841949b08eae0d2c975b0a4e, type: 3}
+  m_Name: ArtifactControl
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.PassiveAuthoring
+  contentId: qinglan.passive.artifact_control
+  localizedNameKey: content.qinglan.passive.artifact_control.name
+  localizedDescriptionKey: content.qinglan.passive.artifact_control.description
+  tags:
+  - content.placeholder
+  - passive.player
+  - build.mechanism
+  - build.projectile
+  maximumLevel: 5
+  levelModifiers:
+  - level: 1
+    modifier:
+      statId: base.stat.projectile_speed
+      operation: 2
+      value: 0.06
+      priority: 100
+      stackingGroup: qinglan.stack.passive.artifact_control.level_1.speed
+  - level: 2
+    modifier:
+      statId: base.stat.pierce
+      operation: 1
+      value: 1
+      priority: 100
+      stackingGroup: qinglan.stack.passive.artifact_control.level_2.pierce
+  - level: 3
+    modifier:
+      statId: base.stat.projectile_speed
+      operation: 2
+      value: 0.08
+      priority: 100
+      stackingGroup: qinglan.stack.passive.artifact_control.level_3.speed
+  - level: 4
+    modifier:
+      statId: base.stat.projectile_count
+      operation: 1
+      value: 1
+      priority: 100
+      stackingGroup: qinglan.stack.passive.artifact_control.level_4.count
+  - level: 5
+    modifier:
+      statId: base.stat.pierce
+      operation: 1
+      value: 1
+      priority: 100
+      stackingGroup: qinglan.stack.passive.artifact_control.level_5.pierce

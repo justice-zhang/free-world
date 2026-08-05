@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2e4bbcd46eb42c6887cd19500fa77c3, type: 3}
+  m_Name: EvolutionEarthVeinSpringBranch
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.EvolutionAuthoring
+  contentId: qinglan.evolution.earth_vein_spring_branch
+  localizedNameKey: content.qinglan.evolution.earth_vein_spring_branch.name
+  localizedDescriptionKey: content.qinglan.evolution.earth_vein_spring_branch.description
+  tags:
+  - content.placeholder
+  - build.evolution
+  - reward.manifestation
+  requiredSkill: {fileID: 11400000, guid: 335bc99de95a8ff4f8529371dda255a6, type: 2}
+  requiredSkillLevel: 8
+  requiredPassives:
+  - {fileID: 11400000, guid: 49a4195ecc6c27f47bce9b6015c36c2d, type: 2}
+  additionalConditions: []
+  resultSkill: {fileID: 11400000, guid: e02ebc7b203f56a40a64aa7b84677751, type: 2}
+  consumePolicy: 1

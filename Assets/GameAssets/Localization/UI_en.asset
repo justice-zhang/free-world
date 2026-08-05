@@ -736,6 +736,326 @@ MonoBehaviour:
     m_Localized: Propagates growth to a bounded number of poisoned neighbors.
     m_Metadata:
       m_Items: []
+  - m_Id: 3671050799685632
+    m_Localized: Treading Wind
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178048
+    m_Localized: Increases movement speed and supports the moving sword path.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178049
+    m_Localized: Clear Mind
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178050
+    m_Localized: Reduces cooldowns and improves attack speed.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178051
+    m_Localized: Artifact Control
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178052
+    m_Localized: Improves projectile speed, pierce, and bounded projectile count.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178053
+    m_Localized: Domain Expansion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178054
+    m_Localized: Increases range and duration for area control.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178055
+    m_Localized: Long Breath
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178056
+    m_Localized: Improves health, armor, and regeneration in measured steps.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178057
+    m_Localized: Spirit Gathering
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178058
+    m_Localized: Extends effects and expands pickup reach.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178059
+    m_Localized: Flowing Shadow Wind Trail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178060
+    m_Localized: Leaves a short-lived bounded wind trail at the wielder's position.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178061
+    m_Localized: Qinglan Flowing Shadow Sword
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178062
+    m_Localized: Releases the returning sword while leaving bounded wind trails.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178063
+    m_Localized: Taiyi Spirit-Sealing Array
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178064
+    m_Localized: Forms a sealing array that marks and atomically detonates targets.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178065
+    m_Localized: Chilu Hundred-Craft Wheel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178066
+    m_Localized: Launches additional returning wheels with bounded return bursts.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178067
+    m_Localized: Mirror-Sea Tide Wheel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178068
+    m_Localized: Alternates deterministic rising and falling tide control.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178069
+    m_Localized: Mountain Boundary Seal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178070
+    m_Localized: Damage taken creates a cooldown-limited shield and countershock.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178071
+    m_Localized: Earth-Vein Spring Branch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178072
+    m_Localized: Kills grow connected fields that propagate only one bounded generation.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178073
+    m_Localized: Moving Sword Path
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178074
+    m_Localized: Treading Wind and the wind sword improve projectile speed together.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178075
+    m_Localized: Talisman Detonation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178076
+    m_Localized: Clear Mind lets talisman hits add one additional legal mark.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178077
+    m_Localized: Living Garden
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051026178078
+    m_Localized: Spirit gathering extends the lifetime of planted fields.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372352
+    m_Localized: Wandering Wind Sword Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372353
+    m_Localized: Acquire or improve Wandering Wind Sword.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372354
+    m_Localized: Warding Yellow Talisman Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372355
+    m_Localized: Acquire or improve Warding Yellow Talisman.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372356
+    m_Localized: Lihuo Wheel Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372357
+    m_Localized: Acquire or improve Lihuo Wheel.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372358
+    m_Localized: Tide-Listening Orb Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372359
+    m_Localized: Acquire or improve Tide-Listening Orb.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372360
+    m_Localized: Mountain-Shaking Seal Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372361
+    m_Localized: Acquire or improve Mountain-Shaking Seal.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372362
+    m_Localized: Spirit Vine Seed Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372363
+    m_Localized: Acquire or improve Spirit Vine Seed.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372364
+    m_Localized: Treading Wind Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372365
+    m_Localized: Acquire or improve Treading Wind.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372366
+    m_Localized: Clear Mind Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372367
+    m_Localized: Acquire or improve Clear Mind.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372368
+    m_Localized: Artifact Control Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372369
+    m_Localized: Acquire or improve Artifact Control.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372370
+    m_Localized: Domain Expansion Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372371
+    m_Localized: Acquire or improve Domain Expansion.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372372
+    m_Localized: Long Breath Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372373
+    m_Localized: Acquire or improve Long Breath.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372374
+    m_Localized: Spirit Gathering Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372375
+    m_Localized: Acquire or improve Spirit Gathering.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372376
+    m_Localized: Qinglan Flowing Shadow Sword Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372377
+    m_Localized: Acquire or improve Qinglan Flowing Shadow Sword.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372378
+    m_Localized: Taiyi Spirit-Sealing Array Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372379
+    m_Localized: Acquire or improve Taiyi Spirit-Sealing Array.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372380
+    m_Localized: Chilu Hundred-Craft Wheel Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372381
+    m_Localized: Acquire or improve Chilu Hundred-Craft Wheel.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372382
+    m_Localized: Mirror-Sea Tide Wheel Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372383
+    m_Localized: Acquire or improve Mirror-Sea Tide Wheel.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372384
+    m_Localized: Mountain Boundary Seal Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372385
+    m_Localized: Acquire or improve Mountain Boundary Seal.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372386
+    m_Localized: Earth-Vein Spring Branch Offer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3671051030372387
+    m_Localized: Acquire or improve Earth-Vein Spring Branch.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195487498240
+    m_Localized: Qinglan Flowing Shadow Sword Manifestation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076096
+    m_Localized: Transforms a mastered wind sword with Treading Wind.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076097
+    m_Localized: Taiyi Spirit-Sealing Array Manifestation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076098
+    m_Localized: Transforms a mastered talisman with Clear Mind.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076099
+    m_Localized: Chilu Hundred-Craft Wheel Manifestation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076100
+    m_Localized: Transforms a mastered Lihuo wheel with Artifact Control.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076101
+    m_Localized: Mirror-Sea Tide Wheel Manifestation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076102
+    m_Localized: Transforms a mastered tide orb with Domain Expansion.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076103
+    m_Localized: Mountain Boundary Seal Manifestation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076104
+    m_Localized: Transforms a mastered mountain seal with Long Breath.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076105
+    m_Localized: Earth-Vein Spring Branch Manifestation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3674195651076106
+    m_Localized: Transforms a mastered vine seed with Spirit Gathering.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

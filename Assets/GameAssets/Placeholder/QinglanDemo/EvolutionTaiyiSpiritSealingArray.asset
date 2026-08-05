@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2e4bbcd46eb42c6887cd19500fa77c3, type: 3}
+  m_Name: EvolutionTaiyiSpiritSealingArray
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.EvolutionAuthoring
+  contentId: qinglan.evolution.taiyi_spirit_sealing_array
+  localizedNameKey: content.qinglan.evolution.taiyi_spirit_sealing_array.name
+  localizedDescriptionKey: content.qinglan.evolution.taiyi_spirit_sealing_array.description
+  tags:
+  - content.placeholder
+  - build.evolution
+  - reward.manifestation
+  requiredSkill: {fileID: 11400000, guid: 8ec7bdfaeb7bde545970aece9dc56493, type: 2}
+  requiredSkillLevel: 8
+  requiredPassives:
+  - {fileID: 11400000, guid: 53b3922e6c2fd8f418b5ea1da052c322, type: 2}
+  additionalConditions: []
+  resultSkill: {fileID: 11400000, guid: 8552991742f1f254b95a427fa1764a45, type: 2}
+  consumePolicy: 1

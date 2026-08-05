@@ -746,3 +746,40 @@ Encounter 正式内容。
 
 只进入 G1.4：实现 M05 六心诀、六显化、Offer/资格/候选和三条目标构筑组合；复用 G1.3 已存在的
 隐藏技能，不提前创建 G1.5 敌人或 G2 地图/Boss 内容。
+
+## Qinglan Demo G1.4：六心诀、Offer、Synergy 与显化
+
+- 状态：`COMPLETE`
+- 日期：2026-08-05
+- 分支：`codex/qinglan-demo-implementation`
+- 内容包：`qinglan.pack.demo` 0.3.0 / Content Schema 6
+- 结果报告：`Docs/Reports/2026-08-05-g1-4-progression-slice.md`
+
+### 实施结果
+
+| 范围 | 结果 |
+|---|---|
+| Passive | 六个 5 级心诀；每项 Modifier 显式 Stat/Operation/Value/Priority/唯一 StackingGroup |
+| Offer | 12 个普通 Skill/Passive Offer；6 个锁定 Evolution Offer 不进入 Level-up 随机流 |
+| Synergy | 移动御剑、符阵爆发、草木铺场三条通用 OwnsContent＋Output 组合 |
+| Evolution | 六组武器 L8＋心诀 L1 资格、原子 Transform、保留心诀、结果从 L1 开始 |
+| Preview | 六显化 6 秒/20 目标固定 Seed 精确 Golden、0 B；地脉传播最终 480 Hits 有界 |
+| Content | 68 个 Placeholder 定义、双语 Key、实际 Baked Catalog 与固定 Content Hash |
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| 编译 | PASS | `dotnet build free-world.slnx`，0 error；Unity 脚本编译成功 |
+| Focused EditMode | PASS | `TestResults/QinglanDemo/G1.4/editmode-focused.xml`，6/6 |
+| 全量 EditMode | PASS | `TestResults/QinglanDemo/G1.4/editmode-final.xml`，222/222 |
+| PlayMode 回归 | PASS | `TestResults/QinglanDemo/G1.4/playmode.xml`，9/9 |
+| Project Validation | PASS | `validation.log` 含 `[Project Validation] PASS` |
+| API Freeze | PASS | 五程序集签名数与 SHA-256 均和 G1.3 一致 |
+| 性能短测 | PASS | 900 Tick，p99 9.2065 ms，热路径 0 B、0 GC、确定性 PASS |
+| Windows Development Build | NOT RUN | 路线规定 G1.7 执行完整 Placeholder Pack Build |
+
+### 下一步
+
+只进入 G1.5：实现 M07 六敌人、四精英词缀、行为/攻击技能与固定 Seed Headless 验证；不提前创建
+G1.6 Encounter、G1.7 Reward Choice 或 G2 地图/Boss 内容。
