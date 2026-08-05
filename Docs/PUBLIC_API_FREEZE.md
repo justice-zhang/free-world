@@ -8,8 +8,8 @@ M10 首次冻结、G1.1 按 ADR 0013—0015 更新以下程序集的公开类型
 |---|---:|---|
 | `Game.Core` | 168 | `25766747b7014e0386506567e5e3c35f78b6dc5d00d850b00c35d28eb8d7e176` |
 | `Game.Content.Runtime` | 940 | `cd72d779cf1ae53f0875d06140706e194081588b7a0429efd4e490ae72e35b00` |
-| `Game.Simulation` | 1160 | `a6555342a937f674d827f83eea0b0100fe2feeafff92f0e53b58e9fd7b39181f` |
-| `Game.Application` | 346 | `bea7fe9998f2ae9f872a505e9f36cee00a9ddfd26e5af8e105916ea4b3d46197` |
+| `Game.Simulation` | 1192 | `57e2944c998499d9a48e9d2b7881480ede672ff5dfb89f5a4fbc477e57b87875` |
+| `Game.Application` | 355 | `f57fe00c2c1ead974c9b900e5396661c42c7900641534a87f45f8ce6d5b4f8a6` |
 | `Game.Platform.Abstractions` | 73 | `8eb5f2ccca0f5845a55d90c9f00fb42eae59cc82d81e98369995e84428a51738` |
 
 ## 变更协议
@@ -84,3 +84,17 @@ F EncounterPhaseDto.elites
 Fixture Hash 不变。旧 Hash 下 Project Validation 只报告 `Game.Content.Runtime` 从
 923/`ebef43…` 漂移到 940/`cd72d7…`；Core、Simulation、Application 与 Platform 签名文件逐字节不变。
 规范签名、旧 Hash 失败日志与最终捕获保存在 `TestResults/QinglanDemo/G1.6/`。
+
+## Qinglan Demo G1.7 批准追加
+
+CR-2026-007/008 与 ADR 0018 完成 G1.1 Reward 骨架的受控 Evolution 选择。规范 diff 为
+Simulation 32 条、Application 9 条追加，零删除；Core、Content Runtime、Platform 逐字节不变。
+
+Simulation 追加 `RewardChoiceRuntime`、`RewardChoiceSnapshot`、Request/Resolution 状态枚举、
+请求/选择方法、只读事务/候选/fallback/随机诊断，以及 `ProgressionRuntime.RewardChoices`。Application
+追加带 RunId/Sequence 的 RewardChoice 构造/属性、`GameState.RewardChoice`、状态机入口、
+`RunSession.CurrentRewardChoice/SelectReward/SelectRewardAt`。
+
+旧 Hash 下 Project Validation 同时报告 Simulation `a65553…`→`57e294…` 与 Application
+`bea7fe…`→`f57fe0…`；没有旧构造、属性、方法或枚举数值删除/替换。规范签名和失败日志保存在
+`TestResults/QinglanDemo/G1.7/`。

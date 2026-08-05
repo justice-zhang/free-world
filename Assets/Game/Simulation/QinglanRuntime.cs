@@ -415,9 +415,19 @@ namespace Game.Simulation
 
         public int CommittedCount => count;
 
+        internal bool IsCommitted(in RewardTransactionId transaction)
+        {
+            for (var index = 0; index < count; index++)
+                if (committed[index].Equals(transaction)) return true;
+            return false;
+        }
+
+        internal bool CanCommit(in RewardTransactionId transaction) =>
+            !IsCommitted(transaction) && count < committed.Length;
+
         public bool TryCommit(in RewardTransactionId transaction)
         {
-            for (var index = 0; index < count; index++) if (committed[index].Equals(transaction)) return false;
+            if (IsCommitted(transaction)) return false;
             if (count >= committed.Length) return false;
             committed[count++] = transaction;
             return true;

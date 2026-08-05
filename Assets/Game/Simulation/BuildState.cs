@@ -152,6 +152,16 @@ namespace Game.Simulation
             return IsEvolutionEligible(offer.Source.TargetContentId);
         }
 
+        internal bool CanAcceptControlledEvolutionOffer(CompiledUpgradeOfferDefinition offer)
+        {
+            if (offer == null || offer.TargetKind != UpgradeTargetKind.Evolution ||
+                !IsEvolutionEligible(offer.Source.TargetContentId))
+                return false;
+            for (var index = 0; index < offer.Source.MutuallyExclusiveIds.Count; index++)
+                if (OwnsContent(offer.Source.MutuallyExclusiveIds[index])) return false;
+            return EvaluateAll(offer.Prerequisites);
+        }
+
         public bool ApplyOffer(
             CompiledUpgradeOfferDefinition offer,
             InventoryReplacementPolicy replacementPolicy = InventoryReplacementPolicy.Reject,

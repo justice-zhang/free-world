@@ -7,7 +7,7 @@
 | R-001 | 标题至再次出发闭环 | M01、M11、M14 | PlayMode/Player | DESIGN |
 | R-002 | 陆青野与真实位移乘风 | M02 | EditMode/PlayMode | G1.2 EditMode PASS；G2.6 PlayMode PENDING |
 | R-003 | 六把武器与等级成长 | M04 | Preview/EditMode | G1.3 主武器、G1.4 显化 Preview/EditMode PASS；G2 实机 PENDING |
-| R-004 | 六心诀与六显化 | M05 | Validation/Build Matrix | G1.4 数据/资格/转换 PASS；CR-04 Reward Context 由 G1.7 PENDING |
+| R-004 | 六心诀与六显化 | M05 | Validation/Build Matrix | G1.4 数据/资格/转换 PASS；G1.7 Reward Choice 适配器/暂停/回退/重放 PASS；G2.3 宝匣内容 PENDING |
 | R-005 | 三种目标构筑 | M04、M05、M16 | Seed/人工矩阵 | G1.4 三 Synergy/固定 Seed 自动矩阵 PASS；G3.4 平衡 PENDING |
 | R-006 | 六即时灵物与六奇物 | M06 | EditMode/PlayMode | CR-05 |
 | R-007 | 六敌人与四词缀 | M07 | Headless/Validation | G1.5 行为/组合 PASS；G1.6 两次固定词缀精英与 21,600 Tick PASS |
@@ -67,5 +67,6 @@ G1.3 已完成 R-003 的六把 8 级主武器、十个隐藏技能、固定 Seed
 自动化部分。G1.4 已完成六个 5 级心诀、18 Offer、三 Synergy、六条 Evolution 资格/原子转换、六显化
 固定 Seed Golden 与三条目标构筑自动矩阵。G1.5/G1.6 已完成 R-007 与 R-008 的纯内容/模拟部分：六敌人、
 四词缀、九段时间轴、两个固定精英、停止边界和双实例 21,600 Tick；Boss 规则与实际地图 PlayMode 仍
-由 G2.2/G2.6/G2.8 关闭。显化宝匣独立 Reward Choice Context 仍由 G1.7 实现；WASD/摇杆、HUD 与音效
-专项 PlayMode 仍由 G2.6 关闭。其余 R/DOD 只有后续工作包的真实测试/构建证据可以改为 PASS。
+由 G2.2/G2.6/G2.8 关闭。G1.7 已完成独立 Reward Choice 的资格、随机隔离、暂停、fallback、幂等提交和
+Application 投影，并通过完整 Placeholder Pack 与 Development Build；实际显化宝匣/精英消费者和 UI
+仍由 G2.2/G2.3/G2.6 关闭。其余 R/DOD 只有后续工作包的真实测试/构建证据可以改为 PASS。

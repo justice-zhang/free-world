@@ -324,3 +324,18 @@ ADR 0013—0015 和 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md` 批准下列实
   Peak 16、0 InvalidHandle，Combined Checksum `e86df634f50d29e8`。
 - Boss 两次一次性与真实地图出生公平为 `NOT RUN`：分别由 G2.2 和 G2.6/G2.8 首次提供可执行内容。
 - Windows Development Build 为 `NOT RUN`：按路线固定由 G1.7 在完整 Placeholder Pack 上执行。
+
+## 17. Qinglan Demo G1.7 Pack / Reward Choice 证据
+
+- Focused EditMode 最终 4/4：完整 Pack/双语/Addressables、锁定 Evolution 候选与 Reward RNG 隔离、
+  空池 fallback/重放、RunSession 暂停/恢复与普通 Level-up 回归。
+- 全量 EditMode 239/239、PlayMode 9/9、Project Validation、API Freeze 均 PASS。旧 Freeze Hash 下
+  Validation 按预期只报告 Simulation/Application 漂移；签名对比为追加 32/9、删除 0。
+- `qinglan.pack.demo` 0.5.0 / Schema 6 / 94 项的 Content Hash 固定为
+  `798dbb302dda57b9f0158e83010ee89392ffdc291cc629715ba357b691ebd5ad`。
+- 两次 Pack CLI 各构建 7 个 Pack 且 PASS；Qinglan `catalog.json` 字节相同，SHA-256 均为
+  `9d3979964418cecfda875e5e2dba9d1f067f4c3daafeebe0f7b63db71de200cb`。
+- Windows x64 Development Build PASS；Manifest 证据为 EditMode/PlayMode/Validation/Soak 全 pass，
+  Qinglan Pack includedInPlayer、Placeholder=true、未批准资产 0。Player 冒烟进入 MainMenu，无错误标记。
+- Boss/精英实际消费者、宝匣/fallback RewardDefinition、选择 UI 为 `NOT RUN`，分别由 G2.2/G2.3/G2.6
+  关闭；本阶段不能用 Adapter 测试替代完整奖励内容 PlayMode。

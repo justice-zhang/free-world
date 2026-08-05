@@ -79,6 +79,7 @@ namespace Game.Simulation
         private int offersSkipped;
         private ulong decisionChecksum = 1469598103934665603UL;
         private readonly ActorStore actors;
+        private bool levelUpPauseRequested;
 
         internal ProgressionRuntime(
             BuildRuntimeCatalog catalog,
@@ -90,7 +91,8 @@ namespace Game.Simulation
             int skillSlots,
             int passiveSlots,
             ContentTag[] mapTags,
-            int initialCapacity)
+            int initialCapacity,
+            RewardRuntime rewardRuntime)
         {
             if (catalog == null) throw new ArgumentNullException(nameof(catalog));
             if (initialCapacity <= 0) throw new ArgumentOutOfRangeException(nameof(initialCapacity));
@@ -98,6 +100,12 @@ namespace Game.Simulation
             this.actors = actors;
             Build = new BuildState(catalog, actors, skills, Player, skillSlots, passiveSlots, mapTags);
             Offers = new OfferGenerator(catalog, runSeed, initialCapacity);
+            RewardChoices = new RewardChoiceRuntime(
+                catalog,
+                Build,
+                rewardRuntime ?? new RewardRuntime(initialCapacity),
+                runSeed,
+                initialCapacity);
             Experience = new ExperienceProgression(curve);
             pickups = new ExperiencePickupRecord[initialCapacity];
             pendingPickups = new PendingExperiencePickup[initialCapacity];
@@ -106,10 +114,11 @@ namespace Game.Simulation
         public SpatialEntity Player { get; }
         public BuildState Build { get; }
         public OfferGenerator Offers { get; }
+        public RewardChoiceRuntime RewardChoices { get; }
         public ExperienceProgression Experience { get; }
         public UpgradeOfferSet CurrentOffers { get; private set; }
         public bool HasPendingChoice => CurrentOffers != null;
-        public bool PauseRequested { get; private set; }
+        public bool PauseRequested => levelUpPauseRequested || RewardChoices.PauseRequested;
         public float PickupAttractionSpeedUnitsPerSecond => PickupAttractionSpeed;
 
         public RunStatisticsSnapshot Statistics => new RunStatisticsSnapshot(
@@ -241,7 +250,7 @@ namespace Game.Simulation
                 CurrentOffers = null;
                 return;
             }
-            PauseRequested = true;
+            levelUpPauseRequested = true;
         }
 
         internal void ApplyPendingPickups(SimulationWorld world)
@@ -312,7 +321,7 @@ namespace Game.Simulation
         private void ClearChoice()
         {
             CurrentOffers = null;
-            PauseRequested = false;
+            levelUpPauseRequested = false;
         }
 
         private void MixDecision(ContentId id, OfferHistoryAction action)

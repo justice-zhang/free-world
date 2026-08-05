@@ -115,3 +115,15 @@ Offer 随机流必须独立于战斗、Encounter 和地图事件；历史保存�
 - 山河镇界印通过 `OnDamageTaken`、冷却、护盾辅助技能和范围反震组合成短时安全窗口；不提供无敌。
 - 固定 Seed `0x47313450524F4752` 的六显化 6 秒/20 目标 Preview 已固化 DPS/Hits/Triggers Golden，
   固定 Tick 托管分配为 0 B。
+
+## 10. G1.7 受控奖励选择冻结（2026-08-06）
+
+- `RewardChoiceRuntime` 只读取锁定、合格的 Evolution Offer；普通 Level-up Offer 的
+  Reroll/Banish/Skip、随机流和历史保持不变。
+- Reward 独立随机流按 Weight 不放回选择最多三项；相同 Run Seed 和 BuildState 的候选顺序稳定，
+  普通 Offer 调用次数不会改变结果。
+- 无合格项时以同一 `RewardTransactionId` 提交稳定 fallback，不暂停且不消耗 Reward RNG；实际执行
+  fallback 对应的 Reward 操作留给 M06/G2.3。
+- `BuildState` 在选择提交时重新验证资格、互斥、前置与容量；非法或过期选择不写 Build 和事务。
+- `RunSession` 使用独立 `GameState.RewardChoice` 暂停/恢复，完成后普通 Level-up 流仍可继续。
+- 实际宝匣 Definition、Boss/精英消费者和选择卡牌为 `NOT RUN`，不得把 G1.7 适配器描述为完整发奖闭环。

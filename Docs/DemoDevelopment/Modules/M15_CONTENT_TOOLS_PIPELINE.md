@@ -86,3 +86,17 @@ Boss/Build Matrix、Release Gate。CLI 缺输出/标记即 FAIL，不能凭进�
 | Release | Placeholder/来源/Third Party/Hash 任一失败都阻断 |
 
 退出条件：内容生产不依赖手工改 JSON/YAML，不存在第二套公式，完整 Demo Pack 可由 CLI 重建和审计。
+
+## 9. G1.7 完整 Placeholder Pack 冻结（2026-08-06）
+
+- `QinglanG17PackSetup` 以非交互入口重 Bake `qinglan.pack.demo`，并验证配置前后 94 项与 Content Hash
+  不变。
+- 94 个 Definition 使用稳定 `qinglan/demo/content/<id path>` 地址；Baked Catalog 使用
+  `packs/qinglan.demo/catalog`；全部标记 Pack、Placeholder、Development-only。
+- 每个 Definition 的名称与描述在 `zh-Hans`/`en` 均非空；G3.3 仍必须导入正式翻译、字体并执行
+  Pseudo/裁切/缺字门禁。
+- 两次 CLI Pack Build 的 `catalog.json` 字节一致，SHA-256 均为
+  `9d3979964418cecfda875e5e2dba9d1f067f4c3daafeebe0f7b63db71de200cb`。
+- Windows x64 Development Build 实际成功，Manifest 把 Qinglan Pack 标记为 included/placeholder，
+  `unapprovedAssetCount=0`；Release 仍会被 Placeholder/Development 标签阻断，这是预期行为。
+- 完整实施与验证顺序见 `../15_G1_7_PACK_REWARD_GATE.md`。

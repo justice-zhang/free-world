@@ -177,3 +177,16 @@ GC 0/0/0，Checksum `b455f50ce958d212`。阈值未放宽；首轮与复测 JSON 
 
 该 Null Device 渲染探针不能证明正式 GPU 表现。G3.5 仍必须在正式内容和目标硬件运行 54,000 Tick、
 GPU/1% Low 与内存趋势；本节不能替代该门禁。
+
+## 12. Qinglan G1.7 Reward Choice / Pack 短测
+
+Reward Choice 只在外部奖励请求时扫描 Offer Catalog、分配只读候选投影和写低频历史，不进入无请求的
+固定 Tick 热路径。同一时刻最多一个选择；历史初始容量由 Run 装配提供，正常 Demo 路径不应增长。
+
+G1.7 以 600 Enemy、1,200 Projectile、2,000 Pickup、100 VFX、900 测量 Tick和 300 Tick 预热重跑
+真实内容短测，结果 `PASS`：Tick p99 `4.2112 ms`、Render p99 `0.7268 ms`、固定 Tick 分配 0 B、
+GC 0/0/0、无效句柄/Proc 截断/VFX 丢弃均为 0，Checksum `b455f50ce958d212`。该结果与 G1.6
+Checksum 一致，未出现由低频适配器导致的确定性漂移。
+
+候选请求本身是低频路径，G1.7 没有把其临时数组分配宣称为 0 B 热路径。目标硬件 GPU、完整地图、
+Boss、拾取/奇物和选择 UI 仍未进入本短测，必须由 G2.8/G3.5 的真实可玩切片与正式内容证据关闭。

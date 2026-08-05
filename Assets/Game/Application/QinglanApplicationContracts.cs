@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Game.Core;
 
 namespace Game.Application
@@ -21,10 +22,46 @@ namespace Game.Application
             FallbackId = fallbackId;
         }
 
+        public RewardChoice(
+            ulong runId,
+            ContentId sourceId,
+            int sequence,
+            ContentId[] candidateIds,
+            ContentId fallbackId = default)
+            : this(CreateProjectionId(runId, sourceId, sequence), sourceId, candidateIds, fallbackId)
+        {
+            RunId = runId;
+            Sequence = sequence;
+            HasReplayKey = true;
+        }
+
         public ContentId TransactionId { get; }
         public ContentId SourceId { get; }
         public IReadOnlyList<ContentId> CandidateIds => candidatesView;
         public ContentId FallbackId { get; }
+        public ulong RunId { get; }
+        public int Sequence { get; }
+        public bool HasReplayKey { get; }
+
+        private static ContentId CreateProjectionId(ulong runId, ContentId sourceId, int sequence)
+        {
+            if (!sourceId.IsValid) throw new ArgumentException("Source ID must be valid.", nameof(sourceId));
+            if (sequence < 0) throw new ArgumentOutOfRangeException(nameof(sequence));
+            unchecked
+            {
+                var hash = 1469598103934665603UL;
+                var text = sourceId.Value;
+                for (var index = 0; index < text.Length; index++)
+                {
+                    hash ^= text[index];
+                    hash *= 1099511628211UL;
+                }
+                return ContentId.Create(
+                    "reward.transaction." + runId.ToString("x16", CultureInfo.InvariantCulture) + "." +
+                    hash.ToString("x16", CultureInfo.InvariantCulture) + "." +
+                    sequence.ToString(CultureInfo.InvariantCulture)).Value;
+            }
+        }
 
         private static ContentId[] CopyValid(ContentId[] source, string parameter)
         {

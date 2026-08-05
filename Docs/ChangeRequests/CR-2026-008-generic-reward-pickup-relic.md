@@ -68,3 +68,11 @@ Effect 适合战斗效果，Progression 适合升级，但缺少通用奖励所�
 - 内容负责人：依据已提交 V2.0 与 G0.1 数量/体验基线
 - 制作人：依据用户当前连续 Demo 开发指令
 - 结论：Accepted / Approved for G0.3 design；尚未实现
+
+## 10. G1.7 分期实施状态
+
+- 复用既有 `RewardRuntime` 的事务容量、提交和重放检查作为受控 Evolution Choice 的幂等所有者：
+  `IMPLEMENTED`。
+- Reward 独立随机流、空候选 fallback ID 记录和 Application 暂停/投影：`IMPLEMENTED`。
+- Reward/Pickup/Relic Definition 与操作码、三类实际来源、fallback 操作执行、永久输出和拾取热路径：
+  `NOT RUN`，仍由 G2.3/G2.5 实现；因此本 CR 的最终验收尚未关闭。

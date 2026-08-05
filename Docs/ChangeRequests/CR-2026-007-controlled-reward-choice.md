@@ -5,7 +5,7 @@
 - 提交日期：2026-08-04
 - 提交人：Codex
 - 目标里程碑：G0.3、G1.7、G2.4
-- 关联 ADR：ADR 0013、ADR 0014；对应 Demo CR-04
+- 关联 ADR：ADR 0013、ADR 0014、ADR 0018；对应 Demo CR-04
 
 ## 1. 变更摘要
 
@@ -68,3 +68,11 @@ Synergy/Evolution 可描述结果，Progression Offer 可提供候选，但两�
 - 内容负责人：依据已提交 V2.0 与 G0.1 数量/体验基线
 - 制作人：依据用户当前连续 Demo 开发指令
 - 结论：Accepted / Approved for G0.3 design；尚未实现
+
+## 10. G1.7 分期实施状态
+
+- RewardChoiceRuntime、BuildState 资格适配、Reward RNG、fallback、重放去重和 Application 暂停/提交：
+  `IMPLEMENTED`。
+- 普通 Level-up Offer 保持独立，锁定 Evolution Offer 只可由受控上下文提交：`IMPLEMENTED`。
+- Boss 与精英两个实际内容消费者、G2 选择 UI：`NOT RUN`，分别留给 G2.2/G2.3/G2.6；因此本 CR
+  的跨内容最终验收尚未整体关闭。

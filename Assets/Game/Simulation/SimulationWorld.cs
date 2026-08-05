@@ -581,7 +581,8 @@ namespace Game.Simulation
                 skillSlots,
                 passiveSlots,
                 mapTags,
-                Math.Max(16, Actors.Count));
+                Math.Max(16, Actors.Count),
+                Qinglan?.Rewards);
             return Progression;
         }
 

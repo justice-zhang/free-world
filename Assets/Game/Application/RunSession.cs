@@ -52,6 +52,7 @@ namespace Game.Application
     {
         private readonly SimulationWorld world;
         private readonly EntityHandle player;
+        private RewardChoice currentRewardChoice;
 
         public RunSession(
             SimulationWorld simulationWorld,
@@ -71,6 +72,7 @@ namespace Game.Application
         public FixedTickRunner Runner { get; }
         public GameStateMachine StateMachine { get; }
         public UpgradeOfferSet CurrentOffers => world.Progression.CurrentOffers;
+        public RewardChoice CurrentRewardChoice => currentRewardChoice;
         public RenderSnapshot RenderSnapshot => world.RenderSnapshot;
         public SimulationEventBuffer SimulationEvents => world.Events;
         public CombatEventBuffer CombatEvents => world.CombatEvents;
@@ -97,11 +99,17 @@ namespace Game.Application
         public int Advance(double elapsedSeconds)
         {
             if (HasEnded) return 0;
-            if (StateMachine.CurrentState == GameState.LevelUpChoice) return 0;
+            if (StateMachine.CurrentState == GameState.LevelUpChoice ||
+                StateMachine.CurrentState == GameState.RewardChoice) return 0;
             var ticks = Runner.Advance(elapsedSeconds);
             if (!world.Actors.Contains(player))
             {
                 End(RunEndReason.PlayerDefeated);
+            }
+            else if (world.Progression.RewardChoices.HasPendingChoice)
+            {
+                currentRewardChoice = Project(world.Progression.RewardChoices.CurrentChoice);
+                StateMachine.EnterRewardChoice();
             }
             else if (world.Progression.HasPendingChoice)
             {
@@ -175,6 +183,24 @@ namespace Game.Application
                    world.Progression.BanishOffer(offerId);
         }
 
+        public bool SelectReward(ContentId offerId)
+        {
+            if (HasEnded || StateMachine.CurrentState != GameState.RewardChoice ||
+                world.Progression.RewardChoices.Select(offerId) != RewardChoiceResolutionStatus.Committed)
+                return false;
+            currentRewardChoice = null;
+            Runner.Clock.Resume();
+            StateMachine.EnterRun();
+            return true;
+        }
+
+        public bool SelectRewardAt(int index)
+        {
+            var choice = currentRewardChoice;
+            if (choice == null || index < 0 || index >= choice.CandidateIds.Count) return false;
+            return SelectReward(choice.CandidateIds[index]);
+        }
+
         public bool End(RunEndReason reason)
         {
             if (HasEnded) return false;
@@ -199,6 +225,20 @@ namespace Game.Application
             Runner.Clock.Resume();
             StateMachine.EnterRun();
             return true;
+        }
+
+        private static RewardChoice Project(RewardChoiceSnapshot source)
+        {
+            if (source == null) return null;
+            var candidates = new ContentId[source.CandidateCount];
+            for (var index = 0; index < candidates.Length; index++)
+                candidates[index] = source.GetCandidateAt(index);
+            return new RewardChoice(
+                source.Transaction.RunId,
+                source.Transaction.SourceStableId,
+                source.Transaction.Sequence,
+                candidates,
+                source.FallbackId);
         }
     }
 }

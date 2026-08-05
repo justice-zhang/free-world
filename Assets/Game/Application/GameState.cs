@@ -43,6 +43,9 @@ namespace Game.Application
         Settings = 10,
 
         /// <summary>Content startup or run assembly failed.</summary>
-        ContentError = 11
+        ContentError = 11,
+
+        /// <summary>An active run is paused for a controlled reward choice.</summary>
+        RewardChoice = 12
     }
 }

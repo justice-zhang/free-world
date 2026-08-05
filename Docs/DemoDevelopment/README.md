@@ -56,6 +56,7 @@ G3 发布候选
 | [12_G1_4_PROGRESSION_SLICE.md](12_G1_4_PROGRESSION_SLICE.md) | G1.4 六心诀、18 Offer、三 Synergy、六显化资格与转换实施切片 |
 | [13_G1_5_ENEMY_ELITE_SLICE.md](13_G1_5_ENEMY_ELITE_SLICE.md) | G1.5 六敌人、四精英词缀、友军目标与一代分裂实施切片 |
 | [14_G1_6_ENCOUNTER_SLICE.md](14_G1_6_ENCOUNTER_SLICE.md) | G1.6 九段十二分钟时间轴、固定精英与停止生成实施切片 |
+| [15_G1_7_PACK_REWARD_GATE.md](15_G1_7_PACK_REWARD_GATE.md) | G1.7 受控显化选择、完整 Placeholder Pack 与 Development Build 门禁 |
 
 ## 4. 模块分支
 

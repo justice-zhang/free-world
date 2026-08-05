@@ -60,6 +60,12 @@ namespace Game.Application
             CurrentState = GameState.LevelUpChoice;
         }
 
+        /// <summary>Enters the paused controlled-reward command state.</summary>
+        public void EnterRewardChoice()
+        {
+            CurrentState = GameState.RewardChoice;
+        }
+
         /// <summary>Enters the immutable run-result state.</summary>
         public void EnterRunResult()
         {

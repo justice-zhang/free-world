@@ -862,3 +862,42 @@ G1.6 Encounter、G1.7 Reward Choice 或 G2 地图/Boss 内容。
 
 只进入 G1.7：完成显化宝匣 Reward Choice Context、完整 Pack Bake/双语 Placeholder 验证与 Windows x64
 Development Build；不提前创建 G2 地图目标、Boss、拾取/奇物或正式资产。
+
+## Qinglan Demo G1.7：受控显化奖励与完整 Pack 门禁
+
+- 状态：`COMPLETE`
+- 日期：2026-08-06
+- 分支：`codex/qinglan-demo-implementation`
+- 内容包：`qinglan.pack.demo` 0.5.0 / Content Schema 6 / 94 定义
+- CR / ADR：CR-2026-007/008 / ADR 0018
+- 结果报告：`Docs/Reports/2026-08-06-g1-7-pack-reward-gate.md`
+
+### 实施结果
+
+| 范围 | 结果 |
+|---|---|
+| Reward Choice | 锁定 Evolution 资格、独立 RNG、1—3 候选、空池 fallback、重放拒绝 |
+| Application | 独立 RewardChoice 状态、只读投影、Tick 边界暂停/提交/恢复、Level-up 回归 |
+| Pack | 94 项稳定 Address/Label、双语非空、Baked Catalog、两次 CLI 字节一致 |
+| API | Simulation 批准追加 32 项至 1192；Application 追加 9 项至 355；无删除 |
+| Build | Windows x64 Development Succeeded；Qinglan Pack included；未批准资产 0 |
+| Boundary | 实际消费者/fallback 操作/Reward 内容延期 G2.2/G2.3；选择 UI 延期 G2.6 |
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| 编译 | PASS | `dotnet build free-world.slnx --nologo`，0 error |
+| Focused EditMode | PASS | `TestResults/QinglanDemo/G1.7/editmode-focused-final.xml`，4/4 |
+| 全量 EditMode | PASS | `TestResults/QinglanDemo/G1.7/editmode.xml`，239/239 |
+| PlayMode 回归 | PASS | `TestResults/QinglanDemo/G1.7/playmode.xml`，9/9 |
+| Project Validation / API Freeze | PASS | 两条 CLI 均有 PASS；Simulation 1192、Application 355 |
+| Pack 双构建 | PASS | 两次 Catalog SHA-256 均 `9d397996...00cb` 且字节一致 |
+| 性能短测 | PASS | 600/1,200/2,000/100；p99 4.2112 ms；0 B；0 GC |
+| Windows Development Build | PASS | `Builds/WindowsDevelopmentG17/AzureSword.exe`；Manifest `Succeeded` |
+| Windows Player 冒烟 | PASS | 8 秒进入 MainMenu，无 Error/Exception/FAIL；随后主动终止 |
+
+### 下一步
+
+只进入 G2.1：实现 M08 五区、三风脉台、三事件、五地标的地图运行时、内容和自动验证；不提前实现
+G2.2 Boss、G2.3 Reward/Pickup/Relic 或 G2.6 UI。

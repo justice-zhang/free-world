@@ -28,7 +28,7 @@ Release 调优。
 | G1.4 | `codex/g1-demo-build-content` | M05 | 六心诀、Offers、Synergy/Evolution 可达性 |
 | G1.5 | `codex/g1-demo-enemies` | M07 | 六敌人、四词缀、行为与攻击技能 |
 | G1.6 | `codex/g1-demo-encounter` | M09 | 12 分钟时间轴、并发上限、固定 Seed |
-| G1.7 | `codex/g1-demo-pack-gate` | M15 | 完整 Pack Bake、双语占位、Development Build |
+| G1.7 | `codex/g1-demo-pack-gate` | M05、M15 | Reward Choice 适配器、完整 Pack Bake、双语占位、Development Build |
 
 G1 只使用程序化 Placeholder。正式角色、Logo、字体、音频和品牌素材不得混入数据切片。
 
