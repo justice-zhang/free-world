@@ -21,6 +21,7 @@ MonoBehaviour:
   - character.lu_qingye
   baseMaxHealth: 120
   moveSpeed: 6
-  startingSkills: []
+  startingSkills:
+  - {fileID: 11400000, guid: e0496c4eeacc6d24ea659e06cb9277a5, type: 2}
   mechanics:
   - {fileID: 11400000, guid: 3d8ee1bbfdbad97498f9e620dce13d6f, type: 2}

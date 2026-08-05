@@ -52,6 +52,7 @@ G3 发布候选
 | [08_G0_3_CONTRACT_FREEZE.md](08_G0_3_CONTRACT_FREEZE.md) | G0.3 获批 Schema 6、公共 API、Pipeline、Profile 3、迁移与测试契约 |
 | [09_G0_4_ASSET_PRODUCTION_PLAN.md](09_G0_4_ASSET_PRODUCTION_PLAN.md) | G0.4 正式资产、音频、字体、本地化、预算与权利生产计划 |
 | [10_G1_2_CHARACTER_COMBAT_SLICE.md](10_G1_2_CHARACTER_COMBAT_SLICE.md) | G1.2 陆青野、乘风、七状态与固定 Seed 实施切片 |
+| [11_G1_3_WEAPON_SKILL_SLICE.md](11_G1_3_WEAPON_SKILL_SLICE.md) | G1.3 六武器、隐藏技能、预览 Golden 与回返/引爆/相位实施切片 |
 
 ## 4. 模块分支
 

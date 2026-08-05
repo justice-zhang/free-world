@@ -6,7 +6,7 @@
 |---|---|---|---|---|
 | R-001 | 标题至再次出发闭环 | M01、M11、M14 | PlayMode/Player | DESIGN |
 | R-002 | 陆青野与真实位移乘风 | M02 | EditMode/PlayMode | G1.2 EditMode PASS；G2.6 PlayMode PENDING |
-| R-003 | 六把武器与等级成长 | M04 | Preview/EditMode | CR-02/03 部分阻塞 |
+| R-003 | 六把武器与等级成长 | M04 | Preview/EditMode | G1.3 Preview/EditMode PASS；显化差异由 G1.4 PENDING |
 | R-004 | 六心诀与六显化 | M05 | Validation/Build Matrix | CR-04 部分阻塞 |
 | R-005 | 三种目标构筑 | M04、M05、M16 | Seed/人工矩阵 | DESIGN |
 | R-006 | 六即时灵物与六奇物 | M06 | EditMode/PlayMode | CR-05 |
@@ -63,5 +63,6 @@
 - [08_G0_3_CONTRACT_FREEZE.md](08_G0_3_CONTRACT_FREEZE.md) 把每个 Formal CR 映射到首次实现包和最低测试。
 
 G1.1 已完成批准通用契约，G1.2 已完成 R-002 的角色、真实位移、受伤掉档和 54,000 Tick 自动化部分；
-WASD/摇杆、HUD 与音效专项 PlayMode 仍由 G2.6 关闭。其余 R/DOD 只有后续工作包的真实测试/构建
-证据可以改为 PASS。
+G1.3 已完成 R-003 的六把 8 级主武器、十个隐藏技能、固定 Seed Preview Golden、ProcDepth 与 Cleanup
+自动化部分。R-003 的显化前后差异由 G1.4 关闭；WASD/摇杆、HUD 与音效专项 PlayMode 仍由 G2.6
+关闭。其余 R/DOD 只有后续工作包的真实测试/构建证据可以改为 PASS。

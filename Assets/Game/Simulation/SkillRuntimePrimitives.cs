@@ -477,8 +477,21 @@ namespace Game.Simulation
                 {
                     return Failure(skill, "Skill effect content reference was not bound by ContentRegistry.");
                 }
+                if (source.Code == EffectOpCode.SpawnSecondarySkill &&
+                    source.ReferenceId1.IsValid &&
+                    !source.Reference1.IsValid)
+                {
+                    return Failure(skill, "Alternate secondary skill reference was not bound by ContentRegistry.");
+                }
 
                 baseEffects[effectIndex] = new ResolvedEffectOp(source, statIndex);
+            }
+
+            if (skill.Delivery.ModuleId == SkillModuleIds.DeliveryOutboundReturn &&
+                ((skill.Delivery.ReferenceId0.IsValid && !skill.Delivery.Reference0.IsValid) ||
+                 (skill.Delivery.ReferenceId1.IsValid && !skill.Delivery.Reference1.IsValid)))
+            {
+                return Failure(skill, "Outbound-return delivery reference was not bound by ContentRegistry.");
             }
 
             var maximumLevel = skill.LevelPatches.Count == 0
@@ -753,5 +766,6 @@ namespace Game.Simulation
         /// <summary>Gets remaining cooldown seconds.</summary>
         public float CooldownRemaining { get; internal set; }
         internal bool SecondaryOnly { get; }
+        internal long ActivationSequence { get; set; }
     }
 }

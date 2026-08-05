@@ -226,17 +226,22 @@ namespace Game.Simulation
                     0f,
                     default));
             var owner = new SpatialEntity(EntityKind.Actor, ownerHandle);
+            var previewTarget = default(SpatialEntity);
             for (var index = 0; index < request.TargetCount; index++)
             {
                 var angle = index * 2f * (float)Math.PI / request.TargetCount;
                 var radius = 1f + (index % 4);
-                world.CreateActor(
+                var targetHandle = world.CreateActor(
                     SimulationEntityState.Create(
                         new Vector2(
                             (float)Math.Cos(angle) * radius,
                             (float)Math.Sin(angle) * radius),
                         Vector2.Zero),
                     ActorCombatInitialization.CreateDefault(1_000_000f, 0f));
+                if (index == 0)
+                {
+                    previewTarget = new SpatialEntity(EntityKind.Actor, targetHandle);
+                }
             }
 
             var addResult = skills.AddInstance(owner, skillIndex, request.Level);
@@ -254,6 +259,14 @@ namespace Game.Simulation
             var allocationsBefore = GC.GetAllocatedBytesForCurrentThread();
             for (var tick = 0; tick < ticks; tick++)
             {
+                QueueSyntheticTrigger(
+                    world,
+                    compiled,
+                    owner,
+                    previewTarget,
+                    runtimeLevel.Targeting.ModuleId == SkillModuleIds.TargetingSelf
+                        ? Vector2.Zero
+                        : Vector2.UnitX);
                 runner.Advance(SimulationClock.TickDurationSeconds);
                 for (var eventIndex = 0;
                      eventIndex < world.CombatEvents.DamageAppliedCount;
@@ -289,6 +302,47 @@ namespace Game.Simulation
             };
             return Result<SkillPreviewReport>.Success(
                 new SkillPreviewReport(summary, geometry, allocatedBytes, logs));
+        }
+
+        private static void QueueSyntheticTrigger(
+            SimulationWorld world,
+            CompiledSkillDefinition definition,
+            SpatialEntity owner,
+            SpatialEntity target,
+            Vector2 position)
+        {
+            var eventType = definition.Source.Trigger.ModuleId == SkillModuleIds.TriggerOnKill
+                ? SkillTriggerEventType.OnKill
+                : definition.Source.Trigger.ModuleId == SkillModuleIds.TriggerOnHit
+                    ? SkillTriggerEventType.OnHit
+                    : definition.Source.Trigger.ModuleId == SkillModuleIds.TriggerOnDamageTaken
+                        ? SkillTriggerEventType.OnDamageTaken
+                        : definition.Source.Trigger.ModuleId == SkillModuleIds.TriggerOnPickup
+                            ? SkillTriggerEventType.OnPickup
+                            : definition.Source.Trigger.ModuleId == SkillModuleIds.TriggerOnStatusApplied
+                                ? SkillTriggerEventType.OnStatusApplied
+                                : SkillTriggerEventType.Timer;
+            if (eventType == SkillTriggerEventType.Timer) return;
+
+            var ownerIsTarget = eventType == SkillTriggerEventType.OnDamageTaken ||
+                                eventType == SkillTriggerEventType.OnPickup ||
+                                eventType == SkillTriggerEventType.OnStatusApplied;
+            var source = ownerIsTarget
+                ? target
+                : owner;
+            var eventTarget = ownerIsTarget
+                ? owner
+                : target;
+            world.QueueSkillTrigger(
+                new SkillTriggerContext(
+                    eventType,
+                    source,
+                    eventTarget,
+                    position,
+                    Vector2.UnitX,
+                    definition.Source.Id,
+                    definition.Index,
+                    0));
         }
 
         private static SkillPreviewGeometry BuildGeometry(RuntimeSkillLevel level)

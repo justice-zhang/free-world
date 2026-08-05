@@ -22,15 +22,21 @@ namespace Game.Tests.EditMode
             var registry = LoadRegistry(out var catalog);
             Assert.That(catalog.Manifest.SchemaVersion, Is.EqualTo(6));
             Assert.That(catalog.Manifest.PackId, Is.EqualTo(Id("qinglan.pack.demo")));
-            Assert.That(catalog.Definitions.Count, Is.EqualTo(12));
+            Assert.That(catalog.Definitions.Count, Is.GreaterThanOrEqualTo(12));
 
             Assert.That(
                 registry.TryGet(Id("qinglan.character.lu_qingye"), out RuntimeCharacterDefinition character),
                 Is.True);
             Assert.That(character.BaseMaxHealth, Is.EqualTo(120f));
             Assert.That(character.MoveSpeed, Is.EqualTo(6f));
-            Assert.That(character.StartingSkillIds, Is.Empty,
-                "G1.3 owns the starting weapon implementation and will fill this reference.");
+            for (var index = 0; index < character.StartingSkillIds.Count; index++)
+            {
+                Assert.That(
+                    registry.TryGet(character.StartingSkillIds[index], out RuntimeSkillDefinition startingSkill),
+                    Is.True,
+                    "Later slices may fill StartingSkillIds only with a valid Skill.");
+                Assert.That(startingSkill.IsExecutable, Is.True);
+            }
             Assert.That(character.MechanicIds, Is.EqualTo(new[]
             {
                 Id("qinglan.mechanic.lu_qingye.riding_wind")

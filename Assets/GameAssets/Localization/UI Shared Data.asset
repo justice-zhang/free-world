@@ -603,6 +603,134 @@ MonoBehaviour:
     m_Key: content.qinglan.status.damage_immunity.description
     m_Metadata:
       m_Items: []
+  - m_Id: 3656612126269440
+    m_Key: content.qinglan.skill.weapon.yufeng_sword.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766912
+    m_Key: content.qinglan.skill.weapon.yufeng_sword.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766913
+    m_Key: content.qinglan.skill.weapon.yellow_talisman.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766914
+    m_Key: content.qinglan.skill.weapon.yellow_talisman.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766915
+    m_Key: content.qinglan.skill.weapon.lihuo_wheel.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766916
+    m_Key: content.qinglan.skill.weapon.lihuo_wheel.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766917
+    m_Key: content.qinglan.skill.weapon.tide_orb.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766918
+    m_Key: content.qinglan.skill.weapon.tide_orb.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766919
+    m_Key: content.qinglan.skill.weapon.zhenyue_seal.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766920
+    m_Key: content.qinglan.skill.weapon.zhenyue_seal.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766921
+    m_Key: content.qinglan.skill.weapon.spirit_vine_seed.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766922
+    m_Key: content.qinglan.skill.weapon.spirit_vine_seed.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766923
+    m_Key: content.qinglan.skill.hidden.yufeng_return.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766924
+    m_Key: content.qinglan.skill.hidden.yufeng_return.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766925
+    m_Key: content.qinglan.skill.hidden.riding_wind_blade.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766926
+    m_Key: content.qinglan.skill.hidden.riding_wind_blade.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766927
+    m_Key: content.qinglan.skill.hidden.talisman_detonation.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766928
+    m_Key: content.qinglan.skill.hidden.talisman_detonation.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766929
+    m_Key: content.qinglan.skill.hidden.lihuo_return_explosion.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766930
+    m_Key: content.qinglan.skill.hidden.lihuo_return_explosion.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766931
+    m_Key: content.qinglan.skill.hidden.tide_rising.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766932
+    m_Key: content.qinglan.skill.hidden.tide_rising.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766933
+    m_Key: content.qinglan.skill.hidden.tide_falling.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766934
+    m_Key: content.qinglan.skill.hidden.tide_falling.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766935
+    m_Key: content.qinglan.skill.hidden.zhenyue_guard_domain.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766936
+    m_Key: content.qinglan.skill.hidden.zhenyue_guard_domain.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766937
+    m_Key: content.qinglan.skill.hidden.zhenyue_countershock.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766938
+    m_Key: content.qinglan.skill.hidden.zhenyue_countershock.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766939
+    m_Key: content.qinglan.skill.hidden.vine_growth.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766940
+    m_Key: content.qinglan.skill.hidden.vine_growth.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766941
+    m_Key: content.qinglan.skill.hidden.vine_propagation.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766942
+    m_Key: content.qinglan.skill.hidden.vine_propagation.description
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

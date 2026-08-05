@@ -154,4 +154,4 @@
 | QD-KI-007 | PLANNED | High | 当前 `AssetProvenanceValidator` 只主动扫描 AI 目录，FirstParty 正式资产尚无等价自动 provenance/Hash 门禁。 | G3.1 在任何 FirstParty 文件取得 `release` 标签前，把校验扩展到全部实际 Release 输入并补负向测试；仅有 sidecar 文档不能关闭。 |
 | QD-KI-008 | PLANNED | Medium | Noto CJK SC 只锁定官方候选和 OFL 1.1 许可路径，尚未固定发布版本、下载文件、SHA-256、Notice 或 TMP 缺字证据。 | G3.3 按官方发布固定版本/Hash，保存 LICENSE、登记每个路径并做简中/英文/Pseudo 缺字与裁切；任一缺失阻断 Release。 |
 
-当前没有阻止 G1.3 武器数据切片的 `OPEN` 问题；QD-KI-003/007/008 继续阻止 Release，不能被跳过。
+当前没有阻止 G1.4 心诀与显化数据切片的 `OPEN` 问题；QD-KI-003/007/008 继续阻止 Release，不能被跳过。

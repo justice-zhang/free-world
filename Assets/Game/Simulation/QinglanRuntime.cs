@@ -291,6 +291,18 @@ namespace Game.Simulation
             return false;
         }
 
+        internal bool MatchesCurrentOutput(EntityHandle owner, ContentId outputId)
+        {
+            if (!outputId.IsValid) return true;
+            for (var index = 0; index < instances.Length; index++)
+            {
+                var instance = instances[index];
+                if (!instance.Active || instance.Owner != owner || instance.Tier <= 0) continue;
+                if (instance.Definition.Tiers[instance.Tier - 1].OutputId == outputId) return true;
+            }
+            return false;
+        }
+
         internal bool Detach(EntityHandle owner)
         {
             var detached = false;

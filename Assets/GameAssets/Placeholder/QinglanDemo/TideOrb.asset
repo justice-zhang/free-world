@@ -1,0 +1,134 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0095a8991d6fc4cb5ceafd762b1862, type: 3}
+  m_Name: TideOrb
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.SkillAuthoring
+  contentId: qinglan.skill.weapon.tide_orb
+  localizedNameKey: content.qinglan.skill.weapon.tide_orb.name
+  localizedDescriptionKey: content.qinglan.skill.weapon.tide_orb.description
+  tags:
+  - content.placeholder
+  - skill.player
+  - weapon.artifact
+  - delivery.aura
+  - mechanic.cycle
+  - skill.control
+  cooldownSeconds: 2
+  resourceCost: 0
+  modularRuntimeEnabled: 1
+  trigger:
+    moduleId: base.trigger.timer
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  condition:
+    moduleId: base.condition.always
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  targeting:
+    moduleId: base.targeting.self
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  delivery:
+    moduleId: base.delivery.instant
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  effects:
+  - moduleId: base.effect.spawn_secondary_skill
+    value0: 0
+    value1: 0
+    value2: 0
+    int0: 1
+    int1: 0
+    referenceId0: qinglan.skill.hidden.tide_rising
+    referenceId1: qinglan.skill.hidden.tide_falling
+    tag0: 
+    statId0: 
+    flags: 0
+  levelPatches:
+  - level: 2
+    path: cooldown
+    valueType: 1
+    operation: 2
+    floatValue: 0.95
+    integerValue: 0
+  - level: 3
+    path: cooldown
+    valueType: 1
+    operation: 2
+    floatValue: 0.95
+    integerValue: 0
+  - level: 4
+    path: cooldown
+    valueType: 1
+    operation: 2
+    floatValue: 0.95
+    integerValue: 0
+  - level: 5
+    path: cooldown
+    valueType: 1
+    operation: 2
+    floatValue: 0.95
+    integerValue: 0
+  - level: 6
+    path: cooldown
+    valueType: 1
+    operation: 2
+    floatValue: 0.95
+    integerValue: 0
+  - level: 7
+    path: cooldown
+    valueType: 1
+    operation: 2
+    floatValue: 0.95
+    integerValue: 0
+  - level: 8
+    path: cooldown
+    valueType: 1
+    operation: 2
+    floatValue: 0.9
+    integerValue: 0

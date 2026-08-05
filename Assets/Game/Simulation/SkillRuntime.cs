@@ -420,6 +420,7 @@ namespace Game.Simulation
             }
 
             instance.Level = level;
+            SetReferencedSecondaryLevels(instance.Owner, instance.Definition, level, 0);
             return true;
         }
 
@@ -644,10 +645,30 @@ namespace Game.Simulation
                 procDepth);
             for (var index = 0; index < level.Effects.Count; index++)
             {
+                var effect = level.GetEffectAt(index);
+                if (effect.Code == EffectOpCode.SpawnSecondarySkill &&
+                    effect.Reference1.IsValid &&
+                    effect.Int0 == 1 &&
+                    (instance.ActivationSequence & 1L) != 0L)
+                {
+                    effect = new ResolvedEffectOp(
+                        effect.Code,
+                        effect.Value0,
+                        effect.Value1,
+                        effect.Value2,
+                        effect.Int0,
+                        effect.Int1,
+                        effect.Reference1,
+                        effect.Reference0,
+                        effect.Tag0,
+                        effect.StatId0,
+                        effect.StatIndex0,
+                        effect.Flags);
+                }
                 instance.Definition.GetEffectExecutorAt(index).Queue(
                     Commands,
                     context,
-                    level.GetEffectAt(index));
+                    effect);
             }
 
             buildEffects?.QueueAddedEffects(instance.Definition.Index, Commands, context);
@@ -662,6 +683,7 @@ namespace Game.Simulation
 
         internal void QueueSecondary(
             SpatialEntity owner,
+            SpatialEntity target,
             RuntimeContentIndex skillIndex,
             Vector2 position,
             Vector2 direction,
@@ -672,7 +694,7 @@ namespace Game.Simulation
                 new SkillTriggerContext(
                     SkillTriggerEventType.SecondarySkill,
                     owner,
-                    owner,
+                    target,
                     position,
                     direction,
                     sourceContentId,
@@ -739,8 +761,37 @@ namespace Game.Simulation
                         effect.Reference0.IsValid &&
                         !HasInstance(owner, effect.Reference0))
                     {
-                        AddInstanceInternal(owner, effect.Reference0, 1, true, true);
+                        AddInstanceInternal(
+                            owner,
+                            effect.Reference0,
+                            ResolveSecondaryLevel(effect.Reference0, level),
+                            true,
+                            true);
                     }
+                    if (effect.Code == EffectOpCode.SpawnSecondarySkill &&
+                        effect.Reference1.IsValid &&
+                        !HasInstance(owner, effect.Reference1))
+                    {
+                        AddInstanceInternal(
+                            owner,
+                            effect.Reference1,
+                            ResolveSecondaryLevel(effect.Reference1, level),
+                            true,
+                            true);
+                    }
+                }
+
+                var returnSecondary = runtimeLevel.Delivery.Reference0;
+                if (runtimeLevel.Delivery.ModuleId == SkillModuleIds.DeliveryOutboundReturn &&
+                    returnSecondary.IsValid &&
+                    !HasInstance(owner, returnSecondary))
+                {
+                    AddInstanceInternal(
+                        owner,
+                        returnSecondary,
+                        ResolveSecondaryLevel(returnSecondary, level),
+                        true,
+                        true);
                 }
             }
 
@@ -761,6 +812,60 @@ namespace Game.Simulation
             }
 
             return false;
+        }
+
+        private int ResolveSecondaryLevel(RuntimeContentIndex definition, int parentLevel)
+        {
+            return catalog.TryGet(definition, out var secondary)
+                ? Math.Min(Math.Max(1, parentLevel), secondary.MaximumLevel)
+                : 1;
+        }
+
+        private void SetReferencedSecondaryLevels(
+            SpatialEntity owner,
+            CompiledSkillDefinition definition,
+            int parentLevel,
+            int depth)
+        {
+            if (depth >= 16) return;
+            var level = definition.GetLevel(Math.Min(parentLevel, definition.MaximumLevel));
+            for (var index = 0; index < level.Effects.Count; index++)
+            {
+                var effect = level.GetEffectAt(index);
+                if (effect.Code != EffectOpCode.SpawnSecondarySkill) continue;
+                SetSecondaryLevel(owner, effect.Reference0, parentLevel, depth);
+                SetSecondaryLevel(owner, effect.Reference1, parentLevel, depth);
+            }
+            if (level.Delivery.ModuleId == SkillModuleIds.DeliveryOutboundReturn)
+            {
+                SetSecondaryLevel(owner, level.Delivery.Reference0, parentLevel, depth);
+            }
+        }
+
+        private void SetSecondaryLevel(
+            SpatialEntity owner,
+            RuntimeContentIndex definitionIndex,
+            int parentLevel,
+            int depth)
+        {
+            if (!definitionIndex.IsValid) return;
+            for (var index = 0; index < instanceSlotCount; index++)
+            {
+                var instance = instances[index];
+                if (instance == null || instance.Owner != owner ||
+                    instance.Definition.Index != definitionIndex)
+                {
+                    continue;
+                }
+
+                instance.Level = Math.Min(parentLevel, instance.Definition.MaximumLevel);
+                SetReferencedSecondaryLevels(
+                    owner,
+                    instance.Definition,
+                    instance.Level,
+                    depth + 1);
+                return;
+            }
         }
 
         private static ushort NextGeneration(ushort current)
@@ -825,6 +930,7 @@ namespace Game.Simulation
                 level,
                 context,
                 targets);
+            instance.ActivationSequence++;
             if (!bypassCooldownAndCost) instance.CooldownRemaining = level.CooldownSeconds;
             TriggerCount++;
             return true;
@@ -858,6 +964,7 @@ namespace Game.Simulation
                         var returnDistance = Vector2.Distance(state.Position, owner.Position);
                         if (returnDistance <= Math.Max(0.0001f, record.Radius))
                         {
+                            QueueReturnCompleteSecondary(world, record, state.Position, state.Velocity);
                             world.Commands.Remove(EntityKind.Projectile, handle);
                             continue;
                         }
@@ -870,6 +977,13 @@ namespace Game.Simulation
                             owner.Position) * returnSpeed;
                         world.Projectiles.SetStateAt(dense, state);
                     }
+                }
+
+                if (record.RemainingHits <= 0)
+                {
+                    record.PreviousPosition = state.Position;
+                    deliveries.Set(EntityKind.Projectile, handle, record);
+                    continue;
                 }
 
                 var segment = state.Position - record.PreviousPosition;
@@ -947,7 +1061,7 @@ namespace Game.Simulation
                         BeginReturn(world, dense, handle, ref state, ref record, owner.Position);
                         deliveries.Set(EntityKind.Projectile, handle, record);
                     }
-                    else
+                    else if (record.Kind != ActiveDeliveryKind.OutboundReturn)
                     {
                         world.Commands.Remove(EntityKind.Projectile, handle);
                     }
@@ -972,6 +1086,38 @@ namespace Game.Simulation
                 state.Position,
                 ownerPosition) * record.ReturnSpeed;
             world.Projectiles.SetStateAt(denseIndex, state);
+        }
+
+        private void QueueReturnCompleteSecondary(
+            SimulationWorld world,
+            in ActiveDeliveryRecord record,
+            Vector2 position,
+            Vector2 direction)
+        {
+            var delivery = record.Level.Delivery;
+            if (!delivery.Reference0.IsValid) return;
+            if (delivery.ReferenceId1.IsValid &&
+                (world.Qinglan == null ||
+                 !world.Qinglan.Mechanics.MatchesCurrentOutput(
+                     record.Instance.Owner.Handle,
+                     delivery.ReferenceId1)))
+            {
+                return;
+            }
+            if (record.ProcDepth >= world.CombatRules.MaximumProcDepth)
+            {
+                world.Diagnostics.RecordTruncatedProcChain();
+                return;
+            }
+
+            QueueSecondary(
+                record.Instance.Owner,
+                record.Instance.Owner,
+                delivery.Reference0,
+                position,
+                direction,
+                record.Instance.Definition.Source.Id,
+                record.ProcDepth + 1);
         }
 
         private void TickAreas(SimulationWorld world)

@@ -710,3 +710,39 @@ Encounter 正式内容。
 
 只进入 G1.3：在同一 Pack 中实现 M04 六把武器、等级成长、隐藏辅助技能、Preview/ProcDepth/Cleanup，
 并把游风剑回填为陆青野 Starting Skill；不提前实现 G1.4 心诀或 G1.5 敌人。
+
+## Qinglan Demo G1.3：六武器与技能运行时
+
+- 状态：`COMPLETE`
+- 日期：2026-08-05
+- 分支：`codex/qinglan-demo-implementation`
+- 内容包：`qinglan.pack.demo` 0.2.0 / Content Schema 6
+- 结果报告：`Docs/Reports/2026-08-05-g1-3-weapon-skill-slice.md`
+
+### 实施结果
+
+| 范围 | 结果 |
+|---|---|
+| Content | 六把 8 级主武器、十个隐藏技能、双语 Key、28 定义 Baked Catalog、Starting Skill 回填 |
+| Runtime | 双 Secondary 交替、原目标传播、隐藏等级闭包、回收完成 Gate、回程额度与回收生命周期解耦 |
+| Preview | Timer/事件型技能统一合成上下文；六武器 L1/L4/L8 固定 Seed 精确 Golden 和 0 B |
+| Safety | ProcDepth 截断、出/回程阶段去重、标记原子消费、Owner/Area/Sidecar Cleanup |
+| Boundary | 飞轮回爆、震岳护域/反震、藤丛生长/传播只冻结为 G1.4 可组合隐藏输出 |
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| 编译 | PASS | `dotnet build free-world.slnx`，0 error；Unity 脚本编译成功 |
+| Focused EditMode | PASS | `TestResults/QinglanDemo/G1.3/editmode-focused-final.xml`，7/7 |
+| 全量 EditMode | PASS | `TestResults/QinglanDemo/G1.3/editmode-final.xml`，216/216 |
+| PlayMode 回归 | PASS | `TestResults/QinglanDemo/G1.3/playmode.xml`，9/9 |
+| Project Validation | PASS | `validation.log` 含 `[Project Validation] PASS` |
+| API Freeze | PASS | 五程序集签名数与 SHA-256 均和 G1.2 一致 |
+| 性能短测 | PASS | 900 Tick，p99 11.4037 ms，热路径 0 B、0 GC、确定性 PASS |
+| Windows Development Build | NOT RUN | 路线规定 G1.7 执行完整 Placeholder Pack Build |
+
+### 下一步
+
+只进入 G1.4：实现 M05 六心诀、六显化、Offer/资格/候选和三条目标构筑组合；复用 G1.3 已存在的
+隐藏技能，不提前创建 G1.5 敌人或 G2 地图/Boss 内容。

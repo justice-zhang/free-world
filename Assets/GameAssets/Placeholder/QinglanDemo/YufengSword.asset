@@ -1,0 +1,140 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0095a8991d6fc4cb5ceafd762b1862, type: 3}
+  m_Name: YufengSword
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.SkillAuthoring
+  contentId: qinglan.skill.weapon.yufeng_sword
+  localizedNameKey: content.qinglan.skill.weapon.yufeng_sword.name
+  localizedDescriptionKey: content.qinglan.skill.weapon.yufeng_sword.description
+  tags:
+  - content.placeholder
+  - skill.player
+  - weapon.sword
+  - delivery.projectile
+  - mechanic.return
+  - mechanic.riding_wind_affinity
+  cooldownSeconds: 1.8
+  resourceCost: 0
+  modularRuntimeEnabled: 1
+  trigger:
+    moduleId: base.trigger.timer
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  condition:
+    moduleId: base.condition.always
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  targeting:
+    moduleId: base.targeting.nearest
+    value0: 18
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 1
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  delivery:
+    moduleId: base.delivery.outbound_return
+    value0: 14
+    value1: 18
+    value2: 0.35
+    value3: 7
+    int0: 2
+    int1: 0
+    presentationId: placeholder.presentation.qinglan.skill.yufeng_sword
+    referenceId0: qinglan.skill.hidden.yufeng_return
+    referenceId1: qinglan.trait.lu_qingye.riding_wind
+    tag0: 
+    tag1: 
+  effects:
+  - moduleId: base.effect.damage
+    value0: 16
+    value1: 0.08
+    value2: 0
+    int0: 1
+    int1: 1
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    statId0: 
+    flags: 1
+  levelPatches:
+  - level: 2
+    path: effects[0].value0
+    valueType: 1
+    operation: 1
+    floatValue: 4
+    integerValue: 0
+  - level: 3
+    path: cooldown
+    valueType: 1
+    operation: 2
+    floatValue: 0.9
+    integerValue: 0
+  - level: 4
+    path: delivery.int0
+    valueType: 2
+    operation: 1
+    floatValue: 0
+    integerValue: 1
+  - level: 5
+    path: delivery.value0
+    valueType: 1
+    operation: 1
+    floatValue: 2
+    integerValue: 0
+  - level: 6
+    path: effects[0].value0
+    valueType: 1
+    operation: 1
+    floatValue: 6
+    integerValue: 0
+  - level: 7
+    path: delivery.value3
+    valueType: 1
+    operation: 1
+    floatValue: 2
+    integerValue: 0
+  - level: 8
+    path: cooldown
+    valueType: 1
+    operation: 2
+    floatValue: 0.85
+    integerValue: 0
+  - level: 8
+    path: effects[0].value0
+    valueType: 1
+    operation: 1
+    floatValue: 8
+    integerValue: 0

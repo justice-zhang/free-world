@@ -608,6 +608,134 @@ MonoBehaviour:
     m_Localized: Temporarily ignores all damage channels.
     m_Metadata:
       m_Items: []
+  - m_Id: 3656612126269440
+    m_Localized: Wandering Wind Sword
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766912
+    m_Localized: A sword that strikes on both outbound and return paths.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766913
+    m_Localized: Warding Yellow Talisman
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766914
+    m_Localized: Marks targets and detonates accumulated seals.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766915
+    m_Localized: Lihuo Wheel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766916
+    m_Localized: A fiery mechanism wheel that damages on outbound and return paths.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766917
+    m_Localized: Tide-Listening Orb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766918
+    m_Localized: Alternates rising pull and falling knockback phases.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766919
+    m_Localized: Mountain-Shaking Seal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766920
+    m_Localized: Drops a heavy area strike with knockback.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766921
+    m_Localized: Spirit Vine Seed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766922
+    m_Localized: Kills plant damaging poisonous vine fields at the trigger position.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766923
+    m_Localized: Wind Sword Return
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766924
+    m_Localized: Return-complete helper for the innate sword.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766925
+    m_Localized: Riding Wind Blade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766926
+    m_Localized: A lesser blade emitted by a full-wind return.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766927
+    m_Localized: Talisman Detonation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766928
+    m_Localized: Consumes marks atomically and deals scaled damage.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766929
+    m_Localized: Lihuo Return Burst
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766930
+    m_Localized: Bounded return explosion helper for evolution content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766931
+    m_Localized: Rising Tide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766932
+    m_Localized: Pulls nearby enemies and slows them.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766933
+    m_Localized: Falling Tide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766934
+    m_Localized: Damages and pushes nearby enemies away.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766935
+    m_Localized: Zhenyue Guard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766936
+    m_Localized: Grants a bounded defensive shield.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766937
+    m_Localized: Zhenyue Countershock
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766938
+    m_Localized: A cooldown-limited reaction to damage taken.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766939
+    m_Localized: Vine Growth
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766940
+    m_Localized: Creates a bounded poisonous growth area.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766941
+    m_Localized: Vine Propagation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3656612201766942
+    m_Localized: Propagates growth to a bounded number of poisoned neighbors.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

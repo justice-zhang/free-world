@@ -122,6 +122,7 @@ namespace Game.Simulation
                     {
                         world.Skills.QueueSecondary(
                             context.Owner,
+                            context.HasTarget ? context.Target : context.Owner,
                             effect.Reference0,
                             context.Position,
                             context.Direction,

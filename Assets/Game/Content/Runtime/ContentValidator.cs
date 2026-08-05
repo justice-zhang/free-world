@@ -1184,8 +1184,20 @@ namespace Game.Content.Runtime
                             packId,
                             skill.SourceAssetPath));
                 }
-            }
 
+                if (effect.Code == EffectOpCode.SpawnSecondarySkill &&
+                    effect.ReferenceId1.IsValid)
+                {
+                    ValidateReferenceType(
+                        skill,
+                        effect.ReferenceId1,
+                        definitionsById,
+                        packId,
+                        report,
+                        value => value is RuntimeSkillDefinition alternate && alternate.IsExecutable,
+                        "an executable Skill");
+                }
+            }
 
             ValidateStatusModuleReference(
                 skill,
@@ -1193,6 +1205,25 @@ namespace Game.Content.Runtime
                 definitionsById,
                 packId,
                 report);
+            if (skill.Delivery.ModuleId == SkillModuleIds.DeliveryOutboundReturn)
+            {
+                ValidateReferenceType(
+                    skill,
+                    skill.Delivery.ReferenceId0,
+                    definitionsById,
+                    packId,
+                    report,
+                    value => value is RuntimeSkillDefinition secondary && secondary.IsExecutable,
+                    "an executable Skill");
+                ValidateReferenceType(
+                    skill,
+                    skill.Delivery.ReferenceId1,
+                    definitionsById,
+                    packId,
+                    report,
+                    value => value is RuntimeTraitDefinition,
+                    "a Trait mechanic output");
+            }
         }
 
         private static void ValidateStatusModuleReference(
