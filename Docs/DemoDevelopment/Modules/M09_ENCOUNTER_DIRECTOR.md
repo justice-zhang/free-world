@@ -73,3 +73,14 @@ Demo 初始只开放基础难度。隐藏开发配置可测 Health/Damage/Speed/
 | Performance | 正常 600—1200 敌人内容场景，Tick/GC/内存趋势 |
 
 退出条件：时间轴严格对应总纲，固定 Seed 可复现，保护规则不会动态惩罚高输出玩家。
+
+## 8. G1.6 已实现状态
+
+- Pack 0.5.0 已包含 0—720 秒九个连续 Phase、六敌人递进池、两个固定 EliteRule、普通 Entry
+  四词缀池和 720 全局并发上限。
+- CR-2026-016 / ADR 0017 追加通用一次性 EliteRule；Scheduler 为未触发 Elite/Boss 预留槽，
+  12:00 后清空预算和冷却。
+- 固定 Seed 双实例各运行 21,600 Tick，Combined Checksum `e86df634f50d29e8`，两精英一次、0 非法
+  Handle、无泄漏、停止边界通过。
+- 6:00 折枝与 12:00 听风仍为 `NOT RUN`：Boss 内容和 BossRule 属于 G2.2；实际出生公平与过渡
+  可读性 PlayMode 属于 G2.6/G2.8。

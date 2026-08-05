@@ -310,6 +310,16 @@ namespace Game.Content.Runtime
     }
 
     [Serializable]
+    public sealed class EncounterEliteRuleDto
+    {
+        public string enemyId;
+        public float spawnTimeSeconds;
+        public int pattern;
+        public string anchorId;
+        public string[] affixPoolIds;
+    }
+
+    [Serializable]
     public sealed class EncounterPhaseDto
     {
         public float startTimeSeconds;
@@ -322,6 +332,7 @@ namespace Game.Content.Runtime
         public int spawnPattern;
         public string anchorId;
         public EncounterEnemyEntryDto[] enemies;
+        public EncounterEliteRuleDto[] elites;
         public EncounterBossRuleDto[] bosses;
     }
 
@@ -379,6 +390,37 @@ namespace Game.Content.Runtime
                         affixes.Value);
                 }
 
+                var sourceElites = schemaVersion >= ContentPackTopology.QinglanDemoSchemaVersion
+                    ? phase.elites ?? Array.Empty<EncounterEliteRuleDto>()
+                    : Array.Empty<EncounterEliteRuleDto>();
+                var elites = new RuntimeEncounterEliteRule[sourceElites.Length];
+                for (var eliteIndex = 0; eliteIndex < sourceElites.Length; eliteIndex++)
+                {
+                    var elite = sourceElites[eliteIndex];
+                    if (elite == null)
+                        return Failure("Serialized encounter contains a null elite rule.", packId, id, sourcePath);
+                    var enemy = CatalogDtoParsing.ParseCanonicalId(
+                        elite.enemyId,
+                        packId,
+                        sourcePath,
+                        "encounter elite enemy ID");
+                    if (!enemy.IsSuccess) return Result<RuntimeContentDefinition>.Failure(enemy.Error);
+                    var eliteAnchor = ParseOptionalId(elite.anchorId, packId, sourcePath);
+                    if (!eliteAnchor.IsSuccess) return Result<RuntimeContentDefinition>.Failure(eliteAnchor.Error);
+                    var affixes = CatalogDtoParsing.ParseIds(
+                        elite.affixPoolIds,
+                        packId,
+                        id,
+                        sourcePath);
+                    if (!affixes.IsSuccess) return Result<RuntimeContentDefinition>.Failure(affixes.Error);
+                    elites[eliteIndex] = new RuntimeEncounterEliteRule(
+                        enemy.Value,
+                        elite.spawnTimeSeconds,
+                        (SpawnPattern)elite.pattern,
+                        eliteAnchor.Value,
+                        affixes.Value);
+                }
+
                 var sourceBosses = phase.bosses ?? Array.Empty<EncounterBossRuleDto>();
                 var bosses = new RuntimeEncounterBossRule[sourceBosses.Length];
                 for (var bossIndex = 0; bossIndex < sourceBosses.Length; bossIndex++)
@@ -417,6 +459,7 @@ namespace Game.Content.Runtime
                     (SpawnPattern)phase.spawnPattern,
                     anchor.Value,
                     entries,
+                    elites,
                     bosses);
             }
 
@@ -457,6 +500,7 @@ namespace Game.Content.Runtime
                     spawnPattern = (int)phase.SpawnPattern,
                     anchorId = phase.AnchorId.Value,
                     enemies = new EncounterEnemyEntryDto[phase.EnemyEntries.Count],
+                    elites = new EncounterEliteRuleDto[phase.EliteRules.Count],
                     bosses = new EncounterBossRuleDto[phase.BossRules.Count]
                 };
                 for (var entryIndex = 0; entryIndex < phaseDto.enemies.Length; entryIndex++)
@@ -471,6 +515,19 @@ namespace Game.Content.Runtime
                         maximumGroupSize = entry.MaximumGroupSize,
                         elite = entry.Elite,
                         affixPoolIds = ToIds(entry.AffixPoolIds)
+                    };
+                }
+
+                for (var eliteIndex = 0; eliteIndex < phaseDto.elites.Length; eliteIndex++)
+                {
+                    var elite = phase.EliteRules[eliteIndex];
+                    phaseDto.elites[eliteIndex] = new EncounterEliteRuleDto
+                    {
+                        enemyId = elite.EnemyId.Value,
+                        spawnTimeSeconds = elite.SpawnTimeSeconds,
+                        pattern = (int)elite.Pattern,
+                        anchorId = elite.AnchorId.Value,
+                        affixPoolIds = ToIds(elite.AffixPoolIds)
                     };
                 }
 

@@ -28,6 +28,16 @@ namespace Game.Content.Authoring
     }
 
     [Serializable]
+    public sealed class EncounterEliteRuleAuthoringData
+    {
+        public EnemyAuthoring enemy;
+        public float spawnTimeSeconds;
+        public SpawnPattern pattern = SpawnPattern.Ring;
+        public string anchorId = string.Empty;
+        public QinglanDefinitionAuthoring[] affixPool = Array.Empty<QinglanDefinitionAuthoring>();
+    }
+
+    [Serializable]
     public sealed class EncounterPhaseAuthoringData
     {
         public float startTimeSeconds;
@@ -40,6 +50,7 @@ namespace Game.Content.Authoring
         public SpawnPattern spawnPattern = SpawnPattern.Ring;
         public string anchorId = string.Empty;
         public EncounterEnemyEntryAuthoringData[] enemies = Array.Empty<EncounterEnemyEntryAuthoringData>();
+        public EncounterEliteRuleAuthoringData[] elites = Array.Empty<EncounterEliteRuleAuthoringData>();
         public EncounterBossRuleAuthoringData[] bosses = Array.Empty<EncounterBossRuleAuthoringData>();
     }
 
@@ -151,6 +162,55 @@ namespace Game.Content.Authoring
                         affixIds);
                 }
 
+                var sourceElites = source.elites ?? Array.Empty<EncounterEliteRuleAuthoringData>();
+                var elites = new RuntimeEncounterEliteRule[sourceElites.Length];
+                for (var eliteIndex = 0; eliteIndex < sourceElites.Length; eliteIndex++)
+                {
+                    var elite = sourceElites[eliteIndex];
+                    if (elite == null || elite.enemy == null ||
+                        !IsFiniteNonNegative(elite.spawnTimeSeconds) ||
+                        !Enum.IsDefined(typeof(SpawnPattern), elite.pattern))
+                    {
+                        return Failure(
+                            "Encounter phase " + phaseIndex + " elite rule " + eliteIndex + " is invalid.",
+                            common,
+                            packId);
+                    }
+
+                    var enemyId = ContentId.Create(elite.enemy.ContentIdText, packId, authorAssetPath);
+                    if (!enemyId.IsSuccess) return Result<RuntimeContentDefinition>.Failure(enemyId.Error);
+                    var anchorId = ParseOptionalId(elite.anchorId, packId, authorAssetPath);
+                    if (!anchorId.IsSuccess) return Result<RuntimeContentDefinition>.Failure(anchorId.Error);
+                    if (RequiresAnchor(elite.pattern) && !anchorId.Value.IsValid)
+                        return Failure("Elite rule requires an anchor ID.", common, packId);
+                    var affixSource = elite.affixPool ?? Array.Empty<QinglanDefinitionAuthoring>();
+                    var affixIds = new ContentId[affixSource.Length];
+                    for (var affixIndex = 0; affixIndex < affixSource.Length; affixIndex++)
+                    {
+                        if (affixSource[affixIndex] == null ||
+                            affixSource[affixIndex].RuntimeKind != RuntimeContentKinds.EliteAffix)
+                        {
+                            return Failure(
+                                "Encounter elite affix reference is null or has the wrong kind.",
+                                common,
+                                packId);
+                        }
+                        var affixId = ContentId.Create(
+                            affixSource[affixIndex].ContentIdText,
+                            packId,
+                            authorAssetPath);
+                        if (!affixId.IsSuccess) return Result<RuntimeContentDefinition>.Failure(affixId.Error);
+                        affixIds[affixIndex] = affixId.Value;
+                    }
+                    affixIds = ContentBaker.CanonicalizeSet(affixIds);
+                    elites[eliteIndex] = new RuntimeEncounterEliteRule(
+                        enemyId.Value,
+                        elite.spawnTimeSeconds,
+                        elite.pattern,
+                        anchorId.Value,
+                        affixIds);
+                }
+
                 var sourceBosses = source.bosses ?? Array.Empty<EncounterBossRuleAuthoringData>();
                 var bosses = new RuntimeEncounterBossRule[sourceBosses.Length];
                 for (var bossIndex = 0; bossIndex < sourceBosses.Length; bossIndex++)
@@ -202,6 +262,7 @@ namespace Game.Content.Authoring
                     source.spawnPattern,
                     phaseAnchorResult.Value,
                     entries,
+                    elites,
                     bosses);
             }
 

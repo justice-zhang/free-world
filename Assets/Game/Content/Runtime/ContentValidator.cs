@@ -396,6 +396,28 @@ namespace Game.Content.Runtime
                                     "an EliteAffix");
                             }
 
+                            for (var eliteIndex = 0; eliteIndex < phase.EliteRules.Count; eliteIndex++)
+                            {
+                                var eliteRule = phase.EliteRules[eliteIndex];
+                                ValidateReferenceType(
+                                    encounter,
+                                    eliteRule.EnemyId,
+                                    definitionsById,
+                                    packId,
+                                    report,
+                                    referenced => referenced is RuntimeEnemyDefinition referencedEnemy &&
+                                                  referencedEnemy.HasM5Data,
+                                    "a schema-4 Enemy");
+                                ValidateReferenceList(
+                                    encounter,
+                                    eliteRule.AffixPoolIds,
+                                    definitionsById,
+                                    packId,
+                                    report,
+                                    referenced => referenced is RuntimeEliteAffixDefinition,
+                                    "an EliteAffix");
+                            }
+
                             for (var bossIndex = 0; bossIndex < phase.BossRules.Count; bossIndex++)
                             {
                                 var bossRule = phase.BossRules[bossIndex];
@@ -656,6 +678,20 @@ namespace Game.Content.Runtime
                         entry.MinimumGroupSize <= 0 || entry.MaximumGroupSize < entry.MinimumGroupSize)
                     {
                         return "Encounter enemy entry weight, cost, or group size is invalid.";
+                    }
+                }
+
+                for (var eliteIndex = 0; eliteIndex < phase.EliteRules.Count; eliteIndex++)
+                {
+                    var elite = phase.EliteRules[eliteIndex];
+                    if (!elite.EnemyId.IsValid || !IsFinite(elite.SpawnTimeSeconds) ||
+                        elite.SpawnTimeSeconds < phase.StartTimeSeconds ||
+                        elite.SpawnTimeSeconds >= phase.EndTimeSeconds ||
+                        elite.Pattern < SpawnPattern.Ring || elite.Pattern > SpawnPattern.OffscreenRandom ||
+                        RequiresAnchor(elite.Pattern) && !elite.AnchorId.IsValid ||
+                        elite.AffixPoolIds.Count == 0)
+                    {
+                        return "Encounter elite rules contain invalid time, pattern, anchor, or affix pool data.";
                     }
                 }
 

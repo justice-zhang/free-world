@@ -155,6 +155,8 @@
 | QD-KI-008 | PLANNED | Medium | Noto CJK SC 只锁定官方候选和 OFL 1.1 许可路径，尚未固定发布版本、下载文件、SHA-256、Notice 或 TMP 缺字证据。 | G3.3 按官方发布固定版本/Hash，保存 LICENSE、登记每个路径并做简中/英文/Pseudo 缺字与裁切；任一缺失阻断 Release。 |
 | QD-KI-009 | PLANNED | Medium | G1.4 的六个 Evolution Offer 为防止混入普通升级流而保持锁定；BuildState 已能计算资格和原子转换，但显化宝匣尚无独立候选/回退/幂等事务。 | 按已批准 CR-2026-007 在 G1.7 实现 Reward Choice Context；完成前不得把普通 Level-up Offer 伪装成显化宝匣。 |
 | QD-KI-010 | PLANNED | Medium | G1.5 已把异相灵核 Reward 绑定到四个精英词缀并执行有限 `SpawnEnemy` 死亡输出，但 AddCurrency/奇物三选一、暂停、回退和幂等提交仍未由 RewardResolution 消费。 | 按 CR-2026-007/008 在 G2.3 完成完整奖励闭环；G1.6 只消费 Affix 组合，不把绑定误报为已发奖。 |
+| QD-KI-011 | PLANNED | High | G1.6 Encounter 已完成九段普通敌群与两个固定精英，但没有折枝/听风 BossDefinition、Boss Phase 或 BossRule，实际地图出生公平和 Boss 过渡也未验证。 | G2.2 追加两个 Boss 与一次性规则；G2.6/G2.8 在实际地图 PlayMode 验证出生保护、压力可读和过渡清理。在此之前“两 Boss 一次”和实机公平保持 `NOT RUN`。 |
 
-当前没有阻止 G1.6 时间轴数据切片的 `OPEN` 问题；QD-KI-009 在 G1.7 前阻止显化宝匣闭环，QD-KI-010 在 G2.3 前阻止异相灵核奖励闭环，
-QD-KI-003/007/008 继续阻止 Release，不能被跳过。
+当前没有阻止 G1.7 Pack 门禁的 `OPEN` 问题；QD-KI-009 在 G1.7 前阻止显化宝匣闭环，QD-KI-010 在
+G2.3 前阻止异相灵核奖励闭环，QD-KI-011 在 G2.2/G2.8 前阻止完整 Encounter 验收，QD-KI-003/007/008
+继续阻止 Release，不能被跳过。

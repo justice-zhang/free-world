@@ -164,3 +164,16 @@ G1.1 性能步骤：
 
 历史 M10 JSON 是框架比较基线，不代表新增内容已通过。每个新报告必须同时保留实际配置和
 `TestResults/M10Final/performance.json` 对比，不得用 Preview 或小型正确性 Harness 替代。
+
+## 11. Qinglan G1.6 Encounter 短测
+
+G1.6 的 12 分钟双实例 Harness 是 Encounter 正确性证据，不是目标实体压力基准。它各推进 21,600 Tick，
+Peak Enemy 为 16，验证两固定精英、并发、停止边界、有限坐标、0 非法句柄和显式清理。
+
+另以 600 Enemy、1,200 Projectile、2,000 Pickup、100 VFX、900 测量 Tick 运行真实内容短测。脚本重编译
+后的首轮虽然热路径 0 B、Tick p99 4.2761 ms，但测量窗出现 1/1/1 次 GC，结果为 `FAIL`。使用与正式
+M10 基准一致的 300 Tick 预热后复测 `PASS`：Tick p99 4.1759 ms、Render p99 0.7682 ms、热路径 0 B、
+GC 0/0/0，Checksum `b455f50ce958d212`。阈值未放宽；首轮与复测 JSON 均保留。
+
+该 Null Device 渲染探针不能证明正式 GPU 表现。G3.5 仍必须在正式内容和目标硬件运行 54,000 Tick、
+GPU/1% Low 与内存趋势；本节不能替代该门禁。

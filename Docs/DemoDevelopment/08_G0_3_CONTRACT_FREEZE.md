@@ -55,8 +55,8 @@ Status/Enemy/Map/Meta 引用必须在完整 Registry 中按允许 kind 解析，
 - Character：追加 `MechanicIds[]`；旧 Schema 默认为空。
 - Skill Module：追加 `ReferenceId0/1`、`Tag0/1`；旧 Schema 默认为 invalid/empty。
 - Map：追加 Objective/Event/Landmark ID 集合；旧 Schema 默认为空。
-- Encounter：Elite Entry 可引用 Affix Pool，Boss Rule 可引用 BossDefinition；旧 `Elite bool` 兼容映射
-  为无命名词缀的历史倍率路径，只供旧 Schema 4/5。
+- Encounter：Elite Entry 可引用 Affix Pool，CR-2026-016/ADR 0017 追加一次性 EliteRule，Boss Rule 可引用
+  BossDefinition；旧 `Elite bool` 兼容映射为无命名词缀的历史倍率路径，只供旧 Schema 4/5。
 - Effect：追加 Consume/Detonate Status token；旧 EffectOp 数值不变。
 
 Schema 1—5 不读取这些字段；Schema 6 新 Pack 必须重新 Bake。Hash 先写既有字段，再按本节固定表序

@@ -9,6 +9,8 @@ namespace Game.Editor
     /// <summary>One phase of theoretical encounter-production data.</summary>
     public sealed class WaveTimelinePhaseReport
     {
+        private readonly float[] eliteTimes;
+        private readonly IReadOnlyList<float> eliteTimesView;
         private readonly float[] bossTimes;
         private readonly IReadOnlyList<float> bossTimesView;
 
@@ -20,6 +22,7 @@ namespace Game.Editor
             int theoreticalConcurrency,
             float totalHealth,
             float experienceOutput,
+            float[] phaseEliteTimes,
             float[] phaseBossTimes)
         {
             Index = index;
@@ -34,6 +37,8 @@ namespace Game.Editor
             TheoreticalConcurrency = theoreticalConcurrency;
             TotalHealth = totalHealth;
             ExperienceOutput = experienceOutput;
+            eliteTimes = phaseEliteTimes ?? Array.Empty<float>();
+            eliteTimesView = Array.AsReadOnly(eliteTimes);
             bossTimes = phaseBossTimes ?? Array.Empty<float>();
             bossTimesView = Array.AsReadOnly(bossTimes);
         }
@@ -62,6 +67,8 @@ namespace Game.Editor
         public float TotalHealth { get; }
         /// <summary>Gets the weighted enemy and boss experience output.</summary>
         public float ExperienceOutput { get; }
+        /// <summary>Gets authored one-shot elite spawn times for this phase.</summary>
+        public IReadOnlyList<float> EliteTimes => eliteTimesView;
         /// <summary>Gets authored boss spawn times for this phase.</summary>
         public IReadOnlyList<float> BossTimes => bossTimesView;
     }
@@ -168,6 +175,26 @@ namespace Game.Editor
                     phaseExperience += expectedCount * weightedExperience / totalWeight;
                 }
 
+                var eliteTimes = new float[phase.EliteRules.Count];
+                for (var eliteIndex = 0; eliteIndex < phase.EliteRules.Count; eliteIndex++)
+                {
+                    var elite = phase.EliteRules[eliteIndex];
+                    eliteTimes[eliteIndex] = elite.SpawnTimeSeconds;
+                    if (!registry.TryGet(elite.EnemyId, out RuntimeEnemyDefinition enemy))
+                    {
+                        return Result<WaveTimelineReport>.Failure(
+                            new Error(
+                                ErrorCode.MissingReference,
+                                "Wave timeline cannot resolve elite '" + elite.EnemyId + "'.",
+                                schedule.Id,
+                                default,
+                                schedule.SourceAssetPath));
+                    }
+
+                    phaseHealth += enemy.BaseMaxHealth * 1.5f;
+                    phaseExperience += enemy.ExperienceReward * 1.5f;
+                }
+
                 var bossTimes = new float[phase.BossRules.Count];
                 for (var bossIndex = 0; bossIndex < phase.BossRules.Count; bossIndex++)
                 {
@@ -199,6 +226,7 @@ namespace Game.Editor
                     concurrency,
                     phaseHealth,
                     phaseExperience,
+                    eliteTimes,
                     bossTimes);
                 encounterHealth += phaseHealth;
                 encounterExperience += phaseExperience;

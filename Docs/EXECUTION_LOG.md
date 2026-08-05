@@ -822,3 +822,43 @@ G1.6 Encounter、G1.7 Reward Choice 或 G2 地图/Boss 内容。
 
 只进入 G1.6：创建旧庭 12 分钟 Encounter，把六 Enemy 与四 Affix Pool 接入阶段时间轴，执行双实例
 21,600 Tick、精英/并发/停止生成/固定 Checksum 门禁；不提前实现 G1.7 Reward Choice 或 G2 地图/Boss。
+
+## Qinglan Demo G1.6：十二分钟 Encounter 时间轴
+
+- 状态：`COMPLETE`
+- 日期：2026-08-06
+- 分支：`codex/qinglan-demo-implementation`
+- 内容包：`qinglan.pack.demo` 0.5.0 / Content Schema 6
+- CR / ADR：CR-2026-016 / ADR 0017
+- 结果报告：`Docs/Reports/2026-08-06-g1-6-encounter-slice.md`
+
+### 实施结果
+
+| 范围 | 结果 |
+|---|---|
+| Timeline | 0—720 秒九段连续 Phase、六敌人递进池、P4 Boss 低压预留窗、720 全局 Cap |
+| Elite | 3:00 剑傀、7:30 石灯各一次；四 Affix Pool；未触发规则预留并发槽 |
+| Runtime | Schema 6 EliteRule、DTO/Authoring/Validator/Hash、Scheduler 优先级与 12:00 预算清零 |
+| Content | 新增 1 个 Encounter；Pack 共 94 定义；双语 Key 与 Baked Catalog |
+| API | Content Runtime 批准追加 17 项至 940；其余四程序集 Hash 不变 |
+| Boundary | 折枝/听风 Boss 延期 G2.2；实际地图出生公平与过渡 PlayMode 延期 G2.6/G2.8 |
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| 编译 | PASS | `dotnet build free-world.slnx --nologo`，0 error |
+| Focused EditMode | PASS | `TestResults/QinglanDemo/G1.6/editmode-focused-final.xml`，7/7 |
+| 全量 EditMode | PASS | `TestResults/QinglanDemo/G1.6/editmode-final.xml`，235/235 |
+| PlayMode 回归 | PASS | `TestResults/QinglanDemo/G1.6/playmode-final.xml`，9/9 |
+| Project Validation | PASS | `project-validation-final.log` 含 `[Project Validation] PASS` |
+| API Freeze | PASS | Content 940/`cd72d779...35b00`，其余程序集 Hash 不变 |
+| 12 分钟 Headless | PASS | 双实例各 21,600 Tick；2 Elite、0 InvalidHandle、Checksum `e86df634f50d29e8` |
+| 性能短测 | PASS | 600 敌人/900 Tick/300 预热，p99 4.1759 ms，热路径 0 B、0 GC |
+| Windows Development Build | NOT RUN | 路线规定 G1.7 对完整 Placeholder Pack 执行 |
+| 两 Boss 一次 / 地图公平 | NOT RUN | Boss 属于 G2.2；实际地图 PlayMode 属于 G2.6/G2.8 |
+
+### 下一步
+
+只进入 G1.7：完成显化宝匣 Reward Choice Context、完整 Pack Bake/双语 Placeholder 验证与 Windows x64
+Development Build；不提前创建 G2 地图目标、Boss、拾取/奇物或正式资产。

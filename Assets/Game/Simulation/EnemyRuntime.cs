@@ -312,6 +312,8 @@ namespace Game.Simulation
         public long SpawnedCount { get; private set; }
         public int BossSpawnedCount { get; private set; }
         public ulong SpawnChecksum { get; private set; } = 1469598103934665603UL;
+        internal int EliteSpawnedCount { get; private set; }
+        internal int AffixedSpawnedCount { get; private set; }
 
         public void SetPlayer(EntityHandle player)
         {
@@ -461,6 +463,8 @@ namespace Game.Simulation
                 Count++;
                 SpawnedCount++;
                 if (request.Boss) BossSpawnedCount++;
+                if (request.Elite && !request.Boss) EliteSpawnedCount++;
+                if (request.Affixes.Count > 0) AffixedSpawnedCount++;
                 UpdateSpawnChecksum(request);
                 var skill = world.Skills.AddInstance(
                     new SpatialEntity(EntityKind.Actor, handle),

@@ -171,6 +171,39 @@ namespace Game.Content.Runtime
             affixPoolIdsView ?? EmptyAffixPoolIds;
     }
 
+    /// <summary>One deterministic, one-shot elite spawn rule.</summary>
+    public readonly struct RuntimeEncounterEliteRule
+    {
+        private static readonly IReadOnlyList<ContentId> EmptyAffixPoolIds =
+            Array.AsReadOnly(Array.Empty<ContentId>());
+        private readonly ContentId[] affixPoolIds;
+        private readonly IReadOnlyList<ContentId> affixPoolIdsView;
+
+        public RuntimeEncounterEliteRule(
+            ContentId enemyId,
+            float spawnTimeSeconds,
+            SpawnPattern pattern,
+            ContentId anchorId,
+            ContentId[] affixPoolIds)
+        {
+            EnemyId = enemyId;
+            SpawnTimeSeconds = spawnTimeSeconds;
+            Pattern = pattern;
+            AnchorId = anchorId;
+            this.affixPoolIds = affixPoolIds == null
+                ? Array.Empty<ContentId>()
+                : (ContentId[])affixPoolIds.Clone();
+            affixPoolIdsView = Array.AsReadOnly(this.affixPoolIds);
+        }
+
+        public ContentId EnemyId { get; }
+        public float SpawnTimeSeconds { get; }
+        public SpawnPattern Pattern { get; }
+        public ContentId AnchorId { get; }
+        public IReadOnlyList<ContentId> AffixPoolIds =>
+            affixPoolIdsView ?? EmptyAffixPoolIds;
+    }
+
     /// <summary>One deterministic, one-shot Boss spawn rule.</summary>
     public readonly struct RuntimeEncounterBossRule
     {
@@ -208,8 +241,10 @@ namespace Game.Content.Runtime
     public sealed class RuntimeEncounterPhase
     {
         private readonly RuntimeEncounterEnemyEntry[] enemies;
+        private readonly RuntimeEncounterEliteRule[] elites;
         private readonly RuntimeEncounterBossRule[] bosses;
         private readonly IReadOnlyList<RuntimeEncounterEnemyEntry> enemiesView;
+        private readonly IReadOnlyList<RuntimeEncounterEliteRule> elitesView;
         private readonly IReadOnlyList<RuntimeEncounterBossRule> bossesView;
 
         public RuntimeEncounterPhase(
@@ -224,6 +259,35 @@ namespace Game.Content.Runtime
             ContentId anchorId,
             RuntimeEncounterEnemyEntry[] enemyEntries,
             RuntimeEncounterBossRule[] bossRules)
+            : this(
+                startTimeSeconds,
+                endTimeSeconds,
+                budgetPerSecondStart,
+                budgetPerSecondEnd,
+                spawnIntervalStart,
+                spawnIntervalEnd,
+                maximumConcurrentEnemies,
+                spawnPattern,
+                anchorId,
+                enemyEntries,
+                Array.Empty<RuntimeEncounterEliteRule>(),
+                bossRules)
+        {
+        }
+
+        public RuntimeEncounterPhase(
+            float startTimeSeconds,
+            float endTimeSeconds,
+            float budgetPerSecondStart,
+            float budgetPerSecondEnd,
+            float spawnIntervalStart,
+            float spawnIntervalEnd,
+            int maximumConcurrentEnemies,
+            SpawnPattern spawnPattern,
+            ContentId anchorId,
+            RuntimeEncounterEnemyEntry[] enemyEntries,
+            RuntimeEncounterEliteRule[] eliteRules,
+            RuntimeEncounterBossRule[] bossRules)
         {
             StartTimeSeconds = startTimeSeconds;
             EndTimeSeconds = endTimeSeconds;
@@ -237,10 +301,14 @@ namespace Game.Content.Runtime
             enemies = enemyEntries == null
                 ? Array.Empty<RuntimeEncounterEnemyEntry>()
                 : (RuntimeEncounterEnemyEntry[])enemyEntries.Clone();
+            elites = eliteRules == null
+                ? Array.Empty<RuntimeEncounterEliteRule>()
+                : (RuntimeEncounterEliteRule[])eliteRules.Clone();
             bosses = bossRules == null
                 ? Array.Empty<RuntimeEncounterBossRule>()
                 : (RuntimeEncounterBossRule[])bossRules.Clone();
             enemiesView = Array.AsReadOnly(enemies);
+            elitesView = Array.AsReadOnly(elites);
             bossesView = Array.AsReadOnly(bosses);
         }
 
@@ -254,6 +322,7 @@ namespace Game.Content.Runtime
         public SpawnPattern SpawnPattern { get; }
         public ContentId AnchorId { get; }
         public IReadOnlyList<RuntimeEncounterEnemyEntry> EnemyEntries => enemiesView;
+        public IReadOnlyList<RuntimeEncounterEliteRule> EliteRules => elitesView;
         public IReadOnlyList<RuntimeEncounterBossRule> BossRules => bossesView;
 
         internal void AppendDeterministicData(StringBuilder builder)
@@ -282,6 +351,24 @@ namespace Game.Content.Runtime
                     ContentHashUtility.AppendInt(builder, entry.AffixPoolIds.Count);
                     for (var affixIndex = 0; affixIndex < entry.AffixPoolIds.Count; affixIndex++)
                         ContentHashUtility.AppendToken(builder, entry.AffixPoolIds[affixIndex].Value);
+                }
+            }
+
+            if (elites.Length > 0)
+            {
+                ContentHashUtility.AppendInt(builder, elites.Length);
+                for (var index = 0; index < elites.Length; index++)
+                {
+                    var elite = elites[index];
+                    ContentHashUtility.AppendToken(builder, elite.EnemyId.Value);
+                    ContentHashUtility.AppendFloat(builder, elite.SpawnTimeSeconds);
+                    ContentHashUtility.AppendInt(builder, (int)elite.Pattern);
+                    ContentHashUtility.AppendToken(
+                        builder,
+                        elite.AnchorId.IsValid ? elite.AnchorId.Value : string.Empty);
+                    ContentHashUtility.AppendInt(builder, elite.AffixPoolIds.Count);
+                    for (var affixIndex = 0; affixIndex < elite.AffixPoolIds.Count; affixIndex++)
+                        ContentHashUtility.AppendToken(builder, elite.AffixPoolIds[affixIndex].Value);
                 }
             }
 
@@ -358,9 +445,11 @@ namespace Game.Content.Runtime
             {
                 var phase = source[phaseIndex];
                 if (phase == null) continue;
-                count += phase.EnemyEntries.Count + phase.BossRules.Count;
+                count += phase.EnemyEntries.Count + phase.EliteRules.Count + phase.BossRules.Count;
                 for (var index = 0; index < phase.EnemyEntries.Count; index++)
                     count += phase.EnemyEntries[index].AffixPoolIds.Count;
+                for (var index = 0; index < phase.EliteRules.Count; index++)
+                    count += phase.EliteRules[index].AffixPoolIds.Count;
                 for (var index = 0; index < phase.BossRules.Count; index++)
                     if (phase.BossRules[index].BossDefinitionId.IsValid) count++;
             }
@@ -377,6 +466,13 @@ namespace Game.Content.Runtime
                     references[output++] = entry.EnemyId;
                     for (var affixIndex = 0; affixIndex < entry.AffixPoolIds.Count; affixIndex++)
                         references[output++] = entry.AffixPoolIds[affixIndex];
+                }
+                for (var index = 0; index < phase.EliteRules.Count; index++)
+                {
+                    var elite = phase.EliteRules[index];
+                    references[output++] = elite.EnemyId;
+                    for (var affixIndex = 0; affixIndex < elite.AffixPoolIds.Count; affixIndex++)
+                        references[output++] = elite.AffixPoolIds[affixIndex];
                 }
                 for (var index = 0; index < phase.BossRules.Count; index++)
                 {

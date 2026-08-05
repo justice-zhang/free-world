@@ -55,6 +55,7 @@ G3 发布候选
 | [11_G1_3_WEAPON_SKILL_SLICE.md](11_G1_3_WEAPON_SKILL_SLICE.md) | G1.3 六武器、隐藏技能、预览 Golden 与回返/引爆/相位实施切片 |
 | [12_G1_4_PROGRESSION_SLICE.md](12_G1_4_PROGRESSION_SLICE.md) | G1.4 六心诀、18 Offer、三 Synergy、六显化资格与转换实施切片 |
 | [13_G1_5_ENEMY_ELITE_SLICE.md](13_G1_5_ENEMY_ELITE_SLICE.md) | G1.5 六敌人、四精英词缀、友军目标与一代分裂实施切片 |
+| [14_G1_6_ENCOUNTER_SLICE.md](14_G1_6_ENCOUNTER_SLICE.md) | G1.6 九段十二分钟时间轴、固定精英与停止生成实施切片 |
 
 ## 4. 模块分支
 

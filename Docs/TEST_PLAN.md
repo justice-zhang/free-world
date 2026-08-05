@@ -309,3 +309,18 @@ ADR 0013—0015 和 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md` 批准下列实
 
 证据目录固定为 `TestResults/QinglanDemo/<work-package>/`；XML、日志、JSON、Manifest 和文件 Hash
 必须在结果报告中逐项引用。
+
+## 16. Qinglan Demo G1.6 Encounter 证据
+
+- Focused EditMode：最终 7/7；覆盖 Pack/Hash、九段连续性、Schema 6 EliteRule round-trip、Timeline
+  Analyzer、双实例 21,600 Tick 和旧构造兼容。首轮 5/6 因人工批量死亡与 Skill 同 Tick 访问已死亡目标
+  产生 194 次无效句柄而失败；Harness 收窄为时间轴所需生产 Pipeline 后复测通过，敌人技能由 G1.5
+  专项测试继续负责。
+- 全量 EditMode：首轮 233/234；G1.2 的核心源码防具体 ID 测试发现 Harness 内测试 ID 使用
+  `qinglan.*`。改为通用 `test.encounter.*`，并补并发预留专项后最终 235/235。
+- PlayMode：9/9；Project Validation 和 API Freeze 均 PASS。旧 API Hash 验证曾按预期只报告 Content
+  Runtime 漂移，批准 17 条追加并更新基线后通过。
+- Headless：同 Seed 双实例各 21,600 Tick，2,582 Spawn、2,571 Death、2 Elite、2 Affixed、0 Boss、
+  Peak 16、0 InvalidHandle，Combined Checksum `e86df634f50d29e8`。
+- Boss 两次一次性与真实地图出生公平为 `NOT RUN`：分别由 G2.2 和 G2.6/G2.8 首次提供可执行内容。
+- Windows Development Build 为 `NOT RUN`：按路线固定由 G1.7 在完整 Placeholder Pack 上执行。

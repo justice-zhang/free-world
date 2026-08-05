@@ -1,7 +1,7 @@
 {
     "manifest": {
         "packId": "qinglan.pack.demo",
-        "version": "0.4.0",
+        "version": "0.5.0",
         "schemaVersion": 6,
         "minimumGameVersion": "0.1.0",
         "maximumGameVersion": "",
@@ -19197,7 +19197,840 @@
             "periodicKnockbackX": 0.0,
             "periodicKnockbackY": 0.0,
             "shieldCapacity": 0.0
+        },
+        {
+            "kind": "encounter",
+            "id": "qinglan.encounter.old_court.demo_12m",
+            "localizedNameKey": "content.qinglan.encounter.old_court.demo_12m.name",
+            "localizedDescriptionKey": "content.qinglan.encounter.old_court.demo_12m.description",
+            "sourceAssetPath": "Assets/GameAssets/Placeholder/QinglanDemo/OldCourtTwelveMinuteEncounter.asset",
+            "tags": [
+                "content.placeholder",
+                "encounter.old_court",
+                "encounter.demo_12m"
+            ],
+            "baseMaxHealth": 0.0,
+            "moveSpeed": 0.0,
+            "startingSkillIds": [],
+            "mechanicIds": [],
+            "cooldownSeconds": 0.0,
+            "modularSkill": false,
+            "resourceCost": 0.0,
+            "triggerModule": {
+                "moduleId": "",
+                "value0": 0.0,
+                "value1": 0.0,
+                "value2": 0.0,
+                "value3": 0.0,
+                "int0": 0,
+                "int1": 0,
+                "presentationId": "",
+                "referenceId0": "",
+                "referenceId1": "",
+                "tag0": "",
+                "tag1": ""
+            },
+            "conditionModule": {
+                "moduleId": "",
+                "value0": 0.0,
+                "value1": 0.0,
+                "value2": 0.0,
+                "value3": 0.0,
+                "int0": 0,
+                "int1": 0,
+                "presentationId": "",
+                "referenceId0": "",
+                "referenceId1": "",
+                "tag0": "",
+                "tag1": ""
+            },
+            "targetingModule": {
+                "moduleId": "",
+                "value0": 0.0,
+                "value1": 0.0,
+                "value2": 0.0,
+                "value3": 0.0,
+                "int0": 0,
+                "int1": 0,
+                "presentationId": "",
+                "referenceId0": "",
+                "referenceId1": "",
+                "tag0": "",
+                "tag1": ""
+            },
+            "deliveryModule": {
+                "moduleId": "",
+                "value0": 0.0,
+                "value1": 0.0,
+                "value2": 0.0,
+                "value3": 0.0,
+                "int0": 0,
+                "int1": 0,
+                "presentationId": "",
+                "referenceId0": "",
+                "referenceId1": "",
+                "tag0": "",
+                "tag1": ""
+            },
+            "effectOps": [],
+            "levelPatches": [],
+            "collisionRadius": 0.0,
+            "enemyRuntime": {
+                "baseMoveSpeed": 0.0,
+                "baseDamage": 0.0,
+                "attackRange": 0.0,
+                "attackSkillId": "",
+                "experienceReward": 0.0,
+                "lootReward": 0.0,
+                "visualProfileId": "",
+                "movementMode": 0,
+                "preferredDistance": 0.0,
+                "decisionIntervalSeconds": 0.0,
+                "chargeWindupSeconds": 0.0,
+                "chargeDurationSeconds": 0.0,
+                "chargeSpeedMultiplier": 0.0,
+                "attackCooldownSeconds": 0.0,
+                "separationRadius": 0.0,
+                "separationWeight": 0.0,
+                "obstacleAvoidanceWeight": 0.0
+            },
+            "runtimeProviderId": "",
+            "sceneAddress": "",
+            "mapRuntime": {
+                "boundsMode": 0,
+                "minimumX": 0.0,
+                "minimumY": 0.0,
+                "maximumX": 0.0,
+                "maximumY": 0.0,
+                "chunkSize": 0.0,
+                "activeChunkRadius": 0,
+                "encounterScheduleId": "",
+                "visualProfileId": "",
+                "obstacles": [],
+                "anchors": [],
+                "objectiveIds": [],
+                "eventIds": [],
+                "landmarkIds": []
+            },
+            "encounterSchedule": {
+                "maximumConcurrentEnemies": 720,
+                "minimumSpawnDistance": 14.0,
+                "maximumSpawnDistance": 24.0,
+                "phases": [
+                    {
+                        "startTimeSeconds": 0.0,
+                        "endTimeSeconds": 90.0,
+                        "budgetPerSecondStart": 2.0,
+                        "budgetPerSecondEnd": 3.0,
+                        "spawnIntervalStart": 1.100000023841858,
+                        "spawnIntervalEnd": 0.8999999761581421,
+                        "maximumConcurrentEnemies": 120,
+                        "spawnPattern": 1,
+                        "anchorId": "",
+                        "enemies": [
+                            {
+                                "enemyId": "qinglan.enemy.grass_spirit",
+                                "weight": 1.0,
+                                "budgetCost": 1.0,
+                                "minimumGroupSize": 2,
+                                "maximumGroupSize": 5,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            }
+                        ],
+                        "elites": [],
+                        "bosses": []
+                    },
+                    {
+                        "startTimeSeconds": 90.0,
+                        "endTimeSeconds": 180.0,
+                        "budgetPerSecondStart": 3.0,
+                        "budgetPerSecondEnd": 4.5,
+                        "spawnIntervalStart": 0.949999988079071,
+                        "spawnIntervalEnd": 0.75,
+                        "maximumConcurrentEnemies": 180,
+                        "spawnPattern": 2,
+                        "anchorId": "",
+                        "enemies": [
+                            {
+                                "enemyId": "qinglan.enemy.grass_spirit",
+                                "weight": 3.0,
+                                "budgetCost": 1.0,
+                                "minimumGroupSize": 2,
+                                "maximumGroupSize": 5,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.paper_crane_spirit",
+                                "weight": 1.0,
+                                "budgetCost": 2.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 2,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            }
+                        ],
+                        "elites": [],
+                        "bosses": []
+                    },
+                    {
+                        "startTimeSeconds": 180.0,
+                        "endTimeSeconds": 270.0,
+                        "budgetPerSecondStart": 4.5,
+                        "budgetPerSecondEnd": 6.0,
+                        "spawnIntervalStart": 0.800000011920929,
+                        "spawnIntervalEnd": 0.6499999761581421,
+                        "maximumConcurrentEnemies": 240,
+                        "spawnPattern": 5,
+                        "anchorId": "",
+                        "enemies": [
+                            {
+                                "enemyId": "qinglan.enemy.grass_spirit",
+                                "weight": 3.0,
+                                "budgetCost": 1.0,
+                                "minimumGroupSize": 2,
+                                "maximumGroupSize": 5,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.paper_crane_spirit",
+                                "weight": 1.5,
+                                "budgetCost": 2.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 2,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.wooden_sword_puppet",
+                                "weight": 1.0,
+                                "budgetCost": 4.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 1,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            }
+                        ],
+                        "elites": [
+                            {
+                                "enemyId": "qinglan.enemy.wooden_sword_puppet",
+                                "spawnTimeSeconds": 180.0,
+                                "pattern": 2,
+                                "anchorId": "",
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            }
+                        ],
+                        "bosses": []
+                    },
+                    {
+                        "startTimeSeconds": 270.0,
+                        "endTimeSeconds": 360.0,
+                        "budgetPerSecondStart": 6.0,
+                        "budgetPerSecondEnd": 7.5,
+                        "spawnIntervalStart": 0.699999988079071,
+                        "spawnIntervalEnd": 0.550000011920929,
+                        "maximumConcurrentEnemies": 320,
+                        "spawnPattern": 4,
+                        "anchorId": "",
+                        "enemies": [
+                            {
+                                "enemyId": "qinglan.enemy.grass_spirit",
+                                "weight": 3.0,
+                                "budgetCost": 1.0,
+                                "minimumGroupSize": 2,
+                                "maximumGroupSize": 5,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.paper_crane_spirit",
+                                "weight": 1.5,
+                                "budgetCost": 2.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 2,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.wooden_sword_puppet",
+                                "weight": 1.0,
+                                "budgetCost": 4.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 1,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.stone_lantern_guard",
+                                "weight": 1.0,
+                                "budgetCost": 3.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 2,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            }
+                        ],
+                        "elites": [],
+                        "bosses": []
+                    },
+                    {
+                        "startTimeSeconds": 360.0,
+                        "endTimeSeconds": 390.0,
+                        "budgetPerSecondStart": 1.0,
+                        "budgetPerSecondEnd": 1.0,
+                        "spawnIntervalStart": 1.25,
+                        "spawnIntervalEnd": 1.25,
+                        "maximumConcurrentEnemies": 80,
+                        "spawnPattern": 1,
+                        "anchorId": "",
+                        "enemies": [
+                            {
+                                "enemyId": "qinglan.enemy.grass_spirit",
+                                "weight": 2.0,
+                                "budgetCost": 1.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 3,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.wooden_sword_puppet",
+                                "weight": 1.0,
+                                "budgetCost": 4.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 1,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            }
+                        ],
+                        "elites": [],
+                        "bosses": []
+                    },
+                    {
+                        "startTimeSeconds": 390.0,
+                        "endTimeSeconds": 450.0,
+                        "budgetPerSecondStart": 7.0,
+                        "budgetPerSecondEnd": 9.0,
+                        "spawnIntervalStart": 0.6000000238418579,
+                        "spawnIntervalEnd": 0.5,
+                        "maximumConcurrentEnemies": 360,
+                        "spawnPattern": 3,
+                        "anchorId": "",
+                        "enemies": [
+                            {
+                                "enemyId": "qinglan.enemy.grass_spirit",
+                                "weight": 3.0,
+                                "budgetCost": 1.0,
+                                "minimumGroupSize": 2,
+                                "maximumGroupSize": 5,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.paper_crane_spirit",
+                                "weight": 1.5,
+                                "budgetCost": 2.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 2,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.wooden_sword_puppet",
+                                "weight": 1.0,
+                                "budgetCost": 4.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 1,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.stone_lantern_guard",
+                                "weight": 1.0,
+                                "budgetCost": 3.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 2,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.wind_bell_spirit",
+                                "weight": 0.75,
+                                "budgetCost": 3.5,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 1,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            }
+                        ],
+                        "elites": [],
+                        "bosses": []
+                    },
+                    {
+                        "startTimeSeconds": 450.0,
+                        "endTimeSeconds": 540.0,
+                        "budgetPerSecondStart": 9.0,
+                        "budgetPerSecondEnd": 11.0,
+                        "spawnIntervalStart": 0.5199999809265137,
+                        "spawnIntervalEnd": 0.4300000071525574,
+                        "maximumConcurrentEnemies": 440,
+                        "spawnPattern": 2,
+                        "anchorId": "",
+                        "enemies": [
+                            {
+                                "enemyId": "qinglan.enemy.grass_spirit",
+                                "weight": 3.0,
+                                "budgetCost": 1.0,
+                                "minimumGroupSize": 2,
+                                "maximumGroupSize": 5,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.paper_crane_spirit",
+                                "weight": 1.5,
+                                "budgetCost": 2.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 2,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.wooden_sword_puppet",
+                                "weight": 1.0,
+                                "budgetCost": 4.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 1,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.stone_lantern_guard",
+                                "weight": 1.0,
+                                "budgetCost": 3.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 2,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.wind_bell_spirit",
+                                "weight": 0.75,
+                                "budgetCost": 3.5,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 1,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.explosive_seed_pod",
+                                "weight": 0.75,
+                                "budgetCost": 4.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 1,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            }
+                        ],
+                        "elites": [
+                            {
+                                "enemyId": "qinglan.enemy.stone_lantern_guard",
+                                "spawnTimeSeconds": 450.0,
+                                "pattern": 1,
+                                "anchorId": "",
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            }
+                        ],
+                        "bosses": []
+                    },
+                    {
+                        "startTimeSeconds": 540.0,
+                        "endTimeSeconds": 630.0,
+                        "budgetPerSecondStart": 11.0,
+                        "budgetPerSecondEnd": 14.0,
+                        "spawnIntervalStart": 0.46000000834465029,
+                        "spawnIntervalEnd": 0.3799999952316284,
+                        "maximumConcurrentEnemies": 520,
+                        "spawnPattern": 3,
+                        "anchorId": "",
+                        "enemies": [
+                            {
+                                "enemyId": "qinglan.enemy.grass_spirit",
+                                "weight": 2.5,
+                                "budgetCost": 1.0,
+                                "minimumGroupSize": 2,
+                                "maximumGroupSize": 5,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.paper_crane_spirit",
+                                "weight": 1.5,
+                                "budgetCost": 2.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 2,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.wooden_sword_puppet",
+                                "weight": 1.25,
+                                "budgetCost": 4.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 1,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.stone_lantern_guard",
+                                "weight": 1.25,
+                                "budgetCost": 3.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 2,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.wind_bell_spirit",
+                                "weight": 0.8500000238418579,
+                                "budgetCost": 3.5,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 1,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.explosive_seed_pod",
+                                "weight": 0.8500000238418579,
+                                "budgetCost": 4.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 1,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            }
+                        ],
+                        "elites": [],
+                        "bosses": []
+                    },
+                    {
+                        "startTimeSeconds": 630.0,
+                        "endTimeSeconds": 720.0,
+                        "budgetPerSecondStart": 14.0,
+                        "budgetPerSecondEnd": 18.0,
+                        "spawnIntervalStart": 0.4000000059604645,
+                        "spawnIntervalEnd": 0.3199999928474426,
+                        "maximumConcurrentEnemies": 600,
+                        "spawnPattern": 8,
+                        "anchorId": "",
+                        "enemies": [
+                            {
+                                "enemyId": "qinglan.enemy.grass_spirit",
+                                "weight": 2.0,
+                                "budgetCost": 1.0,
+                                "minimumGroupSize": 2,
+                                "maximumGroupSize": 5,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.paper_crane_spirit",
+                                "weight": 1.75,
+                                "budgetCost": 2.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 2,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.wooden_sword_puppet",
+                                "weight": 1.5,
+                                "budgetCost": 4.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 1,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.stone_lantern_guard",
+                                "weight": 1.5,
+                                "budgetCost": 3.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 2,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.wind_bell_spirit",
+                                "weight": 1.0,
+                                "budgetCost": 3.5,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 1,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            },
+                            {
+                                "enemyId": "qinglan.enemy.explosive_seed_pod",
+                                "weight": 1.0,
+                                "budgetCost": 4.0,
+                                "minimumGroupSize": 1,
+                                "maximumGroupSize": 1,
+                                "elite": false,
+                                "affixPoolIds": [
+                                    "qinglan.affix.barrier",
+                                    "qinglan.affix.quaking",
+                                    "qinglan.affix.rampaging",
+                                    "qinglan.affix.splitting"
+                                ]
+                            }
+                        ],
+                        "elites": [],
+                        "bosses": []
+                    }
+                ]
+            },
+            "buildProgression": {
+                "maximumLevel": 0,
+                "passiveModifiers": [],
+                "traitModifiers": [],
+                "conditions": [],
+                "outputs": [],
+                "requiredSkillId": "",
+                "requiredSkillLevel": 0,
+                "requiredPassiveIds": [],
+                "resultSkillId": "",
+                "consumePolicy": "",
+                "targetContentId": "",
+                "weight": 0.0,
+                "initiallyUnlocked": false,
+                "mutuallyExclusiveIds": []
+            },
+            "qinglanRuntime": {
+                "presentationProfileId": "",
+                "resourceId": "",
+                "value0": 0.0,
+                "value1": 0.0,
+                "int0": 0,
+                "enum0": 0,
+                "bool0": false,
+                "text0": "",
+                "referenceId0": "",
+                "referenceId1": "",
+                "referenceId2": "",
+                "references0": [],
+                "references1": [],
+                "references2": [],
+                "tags0": [],
+                "tags1": [],
+                "localizedSequenceKeys": [],
+                "mechanicTiers": [],
+                "rewardOperations": [],
+                "stateTransitions": [],
+                "bossPhases": []
+            },
+            "stackingPolicy": "",
+            "durationSeconds": 0.0,
+            "maxStacks": 0,
+            "tickIntervalSeconds": 0.0,
+            "dispelTags": [],
+            "immunityTags": [],
+            "statusModifierEnabled": false,
+            "statusModifierStatId": "",
+            "statusModifierOperation": "",
+            "statusModifierValue": 0.0,
+            "statusModifierPriority": 0,
+            "statusModifierStackingGroup": "",
+            "periodicDamageEnabled": false,
+            "periodicDamageType": "",
+            "periodicDamageTags": 0,
+            "periodicDamageValue": 0.0,
+            "periodicCanCritical": false,
+            "periodicProcCoefficient": 0.0,
+            "periodicKnockbackX": 0.0,
+            "periodicKnockbackY": 0.0,
+            "shieldCapacity": 0.0
         }
     ],
-    "contentHash": "4d1e1a2094443e7ca688d841561375454a93e98c7213c9779068d0b8a8300e5f"
+    "contentHash": "798dbb302dda57b9f0158e83010ee89392ffdc291cc629715ba357b691ebd5ad"
 }

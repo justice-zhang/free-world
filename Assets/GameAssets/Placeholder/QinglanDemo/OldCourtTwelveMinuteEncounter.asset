@@ -1,0 +1,536 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3599d91c04484c73b92ddd4bdcb1fd04, type: 3}
+  m_Name: OldCourtTwelveMinuteEncounter
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.EncounterScheduleAuthoring
+  contentId: qinglan.encounter.old_court.demo_12m
+  localizedNameKey: content.qinglan.encounter.old_court.demo_12m.name
+  localizedDescriptionKey: content.qinglan.encounter.old_court.demo_12m.description
+  tags:
+  - content.placeholder
+  - encounter.old_court
+  - encounter.demo_12m
+  maximumConcurrentEnemies: 720
+  minimumSpawnDistance: 14
+  maximumSpawnDistance: 24
+  phases:
+  - startTimeSeconds: 0
+    endTimeSeconds: 90
+    budgetPerSecondStart: 2
+    budgetPerSecondEnd: 3
+    spawnIntervalStart: 1.1
+    spawnIntervalEnd: 0.9
+    maximumConcurrentEnemies: 120
+    spawnPattern: 1
+    anchorId: 
+    enemies:
+    - enemy: {fileID: 11400000, guid: c79529d648f230945bec502b7faa3fbb, type: 2}
+      weight: 1
+      budgetCost: 1
+      minimumGroupSize: 2
+      maximumGroupSize: 5
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    elites: []
+    bosses: []
+  - startTimeSeconds: 90
+    endTimeSeconds: 180
+    budgetPerSecondStart: 3
+    budgetPerSecondEnd: 4.5
+    spawnIntervalStart: 0.95
+    spawnIntervalEnd: 0.75
+    maximumConcurrentEnemies: 180
+    spawnPattern: 2
+    anchorId: 
+    enemies:
+    - enemy: {fileID: 11400000, guid: c79529d648f230945bec502b7faa3fbb, type: 2}
+      weight: 3
+      budgetCost: 1
+      minimumGroupSize: 2
+      maximumGroupSize: 5
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 39c4c147b0905d44698972f2a55a8d2c, type: 2}
+      weight: 1
+      budgetCost: 2
+      minimumGroupSize: 1
+      maximumGroupSize: 2
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    elites: []
+    bosses: []
+  - startTimeSeconds: 180
+    endTimeSeconds: 270
+    budgetPerSecondStart: 4.5
+    budgetPerSecondEnd: 6
+    spawnIntervalStart: 0.8
+    spawnIntervalEnd: 0.65
+    maximumConcurrentEnemies: 240
+    spawnPattern: 5
+    anchorId: 
+    enemies:
+    - enemy: {fileID: 11400000, guid: c79529d648f230945bec502b7faa3fbb, type: 2}
+      weight: 3
+      budgetCost: 1
+      minimumGroupSize: 2
+      maximumGroupSize: 5
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 39c4c147b0905d44698972f2a55a8d2c, type: 2}
+      weight: 1.5
+      budgetCost: 2
+      minimumGroupSize: 1
+      maximumGroupSize: 2
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 08592627a167f224a87ad5a962f8812b, type: 2}
+      weight: 1
+      budgetCost: 4
+      minimumGroupSize: 1
+      maximumGroupSize: 1
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    elites:
+    - enemy: {fileID: 11400000, guid: 08592627a167f224a87ad5a962f8812b, type: 2}
+      spawnTimeSeconds: 180
+      pattern: 2
+      anchorId: 
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    bosses: []
+  - startTimeSeconds: 270
+    endTimeSeconds: 360
+    budgetPerSecondStart: 6
+    budgetPerSecondEnd: 7.5
+    spawnIntervalStart: 0.7
+    spawnIntervalEnd: 0.55
+    maximumConcurrentEnemies: 320
+    spawnPattern: 4
+    anchorId: 
+    enemies:
+    - enemy: {fileID: 11400000, guid: c79529d648f230945bec502b7faa3fbb, type: 2}
+      weight: 3
+      budgetCost: 1
+      minimumGroupSize: 2
+      maximumGroupSize: 5
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 39c4c147b0905d44698972f2a55a8d2c, type: 2}
+      weight: 1.5
+      budgetCost: 2
+      minimumGroupSize: 1
+      maximumGroupSize: 2
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 08592627a167f224a87ad5a962f8812b, type: 2}
+      weight: 1
+      budgetCost: 4
+      minimumGroupSize: 1
+      maximumGroupSize: 1
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: c33a6ea4a00e66a4b8dde3ccf5b1a175, type: 2}
+      weight: 1
+      budgetCost: 3
+      minimumGroupSize: 1
+      maximumGroupSize: 2
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    elites: []
+    bosses: []
+  - startTimeSeconds: 360
+    endTimeSeconds: 390
+    budgetPerSecondStart: 1
+    budgetPerSecondEnd: 1
+    spawnIntervalStart: 1.25
+    spawnIntervalEnd: 1.25
+    maximumConcurrentEnemies: 80
+    spawnPattern: 1
+    anchorId: 
+    enemies:
+    - enemy: {fileID: 11400000, guid: c79529d648f230945bec502b7faa3fbb, type: 2}
+      weight: 2
+      budgetCost: 1
+      minimumGroupSize: 1
+      maximumGroupSize: 3
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 08592627a167f224a87ad5a962f8812b, type: 2}
+      weight: 1
+      budgetCost: 4
+      minimumGroupSize: 1
+      maximumGroupSize: 1
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    elites: []
+    bosses: []
+  - startTimeSeconds: 390
+    endTimeSeconds: 450
+    budgetPerSecondStart: 7
+    budgetPerSecondEnd: 9
+    spawnIntervalStart: 0.6
+    spawnIntervalEnd: 0.5
+    maximumConcurrentEnemies: 360
+    spawnPattern: 3
+    anchorId: 
+    enemies:
+    - enemy: {fileID: 11400000, guid: c79529d648f230945bec502b7faa3fbb, type: 2}
+      weight: 3
+      budgetCost: 1
+      minimumGroupSize: 2
+      maximumGroupSize: 5
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 39c4c147b0905d44698972f2a55a8d2c, type: 2}
+      weight: 1.5
+      budgetCost: 2
+      minimumGroupSize: 1
+      maximumGroupSize: 2
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 08592627a167f224a87ad5a962f8812b, type: 2}
+      weight: 1
+      budgetCost: 4
+      minimumGroupSize: 1
+      maximumGroupSize: 1
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: c33a6ea4a00e66a4b8dde3ccf5b1a175, type: 2}
+      weight: 1
+      budgetCost: 3
+      minimumGroupSize: 1
+      maximumGroupSize: 2
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: e11847cc79a9a1349a5b24201eb28514, type: 2}
+      weight: 0.75
+      budgetCost: 3.5
+      minimumGroupSize: 1
+      maximumGroupSize: 1
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    elites: []
+    bosses: []
+  - startTimeSeconds: 450
+    endTimeSeconds: 540
+    budgetPerSecondStart: 9
+    budgetPerSecondEnd: 11
+    spawnIntervalStart: 0.52
+    spawnIntervalEnd: 0.43
+    maximumConcurrentEnemies: 440
+    spawnPattern: 2
+    anchorId: 
+    enemies:
+    - enemy: {fileID: 11400000, guid: c79529d648f230945bec502b7faa3fbb, type: 2}
+      weight: 3
+      budgetCost: 1
+      minimumGroupSize: 2
+      maximumGroupSize: 5
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 39c4c147b0905d44698972f2a55a8d2c, type: 2}
+      weight: 1.5
+      budgetCost: 2
+      minimumGroupSize: 1
+      maximumGroupSize: 2
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 08592627a167f224a87ad5a962f8812b, type: 2}
+      weight: 1
+      budgetCost: 4
+      minimumGroupSize: 1
+      maximumGroupSize: 1
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: c33a6ea4a00e66a4b8dde3ccf5b1a175, type: 2}
+      weight: 1
+      budgetCost: 3
+      minimumGroupSize: 1
+      maximumGroupSize: 2
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: e11847cc79a9a1349a5b24201eb28514, type: 2}
+      weight: 0.75
+      budgetCost: 3.5
+      minimumGroupSize: 1
+      maximumGroupSize: 1
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 787f6c6c9186b264bbd716a6164aa344, type: 2}
+      weight: 0.75
+      budgetCost: 4
+      minimumGroupSize: 1
+      maximumGroupSize: 1
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    elites:
+    - enemy: {fileID: 11400000, guid: c33a6ea4a00e66a4b8dde3ccf5b1a175, type: 2}
+      spawnTimeSeconds: 450
+      pattern: 1
+      anchorId: 
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    bosses: []
+  - startTimeSeconds: 540
+    endTimeSeconds: 630
+    budgetPerSecondStart: 11
+    budgetPerSecondEnd: 14
+    spawnIntervalStart: 0.46
+    spawnIntervalEnd: 0.38
+    maximumConcurrentEnemies: 520
+    spawnPattern: 3
+    anchorId: 
+    enemies:
+    - enemy: {fileID: 11400000, guid: c79529d648f230945bec502b7faa3fbb, type: 2}
+      weight: 2.5
+      budgetCost: 1
+      minimumGroupSize: 2
+      maximumGroupSize: 5
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 39c4c147b0905d44698972f2a55a8d2c, type: 2}
+      weight: 1.5
+      budgetCost: 2
+      minimumGroupSize: 1
+      maximumGroupSize: 2
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 08592627a167f224a87ad5a962f8812b, type: 2}
+      weight: 1.25
+      budgetCost: 4
+      minimumGroupSize: 1
+      maximumGroupSize: 1
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: c33a6ea4a00e66a4b8dde3ccf5b1a175, type: 2}
+      weight: 1.25
+      budgetCost: 3
+      minimumGroupSize: 1
+      maximumGroupSize: 2
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: e11847cc79a9a1349a5b24201eb28514, type: 2}
+      weight: 0.85
+      budgetCost: 3.5
+      minimumGroupSize: 1
+      maximumGroupSize: 1
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 787f6c6c9186b264bbd716a6164aa344, type: 2}
+      weight: 0.85
+      budgetCost: 4
+      minimumGroupSize: 1
+      maximumGroupSize: 1
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    elites: []
+    bosses: []
+  - startTimeSeconds: 630
+    endTimeSeconds: 720
+    budgetPerSecondStart: 14
+    budgetPerSecondEnd: 18
+    spawnIntervalStart: 0.4
+    spawnIntervalEnd: 0.32
+    maximumConcurrentEnemies: 600
+    spawnPattern: 8
+    anchorId: 
+    enemies:
+    - enemy: {fileID: 11400000, guid: c79529d648f230945bec502b7faa3fbb, type: 2}
+      weight: 2
+      budgetCost: 1
+      minimumGroupSize: 2
+      maximumGroupSize: 5
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 39c4c147b0905d44698972f2a55a8d2c, type: 2}
+      weight: 1.75
+      budgetCost: 2
+      minimumGroupSize: 1
+      maximumGroupSize: 2
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 08592627a167f224a87ad5a962f8812b, type: 2}
+      weight: 1.5
+      budgetCost: 4
+      minimumGroupSize: 1
+      maximumGroupSize: 1
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: c33a6ea4a00e66a4b8dde3ccf5b1a175, type: 2}
+      weight: 1.5
+      budgetCost: 3
+      minimumGroupSize: 1
+      maximumGroupSize: 2
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: e11847cc79a9a1349a5b24201eb28514, type: 2}
+      weight: 1
+      budgetCost: 3.5
+      minimumGroupSize: 1
+      maximumGroupSize: 1
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    - enemy: {fileID: 11400000, guid: 787f6c6c9186b264bbd716a6164aa344, type: 2}
+      weight: 1
+      budgetCost: 4
+      minimumGroupSize: 1
+      maximumGroupSize: 1
+      elite: 0
+      affixPool:
+      - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+      - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+      - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+      - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
+    elites: []
+    bosses: []

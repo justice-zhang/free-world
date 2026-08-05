@@ -1251,6 +1251,14 @@ MonoBehaviour:
     m_Key: content.qinglan.trait.elite.rampaging.description
     m_Metadata:
       m_Items: []
+  - m_Id: 3690745783263232
+    m_Key: content.qinglan.encounter.old_court.demo_12m.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3690745854566400
+    m_Key: content.qinglan.encounter.old_court.demo_12m.description
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -567,8 +567,10 @@ RuntimeStoryDefinition / RuntimeCollectibleDefinition
 ```
 
 Schema 6 Character 追加可选 `MechanicIds[]`；Map 追加 Objective/Event/Landmark 引用；Encounter
-Elite Entry 可引用 Affix Pool，Boss Rule 可引用 BossDefinition。Schema 1—5 不读取这些字段，默认
-行为与原 Hash 不变。旧 Schema 4/5 的 `Elite bool` 继续走历史倍率兼容路径，不伪装为词缀完成。
+Elite Entry 可引用 Affix Pool，Phase 可追加一次性 `EliteRules[]`，Boss Rule 可引用 BossDefinition。
+EliteRule 保存 EnemyId、绝对 SpawnTime、Pattern、可选 AnchorId 与 canonical AffixPoolIds；时间必须落在
+所属 Phase，池不能为空。Schema 1—5 不读取这些字段，默认行为与原 Hash 不变。旧 Schema 4/5 的
+`Elite bool` 继续走历史倍率兼容路径，不伪装为词缀完成。
 
 ### 15.2 模块与 Reward token
 

@@ -7,7 +7,7 @@ M10 首次冻结、G1.1 按 ADR 0013—0015 更新以下程序集的公开类型
 | 程序集 | 签名数 | SHA-256 |
 |---|---:|---|
 | `Game.Core` | 168 | `25766747b7014e0386506567e5e3c35f78b6dc5d00d850b00c35d28eb8d7e176` |
-| `Game.Content.Runtime` | 923 | `ebef438d029ee23bcbf609c3148ef08e18e3aa07d0e6aec99b29a15e199f7192` |
+| `Game.Content.Runtime` | 940 | `cd72d779cf1ae53f0875d06140706e194081588b7a0429efd4e490ae72e35b00` |
 | `Game.Simulation` | 1160 | `a6555342a937f674d827f83eea0b0100fe2feeafff92f0e53b58e9fd7b39181f` |
 | `Game.Application` | 346 | `bea7fe9998f2ae9f872a505e9f36cee00a9ddfd26e5af8e105916ea4b3d46197` |
 | `Game.Platform.Abstractions` | 73 | `8eb5f2ccca0f5845a55d90c9f00fb42eae59cc82d81e98369995e84428a51738` |
@@ -65,3 +65,22 @@ P RuntimeEliteAffixDefinition.RewardMultiplier
 下 Project Validation 仅报告 `Game.Content.Runtime` 从 918/`ca5937…` 漂移到
 923/`ebef43…`；Core、Simulation、Application 与 Platform 的签名数和 Hash 不变。规范签名输出与
 旧 Hash 失败日志保存在 `TestResults/QinglanDemo/G1.5/`，更新后必须由完整门禁重新证明 PASS。
+
+## Qinglan Demo G1.6 批准追加
+
+CR-2026-016 与 ADR 0017 为 M09 的固定时点一次性精英补齐 Schema 6 `EliteRules[]`。规范 API 从
+923 条追加 17 条至 940 条：
+
+```text
+T/C/F EncounterEliteRuleDto（5 个字段）
+T/C RuntimeEncounterEliteRule
+C RuntimeEncounterPhase(..., RuntimeEncounterEliteRule[] eliteRules, ...)
+P RuntimeEncounterEliteRule.EnemyId / SpawnTimeSeconds / Pattern / AnchorId / AffixPoolIds
+P RuntimeEncounterPhase.EliteRules
+F EncounterPhaseDto.elites
+```
+
+旧 `RuntimeEncounterPhase` 构造函数仍存在并默认空规则；Schema 1—5 不读取新 DTO 字段，已有 M5
+Fixture Hash 不变。旧 Hash 下 Project Validation 只报告 `Game.Content.Runtime` 从
+923/`ebef43…` 漂移到 940/`cd72d7…`；Core、Simulation、Application 与 Platform 签名文件逐字节不变。
+规范签名、旧 Hash 失败日志与最终捕获保存在 `TestResults/QinglanDemo/G1.6/`。

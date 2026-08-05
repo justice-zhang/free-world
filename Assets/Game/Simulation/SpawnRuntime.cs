@@ -266,6 +266,8 @@ namespace Game.Simulation
         private readonly RuntimeEncounterSchedule schedule;
         private readonly IMapRuntime map;
         private readonly DifficultySnapshot difficulty;
+        private readonly bool[] eliteTriggered;
+        private readonly int[] eliteOffsets;
         private readonly bool[] bossTriggered;
         private readonly int[] bossOffsets;
         private RandomStream random;
@@ -284,15 +286,21 @@ namespace Game.Simulation
             map = mapRuntime ?? throw new ArgumentNullException(nameof(mapRuntime));
             difficulty = difficultySnapshot;
             random = new RandomStream(seed).Derive(0x535041574EUL);
+            eliteOffsets = new int[schedule.Phases.Count + 1];
             bossOffsets = new int[schedule.Phases.Count + 1];
+            var eliteCount = 0;
             var bossCount = 0;
             for (var index = 0; index < schedule.Phases.Count; index++)
             {
+                eliteOffsets[index] = eliteCount;
                 bossOffsets[index] = bossCount;
+                eliteCount += schedule.Phases[index].EliteRules.Count;
                 bossCount += schedule.Phases[index].BossRules.Count;
             }
 
+            eliteOffsets[schedule.Phases.Count] = eliteCount;
             bossOffsets[schedule.Phases.Count] = bossCount;
+            eliteTriggered = new bool[eliteCount];
             bossTriggered = new bool[bossCount];
         }
 
@@ -300,6 +308,7 @@ namespace Game.Simulation
         public float AccumulatedBudget => accumulatedBudget;
         public long SpawnedRequestCount { get; private set; }
         public int BossRequestCount { get; private set; }
+        internal int EliteRequestCount { get; private set; }
 
         internal void Tick(SimulationWorld world)
         {
@@ -314,6 +323,12 @@ namespace Game.Simulation
             var phaseIndex = FindPhase(elapsedSeconds);
             if (phaseIndex < 0)
             {
+                if (schedule.Phases.Count > 0 &&
+                    elapsedSeconds >= schedule.Phases[schedule.Phases.Count - 1].EndTimeSeconds)
+                {
+                    accumulatedBudget = 0f;
+                    spawnCooldown = 0f;
+                }
                 elapsedSeconds += world.DeltaTimeSeconds;
                 return;
             }
@@ -326,6 +341,7 @@ namespace Game.Simulation
             accumulatedBudget += curveSample.BudgetPerSecond * world.DeltaTimeSeconds;
             spawnCooldown -= world.DeltaTimeSeconds;
 
+            TryQueueElites(world, phaseIndex, phase, playerPosition);
             TryQueueBosses(world, phaseIndex, phase, playerPosition);
             var maximumConcurrent = Math.Min(
                 schedule.MaximumConcurrentEnemies,
@@ -333,7 +349,7 @@ namespace Game.Simulation
             var occupied = world.Enemies.Count + world.Enemies.PendingSpawns.Count;
             var normalLimit = Math.Max(
                 0,
-                maximumConcurrent - CountUntriggeredBosses(phaseIndex));
+                maximumConcurrent - CountUntriggeredElites(phaseIndex) - CountUntriggeredBosses(phaseIndex));
             if (spawnCooldown <= 0f && occupied < normalLimit)
             {
                 TryQueueGroup(world, phase, playerPosition, normalLimit - occupied);
@@ -343,6 +359,22 @@ namespace Game.Simulation
             }
 
             elapsedSeconds += world.DeltaTimeSeconds;
+            if (elapsedSeconds >= schedule.Phases[schedule.Phases.Count - 1].EndTimeSeconds)
+            {
+                accumulatedBudget = 0f;
+                spawnCooldown = 0f;
+            }
+        }
+
+        private int CountUntriggeredElites(int phaseIndex)
+        {
+            var count = 0;
+            for (var index = eliteOffsets[phaseIndex]; index < eliteOffsets[phaseIndex + 1]; index++)
+            {
+                if (!eliteTriggered[index]) count++;
+            }
+
+            return count;
         }
 
         private int CountUntriggeredBosses(int phaseIndex)
@@ -354,6 +386,53 @@ namespace Game.Simulation
             }
 
             return count;
+        }
+
+        private void TryQueueElites(
+            SimulationWorld world,
+            int phaseIndex,
+            RuntimeEncounterPhase phase,
+            Vector2 playerPosition)
+        {
+            for (var index = 0; index < phase.EliteRules.Count; index++)
+            {
+                var globalIndex = eliteOffsets[phaseIndex] + index;
+                if (eliteTriggered[globalIndex] || elapsedSeconds < phase.EliteRules[index].SpawnTimeSeconds)
+                    continue;
+                var cap = Math.Min(schedule.MaximumConcurrentEnemies, phase.MaximumConcurrentEnemies);
+                if (world.Enemies.Count + world.Enemies.PendingSpawns.Count >= cap) return;
+                var elite = phase.EliteRules[index];
+                if (!world.Enemies.Catalog.TryGet(elite.EnemyId, out var enemy)) continue;
+                var affixes = world.Enemies.ComposeAffixes(
+                    enemy,
+                    elite.AffixPoolIds,
+                    true,
+                    false,
+                    ref random);
+                var position = SpawnPatternGenerator.Generate(
+                    elite.Pattern,
+                    map,
+                    playerPosition,
+                    schedule.MinimumSpawnDistance,
+                    schedule.MaximumSpawnDistance,
+                    elite.AnchorId,
+                    0,
+                    ref random);
+                world.Enemies.PendingSpawns.Add(
+                    new SpawnRequest(
+                        enemy.Index,
+                        position,
+                        true,
+                        false,
+                        sequence++,
+                        affixes,
+                        0,
+                        1f,
+                        1f));
+                eliteTriggered[globalIndex] = true;
+                SpawnedRequestCount++;
+                EliteRequestCount++;
+            }
         }
 
         private void TryQueueBosses(
