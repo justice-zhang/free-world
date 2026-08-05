@@ -61,6 +61,32 @@ namespace Game.Simulation
             }
         }
 
+        public static void CollectAllies(
+            SimulationWorld world,
+            SpatialEntity owner,
+            Vector2 center,
+            float radius,
+            SpatialQueryBuffer spatialResults,
+            SkillTargetResultBuffer targets)
+        {
+            targets.Reset();
+            world.SpatialGrid.QueryRadius(center, Math.Max(0f, radius), spatialResults);
+            for (var index = 0; index < spatialResults.Count; index++)
+            {
+                var candidate = spatialResults[index];
+                if (candidate.Entity.Kind != EntityKind.Actor ||
+                    candidate.Entity == owner ||
+                    !world.Actors.Contains(candidate.Entity.Handle) ||
+                    world.Actors.IsDeathPending(candidate.Entity.Handle) ||
+                    world.IsHostileTarget(owner, candidate.Entity))
+                {
+                    continue;
+                }
+
+                targets.Add(new SkillTarget(candidate.Entity, candidate.Position, true));
+            }
+        }
+
         public static int GetLimit(int configured, int available, int defaultValue)
         {
             var limit = configured > 0 ? configured : defaultValue;
@@ -373,6 +399,38 @@ namespace Game.Simulation
                 (float)Math.Cos(angle) * radius,
                 (float)Math.Sin(angle) * radius);
             targets.Add(new SkillTarget(default, point, false));
+        }
+    }
+
+    internal sealed class AlliesCircleTargetingExecutor : ITargetingExecutor
+    {
+        public ContentId Id => SkillModuleIds.TargetingAlliesCircle;
+
+        public void Select(
+            SimulationWorld world,
+            SkillInstance instance,
+            RuntimeSkillLevel level,
+            in SkillTriggerContext context,
+            SpatialQueryBuffer spatialResults,
+            SkillTargetResultBuffer targets,
+            ref RandomStream random)
+        {
+            if (!TargetingExecutorUtility.TryGetOwnerState(world, instance, out var owner))
+            {
+                targets.Reset();
+                return;
+            }
+
+            TargetingExecutorUtility.CollectAllies(
+                world,
+                instance.Owner,
+                owner.Position,
+                level.Targeting.Value0,
+                spatialResults,
+                targets);
+            targets.SortByDistance(owner.Position);
+            targets.Truncate(
+                TargetingExecutorUtility.GetLimit(level.Targeting.Int0, targets.Count, 8));
         }
     }
 

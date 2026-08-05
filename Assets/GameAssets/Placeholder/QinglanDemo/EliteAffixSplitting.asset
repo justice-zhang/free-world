@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ab5523569c43f3add3cd44c96bed44, type: 3}
+  m_Name: EliteAffixSplitting
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.QinglanDefinitionAuthoring
+  contentId: qinglan.affix.splitting
+  localizedNameKey: content.qinglan.affix.splitting.name
+  localizedDescriptionKey: content.qinglan.affix.splitting.description
+  tags:
+  - content.placeholder
+  - affix.elite
+  - affix.splitting
+  - affix.spawn
+  runtimeKind: elite_affix
+  runtime:
+    presentationProfileId: placeholder.presentation.qinglan.affix.splitting
+    resourceId: 
+    value0: 1.1
+    value1: 0
+    int0: 1
+    enum0: 0
+    bool0: 0
+    text0: 
+    referenceId0: 
+    referenceId1: 
+    referenceId2: qinglan.reward.elite.splitting
+    references0: []
+    references1: []
+    references2: []
+    tags0:
+    - enemy.normal
+    tags1:
+    - enemy.boss
+    - enemy.environment
+    - enemy.explosive
+    localizedSequenceKeys: []
+    mechanicTiers: []
+    rewardOperations: []
+    stateTransitions: []
+    bossPhases: []

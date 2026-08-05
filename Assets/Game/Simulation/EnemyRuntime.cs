@@ -24,18 +24,41 @@ namespace Game.Simulation
         public RuntimeContentIndex AttackSkillIndex { get; }
     }
 
+    internal sealed class CompiledEliteAffixDefinition
+    {
+        public CompiledEliteAffixDefinition(
+            RuntimeEliteAffixDefinition source,
+            RuntimeBuildModifier[] modifiers,
+            RuntimeContentIndex skillIndex,
+            RuntimeRewardDefinition deathReward)
+        {
+            Source = source;
+            Modifiers = modifiers ?? Array.Empty<RuntimeBuildModifier>();
+            SkillIndex = skillIndex;
+            DeathReward = deathReward;
+        }
+
+        public RuntimeEliteAffixDefinition Source { get; }
+        public RuntimeBuildModifier[] Modifiers { get; }
+        public RuntimeContentIndex SkillIndex { get; }
+        public RuntimeRewardDefinition DeathReward { get; }
+    }
+
     /// <summary>Load-local compiled M5 enemy catalog.</summary>
     public sealed class EnemyRuntimeCatalog
     {
         private readonly CompiledEnemyDefinition[] byIndex;
         private readonly Dictionary<ContentId, CompiledEnemyDefinition> byId;
+        private readonly Dictionary<ContentId, CompiledEliteAffixDefinition> affixesById;
 
         private EnemyRuntimeCatalog(
             CompiledEnemyDefinition[] definitions,
-            Dictionary<ContentId, CompiledEnemyDefinition> definitionsById)
+            Dictionary<ContentId, CompiledEnemyDefinition> definitionsById,
+            Dictionary<ContentId, CompiledEliteAffixDefinition> compiledAffixes)
         {
             byIndex = definitions;
             byId = definitionsById;
+            affixesById = compiledAffixes;
         }
 
         public int Count => byId.Count;
@@ -71,9 +94,114 @@ namespace Game.Simulation
                 definitionsById.Add(enemy.Id, compiled);
             }
 
+            var compiledAffixes = new Dictionary<ContentId, CompiledEliteAffixDefinition>();
+            for (var index = 0; index < content.Count; index++)
+            {
+                var entry = content.Get(new RuntimeContentIndex(index));
+                if (!entry.IsSuccess) return Result<EnemyRuntimeCatalog>.Failure(entry.Error);
+                if (!(entry.Value.Definition is RuntimeEliteAffixDefinition affix)) continue;
+
+                var modifierResult = CompileModifiers(content, affix, entry.Value.SourcePackId);
+                if (!modifierResult.IsSuccess)
+                    return Result<EnemyRuntimeCatalog>.Failure(modifierResult.Error);
+
+                var skillIndex = default(RuntimeContentIndex);
+                if (affix.SkillId.IsValid)
+                {
+                    if (!content.TryGet(affix.SkillId, out var skillEntry) ||
+                        !(skillEntry.Definition is RuntimeSkillDefinition skill) ||
+                        !skill.IsExecutable)
+                    {
+                        return InvalidAffix(
+                            affix,
+                            entry.Value.SourcePackId,
+                            "Elite affix SkillId was not resolved to an executable skill.");
+                    }
+                    skillIndex = skillEntry.Index;
+                }
+
+                RuntimeRewardDefinition deathReward = null;
+                if (affix.DeathRewardId.IsValid &&
+                    (!content.TryGet(affix.DeathRewardId, out var rewardEntry) ||
+                     (deathReward = rewardEntry.Definition as RuntimeRewardDefinition) == null))
+                {
+                    return InvalidAffix(
+                        affix,
+                        entry.Value.SourcePackId,
+                        "Elite affix DeathRewardId was not resolved to a Reward.");
+                }
+
+                compiledAffixes.Add(
+                    affix.Id,
+                    new CompiledEliteAffixDefinition(
+                        affix,
+                        modifierResult.Value,
+                        skillIndex,
+                        deathReward));
+            }
+
             return Result<EnemyRuntimeCatalog>.Success(
-                new EnemyRuntimeCatalog(definitions, definitionsById));
+                new EnemyRuntimeCatalog(definitions, definitionsById, compiledAffixes));
         }
+
+        private static Result<RuntimeBuildModifier[]> CompileModifiers(
+            ContentRegistry content,
+            RuntimeEliteAffixDefinition affix,
+            ContentId packId)
+        {
+            if (!affix.ModifierOutputId.IsValid)
+                return Result<RuntimeBuildModifier[]>.Success(Array.Empty<RuntimeBuildModifier>());
+            if (!content.TryGet(affix.ModifierOutputId, out var outputEntry))
+                return Result<RuntimeBuildModifier[]>.Failure(
+                    new Error(
+                        ErrorCode.InvalidAuthoringData,
+                        "Elite affix modifier output was not resolved.",
+                        affix.Id,
+                        packId,
+                        affix.SourceAssetPath));
+
+            var output = new List<RuntimeBuildModifier>();
+            if (outputEntry.Definition is RuntimeTraitDefinition trait)
+            {
+                for (var index = 0; index < trait.Modifiers.Count; index++)
+                    output.Add(trait.Modifiers[index]);
+            }
+            else if (outputEntry.Definition is RuntimePassiveDefinition passive)
+            {
+                for (var index = 0; index < passive.LevelModifiers.Count; index++)
+                    output.Add(passive.LevelModifiers[index].Modifier);
+            }
+            else if (outputEntry.Definition is RuntimeSynergyDefinition synergy)
+            {
+                for (var index = 0; index < synergy.Outputs.Count; index++)
+                    if (synergy.Outputs[index].Type == SynergyOutputType.AddModifier)
+                        output.Add(synergy.Outputs[index].Modifier);
+            }
+            else
+            {
+                return Result<RuntimeBuildModifier[]>.Failure(
+                    new Error(
+                        ErrorCode.InvalidAuthoringData,
+                        "Elite affix modifier output has an unsupported runtime type.",
+                        affix.Id,
+                        packId,
+                        affix.SourceAssetPath));
+            }
+
+            return Result<RuntimeBuildModifier[]>.Success(output.ToArray());
+        }
+
+        private static Result<EnemyRuntimeCatalog> InvalidAffix(
+            RuntimeEliteAffixDefinition affix,
+            ContentId packId,
+            string message) =>
+            Result<EnemyRuntimeCatalog>.Failure(
+                new Error(
+                    ErrorCode.InvalidAuthoringData,
+                    message,
+                    affix.Id,
+                    packId,
+                    affix.SourceAssetPath));
 
         public bool TryGet(RuntimeContentIndex index, out CompiledEnemyDefinition definition)
         {
@@ -90,10 +218,14 @@ namespace Game.Simulation
         public bool TryGet(ContentId id, out CompiledEnemyDefinition definition) =>
             byId.TryGetValue(id, out definition);
 
+        internal bool TryGetAffix(ContentId id, out CompiledEliteAffixDefinition definition) =>
+            affixesById.TryGetValue(id, out definition);
+
         internal static EnemyRuntimeCatalog Empty() =>
             new EnemyRuntimeCatalog(
                 Array.Empty<CompiledEnemyDefinition>(),
-                new Dictionary<ContentId, CompiledEnemyDefinition>());
+                new Dictionary<ContentId, CompiledEnemyDefinition>(),
+                new Dictionary<ContentId, CompiledEliteAffixDefinition>());
     }
 
     public enum EnemyBehaviorState : byte
@@ -143,6 +275,9 @@ namespace Game.Simulation
         public float DecisionTimer;
         public float AttackTimer;
         public Vector2 ChargeDirection;
+        public EliteAffixSelection Affixes;
+        public int SplitGeneration;
+        public float RewardScale;
         public bool Elite;
         public bool Boss;
     }
@@ -155,6 +290,7 @@ namespace Game.Simulation
         private readonly DifficultySnapshot difficulty;
         private readonly SpatialQueryBuffer neighbors;
         private EnemyInstance[] instances;
+        private long splitSpawnSequence = 1L << 61;
 
         public EnemyRuntime(
             EnemyRuntimeCatalog catalog,
@@ -203,10 +339,58 @@ namespace Game.Simulation
                 instance.State,
                 instance.Elite,
                 instance.Boss,
-                instance.Definition.Source.ExperienceReward * difficulty.RewardMultiplier * eliteMultiplier,
-                instance.Definition.Source.LootReward * difficulty.RewardMultiplier * eliteMultiplier);
+                instance.Definition.Source.ExperienceReward * difficulty.RewardMultiplier * eliteMultiplier * instance.RewardScale,
+                instance.Definition.Source.LootReward * difficulty.RewardMultiplier * eliteMultiplier * instance.RewardScale);
             return true;
         }
+
+        internal EliteAffixSelection ComposeAffixes(
+            CompiledEnemyDefinition enemy,
+            IReadOnlyList<ContentId> affixPoolIds,
+            bool elite,
+            bool boss,
+            ref RandomStream random)
+        {
+            if (!elite || boss || enemy == null || affixPoolIds == null || affixPoolIds.Count == 0)
+                return default;
+
+            CompiledEliteAffixDefinition first = null;
+            CompiledEliteAffixDefinition second = null;
+            var start = affixPoolIds.Count > 1 ? random.NextInt(affixPoolIds.Count) : 0;
+            for (var offset = 0; offset < affixPoolIds.Count && second == null; offset++)
+            {
+                var poolIndex = (start + offset) % affixPoolIds.Count;
+                if (!Catalog.TryGetAffix(affixPoolIds[poolIndex], out var candidate) ||
+                    !IsAffixCompatible(enemy.Source, candidate, first))
+                {
+                    continue;
+                }
+
+                if (first == null) first = candidate;
+                else if (candidate != first) second = candidate;
+            }
+
+            return new EliteAffixSelection(first, second);
+        }
+
+        internal bool TryGetAffixId(EntityHandle handle, int index, out ContentId id)
+        {
+            if (!TryGetInstance(handle, out var instance) ||
+                index < 0 || index >= instance.Affixes.Count)
+            {
+                id = default;
+                return false;
+            }
+
+            id = instance.Affixes.GetAt(index).Source.Id;
+            return true;
+        }
+
+        internal int GetAffixCount(EntityHandle handle) =>
+            TryGetInstance(handle, out var instance) ? instance.Affixes.Count : 0;
+
+        internal int GetSplitGeneration(EntityHandle handle) =>
+            TryGetInstance(handle, out var instance) ? instance.SplitGeneration : -1;
 
         internal static EnemyRuntime CreateEmpty(int capacity = 16) =>
             new EnemyRuntime(EnemyRuntimeCatalog.Empty(), DifficultySnapshot.Default, capacity);
@@ -250,10 +434,13 @@ namespace Game.Simulation
                 if (!Catalog.TryGet(request.EnemyIndex, out var definition))
                     throw new InvalidOperationException("Spawn request references an unknown enemy index.");
                 var eliteMultiplier = request.Elite ? 1.5f : 1f;
-                var health = definition.Source.BaseMaxHealth * difficulty.HealthMultiplier * eliteMultiplier;
+                var affixRewardMultiplier = 1f;
+                for (var affixIndex = 0; affixIndex < request.Affixes.Count; affixIndex++)
+                    affixRewardMultiplier *= request.Affixes.GetAt(affixIndex).Source.RewardMultiplier;
+                var health = definition.Source.BaseMaxHealth * difficulty.HealthMultiplier * eliteMultiplier * request.CombatScale;
                 var moveSpeed = definition.Source.BaseMoveSpeed * difficulty.SpeedMultiplier;
                 var stats = StatBaseValues.CreateDefault(health, moveSpeed);
-                stats.Damage = definition.Source.BaseDamage * difficulty.DamageMultiplier * eliteMultiplier;
+                stats.Damage = definition.Source.BaseDamage * difficulty.DamageMultiplier * eliteMultiplier * request.CombatScale;
                 var combat = new ActorCombatInitialization(stats, health, 0f, 0f, default);
                 var state = SimulationEntityState.Create(request.Position, Vector2.Zero);
                 var handle = world.CreateActor(state, combat);
@@ -265,6 +452,9 @@ namespace Game.Simulation
                     State = EnemyBehaviorState.Idle,
                     DecisionTimer = 0f,
                     AttackTimer = 0f,
+                    Affixes = request.Affixes,
+                    SplitGeneration = request.SplitGeneration,
+                    RewardScale = request.RewardScale * affixRewardMultiplier,
                     Elite = request.Elite,
                     Boss = request.Boss
                 };
@@ -277,6 +467,7 @@ namespace Game.Simulation
                     definition.AttackSkillIndex);
                 if (!skill.IsSuccess)
                     throw new InvalidOperationException("Enemy attack skill could not be instantiated: " + skill.Error.Message);
+                ApplyAffixOutputs(world, handle, request.Affixes);
                 world.EmitEvent(SimulationEventType.Created, EntityKind.Actor, handle, request.Position);
             }
 
@@ -297,7 +488,139 @@ namespace Game.Simulation
                 SpawnChecksum *= 1099511628211UL;
                 SpawnChecksum ^= request.Boss ? 1UL : 0UL;
                 SpawnChecksum *= 1099511628211UL;
+                SpawnChecksum ^= (ulong)request.Affixes.Count;
+                SpawnChecksum *= 1099511628211UL;
+                for (var index = 0; index < request.Affixes.Count; index++)
+                {
+                    SpawnChecksum ^= (ulong)request.Affixes.GetAt(index).Source.Id.GetHashCode();
+                    SpawnChecksum *= 1099511628211UL;
+                }
+                SpawnChecksum ^= (uint)request.SplitGeneration;
+                SpawnChecksum *= 1099511628211UL;
             }
+        }
+
+        internal void ProcessDeathOutputs(
+            SimulationWorld world,
+            EntityHandle handle,
+            Vector2 position)
+        {
+            if (world == null || !TryGetInstance(handle, out var instance))
+            {
+                return;
+            }
+
+            for (var affixIndex = 0; affixIndex < instance.Affixes.Count; affixIndex++)
+            {
+                var affix = instance.Affixes.GetAt(affixIndex);
+                var reward = affix.DeathReward;
+                if (reward == null) continue;
+                for (var operationIndex = 0; operationIndex < reward.Operations.Count; operationIndex++)
+                {
+                    var operation = reward.Operations[operationIndex];
+                    if (operation.Code != RewardOperationCode.SpawnEnemy ||
+                        instance.SplitGeneration >= affix.Source.MaximumGeneration)
+                    {
+                        continue;
+                    }
+                    var childDefinition = instance.Definition;
+                    if (operation.ReferenceId.IsValid &&
+                        !Catalog.TryGet(operation.ReferenceId, out childDefinition))
+                    {
+                        continue;
+                    }
+
+                    var childCount = Math.Min(2, Math.Max(1, operation.IntegerValue));
+                    var scale = Math.Min(1f, Math.Max(0.1f, operation.Value));
+                    for (var child = 0; child < childCount; child++)
+                    {
+                        var angle = ((handle.Index * 0.7548777f) + (child * 0.5f)) * 2f * (float)Math.PI;
+                        var offset = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) *
+                                     Math.Max(0.5f, childDefinition.Source.CollisionRadius * 1.5f);
+                        var desired = position + offset;
+                        var childPosition = world.Map == null
+                            ? desired
+                            : world.Map.ResolveMovement(
+                                position,
+                                desired,
+                                childDefinition.Source.CollisionRadius);
+                        PendingSpawns.Add(
+                            new SpawnRequest(
+                                childDefinition.Index,
+                                childPosition,
+                                false,
+                                false,
+                                splitSpawnSequence++,
+                                default,
+                                instance.SplitGeneration + 1,
+                                scale,
+                                scale));
+                    }
+                }
+            }
+        }
+
+        private static bool IsAffixCompatible(
+            RuntimeEnemyDefinition enemy,
+            CompiledEliteAffixDefinition candidate,
+            CompiledEliteAffixDefinition selected)
+        {
+            for (var index = 0; index < candidate.Source.RequiredTags.Count; index++)
+                if (!HasTag(enemy.Tags, candidate.Source.RequiredTags[index]) &&
+                    (selected == null || !HasTag(selected.Source.Tags, candidate.Source.RequiredTags[index])))
+                    return false;
+            for (var index = 0; index < candidate.Source.ExcludedTags.Count; index++)
+                if (HasTag(enemy.Tags, candidate.Source.ExcludedTags[index]) ||
+                    (selected != null && HasTag(selected.Source.Tags, candidate.Source.ExcludedTags[index])))
+                    return false;
+            if (selected == null) return true;
+            for (var index = 0; index < selected.Source.ExcludedTags.Count; index++)
+                if (HasTag(candidate.Source.Tags, selected.Source.ExcludedTags[index])) return false;
+            return true;
+        }
+
+        private static bool HasTag(IReadOnlyList<ContentTag> tags, ContentTag expected)
+        {
+            for (var index = 0; index < tags.Count; index++)
+                if (tags[index] == expected) return true;
+            return false;
+        }
+
+        private static void ApplyAffixOutputs(
+            SimulationWorld world,
+            EntityHandle handle,
+            in EliteAffixSelection affixes)
+        {
+            for (var affixIndex = 0; affixIndex < affixes.Count; affixIndex++)
+            {
+                var affix = affixes.GetAt(affixIndex);
+                for (var modifierIndex = 0; modifierIndex < affix.Modifiers.Length; modifierIndex++)
+                {
+                    var source = affix.Modifiers[modifierIndex];
+                    var modifier = new Modifier(
+                        affix.Source.Id,
+                        source.StatId,
+                        source.Operation,
+                        source.Value,
+                        source.Priority,
+                        source.StackingGroup,
+                        float.PositiveInfinity);
+                    if (!world.Actors.TryAddModifier(handle, modifier, out _))
+                        throw new InvalidOperationException("Elite affix modifier capacity was exhausted.");
+                }
+
+                if (affix.SkillIndex.IsValid)
+                {
+                    var skill = world.Skills.AddInstance(
+                        new SpatialEntity(EntityKind.Actor, handle),
+                        affix.SkillIndex);
+                    if (!skill.IsSuccess)
+                        throw new InvalidOperationException("Elite affix skill could not be instantiated: " + skill.Error.Message);
+                }
+            }
+
+            if (affixes.Count > 0 && world.Actors.TryGetCombat(handle, out var combat))
+                combat.ReconcileHealthMaximum();
         }
 
         internal void OnEntityRemoved(EntityHandle handle)

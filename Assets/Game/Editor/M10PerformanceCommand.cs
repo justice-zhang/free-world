@@ -65,9 +65,6 @@ namespace Game.Editor
                 enemyIdResult.Value,
                 configuration);
             WarmUp(registryResult.Value, enemyIdResult.Value, configuration);
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
 
             var scenarioResult = M10StressScenario.Create(
                 registryResult.Value,
@@ -87,6 +84,12 @@ namespace Game.Editor
             using (var presentation = new M10PresentationStressProbe(configuration.VfxRequestCount))
             {
                 presentation.Prewarm();
+                // The measured scenario and timing arrays are deliberate setup
+                // allocations. Collect after all setup so their pressure cannot be
+                // misreported as a hot-path collection during the fixed-tick window.
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
                 memorySamples[memorySampleCount++] = CaptureMemory(0d);
                 var gc0Start = GC.CollectionCount(0);
                 var gc1Start = GC.CollectionCount(1);

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a74269647484177b198023ae46317b7, type: 3}
+  m_Name: EliteRampagingTrait
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.TraitAuthoring
+  contentId: qinglan.trait.elite.rampaging
+  localizedNameKey: content.qinglan.trait.elite.rampaging.name
+  localizedDescriptionKey: content.qinglan.trait.elite.rampaging.description
+  tags:
+  - content.placeholder
+  - trait.elite
+  modifiers:
+  - statId: base.stat.move_speed
+    operation: 2
+    value: 0.35
+    priority: 320
+    stackingGroup: qinglan.stack.elite.rampaging.speed
+  - statId: base.stat.attack_speed
+    operation: 2
+    value: 0.2
+    priority: 321
+    stackingGroup: qinglan.stack.elite.rampaging.attack

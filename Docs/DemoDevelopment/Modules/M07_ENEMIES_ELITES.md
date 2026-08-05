@@ -67,3 +67,15 @@ Encounter Entry 只选择合法 Affix 组合。当前 Elite bool 的 1.5 倍倍�
 | Performance | 600—1200 正常敌人、支援/危险区上限、0 高频分配 |
 
 退出条件：六类敌人功能可辨、四词缀可组合且无复制定义爆炸，所有行为集中推进并通过公平生成保护。
+
+## 8. G1.5 实施冻结
+
+G1.5 已在 `qinglan.pack.demo` 0.4.0 创建六 Enemy、九 Skill、三 Status、四 Affix、一个 Trait 与两个
+Reward。词缀由 Encounter RNG 在 Spawn 前选择至多两个合法组合；Spawn 时绑定 Modifier/Skill/
+DeathReward/RewardMultiplier，固定 Tick 不解析字符串。鸣风铃使用 ADR 0016 的
+`base.targeting.allies_circle`，最多六名友军且排除自身；分裂使用 `spawn_enemy` Reward 操作，限制一代、
+两个 0.35 倍子体且不继承 Elite/Affix。
+
+G1.5 自动化已证明六定义/攻击引用、兼容/排除/Boss、固定 Seed、实际 Modifier/Shield、友军上限、
+分裂代数与 600 敌人集中决策 0 B。12 分钟 Timeline/Headless 由 G1.6，异相灵核选择由 G2.3，正式
+轮廓/预警/音频 PlayMode 由 G2.6/G3；这些未执行项目不得计入 G1.5 PASS。

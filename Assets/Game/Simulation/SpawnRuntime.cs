@@ -5,6 +5,28 @@ using Game.Core;
 
 namespace Game.Simulation
 {
+    internal readonly struct EliteAffixSelection
+    {
+        public EliteAffixSelection(
+            CompiledEliteAffixDefinition first,
+            CompiledEliteAffixDefinition second)
+        {
+            First = first;
+            Second = second;
+            Count = first == null ? 0 : second == null ? 1 : 2;
+        }
+
+        public int Count { get; }
+        public CompiledEliteAffixDefinition First { get; }
+        public CompiledEliteAffixDefinition Second { get; }
+
+        public CompiledEliteAffixDefinition GetAt(int index)
+        {
+            if (index < 0 || index >= Count) throw new ArgumentOutOfRangeException(nameof(index));
+            return index == 0 ? First : Second;
+        }
+    }
+
     /// <summary>One deferred actor creation produced by an encounter scheduler.</summary>
     public readonly struct SpawnRequest
     {
@@ -14,12 +36,39 @@ namespace Game.Simulation
             bool elite,
             bool boss,
             long sequence)
+            : this(
+                enemyIndex,
+                position,
+                elite,
+                boss,
+                sequence,
+                default,
+                0,
+                1f,
+                1f)
+        {
+        }
+
+        internal SpawnRequest(
+            RuntimeContentIndex enemyIndex,
+            Vector2 position,
+            bool elite,
+            bool boss,
+            long sequence,
+            in EliteAffixSelection affixes,
+            int splitGeneration,
+            float combatScale,
+            float rewardScale)
         {
             EnemyIndex = enemyIndex;
             Position = position;
             Elite = elite;
             Boss = boss;
             Sequence = sequence;
+            Affixes = affixes;
+            SplitGeneration = splitGeneration;
+            CombatScale = combatScale;
+            RewardScale = rewardScale;
         }
 
         public RuntimeContentIndex EnemyIndex { get; }
@@ -27,6 +76,10 @@ namespace Game.Simulation
         public bool Elite { get; }
         public bool Boss { get; }
         public long Sequence { get; }
+        internal EliteAffixSelection Affixes { get; }
+        internal int SplitGeneration { get; }
+        internal float CombatScale { get; }
+        internal float RewardScale { get; }
     }
 
     /// <summary>Reusable FIFO spawn buffer applied only by CleanupSystem.</summary>
@@ -50,7 +103,10 @@ namespace Game.Simulation
 
         public void Add(in SpawnRequest request)
         {
-            if (!request.EnemyIndex.IsValid || !Finite(request.Position))
+            if (!request.EnemyIndex.IsValid || !Finite(request.Position) ||
+                request.SplitGeneration < 0 ||
+                !FinitePositive(request.CombatScale) ||
+                !FinitePositive(request.RewardScale))
                 throw new ArgumentException("Spawn request is invalid.", nameof(request));
             if (Count == requests.Length) Array.Resize(ref requests, requests.Length * 2);
             requests[Count++] = request;
@@ -65,6 +121,9 @@ namespace Game.Simulation
         private static bool Finite(Vector2 value) =>
             !float.IsNaN(value.X) && !float.IsInfinity(value.X) &&
             !float.IsNaN(value.Y) && !float.IsInfinity(value.Y);
+
+        private static bool FinitePositive(float value) =>
+            value > 0f && !float.IsNaN(value) && !float.IsInfinity(value);
     }
 
     /// <summary>Allocation-free implementations of the eight M5 spawn patterns.</summary>
@@ -345,6 +404,12 @@ namespace Game.Simulation
             {
                 if (!world.Enemies.Catalog.TryGet(entry.EnemyId, out var enemy)) return;
                 var elite = entry.Elite || random.NextFloat() < difficulty.EliteProbability;
+                var affixes = world.Enemies.ComposeAffixes(
+                    enemy,
+                    entry.AffixPoolIds,
+                    elite,
+                    false,
+                    ref random);
                 var position = SpawnPatternGenerator.Generate(
                     phase.SpawnPattern,
                     map,
@@ -355,7 +420,16 @@ namespace Game.Simulation
                     index,
                     ref random);
                 world.Enemies.PendingSpawns.Add(
-                    new SpawnRequest(enemy.Index, position, elite, false, sequence++));
+                    new SpawnRequest(
+                        enemy.Index,
+                        position,
+                        elite,
+                        false,
+                        sequence++,
+                        affixes,
+                        0,
+                        1f,
+                        1f));
                 accumulatedBudget -= entry.BudgetCost;
                 SpawnedRequestCount++;
             }

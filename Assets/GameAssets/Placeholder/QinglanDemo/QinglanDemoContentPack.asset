@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: QinglanDemoContentPack
   m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.ContentPackAuthoring
   packId: qinglan.pack.demo
-  version: 0.3.0
+  version: 0.4.0
   schemaVersion: 6
   minimumGameVersion: 0.1.0
   maximumGameVersion: 
@@ -90,3 +90,28 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b2ca49e39f4a93e46825cf82c955ab40, type: 2}
   - {fileID: 11400000, guid: 44954df3bbbf19e43a0292bb044e3fc0, type: 2}
   - {fileID: 11400000, guid: 18e9f9ab039e69d44b439451b0f71cd9, type: 2}
+  - {fileID: 11400000, guid: 7f67e0250f105284ab7fd9a3304a9d86, type: 2}
+  - {fileID: 11400000, guid: c465a497b11c04d4fa71b7dcafc35000, type: 2}
+  - {fileID: 11400000, guid: dbe7f4c109cc23a4aa31fef5b4d37fe9, type: 2}
+  - {fileID: 11400000, guid: 5d2028c5ada7f7e49afd084aab4dfcf7, type: 2}
+  - {fileID: 11400000, guid: 1e16ec9d0319d7940bbcaecf50a4a479, type: 2}
+  - {fileID: 11400000, guid: 2f0a4fa01d0eeda40beb7f80fb36ef1c, type: 2}
+  - {fileID: 11400000, guid: 05ad19de4167e8a4b87f30e001206ff3, type: 2}
+  - {fileID: 11400000, guid: f05ffee39a3f95c41bc1565708d556c9, type: 2}
+  - {fileID: 11400000, guid: c95e283da9fb2c4458ce26ec50efe7d4, type: 2}
+  - {fileID: 11400000, guid: 72eb517754ee03e49a72c42fa3330cf3, type: 2}
+  - {fileID: 11400000, guid: c79529d648f230945bec502b7faa3fbb, type: 2}
+  - {fileID: 11400000, guid: 39c4c147b0905d44698972f2a55a8d2c, type: 2}
+  - {fileID: 11400000, guid: 08592627a167f224a87ad5a962f8812b, type: 2}
+  - {fileID: 11400000, guid: c33a6ea4a00e66a4b8dde3ccf5b1a175, type: 2}
+  - {fileID: 11400000, guid: e11847cc79a9a1349a5b24201eb28514, type: 2}
+  - {fileID: 11400000, guid: 787f6c6c9186b264bbd716a6164aa344, type: 2}
+  - {fileID: 11400000, guid: 184854f8f37ed194e9da218af238dc37, type: 2}
+  - {fileID: 11400000, guid: c9b424e663d3e804e97eaf5069540209, type: 2}
+  - {fileID: 11400000, guid: 4a6681ecbe79ab64e931dda463287432, type: 2}
+  - {fileID: 11400000, guid: f1718d4385126ae45af919e6da2f325c, type: 2}
+  - {fileID: 11400000, guid: a040922bc6cad134386567b914653aec, type: 2}
+  - {fileID: 11400000, guid: 8c909aab29120f64caacb2ab0a3fb642, type: 2}
+  - {fileID: 11400000, guid: 7101914fabbea344287ed74860a96e2f, type: 2}
+  - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
+  - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}

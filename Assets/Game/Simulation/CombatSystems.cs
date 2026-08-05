@@ -986,7 +986,10 @@ namespace Game.Simulation
                     out var body);
                 var position = bodyFound ? body.Position : request.Position;
                 if (world.Enemies.TryGetSnapshot(request.Target.Handle, out var enemy))
+                {
                     world.Progression?.RecordEnemyDefeat(enemy.ExperienceReward, position);
+                    world.Enemies.ProcessDeathOutputs(world, request.Target.Handle, position);
+                }
                 var diedEvent = new EntityDied(
                     request.Target,
                     request.Source,

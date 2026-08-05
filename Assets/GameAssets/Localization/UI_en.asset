@@ -1056,6 +1056,206 @@ MonoBehaviour:
     m_Localized: Transforms a mastered vine seed with Spirit Gathering.
     m_Metadata:
       m_Items: []
+  - m_Id: 3679822389583872
+    m_Localized: Grass Spirit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469952
+    m_Localized: A swarming spirit with a contact aura.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469953
+    m_Localized: Paper Crane Spirit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469954
+    m_Localized: Telegraphs and locks a fast diving charge.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469955
+    m_Localized: Wooden Sword Puppet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469956
+    m_Localized: A heavy puppet resistant to knockback.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469957
+    m_Localized: Stone Lantern Guard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469958
+    m_Localized: Keeps range and fires bounded stone-flame bolts.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469959
+    m_Localized: Wind Bell Spirit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469960
+    m_Localized: Maintains distance and wards nearby allies.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469961
+    m_Localized: Explosive Seed Pod
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469962
+    m_Localized: Creates a delayed, short-lived burst hazard.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469963
+    m_Localized: Rampaging
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469964
+    m_Localized: Increases movement and attack cadence.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469965
+    m_Localized: Barrier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469966
+    m_Localized: Periodically establishes a bounded ward.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469967
+    m_Localized: Splitting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469968
+    m_Localized: Spawns two weaker, non-inheriting children on death.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469969
+    m_Localized: Quaking
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469970
+    m_Localized: Emits a bounded periodic ground shock.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469971
+    m_Localized: Afflicted Core
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469972
+    m_Localized: Queues one elite reward token for the reward slice.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469973
+    m_Localized: Splitting Core
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469974
+    m_Localized: Queues the elite token and bounded child spawn.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469975
+    m_Localized: Puppet Brace
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469976
+    m_Localized: Temporary knockback resistance stance.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469977
+    m_Localized: Wind Bell Ward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469978
+    m_Localized: A non-stacking temporary ally shield.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469979
+    m_Localized: Elite Barrier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469980
+    m_Localized: A bounded elite shield with a refresh gap.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469981
+    m_Localized: Grass Contact Aura
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469982
+    m_Localized: Contact pressure around the grass spirit.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469983
+    m_Localized: Paper Crane Dive
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469984
+    m_Localized: Contact hit for the locked charge.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469985
+    m_Localized: Puppet Heavy Slash
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469986
+    m_Localized: A short heavy area slash.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469987
+    m_Localized: Puppet Stance Attack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469988
+    m_Localized: Combines brace stance with a heavy slash.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469989
+    m_Localized: Stone-Flame Bolt
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469990
+    m_Localized: A finite-lifetime swept projectile.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469991
+    m_Localized: Wind Bell Support
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469992
+    m_Localized: Wards up to six nearby allies.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469993
+    m_Localized: Seed Burst
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469994
+    m_Localized: A delayed short-lived area burst.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469995
+    m_Localized: Barrier Pulse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469996
+    m_Localized: Refreshes one bounded elite ward.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469997
+    m_Localized: Quaking Pulse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822473469998
+    m_Localized: Creates a bounded ground shock area.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822477664256
+    m_Localized: Rampaging Output
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3679822477664257
+    m_Localized: Reusable speed and cadence modifiers.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

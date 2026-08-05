@@ -7,7 +7,7 @@ M10 首次冻结、G1.1 按 ADR 0013—0015 更新以下程序集的公开类型
 | 程序集 | 签名数 | SHA-256 |
 |---|---:|---|
 | `Game.Core` | 168 | `25766747b7014e0386506567e5e3c35f78b6dc5d00d850b00c35d28eb8d7e176` |
-| `Game.Content.Runtime` | 918 | `ca593752954be1622e60e21f7d68627779de30abcfa1f28f9e219b9eaeba502d` |
+| `Game.Content.Runtime` | 923 | `ebef438d029ee23bcbf609c3148ef08e18e3aa07d0e6aec99b29a15e199f7192` |
 | `Game.Simulation` | 1160 | `a6555342a937f674d827f83eea0b0100fe2feeafff92f0e53b58e9fd7b39181f` |
 | `Game.Application` | 346 | `bea7fe9998f2ae9f872a505e9f36cee00a9ddfd26e5af8e105916ea4b3d46197` |
 | `Game.Platform.Abstractions` | 73 | `8eb5f2ccca0f5845a55d90c9f00fb42eae59cc82d81e98369995e84428a51738` |
@@ -47,3 +47,21 @@ G1.1 Freeze 更新门禁：
 5. 报告同时保留“旧 Hash 预期 FAIL”和“新 Hash 最终 PASS”，不得删除前者。
 
 若实现需要删除、改名、重排或改变旧成员语义，G0.3 授权不足，必须新提交 CR/ADR。
+
+## Qinglan Demo G1.5 批准追加
+
+ADR 0016 为 CR-2026-011 的执行闭环批准 `Game.Content.Runtime` 追加 5 条规范签名，其他冻结
+程序集保持完全不变：
+
+```text
+C RuntimeEliteAffixDefinition(..., Int32 maximumGeneration, Single rewardMultiplier, ContentId presentation)
+F RewardOperationCode.SpawnEnemy = 11
+F SkillModuleIds.TargetingAlliesCircle
+P RuntimeEliteAffixDefinition.MaximumGeneration
+P RuntimeEliteAffixDefinition.RewardMultiplier
+```
+
+旧 `RuntimeEliteAffixDefinition` 构造函数仍存在并使用 0 代/1 倍默认值，没有签名删除或替换。旧 Hash
+下 Project Validation 仅报告 `Game.Content.Runtime` 从 918/`ca5937…` 漂移到
+923/`ebef43…`；Core、Simulation、Application 与 Platform 的签名数和 Hash 不变。规范签名输出与
+旧 Hash 失败日志保存在 `TestResults/QinglanDemo/G1.5/`，更新后必须由完整门禁重新证明 PASS。

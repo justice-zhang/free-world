@@ -145,13 +145,15 @@ Offer 的权重、前置、互斥和满级过滤由 M6 现有候选真值处理�
 
 | Owner | DRAFT SkillId |
 |---|---|
-| 草灵 | `qinglan.skill.enemy.grass_spirit.contact` |
-| 纸鹤符灵 | `qinglan.skill.enemy.paper_crane_spirit.dive` |
-| 木制剑傀 | `qinglan.skill.enemy.wooden_sword_puppet.heavy_slash` |
-| 石灯守卫 | `qinglan.skill.enemy.stone_lantern_guard.firebolt` |
-| 鸣风铃灵 | `qinglan.skill.enemy.wind_bell_spirit.support_aura` |
-| 爆裂种囊 | `qinglan.skill.enemy.explosive_seed_pod.burst` |
-| 爆裂种囊 | `qinglan.skill.enemy.explosive_seed_pod.hazard_area` |
+| 草灵 | `qinglan.skill.enemy.grass_spirit_aura` |
+| 纸鹤符灵 | `qinglan.skill.enemy.paper_crane_dive` |
+| 木制剑傀 | `qinglan.skill.enemy.wooden_puppet_attack` |
+| 木制剑傀 | `qinglan.skill.enemy.wooden_puppet_heavy_slash` |
+| 石灯守卫 | `qinglan.skill.enemy.stone_lantern_bolt` |
+| 鸣风铃灵 | `qinglan.skill.enemy.wind_bell_support` |
+| 爆裂种囊 | `qinglan.skill.enemy.explosive_seed_burst` |
+| 结界词缀 | `qinglan.skill.elite.barrier_pulse` |
+| 震地词缀 | `qinglan.skill.elite.quaking_pulse` |
 | 折枝 | `qinglan.skill.boss.zhezhi.horizontal_trial` |
 | 折枝 | `qinglan.skill.boss.zhezhi.falling_wood_shadow` |
 | 折枝 | `qinglan.skill.boss.zhezhi.training_dummy` |

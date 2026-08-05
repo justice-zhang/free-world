@@ -783,3 +783,42 @@ Encounter 正式内容。
 
 只进入 G1.5：实现 M07 六敌人、四精英词缀、行为/攻击技能与固定 Seed Headless 验证；不提前创建
 G1.6 Encounter、G1.7 Reward Choice 或 G2 地图/Boss 内容。
+
+## Qinglan Demo G1.5：六敌人与精英词缀
+
+- 状态：`COMPLETE`
+- 日期：2026-08-05
+- 分支：`codex/qinglan-demo-implementation`
+- 内容包：`qinglan.pack.demo` 0.4.0 / Content Schema 6
+- ADR：0016
+- 结果报告：`Docs/Reports/2026-08-05-g1-5-enemy-elite-slice.md`
+
+### 实施结果
+
+| 范围 | 结果 |
+|---|---|
+| Enemy | 草灵、纸鹤符灵、木制剑傀、石灯守卫、鸣风铃灵、爆裂种囊六种压力行为 |
+| Affix | 狂奔、结界、分裂、震地；固定两槽兼容组合，Boss 安全排除 |
+| Runtime | Spawn 一次安装 Trait/Skill/Reward；友军最近六目标；有限一代两子体分裂 |
+| Content | 新增 25 个 Placeholder 定义；Pack 共 93 定义；双语 Key 与 Baked Catalog |
+| API | Content Runtime 批准追加五项签名至 923；其余四程序集 Hash 不变 |
+| Boundary | AddCurrency/奇物三选一延期 G2.3；12 分钟 Encounter 延期 G1.6 |
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| 编译 | PASS | `dotnet build free-world.slnx --nologo`，0 error |
+| Focused EditMode | PASS | `TestResults/QinglanDemo/G1.5/editmode-focused-final.xml`，6/6 |
+| 全量 EditMode | PASS | `TestResults/QinglanDemo/G1.5/editmode-final.xml`，228/228 |
+| PlayMode 回归 | PASS | `TestResults/QinglanDemo/G1.5/playmode.xml`，9/9 |
+| Project Validation | PASS | `validation-final.log` 含 `[Project Validation] PASS` |
+| API Freeze | PASS | Content 923/`ebef438d...7192`，其余程序集 Hash 不变 |
+| 性能短测 | PASS | 600 敌人/900 Tick，p99 4.7683 ms，热路径 0 B、0 GC、确定性 PASS |
+| Windows Development Build | NOT RUN | 路线规定 G1.7 执行完整 Placeholder Pack Build |
+| 12 分钟 Headless | NOT RUN | G1.6 首次创建 Encounter 后执行 21,600 Tick |
+
+### 下一步
+
+只进入 G1.6：创建旧庭 12 分钟 Encounter，把六 Enemy 与四 Affix Pool 接入阶段时间轴，执行双实例
+21,600 Tick、精英/并发/停止生成/固定 Checksum 门禁；不提前实现 G1.7 Reward Choice 或 G2 地图/Boss。

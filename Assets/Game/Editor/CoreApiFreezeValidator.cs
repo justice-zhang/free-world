@@ -39,7 +39,7 @@ namespace Game.Editor
         private static readonly FrozenAssembly[] Frozen =
         {
             new FrozenAssembly { Name = "Game.Core", Hash = "25766747b7014e0386506567e5e3c35f78b6dc5d00d850b00c35d28eb8d7e176" },
-            new FrozenAssembly { Name = "Game.Content.Runtime", Hash = "ca593752954be1622e60e21f7d68627779de30abcfa1f28f9e219b9eaeba502d" },
+            new FrozenAssembly { Name = "Game.Content.Runtime", Hash = "ebef438d029ee23bcbf609c3148ef08e18e3aa07d0e6aec99b29a15e199f7192" },
             new FrozenAssembly { Name = "Game.Simulation", Hash = "a6555342a937f674d827f83eea0b0100fe2feeafff92f0e53b58e9fd7b39181f" },
             new FrozenAssembly { Name = "Game.Application", Hash = "bea7fe9998f2ae9f872a505e9f36cee00a9ddfd26e5af8e105916ea4b3d46197" },
             new FrozenAssembly { Name = "Game.Platform.Abstractions", Hash = "8eb5f2ccca0f5845a55d90c9f00fb42eae59cc82d81e98369995e84428a51738" }

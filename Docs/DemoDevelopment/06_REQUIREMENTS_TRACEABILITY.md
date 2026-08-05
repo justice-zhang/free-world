@@ -10,7 +10,7 @@
 | R-004 | 六心诀与六显化 | M05 | Validation/Build Matrix | G1.4 数据/资格/转换 PASS；CR-04 Reward Context 由 G1.7 PENDING |
 | R-005 | 三种目标构筑 | M04、M05、M16 | Seed/人工矩阵 | G1.4 三 Synergy/固定 Seed 自动矩阵 PASS；G3.4 平衡 PENDING |
 | R-006 | 六即时灵物与六奇物 | M06 | EditMode/PlayMode | CR-05 |
-| R-007 | 六敌人与四词缀 | M07 | Headless/Validation | CR-08 部分阻塞 |
+| R-007 | 六敌人与四词缀 | M07 | Headless/Validation | G1.5 数据/行为/组合/600 敌人短测 PASS；G1.6 12 分钟 Headless PENDING |
 | R-008 | 12 分钟时间轴 | M09 | Timeline/Headless | 可用现有 Encounter |
 | R-009 | 三风脉台、三事件、五地标 | M08 | PlayMode/State Trace | CR-06 |
 | R-010 | 折枝和听风三阶段 | M10 | EditMode/PlayMode | CR-07 |

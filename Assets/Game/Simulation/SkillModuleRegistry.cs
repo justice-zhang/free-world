@@ -172,6 +172,7 @@ namespace Game.Simulation
             registry.RegisterTargeting(new NearestTargetingExecutor());
             registry.RegisterTargeting(new RandomTargetingExecutor());
             registry.RegisterTargeting(new CircleTargetingExecutor());
+            registry.RegisterTargeting(new AlliesCircleTargetingExecutor());
             registry.RegisterTargeting(new ConeTargetingExecutor());
             registry.RegisterTargeting(new LineTargetingExecutor());
             registry.RegisterTargeting(new RingTargetingExecutor());

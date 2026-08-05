@@ -559,6 +559,9 @@ namespace Game.Content.Runtime
         public static readonly ContentId TargetingRandom = Id("base.targeting.random");
         /// <summary>Circle targeting.</summary>
         public static readonly ContentId TargetingCircle = Id("base.targeting.circle");
+        /// <summary>Nearest non-hostile actors in a circle, excluding the owner.</summary>
+        public static readonly ContentId TargetingAlliesCircle =
+            Id("base.targeting.allies_circle");
         /// <summary>Cone targeting.</summary>
         public static readonly ContentId TargetingCone = Id("base.targeting.cone");
         /// <summary>Line targeting.</summary>
@@ -625,6 +628,7 @@ namespace Game.Content.Runtime
         {
             return id == TargetingSelf || id == TargetingNearest ||
                    id == TargetingRandom || id == TargetingCircle ||
+                   id == TargetingAlliesCircle ||
                    id == TargetingCone || id == TargetingLine ||
                    id == TargetingRing || id == TargetingRandomPointAroundPlayer ||
                    id == TargetingTriggerPosition;

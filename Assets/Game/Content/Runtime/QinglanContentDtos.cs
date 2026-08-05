@@ -211,6 +211,8 @@ namespace Game.Content.Runtime
             }
             else if (definition is RuntimeEliteAffixDefinition affix)
             {
+                dto.value0 = affix.RewardMultiplier;
+                dto.int0 = affix.MaximumGeneration;
                 dto.tags0 = ToTagStrings(affix.RequiredTags);
                 dto.tags1 = ToTagStrings(affix.ExcludedTags);
                 dto.referenceId0 = affix.ModifierOutputId.Value;
@@ -364,7 +366,10 @@ namespace Game.Content.Runtime
             if (!modifier.IsSuccess) return Result<RuntimeContentDefinition>.Failure(modifier.Error);
             if (!skill.IsSuccess) return Result<RuntimeContentDefinition>.Failure(skill.Error);
             if (!reward.IsSuccess) return Result<RuntimeContentDefinition>.Failure(reward.Error);
-            return Result<RuntimeContentDefinition>.Success(new RuntimeEliteAffixDefinition(id, name, description, path, tags, required.Value, excluded.Value, modifier.Value, skill.Value, reward.Value, presentation));
+            return Result<RuntimeContentDefinition>.Success(new RuntimeEliteAffixDefinition(
+                id, name, description, path, tags, required.Value, excluded.Value,
+                modifier.Value, skill.Value, reward.Value, int0,
+                value0 > 0f ? value0 : 1f, presentation));
         }
 
         private Result<RuntimeContentDefinition> ToMetaNode(ContentId packId, ContentId id, string name, string description, string path, ContentTag[] tags, ContentId presentation)

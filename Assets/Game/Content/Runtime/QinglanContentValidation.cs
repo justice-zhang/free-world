@@ -35,9 +35,13 @@ namespace Game.Content.Runtime
                 for (var index = 0; index < reward.Operations.Count; index++)
                 {
                     var operation = reward.Operations[index];
-                    if (operation.Code < RewardOperationCode.Heal || operation.Code > RewardOperationCode.TriggerStory ||
+                    if (operation.Code < RewardOperationCode.Heal || operation.Code > RewardOperationCode.SpawnEnemy ||
                         !Finite(operation.Value) || operation.IntegerValue < 0)
                         return "Reward operation code and operands must be valid.";
+                    if (operation.Code == RewardOperationCode.SpawnEnemy &&
+                        (operation.IntegerValue < 1 || operation.IntegerValue > 2 ||
+                         !FinitePositive(operation.Value) || operation.Value > 1f))
+                        return "SpawnEnemy rewards require one or two children and a scale in (0,1].";
                     if (RequiresReference(operation.Code) && !operation.ReferenceId.IsValid)
                         return "Reward operation requires a stable content reference.";
                     if (operation.Code == RewardOperationCode.GrantUnique &&
@@ -94,6 +98,9 @@ namespace Game.Content.Runtime
             {
                 if (!affix.ModifierOutputId.IsValid && !affix.SkillId.IsValid && !affix.DeathRewardId.IsValid)
                     return "Elite affix requires at least one modifier, skill, or death reward output.";
+                if (affix.MaximumGeneration < 0 || affix.MaximumGeneration > 3 ||
+                    !FinitePositive(affix.RewardMultiplier) || affix.RewardMultiplier > 2f)
+                    return "Elite affix generation and reward multiplier must be bounded.";
                 for (var required = 0; required < affix.RequiredTags.Count; required++)
                     for (var excluded = 0; excluded < affix.ExcludedTags.Count; excluded++)
                         if (affix.RequiredTags[required] == affix.ExcludedTags[excluded])
@@ -173,6 +180,10 @@ namespace Game.Content.Runtime
                         ValidateType(definition, operation.ReferenceId, definitions, packId, report, value => value is RuntimeEvolutionDefinition, "an Evolution");
                     else if (operation.Code == RewardOperationCode.TriggerStory)
                         ValidateType(definition, operation.ReferenceId, definitions, packId, report, value => value is RuntimeStoryDefinition, "a Story");
+                    else if (operation.Code == RewardOperationCode.SpawnEnemy)
+                        ValidateType(definition, operation.ReferenceId, definitions, packId, report,
+                            value => value is RuntimeEnemyDefinition enemy && enemy.HasM5Data,
+                            "a schema-4 Enemy");
                 }
             }
             else if (definition is RuntimeRelicDefinition relic)

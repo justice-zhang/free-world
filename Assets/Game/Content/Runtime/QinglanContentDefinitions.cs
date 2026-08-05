@@ -23,7 +23,13 @@ namespace Game.Content.Runtime
         AddCurrency = 7,
         UnlockContent = 8,
         GrantUnique = 9,
-        TriggerStory = 10
+        TriggerStory = 10,
+        /// <summary>
+        /// Spawns bounded enemy children on reward resolution. IntegerValue is the
+        /// child count, Value is the child health/damage/reward scale, and an empty
+        /// ReferenceId means the defeated enemy archetype.
+        /// </summary>
+        SpawnEnemy = 11
     }
 
     public enum ObjectiveState : byte
@@ -468,6 +474,18 @@ namespace Game.Content.Runtime
             ContentId id, string nameKey, string descriptionKey, string sourcePath, ContentTag[] tags,
             ContentTag[] required, ContentTag[] excluded, ContentId modifierOutputId,
             ContentId skillId, ContentId deathRewardId, ContentId presentationProfileId)
+            : this(
+                id, nameKey, descriptionKey, sourcePath, tags,
+                required, excluded, modifierOutputId, skillId, deathRewardId,
+                0, 1f, presentationProfileId)
+        {
+        }
+
+        public RuntimeEliteAffixDefinition(
+            ContentId id, string nameKey, string descriptionKey, string sourcePath, ContentTag[] tags,
+            ContentTag[] required, ContentTag[] excluded, ContentId modifierOutputId,
+            ContentId skillId, ContentId deathRewardId, int maximumGeneration,
+            float rewardMultiplier, ContentId presentationProfileId)
             : base(id, nameKey, descriptionKey, sourcePath, tags, presentationProfileId,
                 QinglanReferences.Combine(QinglanReferences.Optional(modifierOutputId), QinglanReferences.Optional(skillId), QinglanReferences.Optional(deathRewardId)))
         {
@@ -478,6 +496,8 @@ namespace Game.Content.Runtime
             ModifierOutputId = modifierOutputId;
             SkillId = skillId;
             DeathRewardId = deathRewardId;
+            MaximumGeneration = maximumGeneration;
+            RewardMultiplier = rewardMultiplier;
         }
 
         public override string Kind => RuntimeContentKinds.EliteAffix;
@@ -486,6 +506,8 @@ namespace Game.Content.Runtime
         public ContentId ModifierOutputId { get; }
         public ContentId SkillId { get; }
         public ContentId DeathRewardId { get; }
+        public int MaximumGeneration { get; }
+        public float RewardMultiplier { get; }
         protected override void AppendTypeSpecificDeterministicData(StringBuilder builder)
         {
             QinglanReferences.AppendTags(builder, requiredTags);
@@ -493,6 +515,8 @@ namespace Game.Content.Runtime
             ContentHashUtility.AppendToken(builder, ModifierOutputId.Value);
             ContentHashUtility.AppendToken(builder, SkillId.Value);
             ContentHashUtility.AppendToken(builder, DeathRewardId.Value);
+            ContentHashUtility.AppendInt(builder, MaximumGeneration);
+            ContentHashUtility.AppendFloat(builder, RewardMultiplier);
             AppendPresentation(builder);
         }
     }

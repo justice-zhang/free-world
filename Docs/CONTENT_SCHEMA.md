@@ -580,6 +580,7 @@ Elite Entry 可引用 Affix Pool，Boss Rule 可引用 BossDefinition。Schema 1
 | Condition | `base.condition.status_count_at_least` | Ref0 Status 或 Tag0，I0 最小层数，I1 目标域 |
 | Condition | `base.condition.target_has_status` | Ref0 Status 或 Tag0，I0 目标域 |
 | Targeting | `base.targeting.trigger_position` | 从 Trigger Context 取纯值位置 |
+| Targeting | `base.targeting.allies_circle` | V0 半径，I0 上限；排除 Owner，稳定选择非敌对 Actor |
 | Delivery | `base.delivery.outbound_return` | Outbound→Turn→Return；每相位命中去重 |
 | Effect | `base.effect.consume_status` | 先验证再原子消费，缺少时按 I1 策略 |
 | Effect | `base.effect.detonate_status` | 按实际消费层数排一次 Damage 请求 |
@@ -589,8 +590,12 @@ Reward 操作 token 固定为：
 ```text
 heal / apply_status / damage_area / collect_eligible_pickups
 grant_relic_choice / grant_evolution_choice
-add_currency / unlock_content / grant_unique / trigger_story
+add_currency / unlock_content / grant_unique / trigger_story / spawn_enemy
 ```
+
+`spawn_enemy` 的 I0 为 1—2 个子体，V0 为 `(0,1]` 的生命/伤害/奖励倍率；Ref0 为空时沿用
+死亡 Enemy Archetype，否则必须引用可执行 Schema 4 Enemy。结构创建延迟到 Cleanup，并受
+`EliteAffixDefinition.MaximumGeneration` 限制。
 
 首次 Boss 奖励、脉印、唯一藏品和固定故事不得由概率或 Luck 决定。所有永久操作只形成稳定
 `RunResultDelta`，不能从 Simulation 写文件或调用平台。

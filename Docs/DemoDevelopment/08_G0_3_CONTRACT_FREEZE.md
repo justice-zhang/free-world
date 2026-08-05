@@ -4,7 +4,7 @@
 - 日期：2026-08-04
 - 适用：G1.1—G3.6
 - 前置：G0.2 `CR-2026-004`—`CR-2026-015`
-- ADR：0013、0014、0015
+- ADR：0013、0014、0015、0016
 - 实现状态：契约已批准，代码尚未实施
 
 ## 1. 决策追踪
@@ -69,9 +69,11 @@ Schema 1—5 不读取这些字段；Schema 6 新 Pack 必须重新 Bake。Hash 
 | `base.condition.status_count_at_least` | Ref0 Status 或 Tag0；I0 最小层数；I1 目标域 |
 | `base.condition.target_has_status` | Ref0 Status 或 Tag0；I0 目标域 |
 | `base.targeting.trigger_position` | V0 可选半径；I0 最大目标数；0 表示纯位置 |
+| `base.targeting.allies_circle` | V0 半径；I0 最大目标数；排除 Owner 并稳定选择非敌对 Actor |
 | `base.delivery.outbound_return` | V0 出发速度；V1 回返速度；V2 半径；V3 最远距离；I0 每相位命中数 |
 | `base.effect.consume_status` | Ref0 Status 或 Tag0；I0 层数；I1 缺少策略 |
 | `base.effect.detonate_status` | Ref0 Status 或 Tag0；V0 每层系数；I0 最大层数；先消费后排 Damage |
+| Reward `spawn_enemy` | I0 1—2；V0 子体战斗/奖励倍率；Ref0 可选 Enemy；Cleanup 创建 |
 
 回返 Delivery 固定相位 Outbound→Turn→Return；每相位独立去重，Owner 失效时排队 Cleanup。所有引用
 在 Runtime Catalog 构造时绑定，Tick 中不解析字符串。

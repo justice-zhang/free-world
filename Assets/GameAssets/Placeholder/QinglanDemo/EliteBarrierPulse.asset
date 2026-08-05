@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0095a8991d6fc4cb5ceafd762b1862, type: 3}
+  m_Name: EliteBarrierPulse
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.SkillAuthoring
+  contentId: qinglan.skill.elite.barrier_pulse
+  localizedNameKey: content.qinglan.skill.elite.barrier_pulse.name
+  localizedDescriptionKey: content.qinglan.skill.elite.barrier_pulse.description
+  tags:
+  - content.placeholder
+  - skill.enemy
+  - skill.elite
+  - skill.shield
+  cooldownSeconds: 2.6
+  resourceCost: 0
+  modularRuntimeEnabled: 1
+  trigger:
+    moduleId: base.trigger.timer
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  condition:
+    moduleId: base.condition.always
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  targeting:
+    moduleId: base.targeting.self
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  delivery:
+    moduleId: base.delivery.instant
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  effects:
+  - moduleId: base.effect.apply_status
+    value0: 1
+    value1: 0
+    value2: 0
+    int0: 0
+    int1: 0
+    referenceId0: qinglan.status.elite.barrier_ward
+    referenceId1: 
+    tag0: 
+    statId0: 
+    flags: 0
+  levelPatches: []

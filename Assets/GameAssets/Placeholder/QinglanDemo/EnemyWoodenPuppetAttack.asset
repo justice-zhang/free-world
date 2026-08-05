@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0095a8991d6fc4cb5ceafd762b1862, type: 3}
+  m_Name: EnemyWoodenPuppetAttack
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.SkillAuthoring
+  contentId: qinglan.skill.enemy.wooden_puppet_attack
+  localizedNameKey: content.qinglan.skill.enemy.wooden_puppet_attack.name
+  localizedDescriptionKey: content.qinglan.skill.enemy.wooden_puppet_attack.description
+  tags:
+  - content.placeholder
+  - skill.enemy
+  - enemy.heavy
+  - skill.composite
+  cooldownSeconds: 1.2
+  resourceCost: 0
+  modularRuntimeEnabled: 1
+  trigger:
+    moduleId: base.trigger.timer
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  condition:
+    moduleId: base.condition.always
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  targeting:
+    moduleId: base.targeting.self
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  delivery:
+    moduleId: base.delivery.instant
+    value0: 0
+    value1: 0
+    value2: 0
+    value3: 0
+    int0: 0
+    int1: 0
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
+  effects:
+  - moduleId: base.effect.apply_status
+    value0: 1
+    value1: 0
+    value2: 0
+    int0: 0
+    int1: 0
+    referenceId0: qinglan.status.enemy.puppet_brace
+    referenceId1: 
+    tag0: 
+    statId0: 
+    flags: 0
+  - moduleId: base.effect.spawn_secondary_skill
+    value0: 0
+    value1: 0
+    value2: 0
+    int0: 0
+    int1: 0
+    referenceId0: qinglan.skill.enemy.wooden_puppet_heavy_slash
+    referenceId1: 
+    tag0: 
+    statId0: 
+    flags: 0
+  levelPatches: []

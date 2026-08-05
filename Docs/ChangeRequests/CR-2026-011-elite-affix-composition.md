@@ -4,8 +4,8 @@
 - 状态：Approved
 - 提交日期：2026-08-04
 - 提交人：Codex
-- 目标里程碑：G0.3、G2.3
-- 关联 ADR：ADR 0013、ADR 0014；对应 Demo CR-08
+- 目标里程碑：G0.3、G1.5、G2.3
+- 关联 ADR：ADR 0013、ADR 0014、ADR 0016；对应 Demo CR-08
 
 ## 1. 变更摘要
 
@@ -67,4 +67,4 @@ Stat Modifier、Skill 和 Reward 可表达词缀输出，但缺少把它们绑�
 - 技术负责人：依据用户当前连续 Demo 开发指令批准进入 G0.3 契约设计
 - 内容负责人：依据已提交 V2.0 与 G0.1 数量/体验基线
 - 制作人：依据用户当前连续 Demo 开发指令
-- 结论：Accepted / Approved for G0.3 design；尚未实现
+- 结论：Accepted / Approved；G1.5 已实现组合/绑定/有限分裂，G2.3 继续实现完整奖励选择
