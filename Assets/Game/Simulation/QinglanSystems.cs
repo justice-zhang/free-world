@@ -12,7 +12,20 @@ namespace Game.Simulation
     }
 
     public sealed class InputCommandSystem : QinglanOwnedSystem { public override SimulationSystemId Id => SimulationSystemId.InputCommand; }
-    public sealed class MapObjectiveAndEventSystem : QinglanOwnedSystem { public override SimulationSystemId Id => SimulationSystemId.MapObjectiveAndEvent; }
+    public sealed class MapObjectiveAndEventSystem : QinglanOwnedSystem
+    {
+        public override SimulationSystemId Id => SimulationSystemId.MapObjectiveAndEvent;
+
+        public override void Execute(SimulationWorld world)
+        {
+            base.Execute(world);
+            var runtime = world.Qinglan?.MapObjectives;
+            if (runtime == null || !runtime.IsInitialized) return;
+            runtime.AdvanceEvents(world.ExecutingTick * world.DeltaTimeSeconds);
+            if (world.TryGetPlayerPosition(out var playerPosition))
+                runtime.UpdateLandmarkDiscovery(playerPosition);
+        }
+    }
     public sealed class BossPhaseSystem : QinglanOwnedSystem { public override SimulationSystemId Id => SimulationSystemId.BossPhase; }
     public sealed class CharacterMechanicAccumulateSystem : QinglanOwnedSystem
     {

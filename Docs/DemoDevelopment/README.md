@@ -11,8 +11,8 @@
 本目录把总纲中的 Demo 承诺拆成可实施的工作结构。实施者应先阅读 00—06，再进入对应模块文档。
 任何标记为 `CR-BLOCKED` 的条目在 Change Request、ADR、迁移和测试方案获批前不得实现。
 
-本文档中的 ContentId 均为 `DRAFT`，未发布、未占用兼容性承诺；首次进入可分发 Catalog 前必须由
-内容 Owner 审核并转为 `RESERVED`，发布后才成为不可变 ID。
+未进入 Catalog 的 ContentId 均为 `DRAFT`；已经由对应 G 工作包写入可分发 Catalog 的 ID 按该工作包
+ADR 和冻结文档管理，不得改存运行时索引或无迁移改名。
 
 ## 2. 总体依赖
 
@@ -57,6 +57,7 @@ G3 发布候选
 | [13_G1_5_ENEMY_ELITE_SLICE.md](13_G1_5_ENEMY_ELITE_SLICE.md) | G1.5 六敌人、四精英词缀、友军目标与一代分裂实施切片 |
 | [14_G1_6_ENCOUNTER_SLICE.md](14_G1_6_ENCOUNTER_SLICE.md) | G1.6 九段十二分钟时间轴、固定精英与停止生成实施切片 |
 | [15_G1_7_PACK_REWARD_GATE.md](15_G1_7_PACK_REWARD_GATE.md) | G1.7 受控显化选择、完整 Placeholder Pack 与 Development Build 门禁 |
+| [16_G2_1_MAP_RUNTIME.md](16_G2_1_MAP_RUNTIME.md) | G2.1 旧演武场、目标、事件、地标、锚点与地图运行时 |
 
 ## 4. 模块分支
 

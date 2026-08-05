@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 919b4527417a7b245baa4a52f60bbf19, type: 3}
+  m_Name: OldCourtMap
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.MapAuthoring
+  contentId: qinglan.map.old_court
+  localizedNameKey: content.qinglan.map.old_court.name
+  localizedDescriptionKey: content.qinglan.map.old_court.description
+  tags:
+  - content.placeholder
+  - map.old_court
+  - map.demo
+  runtimeProviderId: qinglan.runtime.map.finite
+  sceneAddress: maps/qinglan.demo/old_court
+  m5RuntimeEnabled: 1
+  boundsMode: 1
+  minimum: {x: -48, y: -36}
+  maximum: {x: 48, y: 36}
+  chunkSize: 24
+  activeChunkRadius: 2
+  encounterSchedule: {fileID: 11400000, guid: 000cdc9a229201b4bacfbd825de21f2c, type: 2}
+  visualProfileId: placeholder.presentation.map.old_court
+  obstacles:
+  - minimum: {x: -21, y: -18}
+    maximum: {x: -19, y: 12}
+  - minimum: {x: -21, y: 18}
+    maximum: {x: -19, y: 34}
+  - minimum: {x: 19, y: -34}
+    maximum: {x: 21, y: -14}
+  - minimum: {x: 19, y: -8}
+    maximum: {x: 21, y: 12}
+  - minimum: {x: -44, y: 14}
+    maximum: {x: -12, y: 16}
+  - minimum: {x: 10, y: 14}
+    maximum: {x: 18, y: 16}
+  - minimum: {x: 28, y: 14}
+    maximum: {x: 44, y: 16}
+  - minimum: {x: -18, y: -17}
+    maximum: {x: -4, y: -15}
+  - minimum: {x: 5, y: -17}
+    maximum: {x: 18, y: -15}
+  anchors:
+  - id: qinglan.anchor.old_court.zone.central
+    position: {x: 0, y: 0}
+  - id: qinglan.anchor.old_court.zone.west
+    position: {x: -32, y: 4}
+  - id: qinglan.anchor.old_court.zone.east
+    position: {x: 32, y: 4}
+  - id: qinglan.anchor.old_court.zone.north
+    position: {x: 0, y: 27}
+  - id: qinglan.anchor.old_court.zone.south
+    position: {x: 0, y: -27}
+  - id: qinglan.anchor.old_court.objective.listen
+    position: {x: 0, y: 25}
+  - id: qinglan.anchor.old_court.objective.guide
+    position: {x: -30, y: 7}
+  - id: qinglan.anchor.old_court.objective.stop_balance
+    position: {x: 29, y: 5}
+  - id: qinglan.anchor.old_court.landmark.stele
+    position: {x: -6, y: -25}
+  - id: qinglan.anchor.old_court.landmark.sealed_cache
+    position: {x: 35, y: 8}
+  - id: qinglan.anchor.old_court.landmark.herb_garden
+    position: {x: -34, y: 8}
+  - id: qinglan.anchor.old_court.landmark.broken_wall
+    position: {x: 23, y: 18}
+  - id: qinglan.anchor.old_court.landmark.guest_letter
+    position: {x: 6, y: -28}
+  objectives:
+  - {fileID: 11400000, guid: cf6cbe311c60f614e955aee2753bd0a0, type: 2}
+  - {fileID: 11400000, guid: f5e0eaf339245de4e9ae04d0e460212e, type: 2}
+  - {fileID: 11400000, guid: e0d980ab19d859b4383d95fa61a4f9a9, type: 2}
+  events:
+  - {fileID: 11400000, guid: ffcc5f293b14d9a44abc47a82e0c33b5, type: 2}
+  - {fileID: 11400000, guid: d795172e132effd4384c1cb40e9b2bd4, type: 2}
+  - {fileID: 11400000, guid: 2fccacb89fba52647a2249f5449f8a7e, type: 2}
+  landmarks:
+  - {fileID: 11400000, guid: b0c3e10d6ec38fc45acb6f3f95881bd4, type: 2}
+  - {fileID: 11400000, guid: da8d3eb7d0ca2a54180b77c20b508f1b, type: 2}
+  - {fileID: 11400000, guid: 235bc1803b84134429a30bea1046d3f2, type: 2}
+  - {fileID: 11400000, guid: c180563082e64d54eb3de76f946750e0, type: 2}
+  - {fileID: 11400000, guid: 4f31de496fb0fbd459253c613828530c, type: 2}

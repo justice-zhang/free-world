@@ -434,54 +434,6 @@ namespace Game.Simulation
         }
     }
 
-    public sealed class MapObjectiveRuntime
-    {
-        private struct Entry { public ContentId Id; public ObjectiveState State; }
-        private readonly Entry[] entries;
-        private int count;
-
-        public MapObjectiveRuntime(int capacity = 32)
-        {
-            if (capacity < 1) throw new ArgumentOutOfRangeException(nameof(capacity));
-            entries = new Entry[capacity];
-        }
-
-        public bool TryAdd(ContentId id, ObjectiveState initialState = ObjectiveState.Hidden)
-        {
-            if (!id.IsValid || count >= entries.Length) return false;
-            for (var index = 0; index < count; index++) if (entries[index].Id == id) return false;
-            entries[count++] = new Entry { Id = id, State = initialState };
-            return true;
-        }
-
-        public bool TryTransition(ContentId id, ObjectiveState expected, ObjectiveState next)
-        {
-            for (var index = 0; index < count; index++)
-            {
-                if (entries[index].Id != id || entries[index].State != expected || !IsLegalTransition(expected, next)) continue;
-                entries[index].State = next;
-                return true;
-            }
-            return false;
-        }
-
-        public bool TryGetState(ContentId id, out ObjectiveState state)
-        {
-            for (var index = 0; index < count; index++) if (entries[index].Id == id) { state = entries[index].State; return true; }
-            state = default;
-            return false;
-        }
-
-        private static bool IsLegalTransition(ObjectiveState from, ObjectiveState to)
-        {
-            return (from == ObjectiveState.Hidden && to == ObjectiveState.Revealed) ||
-                   (from == ObjectiveState.Revealed && to == ObjectiveState.Available) ||
-                   (from == ObjectiveState.Available && to == ObjectiveState.Activating) ||
-                   (from == ObjectiveState.Activating && (to == ObjectiveState.Defending || to == ObjectiveState.Available)) ||
-                   (from == ObjectiveState.Defending && (to == ObjectiveState.Completed || to == ObjectiveState.Available));
-        }
-    }
-
     public sealed class BossPhaseRuntime
     {
         public int ResolvePhase(RuntimeBossDefinition definition, int currentPhase, float healthFraction, bool lethal)

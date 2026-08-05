@@ -1264,6 +1264,110 @@ MonoBehaviour:
     m_Localized: Nine continuous pressure phases with two deterministic elite milestones.
     m_Metadata:
       m_Items: []
+  - m_Id: 3706330864820224
+    m_Localized: Old Court
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040980992
+    m_Localized: A five-zone finite arena with stable runtime anchors.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040980993
+    m_Localized: Exploration Token
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040980994
+    m_Localized: A Placeholder reward emitted by map interactions.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040980995
+    m_Localized: Listen to the Wind Altar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040980996
+    m_Localized: Activate and defend the listening altar.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040980997
+    m_Localized: Guide the Wind Pulse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040980998
+    m_Localized: Guide a wind pulse through the western court.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040980999
+    m_Localized: Hold the Wind Balance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981000
+    m_Localized: Interrupt danger and complete the eastern balance ritual.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981001
+    m_Localized: Wind Vein Riot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981002
+    m_Localized: A deterministic eligible event in the central and northern zones.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981003
+    m_Localized: Herb Garden Revival
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981004
+    m_Localized: A western-zone event that reveals a map objective.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981005
+    m_Localized: Old Sword Resonance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981006
+    m_Localized: An eastern-zone event that reveals a map objective.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3710490012164102
+    m_Localized: A one-shot letter landmark.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3710490012164101
+    m_Localized: Guest Pavilion Letter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3710490012164100
+    m_Localized: A one-shot ruined-wall landmark.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3710490012164099
+    m_Localized: Broken Wall Sword Mark
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981011
+    m_Localized: Herb Garden
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981012
+    m_Localized: A one-shot garden landmark.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3710490012164098
+    m_Localized: A one-shot exploration landmark.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3710490012164097
+    m_Localized: Sealed Sword Cache
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3710490012164096
+    m_Localized: A discoverable wind-vein marker.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3710489924083712
+    m_Localized: Wind Vein Stele
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

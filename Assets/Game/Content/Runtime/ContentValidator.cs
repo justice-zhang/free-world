@@ -367,6 +367,7 @@ namespace Game.Content.Runtime
                             referenced => referenced is RuntimeMapEventDefinition, "a MapEvent");
                         ValidateReferenceList(map, map.LandmarkIds, definitionsById, packId, report,
                             referenced => referenced is RuntimeLandmarkDefinition, "a Landmark");
+                        ValidateMapOwnedAnchors(map, definitionsById, packId, report);
                     }
 
                     if (definition is RuntimeEncounterSchedule encounter)
@@ -907,6 +908,137 @@ namespace Game.Content.Runtime
             }
 
             return null;
+        }
+
+        private static void ValidateMapOwnedAnchors(
+            RuntimeMapDefinition map,
+            IReadOnlyDictionary<ContentId, RuntimeContentDefinition> definitionsById,
+            ContentId packId,
+            ContentValidationReport report)
+        {
+            if (map.ObjectiveIds.Count > 32 || map.EventIds.Count > 16 || map.LandmarkIds.Count > 32)
+            {
+                AddMapAuthoringError(
+                    map,
+                    packId,
+                    report,
+                    "Map exceeds the runtime capacity of 32 objectives, 16 events, or 32 landmarks.");
+            }
+
+            var walkableAnchors = new HashSet<ContentId>();
+            for (var index = 0; index < map.Anchors.Count; index++)
+            {
+                var anchor = map.Anchors[index];
+                if (IsMapPositionWalkable(map, anchor.Position)) walkableAnchors.Add(anchor.Id);
+                else
+                {
+                    AddMapAuthoringError(
+                        map,
+                        packId,
+                        report,
+                        "Map anchor '" + anchor.Id + "' must be inside finite bounds and outside obstacles.");
+                }
+            }
+
+            for (var index = 0; index < map.ObjectiveIds.Count; index++)
+            {
+                if (!definitionsById.TryGetValue(map.ObjectiveIds[index], out var definition) ||
+                    !(definition is RuntimeMapObjectiveDefinition objective))
+                    continue;
+                ValidateOwnedAnchorList(map, objective.Id, objective.AnchorIds, walkableAnchors, packId, report);
+            }
+
+            for (var index = 0; index < map.EventIds.Count; index++)
+            {
+                if (!definitionsById.TryGetValue(map.EventIds[index], out var definition) ||
+                    !(definition is RuntimeMapEventDefinition mapEvent))
+                    continue;
+                ValidateOwnedAnchorList(map, mapEvent.Id, mapEvent.AnchorIds, walkableAnchors, packId, report);
+                if (definitionsById.TryGetValue(mapEvent.OutputId, out var output) &&
+                    output is RuntimeMapObjectiveDefinition &&
+                    !ContainsMapContentId(map.ObjectiveIds, mapEvent.OutputId))
+                {
+                    AddMapAuthoringError(
+                        map,
+                        packId,
+                        report,
+                        "Map event '" + mapEvent.Id + "' outputs objective '" + mapEvent.OutputId +
+                        "' that is not owned by the same map.");
+                }
+            }
+
+            for (var index = 0; index < map.LandmarkIds.Count; index++)
+            {
+                if (!definitionsById.TryGetValue(map.LandmarkIds[index], out var definition) ||
+                    !(definition is RuntimeLandmarkDefinition landmark))
+                    continue;
+                if (!walkableAnchors.Contains(landmark.AnchorId))
+                {
+                    AddMapAuthoringError(
+                        map,
+                        packId,
+                        report,
+                        "Map landmark '" + landmark.Id + "' references missing or non-walkable anchor '" +
+                        landmark.AnchorId + "'.");
+                }
+            }
+        }
+
+        private static void ValidateOwnedAnchorList(
+            RuntimeMapDefinition map,
+            ContentId ownerId,
+            IReadOnlyList<ContentId> anchorIds,
+            HashSet<ContentId> walkableAnchors,
+            ContentId packId,
+            ContentValidationReport report)
+        {
+            for (var index = 0; index < anchorIds.Count; index++)
+            {
+                if (walkableAnchors.Contains(anchorIds[index])) continue;
+                AddMapAuthoringError(
+                    map,
+                    packId,
+                    report,
+                    "Map content '" + ownerId + "' references missing or non-walkable anchor '" +
+                    anchorIds[index] + "'.");
+            }
+        }
+
+        private static bool IsMapPositionWalkable(RuntimeMapDefinition map, System.Numerics.Vector2 position)
+        {
+            if (map.BoundsMode == MapBoundsMode.Finite &&
+                (position.X < map.Minimum.X || position.X > map.Maximum.X ||
+                 position.Y < map.Minimum.Y || position.Y > map.Maximum.Y))
+                return false;
+            for (var index = 0; index < map.Obstacles.Count; index++)
+            {
+                var obstacle = map.Obstacles[index];
+                if (position.X >= obstacle.Minimum.X && position.X <= obstacle.Maximum.X &&
+                    position.Y >= obstacle.Minimum.Y && position.Y <= obstacle.Maximum.Y)
+                    return false;
+            }
+            return true;
+        }
+
+        private static bool ContainsMapContentId(IReadOnlyList<ContentId> values, ContentId expected)
+        {
+            for (var index = 0; index < values.Count; index++)
+                if (values[index] == expected) return true;
+            return false;
+        }
+
+        private static void AddMapAuthoringError(
+            RuntimeMapDefinition map,
+            ContentId packId,
+            ContentValidationReport report,
+            string message)
+        {
+            report.Add(new Error(
+                ErrorCode.InvalidAuthoringData,
+                message,
+                map.Id,
+                packId,
+                map.SourceAssetPath));
         }
 
         private static string ValidateSchema6SkillModules(RuntimeSkillDefinition skill)

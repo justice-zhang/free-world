@@ -339,3 +339,18 @@ ADR 0013—0015 和 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md` 批准下列实
   Qinglan Pack includedInPlayer、Placeholder=true、未批准资产 0。Player 冒烟进入 MainMenu，无错误标记。
 - Boss/精英实际消费者、宝匣/fallback RewardDefinition、选择 UI 为 `NOT RUN`，分别由 G2.2/G2.3/G2.6
   关闭；本阶段不能用 Adapter 测试替代完整奖励内容 PlayMode。
+
+## 18. Qinglan Demo G2.1 Map Runtime 证据
+
+- 最终稳定 ID 下 Focused EditMode 6/6、全量 EditMode 245/245、全量 PlayMode 10/10；覆盖 13 个 Scene
+  Binding、可行走、目标距离/中断/恢复/一次输出、事件 Seed 隔离、地标幂等和 8 种完成子集。
+- 首次全量 EditMode 为 244/245，唯一失败是 API Freeze 按预期发现 Simulation 漂移；ADR 0019 接受
+  81 条追加、0 删除后，Project Validation 与完整回归均 PASS。
+- `qinglan.pack.demo` 0.6.0 / Schema 6 / 107 项 Content Hash 为
+  `fbb58777702837b2730be64e515ef4b2386254089bb109e4c8c6e926ab2ca67c`。
+- 两次 Pack CLI 各构建 7 个 Pack；Qinglan Catalog 字节相同，SHA-256 均为
+  `01195cf04c0f1668ebb7384594a77f0e6ca0485b088e00fca1eb74e4b647d86c`。
+- 性能短测 900 Tick＋300 预热：Tick p99 4.6635 ms、Render p99 0.6965 ms、0 B、GC 0/0/0、
+  Checksum `b455f50ce958d212`。
+- Boss 参数组合、实际奖励、RunResult/Profile、UI/可读性和 Development Build 为 `NOT RUN`，由
+  G2.2—G2.8 按路线关闭。

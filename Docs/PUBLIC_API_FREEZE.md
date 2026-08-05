@@ -8,7 +8,7 @@ M10 首次冻结、G1.1 按 ADR 0013—0015 更新以下程序集的公开类型
 |---|---:|---|
 | `Game.Core` | 168 | `25766747b7014e0386506567e5e3c35f78b6dc5d00d850b00c35d28eb8d7e176` |
 | `Game.Content.Runtime` | 940 | `cd72d779cf1ae53f0875d06140706e194081588b7a0429efd4e490ae72e35b00` |
-| `Game.Simulation` | 1192 | `57e2944c998499d9a48e9d2b7881480ede672ff5dfb89f5a4fbc477e57b87875` |
+| `Game.Simulation` | 1273 | `fd387bc6ed0eaea6f1d1f1d9c568f6a157da166b0f068820a5eeacb56d1a92b8` |
 | `Game.Application` | 355 | `f57fe00c2c1ead974c9b900e5396661c42c7900641534a87f45f8ce6d5b4f8a6` |
 | `Game.Platform.Abstractions` | 73 | `8eb5f2ccca0f5845a55d90c9f00fb42eae59cc82d81e98369995e84428a51738` |
 
@@ -98,3 +98,15 @@ Simulation 追加 `RewardChoiceRuntime`、`RewardChoiceSnapshot`、Request/Resol
 旧 Hash 下 Project Validation 同时报告 Simulation `a65553…`→`57e294…` 与 Application
 `bea7fe…`→`f57fe0…`；没有旧构造、属性、方法或枚举数值删除/替换。规范签名和失败日志保存在
 `TestResults/QinglanDemo/G1.7/`。
+
+## Qinglan Demo G2.1 批准追加
+
+ADR 0019 为 M08 旧演武场运行时补齐 `MapObjectiveRuntime` 的公开命令、只读快照、结果状态、
+地标状态与输出事务投影。规范 diff 为 `Game.Simulation` 81 条追加、零删除；Core、Content Runtime、
+Application 与 Platform 签名逐字节不变。
+
+旧 `MapObjectiveRuntime(int capacity)`、`TryAdd`、`TryTransition` 与 `TryGetState` 均保留；新四容量构造
+函数只扩展固定容量配置。新增 API 不暴露 Unity Object、Scene 或运行时索引，目标/事件/地标和输出
+只使用稳定 `ContentId`、`SpatialEntity` 与 `RewardTransactionId`。旧 Hash 下 Project Validation 仅报告
+Simulation `57e294…`→`fd387b…`；规范签名、81/0 差异和失败日志保存在
+`TestResults/QinglanDemo/G2.1/`。

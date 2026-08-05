@@ -3,7 +3,7 @@
 ## 1. ID 治理
 
 - 命名空间统一为 `qinglan.*`；只使用小写字母、数字、下划线和点号。
-- 本表全部为 `DRAFT`，首次进入可分发 Catalog 前执行法务、术语、Owner 和重复检查。
+- 未标注“已冻结”的条目为 `DRAFT`；条目首次进入可分发 Catalog 前执行法务、术语、Owner 和重复检查。
 - 玩家可见名称不从 ID 派生，只使用本地化 Key。
 - 存档保存稳定 ID；`RuntimeContentIndex`、Unity Object、Asset GUID 不进入存档。
 - `presentation`、`audio`、`vfx` ID 是表现边界，不冒充 Simulation 内容定义。
@@ -167,7 +167,7 @@ Offer 的权重、前置、互斥和满级过滤由 M6 现有候选真值处理�
 
 ## 6. 地图、Encounter、目标和事件
 
-| 类型 | DRAFT ContentId | 名称 |
+| 类型 | ContentId（G2.1 已冻结） | 名称 |
 |---|---|---|
 | Map | `qinglan.map.old_court` | 青岚旧庭 |
 | Encounter | `qinglan.encounter.old_court.demo_12m` | 旧庭十二分钟时间轴 |
@@ -184,7 +184,7 @@ Offer 的权重、前置、互斥和满级过滤由 M6 现有候选真值处理�
 | Landmark | `qinglan.landmark.guest_pavilion_letter` | 迎客亭旧信 |
 
 Map Anchor ID 使用 `qinglan.anchor.old_court.<purpose>`，Scene 名称不得替代稳定 ID。目标、事件与
-地标 Definition 需要 CR-06/CR-07 决策后才能进入 Runtime Catalog。
+地标 Definition 已依据 CR-06/CR-07 与 ADR 0019 进入 0.6.0 Runtime Catalog；后续不得改名或改存运行时索引。
 
 ## 7. 即时灵物、奇物与关键奖励
 
@@ -203,6 +203,7 @@ Map Anchor ID 使用 `qinglan.anchor.old_court.<purpose>`，Scene 名称不得�
 | Relic | `qinglan.relic.old_court_bell` | 旧庭残钟：周期控场 |
 | Relic | `qinglan.relic.blank_sword_trial_token` | 无字试剑牌：高风险 Boss 输出 |
 | Reward | `qinglan.reward.manifestation_chest` | 显化宝匣 |
+| Reward | `qinglan.reward.map.exploration_token` | G2.1 地图探索占位事务输出 |
 | Currency | `qinglan.currency.spirit_sand` | 灵砂 |
 | Key Progress | `qinglan.progress.region_mark.qinglan` | 青岚山河脉印 |
 

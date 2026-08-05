@@ -1259,6 +1259,110 @@ MonoBehaviour:
     m_Key: content.qinglan.encounter.old_court.demo_12m.description
     m_Metadata:
       m_Items: []
+  - m_Id: 3706330864820224
+    m_Key: content.qinglan.map.old_court.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040980992
+    m_Key: content.qinglan.map.old_court.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040980993
+    m_Key: content.qinglan.reward.map.exploration_token.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040980994
+    m_Key: content.qinglan.reward.map.exploration_token.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040980995
+    m_Key: content.qinglan.objective.wind_altar.listen.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040980996
+    m_Key: content.qinglan.objective.wind_altar.listen.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040980997
+    m_Key: content.qinglan.objective.wind_altar.guide.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040980998
+    m_Key: content.qinglan.objective.wind_altar.guide.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040980999
+    m_Key: content.qinglan.objective.wind_altar.stop_balance.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981000
+    m_Key: content.qinglan.objective.wind_altar.stop_balance.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981001
+    m_Key: content.qinglan.event.wind_vein_riot.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981002
+    m_Key: content.qinglan.event.wind_vein_riot.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981003
+    m_Key: content.qinglan.event.herb_garden_revival.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981004
+    m_Key: content.qinglan.event.herb_garden_revival.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981005
+    m_Key: content.qinglan.event.old_sword_resonance.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981006
+    m_Key: content.qinglan.event.old_sword_resonance.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981011
+    m_Key: content.qinglan.landmark.herb_garden_variant.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3706331040981012
+    m_Key: content.qinglan.landmark.herb_garden_variant.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3710489924083712
+    m_Key: content.qinglan.landmark.wind_vein_stele.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3710490012164096
+    m_Key: content.qinglan.landmark.wind_vein_stele.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3710490012164097
+    m_Key: content.qinglan.landmark.sealed_sword_cache.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3710490012164098
+    m_Key: content.qinglan.landmark.sealed_sword_cache.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3710490012164099
+    m_Key: content.qinglan.landmark.broken_wall_sword_mark.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3710490012164100
+    m_Key: content.qinglan.landmark.broken_wall_sword_mark.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3710490012164101
+    m_Key: content.qinglan.landmark.guest_pavilion_letter.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3710490012164102
+    m_Key: content.qinglan.landmark.guest_pavilion_letter.description
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -48,11 +48,11 @@ namespace Game.Tests.EditMode
             var second = ContentBakeUtility.Bake(pack);
             Assert.That(first.IsSuccess, Is.True, first.Error.ToString());
             Assert.That(second.IsSuccess, Is.True, second.Error.ToString());
-            Assert.That(first.Value.Manifest.Version, Is.EqualTo(new ContentVersion(0, 5, 0)));
+            Assert.That(first.Value.Manifest.Version, Is.EqualTo(new ContentVersion(0, 6, 0)));
             Assert.That(first.Value.Manifest.SchemaVersion, Is.EqualTo(6));
-            Assert.That(first.Value.Definitions.Count, Is.EqualTo(94));
+            Assert.That(first.Value.Definitions.Count, Is.EqualTo(107));
             Assert.That(first.Value.ContentHash,
-                Is.EqualTo("798dbb302dda57b9f0158e83010ee89392ffdc291cc629715ba357b691ebd5ad"));
+                Is.EqualTo("fbb58777702837b2730be64e515ef4b2386254089bb109e4c8c6e926ab2ca67c"));
             Assert.That(second.Value.ContentHash, Is.EqualTo(first.Value.ContentHash));
 
             var checkedIn = UnityEngine.JsonUtility.FromJson<BakedContentCatalogDto>(

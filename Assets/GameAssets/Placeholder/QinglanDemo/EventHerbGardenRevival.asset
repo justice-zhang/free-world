@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ab5523569c43f3add3cd44c96bed44, type: 3}
+  m_Name: EventHerbGardenRevival
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.QinglanDefinitionAuthoring
+  contentId: qinglan.event.herb_garden_revival
+  localizedNameKey: content.qinglan.event.herb_garden_revival.name
+  localizedDescriptionKey: content.qinglan.event.herb_garden_revival.description
+  tags:
+  - content.placeholder
+  - map.event
+  runtimeKind: map_event
+  runtime:
+    presentationProfileId: placeholder.presentation.qinglan.event.herb_garden_revival
+    resourceId: 
+    value0: 120
+    value1: 600
+    int0: 0
+    enum0: 0
+    bool0: 0
+    text0: 
+    referenceId0: qinglan.objective.wind_altar.guide
+    referenceId1: 
+    referenceId2: 
+    references0:
+    - qinglan.anchor.old_court.zone.west
+    - qinglan.anchor.old_court.landmark.herb_garden
+    references1: []
+    references2: []
+    tags0: []
+    tags1: []
+    localizedSequenceKeys: []
+    mechanicTiers: []
+    rewardOperations: []
+    stateTransitions:
+    - from: 1
+      to: 2
+    - from: 2
+      to: 3
+    - from: 3
+      to: 4
+    - from: 4
+      to: 5
+    - from: 4
+      to: 3
+    - from: 5
+      to: 6
+    - from: 5
+      to: 3
+    bossPhases: []
