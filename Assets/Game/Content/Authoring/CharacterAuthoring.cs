@@ -14,6 +14,7 @@ namespace Game.Content.Authoring
         [SerializeField] private float baseMaxHealth = 100f;
         [SerializeField] private float moveSpeed = 5f;
         [SerializeField] private SkillAuthoring[] startingSkills = Array.Empty<SkillAuthoring>();
+        [SerializeField] private QinglanDefinitionAuthoring[] mechanics = Array.Empty<QinglanDefinitionAuthoring>();
 
         /// <summary>
         /// Configures M1 character values.
@@ -28,6 +29,14 @@ namespace Game.Content.Authoring
             startingSkills = skills == null
                 ? Array.Empty<SkillAuthoring>()
                 : (SkillAuthoring[])skills.Clone();
+        }
+
+        /// <summary>Configures schema-6 generic mechanic references without changing character logic.</summary>
+        public void ConfigureMechanics(QinglanDefinitionAuthoring[] characterMechanics)
+        {
+            mechanics = characterMechanics == null
+                ? Array.Empty<QinglanDefinitionAuthoring>()
+                : (QinglanDefinitionAuthoring[])characterMechanics.Clone();
         }
 
         internal override Result<RuntimeContentDefinition> Bake(
@@ -78,6 +87,31 @@ namespace Game.Content.Authoring
                 skillIds[index] = skillIdResult.Value;
             }
 
+            var mechanicIds = new ContentId[mechanics == null ? 0 : mechanics.Length];
+            for (var index = 0; index < mechanicIds.Length; index++)
+            {
+                if (mechanics[index] == null ||
+                    mechanics[index].RuntimeKind != RuntimeContentKinds.CharacterMechanic)
+                {
+                    return Result<RuntimeContentDefinition>.Failure(
+                        new Error(
+                            ErrorCode.MissingReference,
+                            "Character mechanic reference is null or has the wrong kind at index " + index + ".",
+                            common.Id,
+                            packId,
+                            authorAssetPath));
+                }
+
+                var mechanicId = ContentValidator.ValidateAuthoringId(
+                    mechanics[index].ContentIdText,
+                    packId,
+                    authorAssetPath);
+                if (!mechanicId.IsSuccess)
+                    return Result<RuntimeContentDefinition>.Failure(mechanicId.Error);
+                mechanicIds[index] = mechanicId.Value;
+            }
+            mechanicIds = ContentBaker.CanonicalizeSet(mechanicIds);
+
             return Result<RuntimeContentDefinition>.Success(
                 new RuntimeCharacterDefinition(
                     common.Id,
@@ -87,7 +121,8 @@ namespace Game.Content.Authoring
                     common.Tags,
                     baseMaxHealth,
                     moveSpeed,
-                    skillIds));
+                    skillIds,
+                    mechanicIds));
         }
     }
 }

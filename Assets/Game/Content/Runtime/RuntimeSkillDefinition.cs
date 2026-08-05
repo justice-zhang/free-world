@@ -27,7 +27,31 @@ namespace Game.Content.Runtime
         /// <summary>Queues a centralized shield grant.</summary>
         GrantShield = 9,
         /// <summary>Adds owner skill resource.</summary>
-        GainResource = 10
+        GainResource = 10,
+        /// <summary>Atomically consumes matching status stacks.</summary>
+        ConsumeStatus = 11,
+        /// <summary>Consumes matching stacks and queues one scaled damage request.</summary>
+        DetonateStatus = 12
+    }
+
+    /// <summary>Entity domain used by status-query condition modules.</summary>
+    public enum StatusQueryTarget : byte
+    {
+        /// <summary>The actor that owns the skill instance.</summary>
+        Owner = 0,
+        /// <summary>The source carried by the trigger context.</summary>
+        Source = 1,
+        /// <summary>The target carried by the trigger context.</summary>
+        Target = 2
+    }
+
+    /// <summary>Behavior used when a consume request cannot find every requested stack.</summary>
+    public enum StatusConsumeMissingPolicy : byte
+    {
+        /// <summary>Reject the transaction without consuming any stack.</summary>
+        RequireExact = 0,
+        /// <summary>Consume all available stacks up to the requested count.</summary>
+        ConsumeAvailable = 1
     }
 
     /// <summary>Optional compact flags interpreted by an effect executor.</summary>
@@ -53,6 +77,27 @@ namespace Game.Content.Runtime
             int int0 = 0,
             int int1 = 0,
             ContentId presentationId = default)
+            : this(
+                moduleId, value0, value1, value2, value3, int0, int1,
+                presentationId, default, default, default, default, default, default)
+        {
+        }
+
+        private SkillModuleDefinition(
+            ContentId moduleId,
+            float value0,
+            float value1,
+            float value2,
+            float value3,
+            int int0,
+            int int1,
+            ContentId presentationId,
+            ContentId referenceId0 = default,
+            ContentId referenceId1 = default,
+            ContentTag tag0 = default,
+            ContentTag tag1 = default,
+            RuntimeContentIndex reference0 = default,
+            RuntimeContentIndex reference1 = default)
         {
             ModuleId = moduleId;
             Value0 = value0;
@@ -62,6 +107,35 @@ namespace Game.Content.Runtime
             Int0 = int0;
             Int1 = int1;
             PresentationId = presentationId;
+            ReferenceId0 = referenceId0;
+            ReferenceId1 = referenceId1;
+            Tag0 = tag0;
+            Tag1 = tag1;
+            Reference0 = reference0;
+            Reference1 = reference1;
+        }
+
+        /// <summary>Creates a schema-6 module carrying stable reference and tag operands.</summary>
+        public static SkillModuleDefinition CreateReferenced(
+            ContentId moduleId,
+            float value0 = 0f,
+            float value1 = 0f,
+            float value2 = 0f,
+            float value3 = 0f,
+            int int0 = 0,
+            int int1 = 0,
+            ContentId presentationId = default,
+            ContentId referenceId0 = default,
+            ContentId referenceId1 = default,
+            ContentTag tag0 = default,
+            ContentTag tag1 = default,
+            RuntimeContentIndex reference0 = default,
+            RuntimeContentIndex reference1 = default)
+        {
+            return new SkillModuleDefinition(
+                moduleId, value0, value1, value2, value3, int0, int1,
+                presentationId, referenceId0, referenceId1, tag0, tag1,
+                reference0, reference1);
         }
 
         /// <summary>Gets the stable executor ID.</summary>
@@ -80,6 +154,21 @@ namespace Game.Content.Runtime
         public int Int1 { get; }
         /// <summary>Gets the stable presentation placeholder/profile ID.</summary>
         public ContentId PresentationId { get; }
+        public ContentId ReferenceId0 { get; }
+        public ContentId ReferenceId1 { get; }
+        public ContentTag Tag0 { get; }
+        public ContentTag Tag1 { get; }
+        public RuntimeContentIndex Reference0 { get; }
+        public RuntimeContentIndex Reference1 { get; }
+
+        internal SkillModuleDefinition BindReferences(
+            RuntimeContentIndex reference0,
+            RuntimeContentIndex reference1)
+        {
+            return new SkillModuleDefinition(
+                ModuleId, Value0, Value1, Value2, Value3, Int0, Int1, PresentationId,
+                ReferenceId0, ReferenceId1, Tag0, Tag1, reference0, reference1);
+        }
 
         internal void AppendDeterministicData(StringBuilder builder)
         {
@@ -91,6 +180,13 @@ namespace Game.Content.Runtime
             ContentHashUtility.AppendInt(builder, Int0);
             ContentHashUtility.AppendInt(builder, Int1);
             ContentHashUtility.AppendToken(builder, PresentationId.Value);
+            if (ReferenceId0.IsValid || ReferenceId1.IsValid || Tag0.IsValid || Tag1.IsValid)
+            {
+                ContentHashUtility.AppendToken(builder, ReferenceId0.Value);
+                ContentHashUtility.AppendToken(builder, ReferenceId1.Value);
+                ContentHashUtility.AppendToken(builder, Tag0.Value);
+                ContentHashUtility.AppendToken(builder, Tag1.Value);
+            }
         }
     }
 
@@ -452,6 +548,8 @@ namespace Game.Content.Runtime
 
         /// <summary>Always-true condition.</summary>
         public static readonly ContentId ConditionAlways = Id("base.condition.always");
+        public static readonly ContentId ConditionStatusCountAtLeast = Id("base.condition.status_count_at_least");
+        public static readonly ContentId ConditionTargetHasStatus = Id("base.condition.target_has_status");
 
         /// <summary>Self targeting.</summary>
         public static readonly ContentId TargetingSelf = Id("base.targeting.self");
@@ -470,6 +568,7 @@ namespace Game.Content.Runtime
         /// <summary>Random point around owner targeting.</summary>
         public static readonly ContentId TargetingRandomPointAroundPlayer =
             Id("base.targeting.random_point_around_player");
+        public static readonly ContentId TargetingTriggerPosition = Id("base.targeting.trigger_position");
 
         /// <summary>Immediate delivery.</summary>
         public static readonly ContentId DeliveryInstant = Id("base.delivery.instant");
@@ -481,6 +580,7 @@ namespace Game.Content.Runtime
         public static readonly ContentId DeliveryAura = Id("base.delivery.aura");
         /// <summary>Owner-orbiting delivery.</summary>
         public static readonly ContentId DeliveryOrbit = Id("base.delivery.orbit");
+        public static readonly ContentId DeliveryOutboundReturn = Id("base.delivery.outbound_return");
 
         /// <summary>Damage effect.</summary>
         public static readonly ContentId EffectDamage = Id("base.effect.damage");
@@ -503,6 +603,8 @@ namespace Game.Content.Runtime
         public static readonly ContentId EffectGrantShield = Id("base.effect.grant_shield");
         /// <summary>Resource-gain effect.</summary>
         public static readonly ContentId EffectGainResource = Id("base.effect.gain_resource");
+        public static readonly ContentId EffectConsumeStatus = Id("base.effect.consume_status");
+        public static readonly ContentId EffectDetonateStatus = Id("base.effect.detonate_status");
 
         /// <summary>Returns whether an ID is a built-in trigger module.</summary>
         public static bool IsTrigger(ContentId id)
@@ -515,7 +617,7 @@ namespace Game.Content.Runtime
         /// <summary>Returns whether an ID is a built-in condition module.</summary>
         public static bool IsCondition(ContentId id)
         {
-            return id == ConditionAlways;
+            return id == ConditionAlways || id == ConditionStatusCountAtLeast || id == ConditionTargetHasStatus;
         }
 
         /// <summary>Returns whether an ID is a built-in targeting module.</summary>
@@ -524,14 +626,16 @@ namespace Game.Content.Runtime
             return id == TargetingSelf || id == TargetingNearest ||
                    id == TargetingRandom || id == TargetingCircle ||
                    id == TargetingCone || id == TargetingLine ||
-                   id == TargetingRing || id == TargetingRandomPointAroundPlayer;
+                   id == TargetingRing || id == TargetingRandomPointAroundPlayer ||
+                   id == TargetingTriggerPosition;
         }
 
         /// <summary>Returns whether an ID is a built-in delivery module.</summary>
         public static bool IsDelivery(ContentId id)
         {
             return id == DeliveryInstant || id == DeliveryProjectile ||
-                   id == DeliveryArea || id == DeliveryAura || id == DeliveryOrbit;
+                   id == DeliveryArea || id == DeliveryAura || id == DeliveryOrbit ||
+                   id == DeliveryOutboundReturn;
         }
 
         /// <summary>Maps a stable effect module ID to its compact operation code.</summary>
@@ -547,6 +651,8 @@ namespace Game.Content.Runtime
             else if (id == EffectSpawnSecondarySkill) code = EffectOpCode.SpawnSecondarySkill;
             else if (id == EffectGrantShield) code = EffectOpCode.GrantShield;
             else if (id == EffectGainResource) code = EffectOpCode.GainResource;
+            else if (id == EffectConsumeStatus) code = EffectOpCode.ConsumeStatus;
+            else if (id == EffectDetonateStatus) code = EffectOpCode.DetonateStatus;
             else
             {
                 code = default;
@@ -571,6 +677,8 @@ namespace Game.Content.Runtime
                 case EffectOpCode.SpawnSecondarySkill: return EffectSpawnSecondarySkill;
                 case EffectOpCode.GrantShield: return EffectGrantShield;
                 case EffectOpCode.GainResource: return EffectGainResource;
+                case EffectOpCode.ConsumeStatus: return EffectConsumeStatus;
+                case EffectOpCode.DetonateStatus: return EffectDetonateStatus;
                 default: return default;
             }
         }
@@ -675,7 +783,7 @@ namespace Game.Content.Runtime
                 localizedDescriptionKey,
                 sourceAssetPath,
                 tags,
-                CollectReferences(effects))
+                CollectReferences(trigger, condition, targeting, delivery, effects))
         {
             CooldownSeconds = cooldownSeconds;
             ResourceCost = resourceCost;
@@ -739,6 +847,11 @@ namespace Game.Content.Runtime
                 bound[index] = source.BindReferences(first, second);
             }
 
+            var boundTrigger = BindModule(Trigger, resolver);
+            var boundCondition = BindModule(Condition, resolver);
+            var boundTargeting = BindModule(Targeting, resolver);
+            var boundDelivery = BindModule(Delivery, resolver);
+
             return new RuntimeSkillDefinition(
                 Id,
                 LocalizedNameKey,
@@ -747,10 +860,10 @@ namespace Game.Content.Runtime
                 CopyTags(Tags),
                 CooldownSeconds,
                 ResourceCost,
-                Trigger,
-                Condition,
-                Targeting,
-                Delivery,
+                boundTrigger,
+                boundCondition,
+                boundTargeting,
+                boundDelivery,
                 bound,
                 levelPatches,
                 true);
@@ -782,14 +895,19 @@ namespace Game.Content.Runtime
             }
         }
 
-        private static ContentId[] CollectReferences(EffectOp[] source)
+        private static ContentId[] CollectReferences(
+            SkillModuleDefinition trigger,
+            SkillModuleDefinition condition,
+            SkillModuleDefinition targeting,
+            SkillModuleDefinition delivery,
+            EffectOp[] source)
         {
-            if (source == null || source.Length == 0)
-            {
-                return Array.Empty<ContentId>();
-            }
-
+            source = source ?? Array.Empty<EffectOp>();
             var count = 0;
+            CountModuleReferences(trigger, ref count);
+            CountModuleReferences(condition, ref count);
+            CountModuleReferences(targeting, ref count);
+            CountModuleReferences(delivery, ref count);
             for (var index = 0; index < source.Length; index++)
             {
                 if (source[index].ReferenceId0.IsValid) count++;
@@ -798,6 +916,10 @@ namespace Game.Content.Runtime
 
             var output = new ContentId[count];
             var write = 0;
+            WriteModuleReferences(trigger, output, ref write);
+            WriteModuleReferences(condition, output, ref write);
+            WriteModuleReferences(targeting, output, ref write);
+            WriteModuleReferences(delivery, output, ref write);
             for (var index = 0; index < source.Length; index++)
             {
                 if (source[index].ReferenceId0.IsValid) output[write++] = source[index].ReferenceId0;
@@ -805,6 +927,27 @@ namespace Game.Content.Runtime
             }
 
             return output;
+        }
+
+        private static SkillModuleDefinition BindModule(
+            SkillModuleDefinition module,
+            Func<ContentId, RuntimeContentIndex> resolver)
+        {
+            return module.BindReferences(
+                module.ReferenceId0.IsValid ? resolver(module.ReferenceId0) : default,
+                module.ReferenceId1.IsValid ? resolver(module.ReferenceId1) : default);
+        }
+
+        private static void CountModuleReferences(SkillModuleDefinition module, ref int count)
+        {
+            if (module.ReferenceId0.IsValid) count++;
+            if (module.ReferenceId1.IsValid) count++;
+        }
+
+        private static void WriteModuleReferences(SkillModuleDefinition module, ContentId[] output, ref int write)
+        {
+            if (module.ReferenceId0.IsValid) output[write++] = module.ReferenceId0;
+            if (module.ReferenceId1.IsValid) output[write++] = module.ReferenceId1;
         }
 
         private static ContentTag[] CopyTags(IReadOnlyList<ContentTag> source)

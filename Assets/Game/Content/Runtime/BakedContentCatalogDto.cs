@@ -45,7 +45,7 @@ namespace Game.Content.Runtime
                         "Serialized pack schema " + runtimeManifest.SchemaVersion +
                         " is outside the supported range [" +
                         ContentPackTopology.MinimumSupportedSchemaVersion + ", " +
-                        ContentPackTopology.SupportedSchemaVersion + "].",
+                        ContentPackTopology.LatestSupportedSchemaVersion + "].",
                         default,
                         runtimeManifest.PackId,
                         runtimeManifest.SourceAssetPath));
@@ -356,6 +356,9 @@ namespace Game.Content.Runtime
         /// <summary>Gets or sets starting skill IDs for character definitions.</summary>
         public string[] startingSkillIds;
 
+        /// <summary>Gets or sets schema-6 generic character-mechanic IDs.</summary>
+        public string[] mechanicIds;
+
         /// <summary>Gets or sets cooldown metadata for skill definitions.</summary>
         public float cooldownSeconds;
 
@@ -403,6 +406,9 @@ namespace Game.Content.Runtime
 
         /// <summary>Gets or sets schema-5 build/progression data.</summary>
         public M6RuntimeDefinitionDto buildProgression;
+
+        /// <summary>Gets or sets schema-6 Qinglan runtime data.</summary>
+        public QinglanRuntimeDefinitionDto qinglanRuntime;
 
         /// <summary>Gets or sets the stable status stacking-policy token.</summary>
         public string stackingPolicy;
@@ -501,6 +507,16 @@ namespace Game.Content.Runtime
                         return Result<RuntimeContentDefinition>.Failure(skillResult.Error);
                     }
 
+                    var mechanicResult = schemaVersion >= ContentPackTopology.QinglanDemoSchemaVersion
+                        ? CatalogDtoParsing.ParseIds(
+                            mechanicIds,
+                            packId,
+                            idResult.Value,
+                            sourceAssetPath)
+                        : Result<ContentId[]>.Success(Array.Empty<ContentId>());
+                    if (!mechanicResult.IsSuccess)
+                        return Result<RuntimeContentDefinition>.Failure(mechanicResult.Error);
+
                     return Result<RuntimeContentDefinition>.Success(
                         new RuntimeCharacterDefinition(
                             idResult.Value,
@@ -510,7 +526,8 @@ namespace Game.Content.Runtime
                             tagResult.Value,
                             baseMaxHealth,
                             moveSpeed,
-                            skillResult.Value));
+                            skillResult.Value,
+                            mechanicResult.Value));
                 }
 
                 case RuntimeContentKinds.Skill:
@@ -577,7 +594,8 @@ namespace Game.Content.Runtime
                             sourceAssetPath,
                             tagResult.Value,
                             runtimeProviderId,
-                            sceneAddress);
+                            sceneAddress,
+                            schemaVersion);
                     }
 
                     return Result<RuntimeContentDefinition>.Success(
@@ -610,7 +628,8 @@ namespace Game.Content.Runtime
                         localizedNameKey,
                         localizedDescriptionKey,
                         sourceAssetPath,
-                        tagResult.Value);
+                        tagResult.Value,
+                        schemaVersion);
 
                 case RuntimeContentKinds.Status:
                 {
@@ -713,6 +732,41 @@ namespace Game.Content.Runtime
                         sourceAssetPath,
                         tagResult.Value);
 
+                case RuntimeContentKinds.CharacterMechanic:
+                case RuntimeContentKinds.Reward:
+                case RuntimeContentKinds.Pickup:
+                case RuntimeContentKinds.Relic:
+                case RuntimeContentKinds.MapObjective:
+                case RuntimeContentKinds.MapEvent:
+                case RuntimeContentKinds.Landmark:
+                case RuntimeContentKinds.Boss:
+                case RuntimeContentKinds.EliteAffix:
+                case RuntimeContentKinds.MetaNode:
+                case RuntimeContentKinds.MetaInsert:
+                case RuntimeContentKinds.MetaFacility:
+                case RuntimeContentKinds.Story:
+                case RuntimeContentKinds.Collectible:
+                    if (schemaVersion < ContentPackTopology.QinglanDemoSchemaVersion || qinglanRuntime == null)
+                    {
+                        return Result<RuntimeContentDefinition>.Failure(
+                            new Error(
+                                ErrorCode.UnsupportedSchemaVersion,
+                                "Qinglan definitions require content schema " +
+                                ContentPackTopology.QinglanDemoSchemaVersion + " runtime data.",
+                                idResult.Value,
+                                packId,
+                                sourceAssetPath));
+                    }
+
+                    return qinglanRuntime.ToDefinition(
+                        kind,
+                        packId,
+                        idResult.Value,
+                        localizedNameKey,
+                        localizedDescriptionKey,
+                        sourceAssetPath,
+                        tagResult.Value);
+
                 default:
                     return Result<RuntimeContentDefinition>.Failure(
                         new Error(
@@ -763,6 +817,9 @@ namespace Game.Content.Runtime
                 {
                     dto.startingSkillIds[index] = character.StartingSkillIds[index].Value;
                 }
+                dto.mechanicIds = new string[character.MechanicIds.Count];
+                for (var index = 0; index < character.MechanicIds.Count; index++)
+                    dto.mechanicIds[index] = character.MechanicIds[index].Value;
             }
             else if (definition is RuntimeSkillDefinition skill)
             {
@@ -870,6 +927,10 @@ namespace Game.Content.Runtime
                      definition is RuntimeEvolutionDefinition)
             {
                 dto.buildProgression = M6RuntimeDefinitionDto.FromDefinition(definition);
+            }
+            else if (definition is RuntimeQinglanDefinition qinglan)
+            {
+                dto.qinglanRuntime = QinglanRuntimeDefinitionDto.FromDefinition(qinglan);
             }
             else
             {

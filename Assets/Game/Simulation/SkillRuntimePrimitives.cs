@@ -445,6 +445,14 @@ namespace Game.Simulation
                 return Failure(skill, "Skill references a module that is not present in the runtime registry.");
             }
 
+            if ((skill.Condition.ModuleId == SkillModuleIds.ConditionStatusCountAtLeast ||
+                 skill.Condition.ModuleId == SkillModuleIds.ConditionTargetHasStatus) &&
+                skill.Condition.ReferenceId0.IsValid &&
+                !skill.Condition.Reference0.IsValid)
+            {
+                return Failure(skill, "Skill condition status reference was not bound by ContentRegistry.");
+            }
+
             var effectExecutors = new IEffectExecutor[skill.Effects.Count];
             var baseEffects = new ResolvedEffectOp[skill.Effects.Count];
             for (var effectIndex = 0; effectIndex < skill.Effects.Count; effectIndex++)
@@ -462,6 +470,8 @@ namespace Game.Simulation
                 }
 
                 if ((source.Code == EffectOpCode.ApplyStatus ||
+                     source.Code == EffectOpCode.ConsumeStatus ||
+                     source.Code == EffectOpCode.DetonateStatus ||
                      source.Code == EffectOpCode.SpawnSecondarySkill) &&
                     !source.Reference0.IsValid)
                 {
@@ -636,7 +646,7 @@ namespace Game.Simulation
                     break;
             }
 
-            return new SkillModuleDefinition(
+            return SkillModuleDefinition.CreateReferenced(
                 source.ModuleId,
                 value0,
                 value1,
@@ -644,7 +654,13 @@ namespace Game.Simulation
                 value3,
                 int0,
                 source.Int1,
-                source.PresentationId);
+                source.PresentationId,
+                source.ReferenceId0,
+                source.ReferenceId1,
+                source.Tag0,
+                source.Tag1,
+                source.Reference0,
+                source.Reference1);
         }
 
         private static float Patch(float current, SkillPatchOperation operation, float operand)

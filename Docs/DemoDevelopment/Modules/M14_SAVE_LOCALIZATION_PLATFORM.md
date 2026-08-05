@@ -24,6 +24,10 @@ Run 结束只提交不可变 `ProfileDelta`：货币增量、解锁 ID、等级�
 任何新版本必须提供：旧 v1/v2 固定 JSON、逐版本 migrator、主/备份校验、未知字段策略、缺内容策略、
 降级/回滚说明。不能直接把 CurrentVersion 改大并依赖默认值静默迁移。
 
+分期边界：G1.1 交付三文档独立版本、Profile 3 纯数据、Codec、固定 Fixture 和连续 Migrator；G2.5
+交付 ContentRegistry/Meta Validator、主备份恢复、取消/中断处理、不可变 `ProfileDelta` 合并和稳定事务
+ID 幂等提交。基础迁移提前不表示局外结算流程已经完成。
+
 ## 4. 本地化
 
 建议 Collection：

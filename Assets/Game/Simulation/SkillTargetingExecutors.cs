@@ -375,4 +375,37 @@ namespace Game.Simulation
             targets.Add(new SkillTarget(default, point, false));
         }
     }
+
+    internal sealed class TriggerPositionTargetingExecutor : ITargetingExecutor
+    {
+        public ContentId Id => SkillModuleIds.TargetingTriggerPosition;
+
+        public void Select(
+            SimulationWorld world,
+            SkillInstance instance,
+            RuntimeSkillLevel level,
+            in SkillTriggerContext context,
+            SpatialQueryBuffer spatialResults,
+            SkillTargetResultBuffer targets,
+            ref RandomStream random)
+        {
+            var maximumTargets = level.Targeting.Int0;
+            if (maximumTargets <= 0)
+            {
+                targets.Reset();
+                targets.Add(new SkillTarget(default, context.Position, false));
+                return;
+            }
+
+            TargetingExecutorUtility.CollectActors(
+                world,
+                instance.Owner,
+                context.Position,
+                Math.Max(0f, level.Targeting.Value0),
+                spatialResults,
+                targets);
+            targets.SortStable();
+            targets.Truncate(Math.Min(maximumTargets, targets.Count));
+        }
+    }
 }

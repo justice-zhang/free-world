@@ -225,6 +225,43 @@ namespace Game.Simulation
         public long Tick { get; }
     }
 
+    /// <summary>One complete damage-policy outcome, including rejected and barrier-only packets.</summary>
+    public readonly struct DamageResolved
+    {
+        internal DamageResolved(
+            in DamagePacket packet,
+            float requested,
+            float mitigated,
+            float barrierAbsorbed,
+            float shieldDamage,
+            float healthDamage,
+            DamageResolutionOutcome outcome,
+            long tick)
+        {
+            Packet = packet;
+            Requested = requested;
+            Mitigated = mitigated;
+            BarrierAbsorbed = barrierAbsorbed;
+            ShieldDamage = shieldDamage;
+            HealthDamage = healthDamage;
+            Outcome = outcome;
+            Tick = tick;
+        }
+
+        public DamagePacket Packet { get; }
+        public SpatialEntity Source => Packet.Source;
+        public SpatialEntity Target => Packet.Target;
+        public ContentId SourceContentId => Packet.SourceContentId;
+        public DamageChannelId ChannelId => Packet.ChannelId;
+        public float Requested { get; }
+        public float Mitigated { get; }
+        public float BarrierAbsorbed { get; }
+        public float ShieldDamage { get; }
+        public float HealthDamage { get; }
+        public DamageResolutionOutcome Outcome { get; }
+        public long Tick { get; }
+    }
+
     /// <summary>One successful status application emitted during a fixed tick.</summary>
     public readonly struct StatusApplied
     {
@@ -371,10 +408,12 @@ namespace Game.Simulation
     public sealed class CombatEventBuffer
     {
         private readonly StructBuffer<DamageApplied> pendingDamage;
+        private readonly StructBuffer<DamageResolved> pendingResolvedDamage;
         private readonly StructBuffer<StatusApplied> pendingStatuses;
         private readonly StructBuffer<EntityDied> pendingDeaths;
         private readonly StructBuffer<ShieldChanged> pendingShields;
         private readonly StructBuffer<DamageApplied> damageBatch;
+        private readonly StructBuffer<DamageResolved> resolvedDamageBatch;
         private readonly StructBuffer<StatusApplied> statusBatch;
         private readonly StructBuffer<EntityDied> deathBatch;
         private readonly StructBuffer<ShieldChanged> shieldBatch;
@@ -382,10 +421,12 @@ namespace Game.Simulation
         internal CombatEventBuffer(int initialCapacity)
         {
             pendingDamage = new StructBuffer<DamageApplied>(initialCapacity);
+            pendingResolvedDamage = new StructBuffer<DamageResolved>(initialCapacity);
             pendingStatuses = new StructBuffer<StatusApplied>(initialCapacity);
             pendingDeaths = new StructBuffer<EntityDied>(initialCapacity);
             pendingShields = new StructBuffer<ShieldChanged>(initialCapacity);
             damageBatch = new StructBuffer<DamageApplied>(initialCapacity);
+            resolvedDamageBatch = new StructBuffer<DamageResolved>(initialCapacity);
             statusBatch = new StructBuffer<StatusApplied>(initialCapacity);
             deathBatch = new StructBuffer<EntityDied>(initialCapacity);
             shieldBatch = new StructBuffer<ShieldChanged>(initialCapacity);
@@ -393,6 +434,9 @@ namespace Game.Simulation
 
         /// <summary>Gets damage events accumulated by the latest runner batch.</summary>
         public int DamageAppliedCount => damageBatch.Count;
+
+        /// <summary>Gets all damage-policy outcomes accumulated by the latest runner batch.</summary>
+        public int DamageResolvedCount => resolvedDamageBatch.Count;
 
         /// <summary>Gets status events accumulated by the latest runner batch.</summary>
         public int StatusAppliedCount => statusBatch.Count;
@@ -407,6 +451,12 @@ namespace Game.Simulation
         public DamageApplied GetDamageAppliedAt(int index)
         {
             return damageBatch.GetAt(index);
+        }
+
+        /// <summary>Gets one complete damage-policy outcome.</summary>
+        public DamageResolved GetDamageResolvedAt(int index)
+        {
+            return resolvedDamageBatch.GetAt(index);
         }
 
         /// <summary>Gets one status event.</summary>
@@ -427,9 +477,17 @@ namespace Game.Simulation
             return shieldBatch.GetAt(index);
         }
 
+        internal int PendingDamageResolvedCount => pendingResolvedDamage.Count;
+
+        internal DamageResolved GetPendingDamageResolvedAt(int index)
+        {
+            return pendingResolvedDamage.GetAt(index);
+        }
+
         internal void BeginBatch()
         {
             damageBatch.Clear();
+            resolvedDamageBatch.Clear();
             statusBatch.Clear();
             deathBatch.Clear();
             shieldBatch.Clear();
@@ -438,6 +496,7 @@ namespace Game.Simulation
         internal void BeginTick()
         {
             pendingDamage.Clear();
+            pendingResolvedDamage.Clear();
             pendingStatuses.Clear();
             pendingDeaths.Clear();
             pendingShields.Clear();
@@ -446,6 +505,11 @@ namespace Game.Simulation
         internal void Add(in DamageApplied simulationEvent)
         {
             pendingDamage.Add(simulationEvent);
+        }
+
+        internal void Add(in DamageResolved simulationEvent)
+        {
+            pendingResolvedDamage.Add(simulationEvent);
         }
 
         internal void Add(in StatusApplied simulationEvent)
@@ -466,6 +530,7 @@ namespace Game.Simulation
         internal void FlushTick()
         {
             damageBatch.Append(pendingDamage);
+            resolvedDamageBatch.Append(pendingResolvedDamage);
             statusBatch.Append(pendingStatuses);
             deathBatch.Append(pendingDeaths);
             shieldBatch.Append(pendingShields);

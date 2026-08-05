@@ -37,6 +37,9 @@ namespace Game.Content.Authoring
         [SerializeField] private string visualProfileId = string.Empty;
         [SerializeField] private MapObstacleAuthoringData[] obstacles = Array.Empty<MapObstacleAuthoringData>();
         [SerializeField] private MapAnchorAuthoringData[] anchors = Array.Empty<MapAnchorAuthoringData>();
+        [SerializeField] private QinglanDefinitionAuthoring[] objectives = Array.Empty<QinglanDefinitionAuthoring>();
+        [SerializeField] private QinglanDefinitionAuthoring[] events = Array.Empty<QinglanDefinitionAuthoring>();
+        [SerializeField] private QinglanDefinitionAuthoring[] landmarks = Array.Empty<QinglanDefinitionAuthoring>();
 
         public bool M5RuntimeEnabled => m5RuntimeEnabled;
 
@@ -76,6 +79,17 @@ namespace Game.Content.Authoring
             obstacles = mapObstacles == null ? Array.Empty<MapObstacleAuthoringData>() : (MapObstacleAuthoringData[])mapObstacles.Clone();
             anchors = mapAnchors == null ? Array.Empty<MapAnchorAuthoringData>() : (MapAnchorAuthoringData[])mapAnchors.Clone();
             m5RuntimeEnabled = true;
+        }
+
+        /// <summary>Configures schema-6 map objective, event, and landmark references.</summary>
+        public void ConfigureQinglanReferences(
+            QinglanDefinitionAuthoring[] mapObjectives,
+            QinglanDefinitionAuthoring[] mapEvents,
+            QinglanDefinitionAuthoring[] mapLandmarks)
+        {
+            objectives = Copy(mapObjectives);
+            events = Copy(mapEvents);
+            landmarks = Copy(mapLandmarks);
         }
 
         internal override Result<RuntimeContentDefinition> Bake(
@@ -159,6 +173,29 @@ namespace Game.Content.Authoring
                     new System.Numerics.Vector2(source.position.x, source.position.y));
             }
 
+
+            var objectiveIds = ParseQinglanIds(
+                objectives,
+                RuntimeContentKinds.MapObjective,
+                "objective",
+                common,
+                packId);
+            if (!objectiveIds.IsSuccess) return Result<RuntimeContentDefinition>.Failure(objectiveIds.Error);
+            var eventIds = ParseQinglanIds(
+                events,
+                RuntimeContentKinds.MapEvent,
+                "event",
+                common,
+                packId);
+            if (!eventIds.IsSuccess) return Result<RuntimeContentDefinition>.Failure(eventIds.Error);
+            var landmarkIds = ParseQinglanIds(
+                landmarks,
+                RuntimeContentKinds.Landmark,
+                "landmark",
+                common,
+                packId);
+            if (!landmarkIds.IsSuccess) return Result<RuntimeContentDefinition>.Failure(landmarkIds.Error);
+
             return Result<RuntimeContentDefinition>.Success(
                 new RuntimeMapDefinition(
                     common.Id,
@@ -176,7 +213,39 @@ namespace Game.Content.Authoring
                     encounterId.Value,
                     visualId.Value,
                     runtimeObstacles,
-                    runtimeAnchors));
+                    runtimeAnchors,
+                    objectiveIds.Value,
+                    eventIds.Value,
+                    landmarkIds.Value));
+        }
+
+        private static QinglanDefinitionAuthoring[] Copy(QinglanDefinitionAuthoring[] source) =>
+            source == null ? Array.Empty<QinglanDefinitionAuthoring>() : (QinglanDefinitionAuthoring[])source.Clone();
+
+        private static Result<ContentId[]> ParseQinglanIds(
+            QinglanDefinitionAuthoring[] source,
+            string expectedKind,
+            string label,
+            AuthoringCommonData common,
+            ContentId packId)
+        {
+            source = source ?? Array.Empty<QinglanDefinitionAuthoring>();
+            var result = new ContentId[source.Length];
+            for (var index = 0; index < result.Length; index++)
+            {
+                if (source[index] == null || source[index].RuntimeKind != expectedKind)
+                    return Result<ContentId[]>.Failure(
+                        new Error(
+                            ErrorCode.MissingReference,
+                            "Map " + label + " reference is null or has the wrong kind at index " + index + ".",
+                            common.Id,
+                            packId,
+                            common.AuthorAssetPath));
+                var id = ContentId.Create(source[index].ContentIdText, packId, common.AuthorAssetPath);
+                if (!id.IsSuccess) return Result<ContentId[]>.Failure(id.Error);
+                result[index] = id.Value;
+            }
+            return Result<ContentId[]>.Success(ContentBaker.CanonicalizeSet(result));
         }
 
         private static bool IsFinite(Vector2 value) =>

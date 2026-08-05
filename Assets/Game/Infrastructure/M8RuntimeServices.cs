@@ -121,7 +121,29 @@ namespace Game.Infrastructure
             for (var index = 0; index < meta.Length; index++) meta[index] = source.MetaUpgrades[index];
             var currencies = new SavedCounter[source.Currencies.Count];
             for (var index = 0; index < currencies.Length; index++) currencies[index] = source.Currencies[index];
-            return new ProfileSaveData(source.ProfileId, packs, unlocked, meta, currencies, stats, utcNow());
+            return new ProfileSaveData(
+                source.ProfileId,
+                packs,
+                unlocked,
+                meta,
+                currencies,
+                stats,
+                utcNow(),
+                CopyIds(source.ActiveMetaLoadoutIds),
+                CopyIds(source.FirstClearMapIds),
+                CopyIds(source.ClaimedUniqueRewardIds),
+                CopyIds(source.CompletedStoryIds),
+                CopyIds(source.CollectedCollectibleIds),
+                CopyIds(source.CommittedTransactionIds),
+                SaveSchema.ProfileCurrentVersion,
+                source.GameVersion);
+        }
+
+        private static ContentId[] CopyIds(System.Collections.Generic.IReadOnlyList<ContentId> source)
+        {
+            var result = new ContentId[source.Count];
+            for (var index = 0; index < result.Length; index++) result[index] = source[index];
+            return result;
         }
     }
 }

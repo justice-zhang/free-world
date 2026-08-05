@@ -134,6 +134,9 @@ namespace Game.Content.Runtime
         public string visualProfileId;
         public MapObstacleDto[] obstacles;
         public MapAnchorDto[] anchors;
+        public string[] objectiveIds;
+        public string[] eventIds;
+        public string[] landmarkIds;
 
         internal Result<RuntimeContentDefinition> ToDefinition(
             ContentId packId,
@@ -143,7 +146,8 @@ namespace Game.Content.Runtime
             string sourcePath,
             ContentTag[] tags,
             string runtimeProviderId,
-            string sceneAddress)
+            string sceneAddress,
+            int schemaVersion)
         {
             var encounter = CatalogDtoParsing.ParseCanonicalId(
                 encounterScheduleId,
@@ -186,6 +190,19 @@ namespace Game.Content.Runtime
                     new Vector2(sourceAnchors[index].positionX, sourceAnchors[index].positionY));
             }
 
+            var objectives = schemaVersion >= ContentPackTopology.QinglanDemoSchemaVersion
+                ? CatalogDtoParsing.ParseIds(objectiveIds, packId, id, sourcePath)
+                : Result<ContentId[]>.Success(Array.Empty<ContentId>());
+            if (!objectives.IsSuccess) return Result<RuntimeContentDefinition>.Failure(objectives.Error);
+            var events = schemaVersion >= ContentPackTopology.QinglanDemoSchemaVersion
+                ? CatalogDtoParsing.ParseIds(eventIds, packId, id, sourcePath)
+                : Result<ContentId[]>.Success(Array.Empty<ContentId>());
+            if (!events.IsSuccess) return Result<RuntimeContentDefinition>.Failure(events.Error);
+            var landmarks = schemaVersion >= ContentPackTopology.QinglanDemoSchemaVersion
+                ? CatalogDtoParsing.ParseIds(landmarkIds, packId, id, sourcePath)
+                : Result<ContentId[]>.Success(Array.Empty<ContentId>());
+            if (!landmarks.IsSuccess) return Result<RuntimeContentDefinition>.Failure(landmarks.Error);
+
             return Result<RuntimeContentDefinition>.Success(
                 new RuntimeMapDefinition(
                     id,
@@ -203,7 +220,10 @@ namespace Game.Content.Runtime
                     encounter.Value,
                     visual.Value,
                     runtimeObstacles,
-                    runtimeAnchors));
+                    runtimeAnchors,
+                    objectives.Value,
+                    events.Value,
+                    landmarks.Value));
         }
 
         internal static MapRuntimeDefinitionDto FromDefinition(RuntimeMapDefinition map)
@@ -220,7 +240,10 @@ namespace Game.Content.Runtime
                 encounterScheduleId = map.EncounterScheduleId.Value,
                 visualProfileId = map.VisualProfileId.Value,
                 obstacles = new MapObstacleDto[map.Obstacles.Count],
-                anchors = new MapAnchorDto[map.Anchors.Count]
+                anchors = new MapAnchorDto[map.Anchors.Count],
+                objectiveIds = ToIds(map.ObjectiveIds),
+                eventIds = ToIds(map.EventIds),
+                landmarkIds = ToIds(map.LandmarkIds)
             };
             for (var index = 0; index < dto.obstacles.Length; index++)
             {
@@ -246,6 +269,13 @@ namespace Game.Content.Runtime
             return dto;
         }
 
+        private static string[] ToIds(System.Collections.Generic.IReadOnlyList<ContentId> source)
+        {
+            var result = new string[source.Count];
+            for (var index = 0; index < result.Length; index++) result[index] = source[index].Value;
+            return result;
+        }
+
         private static Result<RuntimeContentDefinition> Failure(
             string message,
             ContentId packId,
@@ -266,6 +296,7 @@ namespace Game.Content.Runtime
         public int minimumGroupSize;
         public int maximumGroupSize;
         public bool elite;
+        public string[] affixPoolIds;
     }
 
     [Serializable]
@@ -275,6 +306,7 @@ namespace Game.Content.Runtime
         public float spawnTimeSeconds;
         public int pattern;
         public string anchorId;
+        public string bossDefinitionId;
     }
 
     [Serializable]
@@ -307,7 +339,8 @@ namespace Game.Content.Runtime
             string nameKey,
             string descriptionKey,
             string sourcePath,
-            ContentTag[] tags)
+            ContentTag[] tags,
+            int schemaVersion)
         {
             var sourcePhases = phases ?? Array.Empty<EncounterPhaseDto>();
             var runtimePhases = new RuntimeEncounterPhase[sourcePhases.Length];
@@ -332,13 +365,18 @@ namespace Game.Content.Runtime
                         sourcePath,
                         "encounter enemy ID");
                     if (!enemy.IsSuccess) return Result<RuntimeContentDefinition>.Failure(enemy.Error);
+                    var affixes = schemaVersion >= ContentPackTopology.QinglanDemoSchemaVersion
+                        ? CatalogDtoParsing.ParseIds(entry.affixPoolIds, packId, id, sourcePath)
+                        : Result<ContentId[]>.Success(Array.Empty<ContentId>());
+                    if (!affixes.IsSuccess) return Result<RuntimeContentDefinition>.Failure(affixes.Error);
                     entries[entryIndex] = new RuntimeEncounterEnemyEntry(
                         enemy.Value,
                         entry.weight,
                         entry.budgetCost,
                         entry.minimumGroupSize,
                         entry.maximumGroupSize,
-                        entry.elite);
+                        entry.elite,
+                        affixes.Value);
                 }
 
                 var sourceBosses = phase.bosses ?? Array.Empty<EncounterBossRuleDto>();
@@ -356,11 +394,16 @@ namespace Game.Content.Runtime
                     if (!enemy.IsSuccess) return Result<RuntimeContentDefinition>.Failure(enemy.Error);
                     var bossAnchor = ParseOptionalId(boss.anchorId, packId, sourcePath);
                     if (!bossAnchor.IsSuccess) return Result<RuntimeContentDefinition>.Failure(bossAnchor.Error);
+                    var bossDefinition = schemaVersion >= ContentPackTopology.QinglanDemoSchemaVersion
+                        ? ParseOptionalId(boss.bossDefinitionId, packId, sourcePath)
+                        : Result<ContentId>.Success(default);
+                    if (!bossDefinition.IsSuccess) return Result<RuntimeContentDefinition>.Failure(bossDefinition.Error);
                     bosses[bossIndex] = new RuntimeEncounterBossRule(
                         enemy.Value,
                         boss.spawnTimeSeconds,
                         (SpawnPattern)boss.pattern,
-                        bossAnchor.Value);
+                        bossAnchor.Value,
+                        bossDefinition.Value);
                 }
 
                 runtimePhases[phaseIndex] = new RuntimeEncounterPhase(
@@ -426,7 +469,8 @@ namespace Game.Content.Runtime
                         budgetCost = entry.BudgetCost,
                         minimumGroupSize = entry.MinimumGroupSize,
                         maximumGroupSize = entry.MaximumGroupSize,
-                        elite = entry.Elite
+                        elite = entry.Elite,
+                        affixPoolIds = ToIds(entry.AffixPoolIds)
                     };
                 }
 
@@ -438,7 +482,8 @@ namespace Game.Content.Runtime
                         enemyId = boss.EnemyId.Value,
                         spawnTimeSeconds = boss.SpawnTimeSeconds,
                         pattern = (int)boss.Pattern,
-                        anchorId = boss.AnchorId.Value
+                        anchorId = boss.AnchorId.Value,
+                        bossDefinitionId = boss.BossDefinitionId.Value
                     };
                 }
 
@@ -446,6 +491,13 @@ namespace Game.Content.Runtime
             }
 
             return dto;
+        }
+
+        private static string[] ToIds(System.Collections.Generic.IReadOnlyList<ContentId> source)
+        {
+            var result = new string[source.Count];
+            for (var index = 0; index < result.Length; index++) result[index] = source[index].Value;
+            return result;
         }
 
         private static Result<ContentId> ParseOptionalId(

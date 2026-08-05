@@ -72,6 +72,15 @@ namespace Game.Simulation
         {
             if (!DeliveryExecutorUtility.TryGetOwnerPosition(world, instance, out var source)) return;
             var delivery = level.Delivery;
+            var speedMultiplier = 1f;
+            if (instance.Owner.Kind == EntityKind.Actor &&
+                world.Actors.TryReadStat(
+                    instance.Owner.Handle,
+                    BuiltInStatIndices.ProjectileSpeed,
+                    out var resolvedSpeed))
+            {
+                speedMultiplier = Math.Max(0f, resolvedSpeed);
+            }
             for (var index = 0; index < targets.Count; index++)
             {
                 var direction = DeliveryExecutorUtility.Direction(source, targets[index].Position);
@@ -82,7 +91,7 @@ namespace Game.Simulation
                         Instance = instance,
                         Level = level,
                         Position = source,
-                        Velocity = direction * Math.Max(0f, delivery.Value0),
+                        Velocity = direction * Math.Max(0f, delivery.Value0) * speedMultiplier,
                         Lifetime = DeliveryExecutorUtility.Lifetime(
                             delivery.Value2,
                             world.DeltaTimeSeconds),
@@ -193,6 +202,59 @@ namespace Game.Simulation
                     RemainingHits = int.MaxValue,
                     ProcDepth = context.ProcDepth
                 });
+        }
+    }
+
+    internal sealed class OutboundReturnDeliveryExecutor : IDeliveryExecutor
+    {
+        public ContentId Id => SkillModuleIds.DeliveryOutboundReturn;
+
+        public void Deliver(
+            SkillRuntime runtime,
+            SimulationWorld world,
+            SkillInstance instance,
+            RuntimeSkillLevel level,
+            in SkillTriggerContext context,
+            SkillTargetResultBuffer targets)
+        {
+            if (!DeliveryExecutorUtility.TryGetOwnerPosition(world, instance, out var source)) return;
+            var delivery = level.Delivery;
+            var speedMultiplier = 1f;
+            if (instance.Owner.Kind == EntityKind.Actor &&
+                world.Actors.TryReadStat(
+                    instance.Owner.Handle,
+                    BuiltInStatIndices.ProjectileSpeed,
+                    out var resolvedSpeed))
+            {
+                speedMultiplier = Math.Max(0f, resolvedSpeed);
+            }
+
+            for (var index = 0; index < targets.Count; index++)
+            {
+                var direction = DeliveryExecutorUtility.Direction(source, targets[index].Position);
+                var outboundSpeed = Math.Max(0.0001f, delivery.Value0 * speedMultiplier);
+                var returnSpeed = Math.Max(0.0001f, delivery.Value1 * speedMultiplier);
+                var maximumDistance = delivery.Value3;
+                runtime.EnqueueSpawn(
+                    new DeliverySpawnRequest
+                    {
+                        Kind = ActiveDeliveryKind.OutboundReturn,
+                        Instance = instance,
+                        Level = level,
+                        Position = source,
+                        Origin = source,
+                        Velocity = direction * outboundSpeed,
+                        ReturnSpeed = returnSpeed,
+                        MaximumDistance = maximumDistance,
+                        Lifetime = (maximumDistance / outboundSpeed) +
+                                   (maximumDistance / returnSpeed) +
+                                   (world.DeltaTimeSeconds * 4f),
+                        Radius = Math.Max(0f, delivery.Value2),
+                        RemainingHits = Math.Max(1, delivery.Int0),
+                        HitsPerPhase = Math.Max(1, delivery.Int0),
+                        ProcDepth = context.ProcDepth
+                    });
+            }
         }
     }
 }

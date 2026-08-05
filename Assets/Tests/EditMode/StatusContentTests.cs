@@ -204,7 +204,8 @@ namespace Game.Tests.EditMode
             Assert.That(ContentPackTopology.IsSchemaVersionSupported(3), Is.True);
             Assert.That(ContentPackTopology.IsSchemaVersionSupported(4), Is.True);
             Assert.That(ContentPackTopology.IsSchemaVersionSupported(5), Is.True);
-            Assert.That(ContentPackTopology.IsSchemaVersionSupported(6), Is.False);
+            Assert.That(ContentPackTopology.IsSchemaVersionSupported(6), Is.True);
+            Assert.That(ContentPackTopology.IsSchemaVersionSupported(7), Is.False);
             Assert.That(load.IsSuccess, Is.True, load.Error.ToString());
             Assert.That(
                 registry.TryGet<RuntimeSkillDefinition>(skill.Id, out var restored),

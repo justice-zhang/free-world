@@ -78,6 +78,7 @@ namespace Game.Simulation
         private int offersBanished;
         private int offersSkipped;
         private ulong decisionChecksum = 1469598103934665603UL;
+        private readonly ActorStore actors;
 
         internal ProgressionRuntime(
             BuildRuntimeCatalog catalog,
@@ -94,6 +95,7 @@ namespace Game.Simulation
             if (catalog == null) throw new ArgumentNullException(nameof(catalog));
             if (initialCapacity <= 0) throw new ArgumentOutOfRangeException(nameof(initialCapacity));
             Player = new SpatialEntity(EntityKind.Actor, player);
+            this.actors = actors;
             Build = new BuildState(catalog, actors, skills, Player, skillSlots, passiveSlots, mapTags);
             Offers = new OfferGenerator(catalog, runSeed, initialCapacity);
             Experience = new ExperienceProgression(curve);
@@ -214,7 +216,15 @@ namespace Game.Simulation
         internal void ApplyPendingExperience()
         {
             if (pendingExperience <= 0f) return;
-            Experience.Gain(pendingExperience);
+            var multiplier = 1f;
+            if (actors.TryReadStat(
+                    Player.Handle,
+                    BuiltInStatIndices.ExperienceGain,
+                    out var resolvedMultiplier))
+            {
+                multiplier = Math.Max(0f, resolvedMultiplier);
+            }
+            Experience.Gain(pendingExperience * multiplier);
             pendingExperience = 0f;
         }
 

@@ -43,6 +43,21 @@ namespace Game.Content.Runtime
 
         /// <summary>Identifies an M6 skill evolution definition.</summary>
         public const string Evolution = "evolution";
+
+        public const string CharacterMechanic = "character_mechanic";
+        public const string Reward = "reward";
+        public const string Pickup = "pickup";
+        public const string Relic = "relic";
+        public const string MapObjective = "map_objective";
+        public const string MapEvent = "map_event";
+        public const string Landmark = "landmark";
+        public const string Boss = "boss";
+        public const string EliteAffix = "elite_affix";
+        public const string MetaNode = "meta_node";
+        public const string MetaInsert = "meta_insert";
+        public const string MetaFacility = "meta_facility";
+        public const string Story = "story";
+        public const string Collectible = "collectible";
     }
 
     /// <summary>
@@ -142,6 +157,8 @@ namespace Game.Content.Runtime
     {
         private readonly ContentId[] startingSkillIds;
         private readonly IReadOnlyList<ContentId> startingSkillIdsView;
+        private readonly ContentId[] mechanicIds;
+        private readonly IReadOnlyList<ContentId> mechanicIdsView;
 
         /// <summary>
         /// Initializes pure runtime character data.
@@ -155,13 +172,37 @@ namespace Game.Content.Runtime
             float baseMaxHealth,
             float moveSpeed,
             ContentId[] startingSkillIds)
+            : this(
+                id,
+                localizedNameKey,
+                localizedDescriptionKey,
+                sourceAssetPath,
+                tags,
+                baseMaxHealth,
+                moveSpeed,
+                startingSkillIds,
+                Array.Empty<ContentId>())
+        {
+        }
+
+        /// <summary>Initializes schema-6 character data with generic mechanic references.</summary>
+        public RuntimeCharacterDefinition(
+            ContentId id,
+            string localizedNameKey,
+            string localizedDescriptionKey,
+            string sourceAssetPath,
+            ContentTag[] tags,
+            float baseMaxHealth,
+            float moveSpeed,
+            ContentId[] startingSkillIds,
+            ContentId[] characterMechanicIds)
             : base(
                 id,
                 localizedNameKey,
                 localizedDescriptionKey,
                 sourceAssetPath,
                 tags,
-                startingSkillIds)
+                Combine(startingSkillIds, characterMechanicIds))
         {
             BaseMaxHealth = baseMaxHealth;
             MoveSpeed = moveSpeed;
@@ -169,6 +210,10 @@ namespace Game.Content.Runtime
                 ? Array.Empty<ContentId>()
                 : (ContentId[])startingSkillIds.Clone();
             startingSkillIdsView = Array.AsReadOnly(this.startingSkillIds);
+            mechanicIds = characterMechanicIds == null
+                ? Array.Empty<ContentId>()
+                : (ContentId[])characterMechanicIds.Clone();
+            mechanicIdsView = Array.AsReadOnly(mechanicIds);
         }
 
         /// <inheritdoc />
@@ -183,6 +228,9 @@ namespace Game.Content.Runtime
         /// <summary>Gets starting skill IDs in author order.</summary>
         public IReadOnlyList<ContentId> StartingSkillIds => startingSkillIdsView;
 
+        /// <summary>Gets schema-6 character-mechanic IDs in author order.</summary>
+        public IReadOnlyList<ContentId> MechanicIds => mechanicIdsView;
+
         protected override void AppendTypeSpecificDeterministicData(StringBuilder builder)
         {
             ContentHashUtility.AppendFloat(builder, BaseMaxHealth);
@@ -192,6 +240,24 @@ namespace Game.Content.Runtime
             {
                 ContentHashUtility.AppendToken(builder, startingSkillIds[index].Value);
             }
+
+            if (mechanicIds.Length > 0)
+            {
+                ContentHashUtility.AppendInt(builder, mechanicIds.Length);
+                for (var index = 0; index < mechanicIds.Length; index++)
+                    ContentHashUtility.AppendToken(builder, mechanicIds[index].Value);
+            }
+        }
+
+        private static ContentId[] Combine(ContentId[] first, ContentId[] second)
+        {
+            var firstLength = first == null ? 0 : first.Length;
+            var secondLength = second == null ? 0 : second.Length;
+            if (firstLength + secondLength == 0) return Array.Empty<ContentId>();
+            var result = new ContentId[firstLength + secondLength];
+            if (firstLength > 0) Array.Copy(first, result, firstLength);
+            if (secondLength > 0) Array.Copy(second, 0, result, firstLength, secondLength);
+            return result;
         }
     }
 
@@ -311,6 +377,12 @@ namespace Game.Content.Runtime
         private readonly RuntimeMapAnchor[] anchors;
         private readonly IReadOnlyList<RuntimeMapObstacle> obstaclesView;
         private readonly IReadOnlyList<RuntimeMapAnchor> anchorsView;
+        private readonly ContentId[] objectiveIds;
+        private readonly ContentId[] eventIds;
+        private readonly ContentId[] landmarkIds;
+        private readonly IReadOnlyList<ContentId> objectiveIdsView;
+        private readonly IReadOnlyList<ContentId> eventIdsView;
+        private readonly IReadOnlyList<ContentId> landmarkIdsView;
 
         /// <summary>
         /// Initializes pure runtime map metadata.
@@ -338,6 +410,12 @@ namespace Game.Content.Runtime
             anchors = Array.Empty<RuntimeMapAnchor>();
             obstaclesView = Array.AsReadOnly(obstacles);
             anchorsView = Array.AsReadOnly(anchors);
+            objectiveIds = Array.Empty<ContentId>();
+            eventIds = Array.Empty<ContentId>();
+            landmarkIds = Array.Empty<ContentId>();
+            objectiveIdsView = Array.AsReadOnly(objectiveIds);
+            eventIdsView = Array.AsReadOnly(eventIds);
+            landmarkIdsView = Array.AsReadOnly(landmarkIds);
         }
 
         /// <summary>Initializes a schema-4 pure map-runtime definition.</summary>
@@ -358,15 +436,46 @@ namespace Game.Content.Runtime
             ContentId visualProfileId,
             RuntimeMapObstacle[] mapObstacles,
             RuntimeMapAnchor[] mapAnchors)
+            : this(
+                id, localizedNameKey, localizedDescriptionKey, sourceAssetPath, tags,
+                runtimeProviderId, sceneAddress, boundsMode, minimum, maximum, chunkSize,
+                activeChunkRadius, encounterScheduleId, visualProfileId, mapObstacles, mapAnchors,
+                Array.Empty<ContentId>(), Array.Empty<ContentId>(), Array.Empty<ContentId>())
+        {
+        }
+
+        /// <summary>Initializes schema-6 map data with objective, event, and landmark references.</summary>
+        public RuntimeMapDefinition(
+            ContentId id,
+            string localizedNameKey,
+            string localizedDescriptionKey,
+            string sourceAssetPath,
+            ContentTag[] tags,
+            string runtimeProviderId,
+            string sceneAddress,
+            MapBoundsMode boundsMode,
+            Vector2 minimum,
+            Vector2 maximum,
+            float chunkSize,
+            int activeChunkRadius,
+            ContentId encounterScheduleId,
+            ContentId visualProfileId,
+            RuntimeMapObstacle[] mapObstacles,
+            RuntimeMapAnchor[] mapAnchors,
+            ContentId[] mapObjectiveIds,
+            ContentId[] mapEventIds,
+            ContentId[] mapLandmarkIds)
             : base(
                 id,
                 localizedNameKey,
                 localizedDescriptionKey,
                 sourceAssetPath,
                 tags,
-                encounterScheduleId.IsValid
-                    ? new[] { encounterScheduleId }
-                    : Array.Empty<ContentId>())
+                CombineMapReferences(
+                    encounterScheduleId,
+                    mapObjectiveIds,
+                    mapEventIds,
+                    mapLandmarkIds))
         {
             RuntimeProviderId = runtimeProviderId ?? string.Empty;
             SceneAddress = sceneAddress ?? string.Empty;
@@ -385,6 +494,12 @@ namespace Game.Content.Runtime
                 : (RuntimeMapAnchor[])mapAnchors.Clone();
             obstaclesView = Array.AsReadOnly(obstacles);
             anchorsView = Array.AsReadOnly(anchors);
+            objectiveIds = Clone(mapObjectiveIds);
+            eventIds = Clone(mapEventIds);
+            landmarkIds = Clone(mapLandmarkIds);
+            objectiveIdsView = Array.AsReadOnly(objectiveIds);
+            eventIdsView = Array.AsReadOnly(eventIds);
+            landmarkIdsView = Array.AsReadOnly(landmarkIds);
             HasM5Data = true;
         }
 
@@ -407,6 +522,9 @@ namespace Game.Content.Runtime
         public ContentId VisualProfileId { get; }
         public IReadOnlyList<RuntimeMapObstacle> Obstacles => obstaclesView;
         public IReadOnlyList<RuntimeMapAnchor> Anchors => anchorsView;
+        public IReadOnlyList<ContentId> ObjectiveIds => objectiveIdsView;
+        public IReadOnlyList<ContentId> EventIds => eventIdsView;
+        public IReadOnlyList<ContentId> LandmarkIds => landmarkIdsView;
 
         protected override void AppendTypeSpecificDeterministicData(StringBuilder builder)
         {
@@ -440,6 +558,43 @@ namespace Game.Content.Runtime
                 ContentHashUtility.AppendFloat(builder, anchors[index].Position.X);
                 ContentHashUtility.AppendFloat(builder, anchors[index].Position.Y);
             }
+
+            if (objectiveIds.Length + eventIds.Length + landmarkIds.Length > 0)
+            {
+                AppendIds(builder, objectiveIds);
+                AppendIds(builder, eventIds);
+                AppendIds(builder, landmarkIds);
+            }
+        }
+
+        private static ContentId[] Clone(ContentId[] source) =>
+            source == null ? Array.Empty<ContentId>() : (ContentId[])source.Clone();
+
+        private static ContentId[] CombineMapReferences(
+            ContentId encounter,
+            ContentId[] objectives,
+            ContentId[] events,
+            ContentId[] landmarks)
+        {
+            var count = (encounter.IsValid ? 1 : 0) +
+                        (objectives == null ? 0 : objectives.Length) +
+                        (events == null ? 0 : events.Length) +
+                        (landmarks == null ? 0 : landmarks.Length);
+            if (count == 0) return Array.Empty<ContentId>();
+            var result = new ContentId[count];
+            var write = 0;
+            if (encounter.IsValid) result[write++] = encounter;
+            if (objectives != null) { Array.Copy(objectives, 0, result, write, objectives.Length); write += objectives.Length; }
+            if (events != null) { Array.Copy(events, 0, result, write, events.Length); write += events.Length; }
+            if (landmarks != null) Array.Copy(landmarks, 0, result, write, landmarks.Length);
+            return result;
+        }
+
+        private static void AppendIds(StringBuilder builder, ContentId[] values)
+        {
+            ContentHashUtility.AppendInt(builder, values.Length);
+            for (var index = 0; index < values.Length; index++)
+                ContentHashUtility.AppendToken(builder, values[index].Value);
         }
     }
 }

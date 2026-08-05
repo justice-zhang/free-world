@@ -84,7 +84,11 @@ namespace Game.Simulation
                 BuiltInStatIds.Armor,
                 BuiltInStatIds.PickupRange,
                 BuiltInStatIds.Luck,
-                BuiltInStatIds.Regeneration
+                BuiltInStatIds.Regeneration,
+                BuiltInStatIds.ProjectileSpeed,
+                BuiltInStatIds.CriticalMultiplier,
+                BuiltInStatIds.ExperienceGain,
+                BuiltInStatIds.KnockbackResistance
             };
             var minimums = new[]
             {
@@ -101,6 +105,10 @@ namespace Game.Simulation
                 0f,
                 0f,
                 0f,
+                0f,
+                0.0001f,
+                1f,
+                0.0001f,
                 0f
             };
             var maximums = new[]
@@ -118,7 +126,11 @@ namespace Game.Simulation
                 1_000_000f,
                 1_000_000f,
                 1_000_000f,
-                1_000_000f
+                1_000_000f,
+                1_000_000f,
+                1_000_000f,
+                1_000_000f,
+                1f
             };
             return new StatCatalog(ids, minimums, maximums);
         }
@@ -178,6 +190,18 @@ namespace Game.Simulation
 
         /// <summary>Health regeneration per second.</summary>
         public static readonly StatIndex Regeneration = new StatIndex(13);
+
+        /// <summary>Projectile speed multiplier.</summary>
+        public static readonly StatIndex ProjectileSpeed = new StatIndex(14);
+
+        /// <summary>Critical damage multiplier.</summary>
+        public static readonly StatIndex CriticalMultiplier = new StatIndex(15);
+
+        /// <summary>Experience gained multiplier.</summary>
+        public static readonly StatIndex ExperienceGain = new StatIndex(16);
+
+        /// <summary>Knockback resistance fraction.</summary>
+        public static readonly StatIndex KnockbackResistance = new StatIndex(17);
     }
 
     /// <summary>
@@ -227,6 +251,18 @@ namespace Game.Simulation
         /// <summary>Health regeneration per second.</summary>
         public float Regeneration;
 
+        /// <summary>Projectile speed multiplier.</summary>
+        public float ProjectileSpeed;
+
+        /// <summary>Critical damage multiplier.</summary>
+        public float CriticalMultiplier;
+
+        /// <summary>Experience gained multiplier.</summary>
+        public float ExperienceGain;
+
+        /// <summary>Knockback resistance fraction.</summary>
+        public float KnockbackResistance;
+
         /// <summary>Creates conventional M3 defaults.</summary>
         public static StatBaseValues CreateDefault(
             float health = 100f,
@@ -247,7 +283,11 @@ namespace Game.Simulation
                 Armor = 0f,
                 PickupRange = 1f,
                 Luck = 0f,
-                Regeneration = 0f
+                Regeneration = 0f,
+                ProjectileSpeed = 1f,
+                CriticalMultiplier = 2f,
+                ExperienceGain = 1f,
+                KnockbackResistance = 0f
             };
         }
     }
@@ -795,6 +835,10 @@ namespace Game.Simulation
             baseValues[BuiltInStatIndices.PickupRange.Value] = values.PickupRange;
             baseValues[BuiltInStatIndices.Luck.Value] = values.Luck;
             baseValues[BuiltInStatIndices.Regeneration.Value] = values.Regeneration;
+            baseValues[BuiltInStatIndices.ProjectileSpeed.Value] = values.ProjectileSpeed;
+            baseValues[BuiltInStatIndices.CriticalMultiplier.Value] = values.CriticalMultiplier;
+            baseValues[BuiltInStatIndices.ExperienceGain.Value] = values.ExperienceGain;
+            baseValues[BuiltInStatIndices.KnockbackResistance.Value] = values.KnockbackResistance;
         }
 
         public float Get(StatIndex index)

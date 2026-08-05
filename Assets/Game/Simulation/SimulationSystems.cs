@@ -56,6 +56,22 @@ namespace Game.Simulation
                     handle,
                     previous.Position,
                     state.Position);
+                if (world.Qinglan != null)
+                {
+                    var distance = System.Numerics.Vector2.Distance(previous.Position, state.Position);
+                    if (distance > 0f)
+                    {
+                        world.ResolvedMovements.Add(
+                            new ResolvedMovement(
+                                new SpatialEntity(EntityKind.Actor, handle),
+                                world.MovementSources.ConsumeSource(handle),
+                                distance));
+                    }
+                    else
+                    {
+                        world.MovementSources.ConsumeSource(handle);
+                    }
+                }
                 world.Actors.SetStateAt(index, state);
                 world.SpatialGrid.Update(
                     new SpatialEntity(EntityKind.Actor, handle),

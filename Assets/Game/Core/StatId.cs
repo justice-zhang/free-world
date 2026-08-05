@@ -184,7 +184,7 @@ namespace Game.Core
     }
 
     /// <summary>
-    /// Stable IDs for the fourteen statistics admitted by the M3 runtime.
+    /// Stable IDs for the built-in statistics admitted by the runtime.
     /// </summary>
     public static class BuiltInStatIds
     {
@@ -229,6 +229,18 @@ namespace Game.Core
 
         /// <summary>Health regeneration per second.</summary>
         public static readonly StatId Regeneration = Create("base.stat.regeneration");
+
+        /// <summary>Projectile and moving-delivery speed multiplier.</summary>
+        public static readonly StatId ProjectileSpeed = Create("base.stat.projectile_speed");
+
+        /// <summary>Critical damage multiplier.</summary>
+        public static readonly StatId CriticalMultiplier = Create("base.stat.critical_multiplier");
+
+        /// <summary>Experience gained multiplier.</summary>
+        public static readonly StatId ExperienceGain = Create("base.stat.experience_gain");
+
+        /// <summary>Fraction of incoming knockback rejected in the inclusive range [0, 1].</summary>
+        public static readonly StatId KnockbackResistance = Create("base.stat.knockback_resistance");
 
         private static StatId Create(string value)
         {

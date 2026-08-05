@@ -17,6 +17,10 @@ namespace Game.Content.Authoring
         public int int0;
         public int int1;
         public string presentationId = string.Empty;
+        public string referenceId0 = string.Empty;
+        public string referenceId1 = string.Empty;
+        public string tag0 = string.Empty;
+        public string tag1 = string.Empty;
     }
 
     /// <summary>Serializable authoring form of one effect operation.</summary>
@@ -218,8 +222,17 @@ namespace Game.Content.Authoring
                     ErrorFor("Non-instant delivery requires a canonical placeholder/profile presentation ID.", common, packId));
             }
 
+            var firstResult = ParseOptionalId(source.referenceId0, label + " reference 0", common, packId);
+            if (!firstResult.IsSuccess) return Result<SkillModuleDefinition>.Failure(firstResult.Error);
+            var secondResult = ParseOptionalId(source.referenceId1, label + " reference 1", common, packId);
+            if (!secondResult.IsSuccess) return Result<SkillModuleDefinition>.Failure(secondResult.Error);
+            var firstTag = ParseOptionalTag(source.tag0, label + " tag 0", common, packId);
+            if (!firstTag.IsSuccess) return Result<SkillModuleDefinition>.Failure(firstTag.Error);
+            var secondTag = ParseOptionalTag(source.tag1, label + " tag 1", common, packId);
+            if (!secondTag.IsSuccess) return Result<SkillModuleDefinition>.Failure(secondTag.Error);
+
             return Result<SkillModuleDefinition>.Success(
-                new SkillModuleDefinition(
+                SkillModuleDefinition.CreateReferenced(
                     idResult.Value,
                     source.value0,
                     source.value1,
@@ -227,7 +240,23 @@ namespace Game.Content.Authoring
                     source.value3,
                     source.int0,
                     source.int1,
-                    presentationResult.Value));
+                    presentationResult.Value,
+                    firstResult.Value,
+                    secondResult.Value,
+                    firstTag.Value,
+                    secondTag.Value));
+        }
+
+        private static Result<ContentTag> ParseOptionalTag(
+            string raw,
+            string label,
+            in AuthoringCommonData common,
+            ContentId packId)
+        {
+            if (string.IsNullOrEmpty(raw)) return Result<ContentTag>.Success(default);
+            if (!ContentId.IsCanonical(raw))
+                return Result<ContentTag>.Failure(ErrorFor("Skill " + label + " must be canonical lowercase text.", common, packId));
+            return ContentTag.Create(raw, packId, common.AuthorAssetPath);
         }
 
         private static Result<EffectOp> BakeEffect(
@@ -370,6 +399,22 @@ namespace Game.Content.Authoring
                 case EffectOpCode.ApplyStatus:
                 case EffectOpCode.SpawnSecondarySkill:
                     if (!op.ReferenceId0.IsValid) return op.Code + " requires content reference 0.";
+                    break;
+                case EffectOpCode.ConsumeStatus:
+                    if ((!op.ReferenceId0.IsValid && !op.Tag0.IsValid) ||
+                        op.Int0 < 1 ||
+                        op.Int1 < (int)StatusConsumeMissingPolicy.RequireExact ||
+                        op.Int1 > (int)StatusConsumeMissingPolicy.ConsumeAvailable)
+                    {
+                        return "ConsumeStatus effect operands are invalid.";
+                    }
+                    break;
+                case EffectOpCode.DetonateStatus:
+                    if ((!op.ReferenceId0.IsValid && !op.Tag0.IsValid) ||
+                        op.Value0 < 0f || op.Int0 < 1)
+                    {
+                        return "DetonateStatus effect operands are invalid.";
+                    }
                     break;
                 case EffectOpCode.RemoveStatus:
                     if (!op.Tag0.IsValid) return "RemoveStatus requires a canonical dispel tag.";

@@ -16,8 +16,9 @@ namespace Game.Content.Runtime
         public const int MinimumSupportedSchemaVersion = 1;
 
         /// <summary>
-        /// Gets the newest content schema version understood by this runtime.
+        /// Gets the M6-era maximum retained for one public-API compatibility cycle.
         /// </summary>
+        [Obsolete("Use LatestSupportedSchemaVersion for new content validation.")]
         public const int SupportedSchemaVersion = 5;
 
         /// <summary>
@@ -41,13 +42,19 @@ namespace Game.Content.Runtime
         /// </summary>
         public const int BuildProgressionSchemaVersion = 5;
 
+        /// <summary>First schema that admits Qinglan's general-purpose runtime definition families.</summary>
+        public const int QinglanDemoSchemaVersion = 6;
+
+        /// <summary>Gets the newest content schema version understood by this runtime.</summary>
+        public const int LatestSupportedSchemaVersion = QinglanDemoSchemaVersion;
+
         /// <summary>
         /// Returns whether a content schema version can be loaded by this runtime.
         /// </summary>
         public static bool IsSchemaVersionSupported(int schemaVersion)
         {
             return schemaVersion >= MinimumSupportedSchemaVersion &&
-                   schemaVersion <= SupportedSchemaVersion;
+                   schemaVersion <= LatestSupportedSchemaVersion;
         }
 
         /// <summary>
@@ -99,7 +106,7 @@ namespace Game.Content.Runtime
                             "Pack '" + manifest.PackId + "' uses schema " +
                             manifest.SchemaVersion + "; supported schema range is [" +
                             MinimumSupportedSchemaVersion + ", " +
-                            SupportedSchemaVersion + "].",
+                            LatestSupportedSchemaVersion + "].",
                             default,
                             manifest.PackId,
                             manifest.SourceAssetPath));

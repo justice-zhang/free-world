@@ -40,7 +40,7 @@ G1 只使用程序化 Placeholder。正式角色、Logo、字体、音频和品�
 | G2.2 | `codex/g2-demo-bosses` | M10 | 折枝、听风三阶段、目标修正 |
 | G2.3 | `codex/g2-demo-rewards` | M06 | 灵物、奇物、显化宝匣、首通奖励 |
 | G2.4 | `codex/g2-demo-game-flow` | M01 | 标题→Run→结算→据点→再次出发 |
-| G2.5 | `codex/g2-demo-meta-save` | M11、M14 | 行脉、嵌片、收藏、故事、迁移 |
+| G2.5 | `codex/g2-demo-meta-save` | M11、M14 | 行脉、嵌片、收藏、故事、Meta 校验与幂等结算事务 |
 | G2.6 | `codex/g2-demo-ui-input` | M12 | 键鼠/手柄、页面、HUD、可访问性 |
 | G2.7 | `codex/g2-demo-placeholder-polish` | M13 | 程序化表现、池、预警和音频占位 |
 | G2.8 | `codex/g2-demo-vertical-slice-gate` | 全模块 | PlayMode、Development Build、可读性评审 |

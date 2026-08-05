@@ -14,6 +14,7 @@ namespace Game.Content.Authoring
         public int minimumGroupSize = 1;
         public int maximumGroupSize = 1;
         public bool elite;
+        public QinglanDefinitionAuthoring[] affixPool = Array.Empty<QinglanDefinitionAuthoring>();
     }
 
     [Serializable]
@@ -23,6 +24,7 @@ namespace Game.Content.Authoring
         public float spawnTimeSeconds;
         public SpawnPattern pattern = SpawnPattern.Ring;
         public string anchorId = string.Empty;
+        public QinglanDefinitionAuthoring bossDefinition;
     }
 
     [Serializable]
@@ -119,13 +121,34 @@ namespace Game.Content.Authoring
 
                     var enemyId = ContentId.Create(entry.enemy.ContentIdText, packId, authorAssetPath);
                     if (!enemyId.IsSuccess) return Result<RuntimeContentDefinition>.Failure(enemyId.Error);
+                    var affixSource = entry.affixPool ?? Array.Empty<QinglanDefinitionAuthoring>();
+                    var affixIds = new ContentId[affixSource.Length];
+                    for (var affixIndex = 0; affixIndex < affixSource.Length; affixIndex++)
+                    {
+                        if (affixSource[affixIndex] == null ||
+                            affixSource[affixIndex].RuntimeKind != RuntimeContentKinds.EliteAffix)
+                        {
+                            return Failure(
+                                "Encounter affix reference is null or has the wrong kind.",
+                                common,
+                                packId);
+                        }
+                        var affixId = ContentId.Create(
+                            affixSource[affixIndex].ContentIdText,
+                            packId,
+                            authorAssetPath);
+                        if (!affixId.IsSuccess) return Result<RuntimeContentDefinition>.Failure(affixId.Error);
+                        affixIds[affixIndex] = affixId.Value;
+                    }
+                    affixIds = ContentBaker.CanonicalizeSet(affixIds);
                     entries[entryIndex] = new RuntimeEncounterEnemyEntry(
                         enemyId.Value,
                         entry.weight,
                         entry.budgetCost,
                         entry.minimumGroupSize,
                         entry.maximumGroupSize,
-                        entry.elite);
+                        entry.elite,
+                        affixIds);
                 }
 
                 var sourceBosses = source.bosses ?? Array.Empty<EncounterBossRuleAuthoringData>();
@@ -148,11 +171,24 @@ namespace Game.Content.Authoring
                     if (!anchorId.IsSuccess) return Result<RuntimeContentDefinition>.Failure(anchorId.Error);
                     if (RequiresAnchor(boss.pattern) && !anchorId.Value.IsValid)
                         return Failure("Boss rule requires an anchor ID.", common, packId);
+                    var bossDefinitionId = default(ContentId);
+                    if (boss.bossDefinition != null)
+                    {
+                        if (boss.bossDefinition.RuntimeKind != RuntimeContentKinds.Boss)
+                            return Failure("Boss definition reference has the wrong kind.", common, packId);
+                        var parsedBoss = ContentId.Create(
+                            boss.bossDefinition.ContentIdText,
+                            packId,
+                            authorAssetPath);
+                        if (!parsedBoss.IsSuccess) return Result<RuntimeContentDefinition>.Failure(parsedBoss.Error);
+                        bossDefinitionId = parsedBoss.Value;
+                    }
                     bosses[bossIndex] = new RuntimeEncounterBossRule(
                         enemyId.Value,
                         boss.spawnTimeSeconds,
                         boss.pattern,
-                        anchorId.Value);
+                        anchorId.Value,
+                        bossDefinitionId);
                 }
 
                 runtimePhases[phaseIndex] = new RuntimeEncounterPhase(

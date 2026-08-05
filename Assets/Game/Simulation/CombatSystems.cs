@@ -41,7 +41,22 @@ namespace Game.Simulation
                 target.Dead ||
                 target.HealthCurrent <= 0f)
             {
+                world.CombatEvents.Add(
+                    new DamageResolved(packet, packet.BaseValue, 0f, 0f, 0f, 0f,
+                        DamageResolutionOutcome.Invalid, world.ExecutingTick));
                 world.Diagnostics.RecordRejectedDamage();
+                return;
+            }
+
+            var policyOutcome = world.DamageChannels.Evaluate(
+                packet.Target.Handle,
+                packet.ChannelId,
+                world.ExecutingTick);
+            if (policyOutcome != DamageResolutionOutcome.Applied)
+            {
+                world.CombatEvents.Add(
+                    new DamageResolved(packet, packet.BaseValue, 0f, 0f, 0f, 0f,
+                        policyOutcome, world.ExecutingTick));
                 return;
             }
 
@@ -49,11 +64,13 @@ namespace Game.Simulation
             var normalizedBase = NormalizeDamage(packet.BaseValue, rules);
             var sourceMultiplier = 1f;
             var criticalChance = 0f;
+            var criticalMultiplier = rules.CriticalMultiplier;
             if (packet.Source.Kind == EntityKind.Actor &&
                 world.Actors.TryGetCombat(packet.Source.Handle, out var source))
             {
                 sourceMultiplier = source.Stats.Get(BuiltInStatIndices.Damage);
                 criticalChance = source.Stats.Get(BuiltInStatIndices.CriticalChance);
+                criticalMultiplier = source.Stats.Get(BuiltInStatIndices.CriticalMultiplier);
             }
 
             var sourceModified = ClampFinite(
@@ -69,7 +86,7 @@ namespace Game.Simulation
                 if (wasCritical)
                 {
                     criticalModified = ClampFinite(
-                        sourceModified * rules.CriticalMultiplier,
+                        sourceModified * criticalMultiplier,
                         rules.MinimumDamage,
                         rules.MaximumDamage);
                 }
@@ -81,8 +98,40 @@ namespace Game.Simulation
                 rules.MinimumDamage,
                 rules.MaximumDamage);
 
+            if (finalDamage <= 0f)
+            {
+                world.CombatEvents.Add(
+                    new DamageResolved(packet, packet.BaseValue, mitigated, 0f, 0f, 0f,
+                        DamageResolutionOutcome.Zero, world.ExecutingTick));
+                world.CombatEvents.Add(
+                    new DamageApplied(
+                        new DamageContext(
+                            packet,
+                            normalizedBase,
+                            sourceModified,
+                            criticalModified,
+                            mitigated,
+                            0f,
+                            0f,
+                            0f,
+                            wasCritical),
+                        world.ExecutingTick));
+                return;
+            }
+
+            var barrierAbsorbed = world.DamageChannels.AbsorbBarrier(
+                packet.Target.Handle,
+                packet.ChannelId,
+                finalDamage);
+            var damageAfterBarrier = Math.Max(0f, finalDamage - barrierAbsorbed);
+            world.DamageChannels.CommitCooldown(
+                packet.Target.Handle,
+                packet.ChannelId,
+                world.ExecutingTick,
+                packet.ChannelCooldownTicks);
+
             var previousShield = target.ShieldCurrent;
-            var shieldAbsorbed = Math.Min(previousShield, finalDamage);
+            var shieldAbsorbed = Math.Min(previousShield, damageAfterBarrier);
             if (shieldAbsorbed > 0f)
             {
                 target.ShieldCurrent = previousShield - shieldAbsorbed;
@@ -98,7 +147,7 @@ namespace Game.Simulation
             }
 
             target.ReconcileHealthMaximum();
-            var remaining = finalDamage - shieldAbsorbed;
+            var remaining = damageAfterBarrier - shieldAbsorbed;
             var healthDamage = Math.Min(target.HealthCurrent, Math.Max(0f, remaining));
             target.HealthCurrent -= healthDamage;
             if (target.HealthCurrent < 0f)
@@ -116,10 +165,20 @@ namespace Game.Simulation
                 shieldAbsorbed,
                 healthDamage,
                 wasCritical);
-            var damageEvent = new DamageApplied(context, world.ExecutingTick);
-            world.CombatEvents.Add(damageEvent);
+            world.CombatEvents.Add(
+                new DamageResolved(
+                    packet,
+                    packet.BaseValue,
+                    mitigated,
+                    barrierAbsorbed,
+                    shieldAbsorbed,
+                    healthDamage,
+                    DamageResolutionOutcome.Applied,
+                    world.ExecutingTick));
             if (shieldAbsorbed + healthDamage > 0f)
             {
+                var damageEvent = new DamageApplied(context, world.ExecutingTick);
+                world.CombatEvents.Add(damageEvent);
                 world.Skills.QueueTrigger(
                     new SkillTriggerContext(
                         SkillTriggerEventType.OnHit,
@@ -369,7 +428,9 @@ namespace Game.Simulation
                 payload.ProcCoefficient,
                 payload.Knockback,
                 body.Position,
-                instance.ProcDepth + 1);
+                instance.ProcDepth + 1,
+                BuiltInDamageChannels.Periodic,
+                0);
             world.QueueDamage(packet);
         }
 
@@ -783,7 +844,7 @@ namespace Game.Simulation
             return true;
         }
 
-        private static void RemoveStatusAt(
+        internal static void RemoveStatusAt(
             SimulationWorld world,
             SpatialEntity targetEntity,
             ActorCombatRecord actor,

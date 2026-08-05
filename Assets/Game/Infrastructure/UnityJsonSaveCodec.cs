@@ -19,12 +19,13 @@ namespace Game.Infrastructure
             migrations = migrationRegistry ?? CreateDefaultMigrationRegistry();
         }
 
-        /// <summary>Creates the built-in contiguous v1-to-v2 migration registry.</summary>
+        /// <summary>Creates built-in contiguous migrations for each independently versioned document.</summary>
         public static SaveMigrationRegistry CreateDefaultMigrationRegistry()
         {
             var registry = new SaveMigrationRegistry();
             registry.Register(new SettingsV1ToV2Migration());
             registry.Register(new ProfileV1ToV2Migration());
+            registry.Register(new ProfileV2ToV3Migration());
             registry.Register(new RunRecoveryV1ToV2Migration());
             return registry;
         }
@@ -80,7 +81,7 @@ namespace Game.Infrastructure
 
         private SaveEncodeResult EncodeDto(SaveDocumentKind kind, int schemaVersion, object dto)
         {
-            if (dto == null || schemaVersion != SaveSchema.CurrentVersion)
+            if (dto == null || schemaVersion != SaveSchema.GetCurrentVersion(kind))
                 return SaveEncodeResult.Failure(new SaveDiagnostic(SaveFailureCode.UnsupportedSchema, "save.error.schema_newer"));
             try { return SaveEncodeResult.Success(EncodeRawPayload(kind, schemaVersion, JsonUtility.ToJson(dto, false))); }
             catch (Exception exception) when (IsFormatFailure(exception))
@@ -101,7 +102,11 @@ namespace Game.Infrastructure
                 if (!FixedEquals(envelope.checksumSha256, ComputeSha256(payload)))
                     return DecodedPayload.Failure(new SaveDiagnostic(SaveFailureCode.ChecksumMismatch, "save.error.checksum"));
                 var json = Encoding.UTF8.GetString(payload);
-                var migration = migrations.Migrate(expectedKind, envelope.schemaVersion, SaveSchema.CurrentVersion, json);
+                var migration = migrations.Migrate(
+                    expectedKind,
+                    envelope.schemaVersion,
+                    SaveSchema.GetCurrentVersion(expectedKind),
+                    json);
                 return migration.IsSuccess
                     ? DecodedPayload.Success(migration.PayloadJson)
                     : DecodedPayload.Failure(migration.Diagnostic);
@@ -149,6 +154,12 @@ namespace Game.Infrastructure
                 metaUpgrades = ToContentLevelDtos(data.MetaUpgrades),
                 currencies = ToCounterDtos(data.Currencies),
                 statistics = ToCounterDtos(data.Statistics),
+                activeMetaLoadoutIds = ToContentIds(data.ActiveMetaLoadoutIds),
+                firstClearMapIds = ToContentIds(data.FirstClearMapIds),
+                claimedUniqueRewardIds = ToContentIds(data.ClaimedUniqueRewardIds),
+                completedStoryIds = ToContentIds(data.CompletedStoryIds),
+                collectedCollectibleIds = ToContentIds(data.CollectedCollectibleIds),
+                committedTransactionIds = ToContentIds(data.CommittedTransactionIds),
                 lastWriteUtc = data.LastWriteUtc
             };
         }
@@ -172,7 +183,7 @@ namespace Game.Infrastructure
 
         private static SaveDecodeResult<SettingsSaveData> FromSettingsDto(SettingsDto dto)
         {
-            if (dto == null || dto.schemaVersion != SaveSchema.CurrentVersion || string.IsNullOrWhiteSpace(dto.localeCode))
+            if (dto == null || dto.schemaVersion != SaveSchema.SettingsCurrentVersion || string.IsNullOrWhiteSpace(dto.localeCode))
                 return Invalid<SettingsSaveData>();
             var source = dto.bindingOverrides ?? Array.Empty<BindingDto>();
             var bindings = new SavedBindingOverride[source.Length];
@@ -186,7 +197,7 @@ namespace Game.Infrastructure
 
         private static SaveDecodeResult<ProfileSaveData> FromProfileDto(ProfileDto dto)
         {
-            if (dto == null || dto.schemaVersion != SaveSchema.CurrentVersion || string.IsNullOrWhiteSpace(dto.profileId))
+            if (dto == null || dto.schemaVersion != SaveSchema.ProfileCurrentVersion || string.IsNullOrWhiteSpace(dto.profileId))
                 return Invalid<ProfileSaveData>();
             return SaveDecodeResult<ProfileSaveData>.Success(new ProfileSaveData(
                 dto.profileId,
@@ -196,13 +207,19 @@ namespace Game.Infrastructure
                 FromCounterDtos(dto.currencies),
                 FromCounterDtos(dto.statistics),
                 dto.lastWriteUtc,
+                FromContentIds(dto.activeMetaLoadoutIds),
+                FromContentIds(dto.firstClearMapIds),
+                FromContentIds(dto.claimedUniqueRewardIds),
+                FromContentIds(dto.completedStoryIds),
+                FromContentIds(dto.collectedCollectibleIds),
+                FromContentIds(dto.committedTransactionIds),
                 dto.schemaVersion,
                 dto.gameVersion));
         }
 
         private static SaveDecodeResult<RunRecoverySaveData> FromRecoveryDto(RunRecoveryDto dto)
         {
-            if (dto == null || dto.schemaVersion != SaveSchema.CurrentVersion ||
+            if (dto == null || dto.schemaVersion != SaveSchema.RunRecoveryCurrentVersion ||
                 !ulong.TryParse(dto.runSeed, NumberStyles.None, CultureInfo.InvariantCulture, out var seed))
                 return Invalid<RunRecoverySaveData>();
             return SaveDecodeResult<RunRecoverySaveData>.Success(new RunRecoverySaveData(
@@ -332,7 +349,10 @@ namespace Game.Infrastructure
         [Serializable] private sealed class ProfileDto
         {
             public int schemaVersion; public string gameVersion; public string profileId; public PackDto[] contentPacks; public string[] unlockedContentIds;
-            public ContentLevelDto[] metaUpgrades; public CounterDto[] currencies; public CounterDto[] statistics; public string lastWriteUtc;
+            public ContentLevelDto[] metaUpgrades; public CounterDto[] currencies; public CounterDto[] statistics;
+            public string[] activeMetaLoadoutIds; public string[] firstClearMapIds; public string[] claimedUniqueRewardIds;
+            public string[] completedStoryIds; public string[] collectedCollectibleIds; public string[] committedTransactionIds;
+            public string lastWriteUtc;
         }
         [Serializable] private sealed class RunRecoveryDto
         {
@@ -378,6 +398,35 @@ namespace Game.Infrastructure
                     contentPacks = Array.Empty<PackDto>(), unlockedContentIds = old.unlockedContentIds ?? Array.Empty<string>(),
                     metaUpgrades = Array.Empty<ContentLevelDto>(), currencies = Array.Empty<CounterDto>(), statistics = Array.Empty<CounterDto>(), lastWriteUtc = old.lastWriteUtc
                 }, false));
+            }
+        }
+
+        private sealed class ProfileV2ToV3Migration : ISaveMigration
+        {
+            public SaveDocumentKind DocumentKind => SaveDocumentKind.Profile;
+            public int FromVersion => 2;
+            public int ToVersion => 3;
+
+            public SaveMigrationResult Migrate(string payloadJson)
+            {
+                var dto = JsonUtility.FromJson<ProfileDto>(payloadJson);
+                if (dto == null || dto.schemaVersion != 2 || string.IsNullOrWhiteSpace(dto.profileId))
+                {
+                    return SaveMigrationResult.Failure(
+                        new SaveDiagnostic(SaveFailureCode.InvalidFormat, "save.error.invalid_format"));
+                }
+
+                dto.schemaVersion = 3;
+                dto.gameVersion = string.IsNullOrWhiteSpace(dto.gameVersion)
+                    ? SaveSchema.GameVersion
+                    : dto.gameVersion;
+                dto.activeMetaLoadoutIds = Array.Empty<string>();
+                dto.firstClearMapIds = Array.Empty<string>();
+                dto.claimedUniqueRewardIds = Array.Empty<string>();
+                dto.completedStoryIds = Array.Empty<string>();
+                dto.collectedCollectibleIds = Array.Empty<string>();
+                dto.committedTransactionIds = Array.Empty<string>();
+                return SaveMigrationResult.Success(JsonUtility.ToJson(dto, false));
             }
         }
 

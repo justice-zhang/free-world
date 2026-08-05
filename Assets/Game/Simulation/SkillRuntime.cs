@@ -62,7 +62,14 @@ namespace Game.Simulation
         Projectile = 1,
         Area = 2,
         Aura = 3,
-        Orbit = 4
+        Orbit = 4,
+        OutboundReturn = 5
+    }
+
+    internal enum OutboundReturnPhase : byte
+    {
+        Outbound = 1,
+        Return = 2
     }
 
     internal struct DeliverySpawnRequest
@@ -71,13 +78,17 @@ namespace Game.Simulation
         public SkillInstance Instance;
         public RuntimeSkillLevel Level;
         public Vector2 Position;
+        public Vector2 Origin;
         public Vector2 Velocity;
         public float Lifetime;
         public float Radius;
         public float SecondaryRadius;
         public float TickInterval;
         public float AngularSpeed;
+        public float ReturnSpeed;
+        public float MaximumDistance;
         public int RemainingHits;
+        public int HitsPerPhase;
         public int ProcDepth;
     }
 
@@ -118,16 +129,24 @@ namespace Game.Simulation
         public float Angle;
         public float AngularSpeed;
         public int RemainingHits;
+        public int HitsPerPhase;
+        public int PhaseHitCount;
         public int ProcDepth;
         public SpatialEntity LastTarget;
         public Vector2 PreviousPosition;
+        public Vector2 Origin;
+        public float ReturnSpeed;
+        public float MaximumDistance;
+        public OutboundReturnPhase Phase;
         public bool HasPulsed;
     }
 
     internal sealed class ActiveDeliveryStorage
     {
+        private const int MaximumTrackedHitsPerPhase = 16;
         private ActiveDeliveryRecord[] projectileRecords;
         private ushort[] projectileGenerations;
+        private SpatialEntity[] projectilePhaseHits;
         private ActiveDeliveryRecord[] areaRecords;
         private ushort[] areaGenerations;
 
@@ -135,6 +154,7 @@ namespace Game.Simulation
         {
             projectileRecords = new ActiveDeliveryRecord[capacity];
             projectileGenerations = new ushort[capacity];
+            projectilePhaseHits = new SpatialEntity[capacity * MaximumTrackedHitsPerPhase];
             areaRecords = new ActiveDeliveryRecord[capacity];
             areaGenerations = new ushort[capacity];
         }
@@ -176,6 +196,34 @@ namespace Game.Simulation
             else areaRecords[handle.Index] = record;
         }
 
+        public bool HasPhaseHit(EntityHandle handle, SpatialEntity target, int hitCount)
+        {
+            var count = Math.Min(Math.Max(0, hitCount), MaximumTrackedHitsPerPhase);
+            var start = handle.Index * MaximumTrackedHitsPerPhase;
+            for (var index = 0; index < count; index++)
+            {
+                if (projectilePhaseHits[start + index] == target) return true;
+            }
+
+            return false;
+        }
+
+        public bool RecordPhaseHit(EntityHandle handle, SpatialEntity target, int hitCount)
+        {
+            if (hitCount < 0 || hitCount >= MaximumTrackedHitsPerPhase) return false;
+            projectilePhaseHits[(handle.Index * MaximumTrackedHitsPerPhase) + hitCount] = target;
+            return true;
+        }
+
+        public void ClearPhaseHits(EntityHandle handle)
+        {
+            if (handle.Index < 0 || handle.Index >= projectileGenerations.Length) return;
+            Array.Clear(
+                projectilePhaseHits,
+                handle.Index * MaximumTrackedHitsPerPhase,
+                MaximumTrackedHitsPerPhase);
+        }
+
         public void Detach(EntityKind kind, EntityHandle handle)
         {
             if (kind != EntityKind.Projectile && kind != EntityKind.Area) return;
@@ -191,6 +239,7 @@ namespace Game.Simulation
 
             generations[handle.Index] = 0;
             records[handle.Index] = default;
+            if (kind == EntityKind.Projectile) ClearPhaseHits(handle);
             Count--;
         }
 
@@ -198,7 +247,14 @@ namespace Game.Simulation
         {
             if (kind == EntityKind.Projectile)
             {
+                var previousCapacity = projectileRecords.Length;
                 Ensure(ref projectileRecords, ref projectileGenerations, required);
+                if (projectileRecords.Length != previousCapacity)
+                {
+                    Array.Resize(
+                        ref projectilePhaseHits,
+                        projectileRecords.Length * MaximumTrackedHitsPerPhase);
+                }
             }
             else if (kind == EntityKind.Area)
             {
@@ -498,7 +554,8 @@ namespace Game.Simulation
             for (var index = 0; index < count; index++)
             {
                 var request = spawnRequests.GetAt(index);
-                var entityKind = request.Kind == ActiveDeliveryKind.Projectile
+                var entityKind = request.Kind == ActiveDeliveryKind.Projectile ||
+                                 request.Kind == ActiveDeliveryKind.OutboundReturn
                     ? EntityKind.Projectile
                     : EntityKind.Area;
                 var state = SimulationEntityState.Create(
@@ -522,8 +579,15 @@ namespace Game.Simulation
                         TickInterval = request.TickInterval,
                         AngularSpeed = request.AngularSpeed,
                         RemainingHits = request.RemainingHits,
+                        HitsPerPhase = request.HitsPerPhase,
                         ProcDepth = request.ProcDepth,
-                        PreviousPosition = request.Position
+                        PreviousPosition = request.Position,
+                        Origin = request.Origin,
+                        ReturnSpeed = request.ReturnSpeed,
+                        MaximumDistance = request.MaximumDistance,
+                        Phase = request.Kind == ActiveDeliveryKind.OutboundReturn
+                            ? OutboundReturnPhase.Outbound
+                            : default
                     });
                 world.EmitEvent(
                     SimulationEventType.Created,
@@ -773,6 +837,41 @@ namespace Game.Simulation
                 var handle = world.Projectiles.GetHandleAt(dense);
                 if (!deliveries.TryGet(EntityKind.Projectile, handle, out var record)) continue;
                 var state = world.Projectiles.GetStateAt(dense);
+                if (record.Kind == ActiveDeliveryKind.OutboundReturn)
+                {
+                    if (record.Instance.Owner.Kind != EntityKind.Actor ||
+                        !world.Actors.TryRead(record.Instance.Owner.Handle, out var owner) ||
+                        world.Actors.IsDeathPending(record.Instance.Owner.Handle))
+                    {
+                        world.Commands.Remove(EntityKind.Projectile, handle);
+                        continue;
+                    }
+
+                    if (record.Phase == OutboundReturnPhase.Outbound &&
+                        Vector2.DistanceSquared(state.Position, record.Origin) >=
+                        record.MaximumDistance * record.MaximumDistance)
+                    {
+                        BeginReturn(world, dense, handle, ref state, ref record, owner.Position);
+                    }
+                    else if (record.Phase == OutboundReturnPhase.Return)
+                    {
+                        var returnDistance = Vector2.Distance(state.Position, owner.Position);
+                        if (returnDistance <= Math.Max(0.0001f, record.Radius))
+                        {
+                            world.Commands.Remove(EntityKind.Projectile, handle);
+                            continue;
+                        }
+
+                        var returnSpeed = Math.Min(
+                            record.ReturnSpeed,
+                            returnDistance / world.DeltaTimeSeconds);
+                        state.Velocity = DeliveryExecutorUtility.Direction(
+                            state.Position,
+                            owner.Position) * returnSpeed;
+                        world.Projectiles.SetStateAt(dense, state);
+                    }
+                }
+
                 var segment = state.Position - record.PreviousPosition;
                 var broadCenter = (state.Position + record.PreviousPosition) * 0.5f;
                 var broadRadius = (segment.Length() * 0.5f) + record.Radius;
@@ -784,7 +883,9 @@ namespace Game.Simulation
                     var candidate = spatialResults[candidateIndex];
                     if (candidate.Entity.Kind != EntityKind.Actor ||
                         candidate.Entity == record.Instance.Owner ||
-                        candidate.Entity == record.LastTarget ||
+                        (record.Kind == ActiveDeliveryKind.OutboundReturn
+                            ? deliveries.HasPhaseHit(handle, candidate.Entity, record.PhaseHitCount)
+                            : candidate.Entity == record.LastTarget) ||
                         !world.Actors.Contains(candidate.Entity.Handle) ||
                         world.Actors.IsDeathPending(candidate.Entity.Handle) ||
                         !world.IsHostileTarget(record.Instance.Owner, candidate.Entity))
@@ -823,14 +924,54 @@ namespace Game.Simulation
                 var hit = spatialResults[bestIndex];
                 var target = new SkillTarget(hit.Entity, hit.Position, true);
                 EnqueueEffects(record.Instance, record.Level, target, state.Position, record.ProcDepth);
-                record.LastTarget = hit.Entity;
+                if (record.Kind == ActiveDeliveryKind.OutboundReturn)
+                {
+                    if (deliveries.RecordPhaseHit(handle, hit.Entity, record.PhaseHitCount))
+                    {
+                        record.PhaseHitCount++;
+                    }
+                }
+                else
+                {
+                    record.LastTarget = hit.Entity;
+                }
+
                 record.RemainingHits--;
                 deliveries.Set(EntityKind.Projectile, handle, record);
                 if (record.RemainingHits <= 0)
                 {
-                    world.Commands.Remove(EntityKind.Projectile, handle);
+                    if (record.Kind == ActiveDeliveryKind.OutboundReturn &&
+                        record.Phase == OutboundReturnPhase.Outbound &&
+                        world.Actors.TryRead(record.Instance.Owner.Handle, out var owner))
+                    {
+                        BeginReturn(world, dense, handle, ref state, ref record, owner.Position);
+                        deliveries.Set(EntityKind.Projectile, handle, record);
+                    }
+                    else
+                    {
+                        world.Commands.Remove(EntityKind.Projectile, handle);
+                    }
                 }
             }
+        }
+
+        private void BeginReturn(
+            SimulationWorld world,
+            int denseIndex,
+            EntityHandle handle,
+            ref SimulationEntityState state,
+            ref ActiveDeliveryRecord record,
+            Vector2 ownerPosition)
+        {
+            record.Phase = OutboundReturnPhase.Return;
+            record.RemainingHits = Math.Max(1, record.HitsPerPhase);
+            record.PhaseHitCount = 0;
+            record.PreviousPosition = state.Position;
+            deliveries.ClearPhaseHits(handle);
+            state.Velocity = DeliveryExecutorUtility.Direction(
+                state.Position,
+                ownerPosition) * record.ReturnSpeed;
+            world.Projectiles.SetStateAt(denseIndex, state);
         }
 
         private void TickAreas(SimulationWorld world)

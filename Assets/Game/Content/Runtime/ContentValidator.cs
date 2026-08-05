@@ -265,6 +265,19 @@ namespace Game.Content.Runtime
                                 definition.SourceAssetPath));
                     }
 
+                    if (QinglanContentValidation.IsDefinition(definition) &&
+                        catalog.Manifest.SchemaVersion < ContentPackTopology.QinglanDemoSchemaVersion)
+                    {
+                        report.Add(
+                            new Error(
+                                ErrorCode.UnsupportedSchemaVersion,
+                                "Qinglan definitions require content schema " +
+                                ContentPackTopology.QinglanDemoSchemaVersion + " or newer.",
+                                definition.Id,
+                                packId,
+                                definition.SourceAssetPath));
+                    }
+
                     ValidateDefinitionValues(definition, packId, report);
                 }
             }
@@ -310,6 +323,21 @@ namespace Game.Content.Runtime
                             report);
                     }
 
+                    if (definition is RuntimeCharacterDefinition character)
+                    {
+                        for (var mechanicIndex = 0; mechanicIndex < character.MechanicIds.Count; mechanicIndex++)
+                        {
+                            ValidateReferenceType(
+                                character,
+                                character.MechanicIds[mechanicIndex],
+                                definitionsById,
+                                packId,
+                                report,
+                                referenced => referenced is RuntimeCharacterMechanicDefinition,
+                                "a CharacterMechanic");
+                        }
+                    }
+
                     if (definition is RuntimeEnemyDefinition enemy && enemy.HasM5Data)
                     {
                         ValidateReferenceType(
@@ -333,6 +361,12 @@ namespace Game.Content.Runtime
                             report,
                             referenced => referenced is RuntimeEncounterSchedule,
                             "an Encounter schedule");
+                        ValidateReferenceList(map, map.ObjectiveIds, definitionsById, packId, report,
+                            referenced => referenced is RuntimeMapObjectiveDefinition, "a MapObjective");
+                        ValidateReferenceList(map, map.EventIds, definitionsById, packId, report,
+                            referenced => referenced is RuntimeMapEventDefinition, "a MapEvent");
+                        ValidateReferenceList(map, map.LandmarkIds, definitionsById, packId, report,
+                            referenced => referenced is RuntimeLandmarkDefinition, "a Landmark");
                     }
 
                     if (definition is RuntimeEncounterSchedule encounter)
@@ -342,34 +376,61 @@ namespace Game.Content.Runtime
                             var phase = encounter.Phases[phaseIndex];
                             for (var entryIndex = 0; entryIndex < phase.EnemyEntries.Count; entryIndex++)
                             {
+                                var entry = phase.EnemyEntries[entryIndex];
                                 ValidateReferenceType(
                                     encounter,
-                                    phase.EnemyEntries[entryIndex].EnemyId,
+                                    entry.EnemyId,
                                     definitionsById,
                                     packId,
                                     report,
                                     referenced => referenced is RuntimeEnemyDefinition referencedEnemy &&
                                                   referencedEnemy.HasM5Data,
                                     "a schema-4 Enemy");
+                                ValidateReferenceList(
+                                    encounter,
+                                    entry.AffixPoolIds,
+                                    definitionsById,
+                                    packId,
+                                    report,
+                                    referenced => referenced is RuntimeEliteAffixDefinition,
+                                    "an EliteAffix");
                             }
 
                             for (var bossIndex = 0; bossIndex < phase.BossRules.Count; bossIndex++)
                             {
+                                var bossRule = phase.BossRules[bossIndex];
                                 ValidateReferenceType(
                                     encounter,
-                                    phase.BossRules[bossIndex].EnemyId,
+                                    bossRule.EnemyId,
                                     definitionsById,
                                     packId,
                                     report,
                                     referenced => referenced is RuntimeEnemyDefinition referencedEnemy &&
                                                   referencedEnemy.HasM5Data,
                                     "a schema-4 Enemy");
+                                if (bossRule.BossDefinitionId.IsValid)
+                                {
+                                    ValidateReferenceType(
+                                        encounter,
+                                        bossRule.BossDefinitionId,
+                                        definitionsById,
+                                        packId,
+                                        report,
+                                        referenced => referenced is RuntimeBossDefinition,
+                                        "a Boss definition");
+                                }
                             }
                         }
                     }
 
 
                     M6ContentValidation.ValidateReferenceTypes(
+                        definition,
+                        definitionsById,
+                        packId,
+                        report);
+
+                    QinglanContentValidation.ValidateReferenceTypes(
                         definition,
                         definitionsById,
                         packId,
@@ -441,6 +502,10 @@ namespace Game.Content.Runtime
             else if (M6ContentValidation.IsBuildProgressionDefinition(definition))
             {
                 message = M6ContentValidation.ValidateDefinitionValues(definition);
+            }
+            else if (QinglanContentValidation.IsDefinition(definition))
+            {
+                message = QinglanContentValidation.ValidateValues(definition);
             }
 
             if (message != null)
@@ -663,6 +728,12 @@ namespace Game.Content.Runtime
                 return "Skill module numeric parameters must be finite.";
             }
 
+            var moduleMessage = ValidateSchema6SkillModules(skill);
+            if (moduleMessage != null)
+            {
+                return moduleMessage;
+            }
+
             if (skill.Delivery.ModuleId != SkillModuleIds.DeliveryInstant &&
                 !skill.Delivery.PresentationId.IsValid)
             {
@@ -765,6 +836,23 @@ namespace Game.Content.Runtime
                         return "Skill effect is missing its required content reference.";
                     }
                     break;
+                case EffectOpCode.ConsumeStatus:
+                    if ((!effect.ReferenceId0.IsValid && !effect.Tag0.IsValid) ||
+                        effect.Int0 < 1 ||
+                        effect.Int1 < (int)StatusConsumeMissingPolicy.RequireExact ||
+                        effect.Int1 > (int)StatusConsumeMissingPolicy.ConsumeAvailable)
+                    {
+                        return "ConsumeStatus effect operands are invalid.";
+                    }
+                    break;
+                case EffectOpCode.DetonateStatus:
+                    if ((!effect.ReferenceId0.IsValid && !effect.Tag0.IsValid) ||
+                        effect.Value0 < 0f ||
+                        effect.Int0 < 1)
+                    {
+                        return "DetonateStatus effect operands are invalid.";
+                    }
+                    break;
                 case EffectOpCode.RemoveStatus:
                     if (!effect.Tag0.IsValid)
                     {
@@ -780,6 +868,48 @@ namespace Game.Content.Runtime
                         return "ModifyStat effect operands are invalid.";
                     }
                     break;
+            }
+
+            return null;
+        }
+
+        private static string ValidateSchema6SkillModules(RuntimeSkillDefinition skill)
+        {
+            var condition = skill.Condition;
+            if (condition.ModuleId == SkillModuleIds.ConditionStatusCountAtLeast)
+            {
+                if ((!condition.ReferenceId0.IsValid && !condition.Tag0.IsValid) ||
+                    condition.Int0 < 1 ||
+                    condition.Int1 < (int)StatusQueryTarget.Owner ||
+                    condition.Int1 > (int)StatusQueryTarget.Target)
+                {
+                    return "Status-count condition operands are invalid.";
+                }
+            }
+            else if (condition.ModuleId == SkillModuleIds.ConditionTargetHasStatus)
+            {
+                if ((!condition.ReferenceId0.IsValid && !condition.Tag0.IsValid) ||
+                    condition.Int0 < (int)StatusQueryTarget.Owner ||
+                    condition.Int0 > (int)StatusQueryTarget.Target)
+                {
+                    return "Target-has-status condition operands are invalid.";
+                }
+            }
+
+            var targeting = skill.Targeting;
+            if (targeting.ModuleId == SkillModuleIds.TargetingTriggerPosition &&
+                (targeting.Value0 < 0f || targeting.Int0 < 0))
+            {
+                return "Trigger-position targeting operands are invalid.";
+            }
+
+            var delivery = skill.Delivery;
+            if (delivery.ModuleId == SkillModuleIds.DeliveryOutboundReturn &&
+                (delivery.Value0 <= 0f || delivery.Value1 <= 0f ||
+                 delivery.Value2 < 0f || delivery.Value3 <= 0f ||
+                 delivery.Int0 < 1 || delivery.Int0 > 16))
+            {
+                return "Outbound-return delivery operands are invalid.";
             }
 
             return null;
@@ -970,7 +1100,7 @@ namespace Game.Content.Runtime
                     break;
             }
 
-            result = new SkillModuleDefinition(
+            result = SkillModuleDefinition.CreateReferenced(
                 source.ModuleId,
                 value0,
                 value1,
@@ -978,7 +1108,13 @@ namespace Game.Content.Runtime
                 value3,
                 int0,
                 source.Int1,
-                source.PresentationId);
+                source.PresentationId,
+                source.ReferenceId0,
+                source.ReferenceId1,
+                source.Tag0,
+                source.Tag1,
+                source.Reference0,
+                source.Reference1);
             return true;
         }
 
@@ -1027,7 +1163,9 @@ namespace Game.Content.Runtime
                     continue;
                 }
 
-                var validType = effect.Code == EffectOpCode.ApplyStatus
+                var validType = effect.Code == EffectOpCode.ApplyStatus ||
+                                effect.Code == EffectOpCode.ConsumeStatus ||
+                                effect.Code == EffectOpCode.DetonateStatus
                     ? referenced is RuntimeStatusDefinition
                     : effect.Code != EffectOpCode.SpawnSecondarySkill ||
                       referenced is RuntimeSkillDefinition referencedSkill &&
@@ -1047,6 +1185,37 @@ namespace Game.Content.Runtime
                             skill.SourceAssetPath));
                 }
             }
+
+
+            ValidateStatusModuleReference(
+                skill,
+                skill.Condition,
+                definitionsById,
+                packId,
+                report);
+        }
+
+        private static void ValidateStatusModuleReference(
+            RuntimeSkillDefinition skill,
+            in SkillModuleDefinition module,
+            Dictionary<ContentId, RuntimeContentDefinition> definitionsById,
+            ContentId packId,
+            ContentValidationReport report)
+        {
+            if (module.ModuleId != SkillModuleIds.ConditionStatusCountAtLeast &&
+                module.ModuleId != SkillModuleIds.ConditionTargetHasStatus)
+            {
+                return;
+            }
+
+            ValidateReferenceType(
+                skill,
+                module.ReferenceId0,
+                definitionsById,
+                packId,
+                report,
+                value => value is RuntimeStatusDefinition,
+                "a Status");
         }
 
         private static void ValidateReferenceType(
@@ -1074,6 +1243,26 @@ namespace Game.Content.Runtime
                         packId,
                         owner.SourceAssetPath));
             }
+        }
+
+        private static void ValidateReferenceList(
+            RuntimeContentDefinition owner,
+            IReadOnlyList<ContentId> references,
+            Dictionary<ContentId, RuntimeContentDefinition> definitionsById,
+            ContentId packId,
+            ContentValidationReport report,
+            Func<RuntimeContentDefinition, bool> predicate,
+            string requirement)
+        {
+            for (var index = 0; index < references.Count; index++)
+                ValidateReferenceType(
+                    owner,
+                    references[index],
+                    definitionsById,
+                    packId,
+                    report,
+                    predicate,
+                    requirement);
         }
 
         private static bool ValidateModuleNumbers(in SkillModuleDefinition module)

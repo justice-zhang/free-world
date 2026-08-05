@@ -106,7 +106,20 @@ namespace Game.Application
                 AddMissingWarning(profile.UnlockedContentIds[index], warnings);
             for (var index = 0; index < profile.MetaUpgrades.Count; index++)
                 AddMissingWarning(profile.MetaUpgrades[index].ContentId, warnings);
+            AddMissingWarnings(profile.ActiveMetaLoadoutIds, warnings);
+            AddMissingWarnings(profile.FirstClearMapIds, warnings);
+            AddMissingWarnings(profile.ClaimedUniqueRewardIds, warnings);
+            AddMissingWarnings(profile.CompletedStoryIds, warnings);
+            AddMissingWarnings(profile.CollectedCollectibleIds, warnings);
             return ValidationResult.Success(warnings.ToArray());
+        }
+
+        private void AddMissingWarnings(
+            IReadOnlyList<ContentId> ids,
+            List<SaveDiagnostic> warnings)
+        {
+            for (var index = 0; index < ids.Count; index++)
+                AddMissingWarning(ids[index], warnings);
         }
 
         private ValidationResult ValidateRecovery(RunRecoverySaveData recovery)

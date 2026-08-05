@@ -1,14 +1,15 @@
 # 公共 API 冻结基线
 
-M10 冻结以下程序集的公开类型与 public 成员 API。`Game.Editor.CoreApiFreezeValidator` 使用编译后反射
+M10 首次冻结、G1.1 按 ADR 0013—0015 更新以下程序集的公开类型与 public 成员 API。
+`Game.Editor.CoreApiFreezeValidator` 使用编译后反射
 输出规范化类型/成员签名并计算 SHA-256；Project Validation 会在签名数量或 Hash 漂移时失败。
 
 | 程序集 | 签名数 | SHA-256 |
 |---|---:|---|
-| `Game.Core` | 147 | `cbc7dcb08b2460e73f94e4bdc0f521cd38bb4c12e86156ce732fa8d792e5385f` |
-| `Game.Content.Runtime` | 663 | `f38753a12ebbbb32a436c7f59c83a49eee0ba85b481e31acf9d964109b04c235` |
-| `Game.Simulation` | 1002 | `ed82f11b72a93c079843eb7d41b27c11926e0f63f17380253c5ff80621ffd19a` |
-| `Game.Application` | 305 | `56f87d47e257170228686e27583e79ae0bcb9eb5ea72dbd7e8f4a1796d08e2aa` |
+| `Game.Core` | 168 | `25766747b7014e0386506567e5e3c35f78b6dc5d00d850b00c35d28eb8d7e176` |
+| `Game.Content.Runtime` | 918 | `ca593752954be1622e60e21f7d68627779de30abcfa1f28f9e219b9eaeba502d` |
+| `Game.Simulation` | 1160 | `a6555342a937f674d827f83eea0b0100fe2feeafff92f0e53b58e9fd7b39181f` |
+| `Game.Application` | 346 | `bea7fe9998f2ae9f872a505e9f36cee00a9ddfd26e5af8e105916ea4b3d46197` |
 | `Game.Platform.Abstractions` | 73 | `8eb5f2ccca0f5845a55d90c9f00fb42eae59cc82d81e98369995e84428a51738` |
 
 ## 变更协议
@@ -24,8 +25,10 @@ M10 冻结以下程序集的公开类型与 public 成员 API。`Game.Editor.Cor
 
 ## Qinglan Demo G0.3 已批准变更窗口
 
-ADR 0013—0015 已批准 G1.1 在不改变依赖方向的前提下追加下列公共契约。当前表头的 M10 Hash 仍是
-真实代码基线；在 G1.1 实现、完整测试和签名 diff 审查前不得提前替换。
+ADR 0013—0015 已批准 G1.1 在不改变依赖方向的前提下追加下列公共契约。G1.1 更新前的 M10
+基线为 Core 147、Content 663、Simulation 1002、Application 305、Platform 73；规范化逐行差异保存在
+`TestResults/QinglanDemo/G1.1/api-signature-diff.txt`。审计结果无旧构造函数或成员删除；唯一规范旧行
+变化是 ADR 0015 明确规定的 `SaveSchema.CurrentVersion` 常量值 2→3，该成员仍保留并进入弃用周期。
 
 | Assembly | 批准追加范围 | 明确禁止 |
 |---|---|---|

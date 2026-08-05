@@ -135,6 +135,49 @@ namespace Game.Simulation
                 case EffectOpCode.GainResource:
                     world.Skills.GainResource(context.Owner, effect.Value0);
                     break;
+                case EffectOpCode.ConsumeStatus:
+                    if (context.HasTarget)
+                    {
+                        world.StatusTransactions.Consume(
+                            world,
+                            context.Target,
+                            effect.Reference0,
+                            effect.Tag0,
+                            Math.Max(1, effect.Int0),
+                            (StatusConsumeMissingPolicy)effect.Int1 ==
+                            StatusConsumeMissingPolicy.RequireExact);
+                    }
+                    break;
+                case EffectOpCode.DetonateStatus:
+                    if (context.HasTarget)
+                    {
+                        var consumed = world.StatusTransactions.Consume(
+                            world,
+                            context.Target,
+                            effect.Reference0,
+                            effect.Tag0,
+                            Math.Max(1, effect.Int0),
+                            false);
+                        if (consumed.Committed && consumed.ConsumedStacks > 0)
+                        {
+                            world.QueueDamage(
+                                new DamagePacket(
+                                    context.Owner,
+                                    context.Target,
+                                    context.SkillId,
+                                    DamageType.Physical,
+                                    DamageTags.Direct | DamageTags.Status | DamageTags.Secondary,
+                                    effect.Value0 * consumed.ConsumedStacks,
+                                    false,
+                                    0f,
+                                    Vector2.Zero,
+                                    context.Position,
+                                    context.ProcDepth,
+                                    BuiltInDamageChannels.Direct,
+                                    0));
+                        }
+                    }
+                    break;
             }
         }
 
@@ -194,8 +237,20 @@ namespace Game.Simulation
                 return;
             }
 
-            state.Velocity += context.Direction * signedMagnitude;
+            var resistance = 0f;
+            if (world.Actors.TryReadStat(
+                    context.Target.Handle,
+                    BuiltInStatIndices.KnockbackResistance,
+                    out var resolvedResistance))
+            {
+                resistance = Math.Max(0f, Math.Min(1f, resolvedResistance));
+            }
+
+            state.Velocity += context.Direction * signedMagnitude * (1f - resistance);
             world.Actors.TryWrite(context.Target.Handle, state);
+            world.MovementSources.SetSource(
+                context.Target.Handle,
+                signedMagnitude < 0f ? MovementSource.Pull : MovementSource.Knockback);
         }
 
         private static void ApplyModifier(

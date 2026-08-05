@@ -12,11 +12,31 @@ namespace Game.Application
         RunRecovery = 2
     }
 
-    /// <summary>Defines the current save schema shared by the three M8 documents.</summary>
+    /// <summary>Defines independently evolving versions for the three save documents.</summary>
     public static class SaveSchema
     {
-        public const int CurrentVersion = 2;
+        public const int SettingsCurrentVersion = 2;
+        public const int ProfileCurrentVersion = 3;
+        public const int RunRecoveryCurrentVersion = 2;
+
+        [Obsolete("Use GetCurrentVersion(SaveDocumentKind) or the document-specific constant.")]
+        public const int CurrentVersion = ProfileCurrentVersion;
         public const string GameVersion = "0.1.0";
+
+        public static int GetCurrentVersion(SaveDocumentKind kind)
+        {
+            switch (kind)
+            {
+                case SaveDocumentKind.Settings:
+                    return SettingsCurrentVersion;
+                case SaveDocumentKind.Profile:
+                    return ProfileCurrentVersion;
+                case SaveDocumentKind.RunRecovery:
+                    return RunRecoveryCurrentVersion;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(kind));
+            }
+        }
     }
 
     /// <summary>Stable content-pack identity recorded in a save.</summary>
@@ -94,7 +114,7 @@ namespace Game.Application
             bool damageNumbersEnabled,
             AutoAimStrategy autoAim,
             SavedBindingOverride[] bindingOverrides = null,
-            int schemaVersion = SaveSchema.CurrentVersion,
+            int schemaVersion = SaveSchema.SettingsCurrentVersion,
             string gameVersion = SaveSchema.GameVersion)
         {
             if (schemaVersion < 1) throw new ArgumentOutOfRangeException(nameof(schemaVersion));
@@ -141,6 +161,23 @@ namespace Game.Application
         private readonly SavedContentLevel[] metaUpgrades;
         private readonly SavedCounter[] currencies;
         private readonly SavedCounter[] statistics;
+        private readonly ContentId[] activeMetaLoadoutIds;
+        private readonly ContentId[] firstClearMapIds;
+        private readonly ContentId[] claimedUniqueRewardIds;
+        private readonly ContentId[] completedStoryIds;
+        private readonly ContentId[] collectedCollectibleIds;
+        private readonly ContentId[] committedTransactionIds;
+        private readonly IReadOnlyList<SavePackVersion> packsView;
+        private readonly IReadOnlyList<ContentId> unlockedView;
+        private readonly IReadOnlyList<SavedContentLevel> metaUpgradesView;
+        private readonly IReadOnlyList<SavedCounter> currenciesView;
+        private readonly IReadOnlyList<SavedCounter> statisticsView;
+        private readonly IReadOnlyList<ContentId> activeMetaLoadoutIdsView;
+        private readonly IReadOnlyList<ContentId> firstClearMapIdsView;
+        private readonly IReadOnlyList<ContentId> claimedUniqueRewardIdsView;
+        private readonly IReadOnlyList<ContentId> completedStoryIdsView;
+        private readonly IReadOnlyList<ContentId> collectedCollectibleIdsView;
+        private readonly IReadOnlyList<ContentId> committedTransactionIdsView;
 
         public ProfileSaveData(
             string profileId,
@@ -150,7 +187,43 @@ namespace Game.Application
             SavedCounter[] savedCurrencies,
             SavedCounter[] savedStatistics,
             string lastWriteUtc,
-            int schemaVersion = SaveSchema.CurrentVersion,
+            int schemaVersion = SaveSchema.ProfileCurrentVersion,
+            string gameVersion = SaveSchema.GameVersion)
+            : this(
+                profileId,
+                contentPacks,
+                unlockedContentIds,
+                savedMetaUpgrades,
+                savedCurrencies,
+                savedStatistics,
+                lastWriteUtc,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                schemaVersion,
+                gameVersion)
+        {
+        }
+
+        /// <summary>Creates a Profile 3 document with canonical Qinglan permanent-state collections.</summary>
+        public ProfileSaveData(
+            string profileId,
+            SavePackVersion[] contentPacks,
+            ContentId[] unlockedContentIds,
+            SavedContentLevel[] savedMetaUpgrades,
+            SavedCounter[] savedCurrencies,
+            SavedCounter[] savedStatistics,
+            string lastWriteUtc,
+            ContentId[] activeMetaLoadoutIds,
+            ContentId[] firstClearMapIds,
+            ContentId[] claimedUniqueRewardIds,
+            ContentId[] completedStoryIds,
+            ContentId[] collectedCollectibleIds,
+            ContentId[] committedTransactionIds,
+            int schemaVersion = SaveSchema.ProfileCurrentVersion,
             string gameVersion = SaveSchema.GameVersion)
         {
             if (schemaVersion < 1) throw new ArgumentOutOfRangeException(nameof(schemaVersion));
@@ -163,20 +236,70 @@ namespace Game.Application
             metaUpgrades = Clone(savedMetaUpgrades);
             currencies = Clone(savedCurrencies);
             statistics = Clone(savedStatistics);
+            this.activeMetaLoadoutIds = Canonicalize(activeMetaLoadoutIds);
+            this.firstClearMapIds = Canonicalize(firstClearMapIds);
+            this.claimedUniqueRewardIds = Canonicalize(claimedUniqueRewardIds);
+            this.completedStoryIds = Canonicalize(completedStoryIds);
+            this.collectedCollectibleIds = Canonicalize(collectedCollectibleIds);
+            this.committedTransactionIds = Canonicalize(committedTransactionIds);
+            packsView = Array.AsReadOnly(packs);
+            unlockedView = Array.AsReadOnly(unlocked);
+            metaUpgradesView = Array.AsReadOnly(metaUpgrades);
+            currenciesView = Array.AsReadOnly(currencies);
+            statisticsView = Array.AsReadOnly(statistics);
+            activeMetaLoadoutIdsView = Array.AsReadOnly(this.activeMetaLoadoutIds);
+            firstClearMapIdsView = Array.AsReadOnly(this.firstClearMapIds);
+            claimedUniqueRewardIdsView = Array.AsReadOnly(this.claimedUniqueRewardIds);
+            completedStoryIdsView = Array.AsReadOnly(this.completedStoryIds);
+            collectedCollectibleIdsView = Array.AsReadOnly(this.collectedCollectibleIds);
+            committedTransactionIdsView = Array.AsReadOnly(this.committedTransactionIds);
             LastWriteUtc = lastWriteUtc ?? string.Empty;
         }
 
         public int SchemaVersion { get; }
         public string GameVersion { get; }
         public string ProfileId { get; }
-        public IReadOnlyList<SavePackVersion> ContentPacks => Array.AsReadOnly(packs);
-        public IReadOnlyList<ContentId> UnlockedContentIds => Array.AsReadOnly(unlocked);
-        public IReadOnlyList<SavedContentLevel> MetaUpgrades => Array.AsReadOnly(metaUpgrades);
-        public IReadOnlyList<SavedCounter> Currencies => Array.AsReadOnly(currencies);
-        public IReadOnlyList<SavedCounter> Statistics => Array.AsReadOnly(statistics);
+        public IReadOnlyList<SavePackVersion> ContentPacks => packsView;
+        public IReadOnlyList<ContentId> UnlockedContentIds => unlockedView;
+        public IReadOnlyList<SavedContentLevel> MetaUpgrades => metaUpgradesView;
+        public IReadOnlyList<SavedCounter> Currencies => currenciesView;
+        public IReadOnlyList<SavedCounter> Statistics => statisticsView;
+        public IReadOnlyList<ContentId> ActiveMetaLoadoutIds => activeMetaLoadoutIdsView;
+        public IReadOnlyList<ContentId> FirstClearMapIds => firstClearMapIdsView;
+        public IReadOnlyList<ContentId> ClaimedUniqueRewardIds => claimedUniqueRewardIdsView;
+        public IReadOnlyList<ContentId> CompletedStoryIds => completedStoryIdsView;
+        public IReadOnlyList<ContentId> CollectedCollectibleIds => collectedCollectibleIdsView;
+        public IReadOnlyList<ContentId> CommittedTransactionIds => committedTransactionIdsView;
         public string LastWriteUtc { get; }
 
         private static T[] Clone<T>(T[] source) => source == null ? Array.Empty<T>() : (T[])source.Clone();
+
+        private static ContentId[] Canonicalize(ContentId[] source)
+        {
+            if (source == null || source.Length == 0) return Array.Empty<ContentId>();
+            var copy = (ContentId[])source.Clone();
+            for (var index = 0; index < copy.Length; index++)
+            {
+                if (!copy[index].IsValid)
+                    throw new ArgumentException("Profile content ID collections cannot contain invalid IDs.", nameof(source));
+            }
+
+            Array.Sort(copy, CompareContentIds);
+            var count = 0;
+            for (var index = 0; index < copy.Length; index++)
+            {
+                if (count > 0 && copy[index] == copy[count - 1]) continue;
+                copy[count++] = copy[index];
+            }
+
+            if (count == copy.Length) return copy;
+            var result = new ContentId[count];
+            Array.Copy(copy, result, count);
+            return result;
+        }
+
+        private static int CompareContentIds(ContentId left, ContentId right) =>
+            string.CompareOrdinal(left.Value, right.Value);
     }
 
     /// <summary>Independent run_recovery.json model using stable content IDs only.</summary>
@@ -184,6 +307,8 @@ namespace Game.Application
     {
         private readonly SavePackVersion[] packs;
         private readonly SavedContentLevel[] ownedContent;
+        private readonly IReadOnlyList<SavePackVersion> packsView;
+        private readonly IReadOnlyList<SavedContentLevel> ownedContentView;
 
         public RunRecoverySaveData(
             ulong runSeed,
@@ -193,7 +318,7 @@ namespace Game.Application
             SavePackVersion[] contentPacks,
             SavedContentLevel[] ownedContentLevels,
             string lastWriteUtc,
-            int schemaVersion = SaveSchema.CurrentVersion,
+            int schemaVersion = SaveSchema.RunRecoveryCurrentVersion,
             string gameVersion = SaveSchema.GameVersion)
         {
             if (schemaVersion < 1) throw new ArgumentOutOfRangeException(nameof(schemaVersion));
@@ -208,6 +333,8 @@ namespace Game.Application
             MapId = mapId;
             packs = contentPacks == null ? Array.Empty<SavePackVersion>() : (SavePackVersion[])contentPacks.Clone();
             ownedContent = ownedContentLevels == null ? Array.Empty<SavedContentLevel>() : (SavedContentLevel[])ownedContentLevels.Clone();
+            packsView = Array.AsReadOnly(packs);
+            ownedContentView = Array.AsReadOnly(ownedContent);
             LastWriteUtc = lastWriteUtc ?? string.Empty;
         }
 
@@ -217,8 +344,8 @@ namespace Game.Application
         public long Tick { get; }
         public ContentId CharacterId { get; }
         public ContentId MapId { get; }
-        public IReadOnlyList<SavePackVersion> ContentPacks => Array.AsReadOnly(packs);
-        public IReadOnlyList<SavedContentLevel> OwnedContent => Array.AsReadOnly(ownedContent);
+        public IReadOnlyList<SavePackVersion> ContentPacks => packsView;
+        public IReadOnlyList<SavedContentLevel> OwnedContent => ownedContentView;
         public string LastWriteUtc { get; }
     }
 }

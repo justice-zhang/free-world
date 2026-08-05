@@ -3,7 +3,7 @@
 - 状态：Accepted
 - 日期：2026-08-04
 - 决策人：依据用户当前连续 Demo 开发指令
-- 关联里程碑：G0.3、G2.4、G2.5、G3.2、G3.6
+- 关联里程碑：G0.3、G1.1、G2.4、G2.5、G3.2、G3.6
 - 取代：无
 
 ## 背景
@@ -86,17 +86,22 @@ CR-2026-015 继续延期：RunRecovery 仍为 Schema 2 启动标记，不提供 
 
 ## 实施与迁移
 
-1. G1.1 可先加入版本查询与纯模型；G2.5 实现 Codec、Migration、Meta Validator 和 Coordinator。
-2. 固定 v2 Envelope/Payload Fixture，执行 v1→2→3 与 v2→3，验证重复迁移结果一致。
+1. G1.1 实现按文档类型查询版本、Profile 3 纯模型、Codec、v1→2→3/v2→3 Migration 和固定
+   Fixture，使 G0.3 的最小 Schema/API 骨架可以独立 round-trip，并与 G1.1 门禁矩阵一致。
+2. G2.5 实现 Meta Validator、结算 Coordinator、主/备份/取消恢复和完整局外事务；不得把
+   ContentRegistry 或 Meta 校验反向塞入 G1.1 的通用 Codec。
 3. 写 v3 前保留有效 v2 主/备份；失败不覆盖旧文件。
 4. 所有 Outcome 使用稳定事务 ID 合并，保存成功后再触发平台/页面完成事件。
 
 ## 测试与验收证据
 
-- 测试：v1→2→3、v2→3、主/备份、取消/中断、未知 ID、Loadout、首通/失败/重复提交幂等。
-- 构建：G2.5 PlayMode/Development；G3.6 Release Player 重启验证。
+- G1.1：Codec round-trip、v1→2→3、v2→3、重复迁移一致性和三文档独立当前版本。
+- G2.5：主/备份、取消/中断、未知 ID、Loadout、首通/失败/重复提交幂等。
+- 构建：G1.1 Development 证明基础读取/迁移可编译；G2.5 PlayMode/Development 证明完整结算；
+  G3.6 Release Player 重启验证。
 - 性能：大集合编解码/原子写低频预算；不得出现在 Simulation 性能采样中。
-- 日志或产物位置：实施后写入 `TestResults/QinglanDemo/G2.5/` 与 Save Fixture 目录。
+- 日志或产物位置：基础证据写入 `TestResults/QinglanDemo/G1.1/`；完整事务证据写入
+  `TestResults/QinglanDemo/G2.5/` 与 Save Fixture 目录。
 
 ## 回滚方案
 

@@ -121,7 +121,8 @@ namespace Game.Application
             if (!world.Actors.TryReadStat(player, BuiltInStatIndices.MoveSpeed, out var moveSpeed))
                 moveSpeed = 0f;
             state.Velocity = direction * moveSpeed;
-            return world.Actors.TryWrite(player, state);
+            if (!world.Actors.TryWrite(player, state)) return false;
+            return world.MovementSources.SetSource(player, MovementSource.PlayerCommand);
         }
 
         /// <summary>Pauses an active run without allowing presentation time to accumulate.</summary>

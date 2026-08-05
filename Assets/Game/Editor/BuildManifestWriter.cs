@@ -70,8 +70,11 @@ namespace Game.Editor
                 git = sourceState,
                 builtAtUtc = DateTime.UtcNow.ToString("O", CultureInfo.InvariantCulture),
                 generatedAtUtc = DateTime.UtcNow.ToString("O", CultureInfo.InvariantCulture),
-                contentSchemaVersion = ContentPackTopology.SupportedSchemaVersion,
-                saveSchemaVersion = SaveSchema.CurrentVersion,
+                contentSchemaVersion = ContentPackTopology.LatestSupportedSchemaVersion,
+                saveSchemaVersion = SaveSchema.ProfileCurrentVersion,
+                settingsSaveSchemaVersion = SaveSchema.SettingsCurrentVersion,
+                profileSaveSchemaVersion = SaveSchema.ProfileCurrentVersion,
+                runRecoverySaveSchemaVersion = SaveSchema.RunRecoveryCurrentVersion,
                 contentPacks = contentPacks,
                 packagesLockSha256 = HashFile(Path.GetFullPath("Packages/packages-lock.json")),
                 addressablesBuildHash = HashAddressablesOutput(outputDirectory),
@@ -316,6 +319,9 @@ namespace Game.Editor
             public string generatedAtUtc;
             public int contentSchemaVersion;
             public int saveSchemaVersion;
+            public int settingsSaveSchemaVersion;
+            public int profileSaveSchemaVersion;
+            public int runRecoverySaveSchemaVersion;
             public ContentPackManifestDto[] contentPacks;
             public string packagesLockSha256;
             public string addressablesBuildHash;

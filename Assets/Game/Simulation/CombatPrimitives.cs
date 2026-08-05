@@ -174,6 +174,27 @@ namespace Game.Simulation
             Vector2 knockback,
             Vector2 position,
             int procDepth)
+            : this(
+                source, target, sourceContentId, damageType, tags, baseValue, canCritical,
+                procCoefficient, knockback, position, procDepth, BuiltInDamageChannels.Direct, 0)
+        {
+        }
+
+        /// <summary>Initializes a damage packet with an explicit policy channel and target cooldown.</summary>
+        public DamagePacket(
+            SpatialEntity source,
+            SpatialEntity target,
+            ContentId sourceContentId,
+            DamageType damageType,
+            DamageTags tags,
+            float baseValue,
+            bool canCritical,
+            float procCoefficient,
+            Vector2 knockback,
+            Vector2 position,
+            int procDepth,
+            DamageChannelId channelId,
+            int channelCooldownTicks)
         {
             Source = source;
             Target = target;
@@ -186,6 +207,8 @@ namespace Game.Simulation
             Knockback = knockback;
             Position = position;
             ProcDepth = procDepth;
+            ChannelId = channelId.IsValid ? channelId : BuiltInDamageChannels.Direct;
+            ChannelCooldownTicks = Math.Max(0, channelCooldownTicks);
         }
 
         /// <summary>Gets the source entity, which may be invalid for environment damage.</summary>
@@ -220,6 +243,21 @@ namespace Game.Simulation
 
         /// <summary>Gets the trigger-chain depth.</summary>
         public int ProcDepth { get; }
+
+        /// <summary>Gets the target-local damage policy channel.</summary>
+        public DamageChannelId ChannelId { get; }
+
+        /// <summary>Gets cooldown ticks installed after accepted resolution.</summary>
+        public int ChannelCooldownTicks { get; }
+    }
+
+    public enum DamageResolutionOutcome : byte
+    {
+        Applied = 1,
+        Immune = 2,
+        ChannelCooldown = 3,
+        Invalid = 4,
+        Zero = 5
     }
 
     /// <summary>Complete deterministic result of one valid damage packet.</summary>

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -37,10 +38,10 @@ namespace Game.Editor
 
         private static readonly FrozenAssembly[] Frozen =
         {
-            new FrozenAssembly { Name = "Game.Core", Hash = "cbc7dcb08b2460e73f94e4bdc0f521cd38bb4c12e86156ce732fa8d792e5385f" },
-            new FrozenAssembly { Name = "Game.Content.Runtime", Hash = "f38753a12ebbbb32a436c7f59c83a49eee0ba85b481e31acf9d964109b04c235" },
-            new FrozenAssembly { Name = "Game.Simulation", Hash = "ed82f11b72a93c079843eb7d41b27c11926e0f63f17380253c5ff80621ffd19a" },
-            new FrozenAssembly { Name = "Game.Application", Hash = "56f87d47e257170228686e27583e79ae0bcb9eb5ea72dbd7e8f4a1796d08e2aa" },
+            new FrozenAssembly { Name = "Game.Core", Hash = "25766747b7014e0386506567e5e3c35f78b6dc5d00d850b00c35d28eb8d7e176" },
+            new FrozenAssembly { Name = "Game.Content.Runtime", Hash = "ca593752954be1622e60e21f7d68627779de30abcfa1f28f9e219b9eaeba502d" },
+            new FrozenAssembly { Name = "Game.Simulation", Hash = "a6555342a937f674d827f83eea0b0100fe2feeafff92f0e53b58e9fd7b39181f" },
+            new FrozenAssembly { Name = "Game.Application", Hash = "bea7fe9998f2ae9f872a505e9f36cee00a9ddfd26e5af8e105916ea4b3d46197" },
             new FrozenAssembly { Name = "Game.Platform.Abstractions", Hash = "8eb5f2ccca0f5845a55d90c9f00fb42eae59cc82d81e98369995e84428a51738" }
         };
 
@@ -70,6 +71,18 @@ namespace Game.Editor
 
         private static ApiSurfaceDigest Capture(string assemblyName)
         {
+            var signatures = CaptureSignatures(assemblyName);
+            var builder = new StringBuilder(signatures.Length * 80);
+            for (var index = 0; index < signatures.Length; index++)
+                builder.Append(signatures[index]).Append('\n');
+            return new ApiSurfaceDigest(
+                assemblyName,
+                Hash(builder.ToString()),
+                signatures.Length);
+        }
+
+        internal static string[] CaptureSignatures(string assemblyName)
+        {
             var assembly = FindAssembly(assemblyName);
             if (assembly == null)
                 throw new InvalidOperationException("Core API assembly is not loaded: " + assemblyName);
@@ -79,13 +92,7 @@ namespace Game.Editor
             for (var typeIndex = 0; typeIndex < types.Length; typeIndex++)
                 AppendType(types[typeIndex], signatures);
             signatures.Sort(StringComparer.Ordinal);
-            var builder = new StringBuilder(signatures.Count * 80);
-            for (var index = 0; index < signatures.Count; index++)
-                builder.Append(signatures[index]).Append('\n');
-            return new ApiSurfaceDigest(
-                assemblyName,
-                Hash(builder.ToString()),
-                signatures.Count);
+            return signatures.ToArray();
         }
 
         private static void AppendType(Type type, List<string> output)
@@ -235,9 +242,12 @@ namespace Game.Editor
             {
                 var values = CoreApiFreezeValidator.Capture();
                 for (var index = 0; index < values.Length; index++)
+                {
                     Debug.Log("[M10 API Freeze] Assembly=" + values[index].AssemblyName +
                               " Hash=" + values[index].Hash +
                               " Signatures=" + values[index].SignatureCount + ".");
+                }
+                ExportSignatures(values);
                 Debug.Log("[M10 API Freeze] PASS");
             }
             catch (Exception exception)
@@ -246,6 +256,24 @@ namespace Game.Editor
                 exitCode = 1;
             }
             EditorApplication.Exit(exitCode);
+        }
+
+        private static void ExportSignatures(ApiSurfaceDigest[] values)
+        {
+            var outputDirectory = Environment.GetEnvironmentVariable("M10_API_SIGNATURE_OUTPUT");
+            if (string.IsNullOrWhiteSpace(outputDirectory)) return;
+            outputDirectory = Path.GetFullPath(outputDirectory);
+            Directory.CreateDirectory(outputDirectory);
+            for (var index = 0; index < values.Length; index++)
+            {
+                var path = Path.Combine(
+                    outputDirectory,
+                    values[index].AssemblyName + ".signatures.txt");
+                File.WriteAllLines(
+                    path,
+                    CoreApiFreezeValidator.CaptureSignatures(values[index].AssemblyName),
+                    new UTF8Encoding(false));
+            }
         }
     }
 }

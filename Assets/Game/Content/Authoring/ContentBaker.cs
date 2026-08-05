@@ -22,6 +22,28 @@ namespace Game.Content.Authoring
     /// </summary>
     public static class ContentBaker
     {
+        internal static ContentId[] CanonicalizeSet(ContentId[] values)
+        {
+            if (values == null || values.Length == 0)
+                return Array.Empty<ContentId>();
+
+            var sorted = (ContentId[])values.Clone();
+            Array.Sort(sorted);
+            var uniqueCount = 1;
+            for (var read = 1; read < sorted.Length; read++)
+            {
+                if (sorted[read] == sorted[uniqueCount - 1])
+                    continue;
+                sorted[uniqueCount++] = sorted[read];
+            }
+
+            if (uniqueCount == sorted.Length)
+                return sorted;
+            var canonical = new ContentId[uniqueCount];
+            Array.Copy(sorted, canonical, uniqueCount);
+            return canonical;
+        }
+
         /// <summary>
         /// Bakes one content pack without retaining Unity object references.
         /// </summary>
@@ -97,7 +119,7 @@ namespace Game.Content.Authoring
                         "Authoring pack schema " + pack.SchemaVersion +
                         " is outside the supported range [" +
                         ContentPackTopology.MinimumSupportedSchemaVersion + ", " +
-                        ContentPackTopology.SupportedSchemaVersion + "].",
+                        ContentPackTopology.LatestSupportedSchemaVersion + "].",
                         default,
                         packId,
                         packPath));
@@ -309,6 +331,19 @@ namespace Game.Content.Authoring
                             ErrorCode.UnsupportedSchemaVersion,
                             "Build/progression definitions require content schema " +
                             ContentPackTopology.BuildProgressionSchemaVersion + " or newer.",
+                            definitionResult.Value.Id,
+                            packId,
+                            definitionPaths[index]));
+                }
+
+                if (definitionResult.Value is RuntimeQinglanDefinition &&
+                    pack.SchemaVersion < ContentPackTopology.QinglanDemoSchemaVersion)
+                {
+                    return Result<BakedContentCatalog>.Failure(
+                        new Error(
+                            ErrorCode.UnsupportedSchemaVersion,
+                            "Qinglan definitions require content schema " +
+                            ContentPackTopology.QinglanDemoSchemaVersion + " or newer.",
                             definitionResult.Value.Id,
                             packId,
                             definitionPaths[index]));

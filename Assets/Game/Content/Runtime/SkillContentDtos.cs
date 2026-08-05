@@ -15,6 +15,10 @@ namespace Game.Content.Runtime
         public int int0;
         public int int1;
         public string presentationId;
+        public string referenceId0;
+        public string referenceId1;
+        public string tag0;
+        public string tag1;
 
         internal Result<SkillModuleDefinition> ToDefinition(
             ContentId packId,
@@ -48,8 +52,17 @@ namespace Game.Content.Runtime
                 presentation = presentationResult.Value;
             }
 
+            var firstResult = ParseOptionalId(referenceId0, packId, sourceAssetPath, label + " reference 0");
+            if (!firstResult.IsSuccess) return Result<SkillModuleDefinition>.Failure(firstResult.Error);
+            var secondResult = ParseOptionalId(referenceId1, packId, sourceAssetPath, label + " reference 1");
+            if (!secondResult.IsSuccess) return Result<SkillModuleDefinition>.Failure(secondResult.Error);
+            var firstTag = ParseOptionalTag(tag0, packId, sourceAssetPath, label + " tag 0");
+            if (!firstTag.IsSuccess) return Result<SkillModuleDefinition>.Failure(firstTag.Error);
+            var secondTag = ParseOptionalTag(tag1, packId, sourceAssetPath, label + " tag 1");
+            if (!secondTag.IsSuccess) return Result<SkillModuleDefinition>.Failure(secondTag.Error);
+
             return Result<SkillModuleDefinition>.Success(
-                new SkillModuleDefinition(
+                SkillModuleDefinition.CreateReferenced(
                     idResult.Value,
                     value0,
                     value1,
@@ -57,7 +70,11 @@ namespace Game.Content.Runtime
                     value3,
                     int0,
                     int1,
-                    presentation));
+                    presentation,
+                    firstResult.Value,
+                    secondResult.Value,
+                    firstTag.Value,
+                    secondTag.Value));
         }
 
         internal static SkillModuleDefinitionDto FromDefinition(
@@ -72,8 +89,27 @@ namespace Game.Content.Runtime
                 value3 = definition.Value3,
                 int0 = definition.Int0,
                 int1 = definition.Int1,
-                presentationId = definition.PresentationId.Value
+                presentationId = definition.PresentationId.Value,
+                referenceId0 = definition.ReferenceId0.Value,
+                referenceId1 = definition.ReferenceId1.Value,
+                tag0 = definition.Tag0.Value,
+                tag1 = definition.Tag1.Value
             };
+        }
+
+        private static Result<ContentId> ParseOptionalId(string value, ContentId packId, string path, string label)
+        {
+            return string.IsNullOrEmpty(value)
+                ? Result<ContentId>.Success(default)
+                : CatalogDtoParsing.ParseCanonicalId(value, packId, path, label);
+        }
+
+        private static Result<ContentTag> ParseOptionalTag(string value, ContentId packId, string path, string label)
+        {
+            if (string.IsNullOrEmpty(value)) return Result<ContentTag>.Success(default);
+            if (!ContentId.IsCanonical(value))
+                return Result<ContentTag>.Failure(new Error(ErrorCode.InvalidCatalog, label + " must be canonical.", default, packId, path));
+            return ContentTag.Create(value, packId, path);
         }
     }
 

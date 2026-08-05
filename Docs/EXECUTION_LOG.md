@@ -640,3 +640,37 @@ Owner 工作包。正式 Group 同时要求基础 `release` 和类别 Release �
 
 进入 G1.1，先实施 G0.3 批准的通用 Schema/Runtime/API/Save 骨架与 Fixture。正式二进制继续留在
 G3.1—G3.3，不能混入 G1 数据切片。
+
+## Qinglan Demo G1.1：批准通用模块、Schema 与 Save 骨架
+
+- 状态：`COMPLETE`
+- 日期：2026-08-05
+- 分支：`codex/qinglan-demo-implementation`
+- ADR：0013、0014、0015（Accepted；0015 明确 G1.1/G2.5 分期）
+- 结果报告：`Docs/Reports/2026-08-05-g1-1-approved-modules-schema.md`
+
+### 实施结果
+
+| 范围 | 结果 |
+|---|---|
+| Content | Schema 6、14 个新增 kind、DTO/Authoring/Baker/Validator；Schema 1—5 golden hash 保持不变 |
+| Simulation | 精确 24 项 Qinglan Pipeline、状态原子事务、往返投射、5 DamageChannel 与显式零伤害结果 |
+| Stats | 追加 PickupRadius、Duration、Area、CooldownReduction，并接入实际消费路径 |
+| Save | Settings 2/Profile 3/RunRecovery 2 独立版本；Profile 3 Codec、v1→2→3/v2→3 与 canonical ID 集合 |
+| API Freeze | 五程序集保存旧 Hash 预期差异后更新批准基线；除 `SaveSchema.CurrentVersion` 版本值外无移除 |
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| EditMode | PASS | `TestResults/QinglanDemo/G1.1/editmode.xml`，203/203 |
+| PlayMode | PASS | `TestResults/QinglanDemo/G1.1/playmode.xml`，9/9 |
+| Project Validation | PASS | `TestResults/QinglanDemo/G1.1/validation.log` |
+| API 旧基线差异 | PASS | 仅四个批准程序集发生预期追加，Platform Hash 不变 |
+| 性能短测 | PASS | 900 Tick，p99 9.1799 ms，热路径 0 B，Checksum 与 G0.4 基线一致 |
+| Windows x64 Development | PASS | `Builds/WindowsDevelopmentG11/AzureSword.exe`；Manifest `Succeeded` |
+
+### 下一步
+
+只进入 G1.2：用 G1.1 的通用契约实现 M02/M03 角色与战斗数据切片，不提前创建武器、心诀、敌人或
+Encounter 正式内容。

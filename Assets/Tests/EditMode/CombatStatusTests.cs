@@ -13,7 +13,7 @@ namespace Game.Tests.EditMode
         private static readonly float TickFloat = (float)SimulationClock.TickDurationSeconds;
 
         [Test]
-        public void BuiltInStatCatalogMapsFourteenStableIds()
+        public void BuiltInStatCatalogPreservesFourteenIdsAndAppendsFourMore()
         {
             var catalog = StatCatalog.Default;
             var ids = new[]
@@ -34,7 +34,7 @@ namespace Game.Tests.EditMode
                 BuiltInStatIds.Regeneration
             };
 
-            Assert.That(catalog.Count, Is.EqualTo(14));
+            Assert.That(catalog.Count, Is.EqualTo(18));
             Assert.That(default(StatIndex).IsValid, Is.False);
             for (var index = 0; index < ids.Length; index++)
             {
@@ -42,6 +42,10 @@ namespace Game.Tests.EditMode
                 Assert.That(runtimeIndex.Value, Is.EqualTo(index));
                 Assert.That(catalog.GetId(runtimeIndex), Is.EqualTo(ids[index]));
             }
+            Assert.That(catalog.GetId(BuiltInStatIndices.ProjectileSpeed), Is.EqualTo(BuiltInStatIds.ProjectileSpeed));
+            Assert.That(catalog.GetId(BuiltInStatIndices.CriticalMultiplier), Is.EqualTo(BuiltInStatIds.CriticalMultiplier));
+            Assert.That(catalog.GetId(BuiltInStatIndices.ExperienceGain), Is.EqualTo(BuiltInStatIds.ExperienceGain));
+            Assert.That(catalog.GetId(BuiltInStatIndices.KnockbackResistance), Is.EqualTo(BuiltInStatIds.KnockbackResistance));
         }
 
         [Test]

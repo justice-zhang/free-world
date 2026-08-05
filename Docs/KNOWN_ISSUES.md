@@ -150,8 +150,8 @@
 | QD-KI-003 | PLANNED | High | 正式角色、敌人、地图、UI、VFX、音频、字体和商业本地化尚无实际文件、完整 provenance、许可证和目标硬件证据。 | G0.4 已由 `DemoDevelopment/09_G0_4_ASSET_PRODUCTION_PLAN.md` 固化 41 批生产/预算/权利清单；G3 仅导入可审计资产，任何缺失都阻断 Release。 |
 | QD-KI-004 | RESOLVED | High | 已接受 CR 曾未形成 ADR、Schema 6、Profile Schema 3、公共 API Freeze、迁移和测试契约。 | G0.3 已由 ADR 0013—0015 和 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md` 固化全部契约；现有 Hash 保持不变直到 G1.1 实现门禁。 |
 | QD-KI-005 | ACCEPTED | Low | CR-11 完整 Run Recovery 延期，Demo 不支持任意 Tick 继续本局。 | 只检测不完整记录、显示本地化提示并在明确开始新局后清理；不得显示 Continue 或把不完整 Run 结算为胜利。 |
-| QD-KI-006 | PLANNED | High | Schema 6、Demo Pipeline、Profile 3 和批准公共 API 仍只有契约，尚未实现或取得新 Freeze Hash 证据。 | G1.1 先实现通用骨架/Fixture，保存旧 Hash 预期 FAIL 签名 diff，再跑完整测试/Validation/性能短测/Development 并更新基线；G1.1 前不得创建依赖内容。 |
+| QD-KI-006 | RESOLVED | High | Schema 6、Demo Pipeline、Profile 3 和批准公共 API 曾只有契约，尚未实现或取得新 Freeze Hash 证据。 | G1.1 已实现通用骨架/Codec/Migration/Fixture，保留旧 Hash 预期差异并完成 203 EditMode、9 PlayMode、Validation、配对性能短测和 Windows x64 Development Build；新 Hash 见 `PUBLIC_API_FREEZE.md`。 |
 | QD-KI-007 | PLANNED | High | 当前 `AssetProvenanceValidator` 只主动扫描 AI 目录，FirstParty 正式资产尚无等价自动 provenance/Hash 门禁。 | G3.1 在任何 FirstParty 文件取得 `release` 标签前，把校验扩展到全部实际 Release 输入并补负向测试；仅有 sidecar 文档不能关闭。 |
 | QD-KI-008 | PLANNED | Medium | Noto CJK SC 只锁定官方候选和 OFL 1.1 许可路径，尚未固定发布版本、下载文件、SHA-256、Notice 或 TMP 缺字证据。 | G3.3 按官方发布固定版本/Hash，保存 LICENSE、登记每个路径并做简中/英文/Pseudo 缺字与裁切；任一缺失阻断 Release。 |
 
-当前没有阻止 G1.1 通用实现包的 `OPEN` 问题；QD-KI-006 阻止 G1.2 及后续依赖内容，QD-KI-003/007/008 阻止 Release，不能被跳过。
+当前没有阻止 G1.2 数据切片的 `OPEN` 问题；QD-KI-003/007/008 继续阻止 Release，不能被跳过。

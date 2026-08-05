@@ -129,19 +129,26 @@ namespace Game.Tests.EditMode
         }
 
         [Test]
-        public async Task MissingProfileUnlockWarnsButMissingRecoveryContentFailsCleanly()
+        public async Task MissingProfileContentWarnsButTransactionIdsDoNotAndRecoveryFailsCleanly()
         {
             var storage = new LocalFileSaveStorage(directory);
             var coordinator = new SaveCoordinator(storage, new UnityJsonSaveCodec(), CreateRuntimeRegistry());
             var missing = Id("missing.skill.removed");
             var profile = new ProfileSaveData("profile", Array.Empty<SavePackVersion>(), new[] { missing },
-                Array.Empty<SavedContentLevel>(), Array.Empty<SavedCounter>(), Array.Empty<SavedCounter>(), "now");
+                Array.Empty<SavedContentLevel>(), Array.Empty<SavedCounter>(), Array.Empty<SavedCounter>(), "now",
+                activeMetaLoadoutIds: new[] { missing },
+                firstClearMapIds: new[] { missing },
+                claimedUniqueRewardIds: new[] { missing },
+                completedStoryIds: new[] { missing },
+                collectedCollectibleIds: new[] { missing },
+                committedTransactionIds: new[] { Id("missing.transaction.not_content") });
             Assert.That((await coordinator.SaveProfileAsync(profile)).IsSuccess, Is.True);
 
             var profileLoad = await coordinator.LoadProfileAsync();
             Assert.That(profileLoad.IsSuccess, Is.True);
             Assert.That(profileLoad.Value.UnlockedContentIds[0], Is.EqualTo(missing), "original ID must remain available for diagnostics");
             Assert.That(profileLoad.Diagnostics[0].MessageKey, Is.EqualTo("save.warning.missing_unlock"));
+            Assert.That(profileLoad.Diagnostics.Count, Is.EqualTo(6));
 
             var recovery = new RunRecoverySaveData(1, 0, Id("test.character.runner"), Id("test.map.finite_arena"),
                 Array.Empty<SavePackVersion>(), new[] { new SavedContentLevel(missing, 1) }, "now");

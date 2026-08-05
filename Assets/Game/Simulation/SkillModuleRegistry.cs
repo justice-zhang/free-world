@@ -123,7 +123,7 @@ namespace Game.Simulation
             new Dictionary<ContentId, ITargetingExecutor>();
         private readonly Dictionary<ContentId, IDeliveryExecutor> deliveries =
             new Dictionary<ContentId, IDeliveryExecutor>();
-        private readonly IEffectExecutor[] effects = new IEffectExecutor[11];
+        private readonly IEffectExecutor[] effects = new IEffectExecutor[13];
 
         /// <summary>Creates the built-in M4 module set through explicit calls.</summary>
         public static SkillModuleRegistry CreateDefault()
@@ -160,6 +160,14 @@ namespace Game.Simulation
                     SkillTriggerEventType.OnStatusApplied,
                     TriggerOwnerMatch.Target));
             registry.RegisterCondition(new AlwaysConditionEvaluator());
+            registry.RegisterCondition(
+                new StatusConditionEvaluator(
+                    SkillModuleIds.ConditionStatusCountAtLeast,
+                    true));
+            registry.RegisterCondition(
+                new StatusConditionEvaluator(
+                    SkillModuleIds.ConditionTargetHasStatus,
+                    false));
             registry.RegisterTargeting(new SelfTargetingExecutor());
             registry.RegisterTargeting(new NearestTargetingExecutor());
             registry.RegisterTargeting(new RandomTargetingExecutor());
@@ -168,11 +176,13 @@ namespace Game.Simulation
             registry.RegisterTargeting(new LineTargetingExecutor());
             registry.RegisterTargeting(new RingTargetingExecutor());
             registry.RegisterTargeting(new RandomPointTargetingExecutor());
+            registry.RegisterTargeting(new TriggerPositionTargetingExecutor());
             registry.RegisterDelivery(new InstantDeliveryExecutor());
             registry.RegisterDelivery(new ProjectileDeliveryExecutor());
             registry.RegisterDelivery(new AreaDeliveryExecutor());
             registry.RegisterDelivery(new AuraDeliveryExecutor());
             registry.RegisterDelivery(new OrbitDeliveryExecutor());
+            registry.RegisterDelivery(new OutboundReturnDeliveryExecutor());
             registry.RegisterEffect(new BufferedEffectExecutor(EffectOpCode.Damage));
             registry.RegisterEffect(new BufferedEffectExecutor(EffectOpCode.Heal));
             registry.RegisterEffect(new BufferedEffectExecutor(EffectOpCode.ApplyStatus));
@@ -183,6 +193,8 @@ namespace Game.Simulation
             registry.RegisterEffect(new BufferedEffectExecutor(EffectOpCode.SpawnSecondarySkill));
             registry.RegisterEffect(new BufferedEffectExecutor(EffectOpCode.GrantShield));
             registry.RegisterEffect(new BufferedEffectExecutor(EffectOpCode.GainResource));
+            registry.RegisterEffect(new BufferedEffectExecutor(EffectOpCode.ConsumeStatus));
+            registry.RegisterEffect(new BufferedEffectExecutor(EffectOpCode.DetonateStatus));
             return registry;
         }
 
@@ -293,6 +305,54 @@ namespace Game.Simulation
             in SkillTriggerContext context)
         {
             return true;
+        }
+    }
+
+    internal sealed class StatusConditionEvaluator : IConditionEvaluator
+    {
+        private readonly bool countStacks;
+
+        public StatusConditionEvaluator(ContentId id, bool countStacks)
+        {
+            Id = id;
+            this.countStacks = countStacks;
+        }
+
+        public ContentId Id { get; }
+
+        public bool Evaluate(
+            SimulationWorld world,
+            SkillInstance instance,
+            RuntimeSkillLevel level,
+            in SkillTriggerContext context)
+        {
+            var module = instance.Definition.Source.Condition;
+            var domain = countStacks ? module.Int1 : module.Int0;
+            var target = ResolveTarget(instance.Owner, context, domain);
+            var result = world.StatusTransactions.Query(
+                world,
+                target,
+                module.Reference0,
+                module.Tag0);
+            return countStacks
+                ? result.TotalStacks >= Math.Max(1, module.Int0)
+                : result.MatchedInstances > 0;
+        }
+
+        private static SpatialEntity ResolveTarget(
+            SpatialEntity owner,
+            in SkillTriggerContext context,
+            int domain)
+        {
+            switch ((StatusQueryTarget)domain)
+            {
+                case StatusQueryTarget.Source:
+                    return context.Source;
+                case StatusQueryTarget.Target:
+                    return context.Target;
+                default:
+                    return owner;
+            }
         }
     }
 
