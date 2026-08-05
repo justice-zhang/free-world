@@ -840,8 +840,8 @@ namespace Game.Tests.EditMode
             mechanics.ReactToDamage(firstOwner, 1, 1f, 0f);
             mechanics.ReactToDamage(firstOwner, 1, 0f, 1f);
             Assert.That(mechanics.TryGet(firstOwner, out var first), Is.True);
-            Assert.That(first.CurrentValue, Is.EqualTo(2f));
-            Assert.That(first.Tier, Is.EqualTo(2));
+            Assert.That(first.CurrentValue, Is.GreaterThanOrEqualTo(1f).And.LessThan(2f));
+            Assert.That(first.Tier, Is.EqualTo(1));
             Assert.That(mechanics.TryGet(secondOwner, out var second), Is.True);
             Assert.That(second.CurrentValue, Is.Zero);
 

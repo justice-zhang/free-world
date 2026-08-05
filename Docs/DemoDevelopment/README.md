@@ -51,6 +51,7 @@ G3 发布候选
 | [07_CHANGE_REQUEST_DECISIONS.md](07_CHANGE_REQUEST_DECISIONS.md) | G0.2 CR-01—CR-11 正式决策、映射与 G0.3 输入顺序 |
 | [08_G0_3_CONTRACT_FREEZE.md](08_G0_3_CONTRACT_FREEZE.md) | G0.3 获批 Schema 6、公共 API、Pipeline、Profile 3、迁移与测试契约 |
 | [09_G0_4_ASSET_PRODUCTION_PLAN.md](09_G0_4_ASSET_PRODUCTION_PLAN.md) | G0.4 正式资产、音频、字体、本地化、预算与权利生产计划 |
+| [10_G1_2_CHARACTER_COMBAT_SLICE.md](10_G1_2_CHARACTER_COMBAT_SLICE.md) | G1.2 陆青野、乘风、七状态与固定 Seed 实施切片 |
 
 ## 4. 模块分支
 

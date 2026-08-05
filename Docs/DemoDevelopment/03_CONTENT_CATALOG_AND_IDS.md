@@ -14,6 +14,9 @@
 |---|---|---|---|
 | Character | `qinglan.character.lu_qingye` | 陆青野 | demo.core |
 | Trait | `qinglan.trait.lu_qingye.riding_wind` | 乘风 | demo.core |
+| Trait | `qinglan.trait.lu_qingye.riding_wind.breeze` | 微风通用输出 | demo.core |
+| Trait | `qinglan.trait.lu_qingye.riding_wind.swift` | 疾风通用输出 | demo.core |
+| Character Mechanic | `qinglan.mechanic.lu_qingye.riding_wind` | 乘风状态机 | demo.core |
 | Skill | `qinglan.skill.weapon.yufeng_sword` | 游风剑 | demo.core |
 | Skill | `qinglan.skill.weapon.yellow_talisman` | 镇邪黄符 | demo.core |
 | Skill | `qinglan.skill.weapon.lihuo_wheel` | 离火飞轮 | demo.core |
@@ -102,8 +105,8 @@ Offer 的权重、前置、互斥和满级过滤由 M6 现有候选真值处理�
 | `qinglan.status.slowed` | 减速 | MoveSpeed Modifier |
 | `qinglan.status.rooted` | 定身 | MoveSpeed Clamp/Override；Boss 需抗性层 |
 | `qinglan.status.armor_broken` | 破甲 | Armor Modifier |
-| `qinglan.status.marked` | 标记/引爆/增伤 | `CR-BLOCKED`：现有行为不足 |
-| `qinglan.status.damage_immunity` | 护心玉短时免伤 | `CR-BLOCKED`：无通用受伤屏障 |
+| `qinglan.status.marked` | 标记/引爆/增伤 | Schema 6 状态查询/原子消费/引爆 |
+| `qinglan.status.damage_immunity` | 护心玉短时免伤 | 通用 `base.damage_policy.immune.*` 标签 |
 | `qinglan.status.riding_wind` | 乘风档位表现标记 | 只作表现标签；真值由角色机制模块 |
 
 ## 5. 敌人、词缀与 Boss

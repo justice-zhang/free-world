@@ -11,8 +11,9 @@
 | 定位 | 真实移动驱动的均衡御剑角色 |
 | 设计约束 | 贴墙、暂停、升级、剧情不积累；受伤降一档 |
 
-基础数值在 G1 平衡表中确定。本文件不提前锁死生命、速度和伤害数值；初始值须与普通敌人接触伤害、
-第一分钟升级节奏和目标硬件输入手感联合校准。
+G1.2 Placeholder 基线锁定最大生命 120、移动速度 6；Starting Skill 稳定 ID 已保留，但实际 Skill
+Authoring 与角色引用由 G1.3 在同一 Pack 中补入。G2/G3 可依据普通敌人接触伤害、第一分钟升级节奏
+和目标硬件输入手感调整数值，调整必须更新 Golden Seed 和结果报告。
 
 ## 2. 乘风状态机
 
@@ -34,8 +35,8 @@ RunPaused/Upgrade/Story/Result --freeze--> same tier and progress
 - 暂停时 Transform 变化；
 - 小于数值噪声阈值的漂移。
 
-阈值、是否随时间缓慢衰减、受伤后当前档内进度保留比例属于 G1 数值参数；默认建议不自然衰减，
-突出路线与持续移动。
+G1.2 锁定 `GainPerUnit=1`、阈值 6/16/30、无自然衰减。实际 Shield/Health 伤害每 Tick 最多降一档；
+基础损失 8 后把值约束在目标档区间，从而既保留档内进度又不会因高额储备跳过降档。
 
 ## 3. 档位输出
 
@@ -45,6 +46,11 @@ RunPaused/Upgrade/Story/Result --freeze--> same tier and progress
 | 微风 | 只对带 `mechanic.riding_wind_affinity` 的 Delivery 提高速度 |
 | 疾风 | 本命器攻击间隔缩短；玩家移动速度小幅提高 |
 | 乘风 | 本命器完成回返后触发弱风刃 Secondary Skill |
+
+三档输出稳定 ID 分别为 `qinglan.trait.lu_qingye.riding_wind.breeze`、
+`qinglan.trait.lu_qingye.riding_wind.swift` 和 `qinglan.trait.lu_qingye.riding_wind`。输出带
+`mechanic.output.affinity_only`、`mechanic.output.innate_only`、`mechanic.output.return_secondary` 通用标签；
+G1.3 Skill 消费者再以 `mechanic.riding_wind_affinity`/本命绑定筛选目标，不能按角色 ID。
 
 不能把输出写成“如果 CharacterId == 陆青野”。角色机制应通过已绑定 Trait/Mechanic 实例、标签和
 通用输出操作工作。非本命武器不自动获得全部加成；具体亲和由内容标签验证。

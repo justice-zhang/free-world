@@ -22,10 +22,10 @@
 | 暴击率 | `base.stat.critical_chance` | 直接使用 |
 | 拾取范围 | `base.stat.pickup_range` | 直接使用 |
 | 幸运 | `base.stat.luck` | 只作用非唯一随机奖励 |
-| 投射物速度 | 无 | CR-10 |
-| 暴击伤害 | 固定 2 倍、无 Stat | CR-10 |
-| 击退 | Effect 参数、非 Stat | 内容级可用；全局成长需 CR-10 |
-| 经验获取 | 无 | CR-10 |
+| 投射物速度 | `base.stat.projectile_speed` | G1.1 已追加并由移动 Delivery 消费 |
+| 暴击伤害 | `base.stat.critical_multiplier` | G1.1 已追加并由 DamageResolution 消费 |
+| 击退抗性 | `base.stat.knockback_resistance` | G1.1 已追加并由击退 Effect 消费 |
+| 经验获取 | `base.stat.experience_gain` | G1.1 已追加并由 Experience 消费 |
 
 G1 不能用伤害/冷却等不等价 Stat 冒充缺失属性。若 Demo 内容不消费某缺失项，可将其从 Demo UI
 隐藏并在 G0 明确 Deferred；玩家文案不得宣称存在。
@@ -40,16 +40,18 @@ G1 不能用伤害/冷却等不等价 Stat 冒充缺失属性。若 Demo 内容�
 | 定身 | RefreshDuration | MoveSpeed Override/Clamp | Boss 转为重度减速或短硬直，禁止永久冻结 |
 | 破甲 | ReplaceIfStronger | Armor Modifier | 可生效，有下限 |
 | 标记 | 待 CR-03 | 计数、消费、引爆/增伤 | 需最大层数与触发间隔 |
+| 免伤 | RefreshDuration | `base.damage_policy.immune.*` 标签 | 按 DamageChannel 可细分；完全免疫不发 DamageApplied |
 
 状态 Definition 只表达通用行为，不能在系统中判断 `qinglan.status.*`。
 
 ## 4. 接触伤害
 
-普通敌人可通过随身 Aura/Area 攻击 Skill 产生接触伤害，统一进入 DamageRequest。玩家侧建议加入
-0.6 秒接触伤害保护窗口；该保护必须是通用伤害通道/受击冷却，不由 View 碰撞或角色 ID 控制。
+普通敌人可通过随身 Aura/Area 攻击 Skill 产生接触伤害，统一进入 DamageRequest。玩家侧锁定 0.6 秒
+（18 Tick）接触伤害保护窗口；该保护使用 Target＋`base.damage_channel.contact` 冷却，不由 View 碰撞
+或角色 ID 控制。
 
-Boss 高危技能使用独立 telegraph/channel ID，不共享普通接触伤害保护来规避全部伤害。多通道规则、
-无敌帧和防护标签如现有 M3 无法表达，纳入 CR-10。
+Boss 高危技能使用独立 `base.damage_channel.boss_hazard`，不共享普通接触伤害保护。CR-2026-014 已在
+G1.1 实现固定容量通道、屏障和免疫；G1.2 增加状态驱动的通用免疫标签消费者。
 
 ## 5. 伤害规则
 

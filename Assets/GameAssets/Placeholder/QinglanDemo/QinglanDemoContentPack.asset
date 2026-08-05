@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d55e7487c9660704fbc3ca84e563c76c, type: 3}
+  m_Name: QinglanDemoContentPack
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.ContentPackAuthoring
+  packId: qinglan.pack.demo
+  version: 0.1.0
+  schemaVersion: 6
+  minimumGameVersion: 0.1.0
+  maximumGameVersion: 
+  dependencies: []
+  catalogAddress: packs/qinglan.demo/catalog
+  assetLabel: pack.qinglan.demo
+  official: 0
+  definitions:
+  - {fileID: 11400000, guid: 74ad947afb76fdc408430267f2037c75, type: 2}
+  - {fileID: 11400000, guid: 3d8ee1bbfdbad97498f9e620dce13d6f, type: 2}
+  - {fileID: 11400000, guid: ce8c9c63a21ca534397abf1a3f220acc, type: 2}
+  - {fileID: 11400000, guid: 769bb6b656597ac4d94a3295f063c83b, type: 2}
+  - {fileID: 11400000, guid: 33365fe8cc9e34b4e9e98cac90ab6dd2, type: 2}
+  - {fileID: 11400000, guid: bf2cfdb445b818649b69fb2ac6f303ad, type: 2}
+  - {fileID: 11400000, guid: 3f0a996d73894aa4598fd5eee0f22569, type: 2}
+  - {fileID: 11400000, guid: 45908ad9a1705ab408118ab8111653fa, type: 2}
+  - {fileID: 11400000, guid: d8be716094c688546a9c44ba8c6c2061, type: 2}
+  - {fileID: 11400000, guid: ce71026d03fe11244a5cd4ee21ade3eb, type: 2}
+  - {fileID: 11400000, guid: 04261165668fcf645b030165f28a8a2d, type: 2}
+  - {fileID: 11400000, guid: aa316547979b5364394b46defdbab8d9, type: 2}

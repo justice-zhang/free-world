@@ -845,6 +845,23 @@ namespace Game.Editor
             string descriptionKey,
             string displayName)
         {
+            EnsureContentEntries(
+                nameKey,
+                descriptionKey,
+                "[Placeholder] " + displayName,
+                "[Placeholder] " + displayName + " description",
+                "[占位] " + displayName,
+                "[占位] " + displayName + " 描述");
+        }
+
+        internal static void EnsureContentEntries(
+            string nameKey,
+            string descriptionKey,
+            string englishName,
+            string englishDescription,
+            string chineseName,
+            string chineseDescription)
+        {
             var collection = LocalizationEditorSettings.GetStringTableCollection("UI");
             var englishLocale = FindLocale("en");
             var chineseLocale = FindLocale("zh-Hans");
@@ -856,10 +873,10 @@ namespace Game.Editor
                 : collection.GetTable(chineseLocale.Identifier) as StringTable;
             if (english == null || chinese == null)
                 throw new InvalidOperationException("Run the M8 Localization setup before using the M9 wizard.");
-            Set(english, nameKey, "[Placeholder] " + displayName);
-            Set(english, descriptionKey, "[Placeholder] " + displayName + " description");
-            Set(chinese, nameKey, "[占位] " + displayName);
-            Set(chinese, descriptionKey, "[占位] " + displayName + " 描述");
+            Set(english, nameKey, englishName);
+            Set(english, descriptionKey, englishDescription);
+            Set(chinese, nameKey, chineseName);
+            Set(chinese, descriptionKey, chineseDescription);
             EditorUtility.SetDirty(english);
             EditorUtility.SetDirty(chinese);
             EditorUtility.SetDirty(collection.SharedData);

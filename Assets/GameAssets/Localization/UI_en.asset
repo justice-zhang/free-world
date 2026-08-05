@@ -510,6 +510,104 @@ MonoBehaviour:
     m_Localized: '[Placeholder] M9 description'
     m_Metadata:
       m_Items: []
+  - m_Id: 3647958635388928
+    m_Localized: Lu Qingye
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958736052224
+    m_Localized: A wandering swordsman who builds Riding Wind through real movement.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246528
+    m_Localized: Riding Wind
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246529
+    m_Localized: Real movement raises wind tiers; taking actual damage lowers one
+      tier.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246530
+    m_Localized: Breeze
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246531
+    m_Localized: 'Riding Wind tier one: affinity deliveries travel faster.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246532
+    m_Localized: Swift Wind
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246533
+    m_Localized: 'Riding Wind tier two: move faster and shorten innate cooldowns.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246534
+    m_Localized: Full Wind
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246535
+    m_Localized: 'Riding Wind tier three: returning innate weapons emit a lesser
+      wind blade.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246536
+    m_Localized: Burning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246537
+    m_Localized: Takes periodic fire damage.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246538
+    m_Localized: Poisoned
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246539
+    m_Localized: Independent poison instances deal periodic damage.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246540
+    m_Localized: Slowed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246541
+    m_Localized: Movement speed is reduced.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246542
+    m_Localized: Rooted
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246543
+    m_Localized: Movement speed is temporarily set to zero.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246544
+    m_Localized: Armor Broken
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246545
+    m_Localized: Armor effectiveness is reduced.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246546
+    m_Localized: Marked
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246547
+    m_Localized: Receives stack-based mark effects.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246548
+    m_Localized: Damage Immunity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246549
+    m_Localized: Temporarily ignores all damage channels.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

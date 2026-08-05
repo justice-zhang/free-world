@@ -48,10 +48,12 @@ namespace Game.Simulation
                 return;
             }
 
-            var policyOutcome = world.DamageChannels.Evaluate(
-                packet.Target.Handle,
-                packet.ChannelId,
-                world.ExecutingTick);
+            var policyOutcome = StatusDamagePolicy.IsImmune(target, packet.ChannelId)
+                ? DamageResolutionOutcome.Immune
+                : world.DamageChannels.Evaluate(
+                    packet.Target.Handle,
+                    packet.ChannelId,
+                    world.ExecutingTick);
             if (policyOutcome != DamageResolutionOutcome.Applied)
             {
                 world.CombatEvents.Add(

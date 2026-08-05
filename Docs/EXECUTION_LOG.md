@@ -674,3 +674,39 @@ G3.1—G3.3，不能混入 G1 数据切片。
 
 只进入 G1.2：用 G1.1 的通用契约实现 M02/M03 角色与战斗数据切片，不提前创建武器、心诀、敌人或
 Encounter 正式内容。
+
+## Qinglan Demo G1.2：陆青野、乘风与战斗状态
+
+- 状态：`COMPLETE`
+- 日期：2026-08-05
+- 分支：`codex/qinglan-demo-implementation`
+- 内容包：`qinglan.pack.demo` 0.1.0 / Content Schema 6
+- 结果报告：`Docs/Reports/2026-08-05-g1-2-character-combat-slice.md`
+
+### 实施结果
+
+| 范围 | 结果 |
+|---|---|
+| Character | 陆青野：120 生命、6 units/s；Starting Skill 按路线留给 G1.3 |
+| Mechanic | 真实 PlayerCommand 位移积累，6/16/30 三阈值，实际受伤同 Tick 最多严格降一档 |
+| Combat | 七状态、通用活动状态免伤标签消费者、五 DamageChannel 既有策略保持 |
+| Content | 12 个 Placeholder 定义、双语 Key、实际 Baked Catalog 与固定 Content Hash |
+| Runtime | 固定容量档位事件、原子 Character 绑定、Cleanup 解绑、非有限输入拒绝 |
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| 编译 | PASS | `dotnet build free-world.slnx`，0 error；Unity 脚本编译成功 |
+| EditMode | PASS | `TestResults/QinglanDemo/G1.2/editmode-final.xml`，209/209 |
+| PlayMode 回归 | PASS | `TestResults/QinglanDemo/G1.2/playmode.xml`，9/9 |
+| Project Validation | PASS | `validation.log` 含 `[Project Validation] PASS` |
+| API Freeze | PASS | 五程序集签名数与 SHA-256 均和 G1.1 一致 |
+| 性能短测 | PASS | 900 Tick，p99 10.1121 ms，热路径 0 B，Checksum 与 G1.1 一致 |
+| Windows Development Build | NOT RUN | 路线规定 G1.7 执行完整 Placeholder Pack Build |
+| G2.6 输入/HUD/音效专项 PlayMode | NOT RUN | 本包只交付纯模拟与内容；不得用既有 PlayMode 回归替代 |
+
+### 下一步
+
+只进入 G1.3：在同一 Pack 中实现 M04 六把武器、等级成长、隐藏辅助技能、Preview/ProcDepth/Cleanup，
+并把游风剑回填为陆青野 Starting Skill；不提前实现 G1.4 心诀或 G1.5 敌人。

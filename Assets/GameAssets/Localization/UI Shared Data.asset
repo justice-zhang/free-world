@@ -507,6 +507,102 @@ MonoBehaviour:
     m_Key: content.test.evolution.m9.description
     m_Metadata:
       m_Items: []
+  - m_Id: 3647958635388928
+    m_Key: content.qinglan.character.lu_qingye.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958736052224
+    m_Key: content.qinglan.character.lu_qingye.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246528
+    m_Key: content.qinglan.mechanic.lu_qingye.riding_wind.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246529
+    m_Key: content.qinglan.mechanic.lu_qingye.riding_wind.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246530
+    m_Key: content.qinglan.trait.lu_qingye.riding_wind.breeze.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246531
+    m_Key: content.qinglan.trait.lu_qingye.riding_wind.breeze.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246532
+    m_Key: content.qinglan.trait.lu_qingye.riding_wind.swift.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246533
+    m_Key: content.qinglan.trait.lu_qingye.riding_wind.swift.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246534
+    m_Key: content.qinglan.trait.lu_qingye.riding_wind.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246535
+    m_Key: content.qinglan.trait.lu_qingye.riding_wind.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246536
+    m_Key: content.qinglan.status.burning.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246537
+    m_Key: content.qinglan.status.burning.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246538
+    m_Key: content.qinglan.status.poisoned.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246539
+    m_Key: content.qinglan.status.poisoned.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246540
+    m_Key: content.qinglan.status.slowed.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246541
+    m_Key: content.qinglan.status.slowed.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246542
+    m_Key: content.qinglan.status.rooted.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246543
+    m_Key: content.qinglan.status.rooted.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246544
+    m_Key: content.qinglan.status.armor_broken.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246545
+    m_Key: content.qinglan.status.armor_broken.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246546
+    m_Key: content.qinglan.status.marked.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246547
+    m_Key: content.qinglan.status.marked.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246548
+    m_Key: content.qinglan.status.damage_immunity.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3647958740246549
+    m_Key: content.qinglan.status.damage_immunity.description
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

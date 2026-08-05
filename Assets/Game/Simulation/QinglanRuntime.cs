@@ -133,6 +133,44 @@ namespace Game.Simulation
         public long LastDamageTick { get; }
     }
 
+    internal enum CharacterMechanicChangeReason : byte
+    {
+        ResolvedMovement = 1,
+        ActualDamage = 2
+    }
+
+    internal readonly struct CharacterMechanicTierChanged
+    {
+        public CharacterMechanicTierChanged(
+            EntityHandle owner,
+            ContentId resourceId,
+            int previousTier,
+            int currentTier,
+            float currentValue,
+            ContentId outputId,
+            CharacterMechanicChangeReason reason,
+            long tick)
+        {
+            Owner = owner;
+            ResourceId = resourceId;
+            PreviousTier = previousTier;
+            CurrentTier = currentTier;
+            CurrentValue = currentValue;
+            OutputId = outputId;
+            Reason = reason;
+            Tick = tick;
+        }
+
+        public EntityHandle Owner { get; }
+        public ContentId ResourceId { get; }
+        public int PreviousTier { get; }
+        public int CurrentTier { get; }
+        public float CurrentValue { get; }
+        public ContentId OutputId { get; }
+        public CharacterMechanicChangeReason Reason { get; }
+        public long Tick { get; }
+    }
+
     public sealed class CharacterMechanicRuntime
     {
         private struct Instance
@@ -147,11 +185,40 @@ namespace Game.Simulation
         }
 
         private readonly Instance[] instances;
+        private readonly CharacterMechanicTierChanged[] pendingTierChanges;
+        private readonly CharacterMechanicTierChanged[] tierChangeBatch;
+        private int pendingTierChangeCount;
+        private int tierChangeBatchCount;
+        private long currentTick;
 
         public CharacterMechanicRuntime(int capacity = 4)
         {
             if (capacity < 1) throw new ArgumentOutOfRangeException(nameof(capacity));
             instances = new Instance[capacity];
+            pendingTierChanges = new CharacterMechanicTierChanged[checked(capacity * 2)];
+            tierChangeBatch = new CharacterMechanicTierChanged[checked(capacity * 16)];
+        }
+
+        internal int AvailableCapacity
+        {
+            get
+            {
+                var available = 0;
+                for (var index = 0; index < instances.Length; index++)
+                    if (!instances[index].Active) available++;
+                return available;
+            }
+        }
+
+        internal int TierChangeCount => tierChangeBatchCount;
+        internal int RejectedTierChanges { get; private set; }
+        internal int RejectedNonFiniteInputs { get; private set; }
+
+        internal CharacterMechanicTierChanged GetTierChangeAt(int index)
+        {
+            if (index < 0 || index >= tierChangeBatchCount)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            return tierChangeBatch[index];
         }
 
         public bool TryAttach(EntityHandle owner, RuntimeContentIndex definitionIndex, RuntimeCharacterMechanicDefinition definition)
@@ -173,8 +240,21 @@ namespace Game.Simulation
             {
                 if (!instances[index].Active || instances[index].Owner != movement.Entity.Handle) continue;
                 var instance = instances[index];
-                instance.CurrentValue += movement.Distance * instance.Definition.GainPerUnit;
+                var nextValue = instance.CurrentValue + movement.Distance * instance.Definition.GainPerUnit;
+                if (float.IsNaN(nextValue) || float.IsInfinity(nextValue))
+                {
+                    RejectedNonFiniteInputs++;
+                    continue;
+                }
+
+                var previousTier = instance.Tier;
+                instance.CurrentValue = nextValue;
                 ResolveTier(ref instance);
+                EmitTierChange(
+                    ref instance,
+                    previousTier,
+                    CharacterMechanicChangeReason.ResolvedMovement,
+                    currentTick);
                 instances[index] = instance;
             }
         }
@@ -186,9 +266,15 @@ namespace Game.Simulation
             {
                 if (!instances[index].Active || instances[index].Owner != owner || instances[index].LastDamageTick == tick) continue;
                 var instance = instances[index];
-                instance.CurrentValue = Math.Max(0f, instance.CurrentValue - instance.Definition.LossOnDamage);
+                var previousTier = instance.Tier;
+                instance.CurrentValue = ResolveDamageLoss(instance);
                 instance.LastDamageTick = tick;
                 ResolveTier(ref instance);
+                EmitTierChange(
+                    ref instance,
+                    previousTier,
+                    CharacterMechanicChangeReason.ActualDamage,
+                    tick);
                 instances[index] = instance;
             }
         }
@@ -203,6 +289,96 @@ namespace Game.Simulation
             }
             snapshot = default;
             return false;
+        }
+
+        internal bool Detach(EntityHandle owner)
+        {
+            var detached = false;
+            for (var index = 0; index < instances.Length; index++)
+            {
+                if (!instances[index].Active || instances[index].Owner != owner) continue;
+                instances[index] = default;
+                detached = true;
+            }
+            return detached;
+        }
+
+        internal void BeginBatch()
+        {
+            Array.Clear(tierChangeBatch, 0, tierChangeBatchCount);
+            tierChangeBatchCount = 0;
+            BeginTick(0);
+        }
+
+        internal void BeginTick(long tick)
+        {
+            Array.Clear(pendingTierChanges, 0, pendingTierChangeCount);
+            pendingTierChangeCount = 0;
+            currentTick = tick;
+        }
+
+        internal void FlushTick()
+        {
+            for (var index = 0; index < pendingTierChangeCount; index++)
+            {
+                if (tierChangeBatchCount >= tierChangeBatch.Length)
+                {
+                    RejectedTierChanges++;
+                    continue;
+                }
+                tierChangeBatch[tierChangeBatchCount++] = pendingTierChanges[index];
+            }
+            BeginTick(0);
+        }
+
+        private static float ResolveDamageLoss(in Instance instance)
+        {
+            if (instance.Tier <= 0) return Math.Max(0f, instance.CurrentValue);
+            var targetTier = instance.Tier - 1;
+            var lowerBound = targetTier <= 0
+                ? 0f
+                : instance.Definition.Tiers[targetTier - 1].Threshold;
+            var upperThreshold = instance.Definition.Tiers[targetTier].Threshold;
+            var upperBound = PreviousFloat(upperThreshold);
+            var reduced = Math.Max(0f, instance.CurrentValue - instance.Definition.LossOnDamage);
+            if (reduced < lowerBound) reduced = lowerBound;
+            if (reduced > upperBound) reduced = upperBound;
+            return reduced;
+        }
+
+        private static float PreviousFloat(float value)
+        {
+            if (value <= 0f) return 0f;
+            var bits = BitConverter.SingleToInt32Bits(value);
+            return BitConverter.Int32BitsToSingle(bits - 1);
+        }
+
+        private void EmitTierChange(
+            ref Instance instance,
+            int previousTier,
+            CharacterMechanicChangeReason reason,
+            long tick)
+        {
+            if (previousTier == instance.Tier) return;
+            if (pendingTierChangeCount >= pendingTierChanges.Length)
+            {
+                RejectedTierChanges++;
+                return;
+            }
+
+            var outputId = instance.Tier > 0
+                ? instance.Definition.Tiers[instance.Tier - 1].OutputId
+                : default;
+            pendingTierChanges[pendingTierChangeCount++] =
+                new CharacterMechanicTierChanged(
+                    instance.Owner,
+                    instance.Definition.ResourceId,
+                    previousTier,
+                    instance.Tier,
+                    instance.CurrentValue,
+                    outputId,
+                    reason,
+                    tick);
         }
 
         private static void ResolveTier(ref Instance instance)

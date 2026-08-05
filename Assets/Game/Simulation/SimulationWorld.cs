@@ -601,17 +601,20 @@ namespace Game.Simulation
         {
             Events.BeginBatch();
             CombatEvents.BeginBatch();
+            Qinglan?.Mechanics.BeginBatch();
         }
 
         internal void RunTick()
         {
             var startTimestamp = Stopwatch.GetTimestamp();
             CombatEvents.BeginTick();
+            Qinglan?.Mechanics.BeginTick(ExecutingTick);
             snapshotBuilder.CapturePrevious(this);
             Pipeline.Execute(this);
             // Event publication is a world invariant, even for an explicitly supplied
             // pipeline that omits the optional EventFlushSystem marker.
             CombatEvents.FlushTick();
+            Qinglan?.Mechanics.FlushTick();
             Tick++;
             var endTimestamp = Stopwatch.GetTimestamp();
             var elapsedMilliseconds =
@@ -685,7 +688,11 @@ namespace Game.Simulation
             removedPosition = state.Position;
             SpatialGrid.Remove(new SpatialEntity(kind, handle));
             Skills.OnEntityRemoved(kind, handle);
-            if (kind == EntityKind.Actor) Enemies.OnEntityRemoved(handle);
+            if (kind == EntityKind.Actor)
+            {
+                Enemies.OnEntityRemoved(handle);
+                Qinglan?.Mechanics.Detach(handle);
+            }
             if (kind == EntityKind.Pickup) Progression?.OnPickupRemoved(handle);
             switch (kind)
             {
