@@ -24,6 +24,7 @@ namespace Game.Infrastructure
         {
             var registry = new SaveMigrationRegistry();
             registry.Register(new SettingsV1ToV2Migration());
+            registry.Register(new SettingsV2ToV3Migration());
             registry.Register(new ProfileV1ToV2Migration());
             registry.Register(new ProfileV2ToV3Migration());
             registry.Register(new RunRecoveryV1ToV2Migration());
@@ -137,6 +138,13 @@ namespace Game.Infrastructure
                 flashIntensity = data.FlashIntensity,
                 damageNumbersEnabled = data.DamageNumbersEnabled,
                 autoAim = (int)data.AutoAim,
+                fontScale = data.FontScale,
+                colorVision = (int)data.ColorVision,
+                masterVolume = data.MasterVolume,
+                musicVolume = data.MusicVolume,
+                ambienceVolume = data.AmbienceVolume,
+                effectsVolume = data.EffectsVolume,
+                subtitlesEnabled = data.SubtitlesEnabled,
                 bindingOverrides = bindings
             };
         }
@@ -191,7 +199,9 @@ namespace Game.Infrastructure
                 bindings[index] = new SavedBindingOverride(source[index].actionName, source[index].bindingIndex, source[index].controlPath);
             return SaveDecodeResult<SettingsSaveData>.Success(new SettingsSaveData(
                 dto.localeCode, dto.stickDeadzone, dto.vibrationIntensity, dto.screenShakeEnabled,
-                dto.flashIntensity, dto.damageNumbersEnabled, (AutoAimStrategy)dto.autoAim, bindings,
+                dto.flashIntensity, dto.damageNumbersEnabled, (AutoAimStrategy)dto.autoAim,
+                dto.fontScale, (ColorVisionMode)dto.colorVision, dto.masterVolume, dto.musicVolume,
+                dto.ambienceVolume, dto.effectsVolume, dto.subtitlesEnabled, bindings,
                 dto.schemaVersion, dto.gameVersion));
         }
 
@@ -345,6 +355,8 @@ namespace Game.Infrastructure
         {
             public int schemaVersion; public string gameVersion; public string localeCode; public float stickDeadzone; public float vibrationIntensity;
             public bool screenShakeEnabled; public float flashIntensity; public bool damageNumbersEnabled; public int autoAim; public BindingDto[] bindingOverrides;
+            public float fontScale; public int colorVision; public float masterVolume; public float musicVolume;
+            public float ambienceVolume; public float effectsVolume; public bool subtitlesEnabled;
         }
         [Serializable] private sealed class ProfileDto
         {
@@ -398,6 +410,33 @@ namespace Game.Infrastructure
                     contentPacks = Array.Empty<PackDto>(), unlockedContentIds = old.unlockedContentIds ?? Array.Empty<string>(),
                     metaUpgrades = Array.Empty<ContentLevelDto>(), currencies = Array.Empty<CounterDto>(), statistics = Array.Empty<CounterDto>(), lastWriteUtc = old.lastWriteUtc
                 }, false));
+            }
+        }
+
+        private sealed class SettingsV2ToV3Migration : ISaveMigration
+        {
+            public SaveDocumentKind DocumentKind => SaveDocumentKind.Settings;
+            public int FromVersion => 2;
+            public int ToVersion => 3;
+
+            public SaveMigrationResult Migrate(string payloadJson)
+            {
+                var dto = JsonUtility.FromJson<SettingsDto>(payloadJson);
+                if (dto == null || dto.schemaVersion != 2 || string.IsNullOrWhiteSpace(dto.localeCode))
+                    return SaveMigrationResult.Failure(
+                        new SaveDiagnostic(SaveFailureCode.InvalidFormat, "save.error.invalid_format"));
+                dto.schemaVersion = 3;
+                dto.gameVersion = string.IsNullOrWhiteSpace(dto.gameVersion)
+                    ? SaveSchema.GameVersion
+                    : dto.gameVersion;
+                dto.fontScale = 1f;
+                dto.colorVision = (int)ColorVisionMode.Standard;
+                dto.masterVolume = 1f;
+                dto.musicVolume = 1f;
+                dto.ambienceVolume = 1f;
+                dto.effectsVolume = 1f;
+                dto.subtitlesEnabled = true;
+                return SaveMigrationResult.Success(JsonUtility.ToJson(dto, false));
             }
         }
 

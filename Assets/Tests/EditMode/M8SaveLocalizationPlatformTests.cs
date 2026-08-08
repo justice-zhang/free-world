@@ -113,7 +113,7 @@ namespace Game.Tests.EditMode
         }
 
         [Test]
-        public void VersionOneSettingsSampleMigratesToVersionTwo()
+        public void VersionOneSettingsSampleMigratesToVersionThree()
         {
             const string legacy = "{\"schemaVersion\":1,\"localeCode\":\"zh-Hans\",\"stickDeadzone\":0.3}";
             var codec = new UnityJsonSaveCodec();
@@ -122,10 +122,12 @@ namespace Game.Tests.EditMode
             var result = codec.DecodeSettings(envelope);
 
             Assert.That(result.IsSuccess, Is.True);
-            Assert.That(result.Value.SchemaVersion, Is.EqualTo(2));
+            Assert.That(result.Value.SchemaVersion, Is.EqualTo(3));
             Assert.That(result.Value.LocaleCode, Is.EqualTo("zh-Hans"));
             Assert.That(result.Value.StickDeadzone, Is.EqualTo(0.3f).Within(0.0001f));
             Assert.That(result.Value.DamageNumbersEnabled, Is.True);
+            Assert.That(result.Value.FontScale, Is.EqualTo(1f));
+            Assert.That(result.Value.SubtitlesEnabled, Is.True);
         }
 
         [Test]

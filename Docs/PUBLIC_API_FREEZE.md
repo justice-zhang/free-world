@@ -9,7 +9,7 @@ M10 首次冻结、G1.1 按 ADR 0013—0015 更新以下程序集的公开类型
 | `Game.Core` | 168 | `25766747b7014e0386506567e5e3c35f78b6dc5d00d850b00c35d28eb8d7e176` |
 | `Game.Content.Runtime` | 940 | `cd72d779cf1ae53f0875d06140706e194081588b7a0429efd4e490ae72e35b00` |
 | `Game.Simulation` | 1403 | `6966b53fc776347fa83b2dac8a40dd9079632edd98c60acab384d2cf6535db76` |
-| `Game.Application` | 523 | `743d388f632418522bbf9c191f80341416263135f06a27219ffcae45e6f85cf6` |
+| `Game.Application` | 589 | `279c5f16733528b331a2c838136aecfd7a5052cc1943af8e9cb4deb85aea8128` |
 | `Game.Platform.Abstractions` | 73 | `8eb5f2ccca0f5845a55d90c9f00fb42eae59cc82d81e98369995e84428a51738` |
 
 ## 变更协议
@@ -159,3 +159,15 @@ UpgradeOffer 或 Synergy。Application 保留既有 DemoRunCoordinator、RunDesc
 
 旧 Hash 下 Project Validation 按预期只报告 Simulation `533fa9…`→`6966b5…` 与 Application
 `e423cd…`→`743d38…`；规范签名、74/0 对比和失败日志保存在 `TestResults/QinglanDemo/G2.5/`。
+
+## Qinglan Demo G2.6 批准变更
+
+CR-2026-017 与 ADR 0024 接受通用 UI-safe Run 投影、交互 held 命令和 Settings Save Schema 3。
+`Game.Application` 从 523 条变为 589 条：新增 67 条，唯一移除规范行是
+`SaveSchema.SettingsCurrentVersion` 常量值从 2 替换为 3；旧 Settings 构造函数、字段和迁移入口均保留。
+
+新增 API 只暴露稳定 ID 字符串、数值、枚举和固定容量可复用缓冲，不暴露 Unity Object、Scene、
+Simulation Store、EntityHandle 或 RuntimeContentIndex。Core、Content Runtime、Simulation 与 Platform
+Abstractions 的规范签名逐字节不变。旧 Hash 下 Project Validation 按预期仅报告 Application
+`743d38…`→`279c5f…`；完整规范签名、68 行对比和旧 Hash 失败日志保存在
+`TestResults/QinglanDemo/G2.6/`。

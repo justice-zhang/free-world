@@ -62,6 +62,7 @@ G3 发布候选
 | [18_G2_3_REWARD_PICKUP_RELIC_RUNTIME.md](18_G2_3_REWARD_PICKUP_RELIC_RUNTIME.md) | G2.3 奖励、灵物、战斗奇物与幂等事务运行时 |
 | [19_G2_4_RUN_RESULT_GAME_FLOW.md](19_G2_4_RUN_RESULT_GAME_FLOW.md) | G2.4 不可变 RunResult、流程状态、装配与释放 |
 | [20_G2_5_META_PROFILE_SETTLEMENT.md](20_G2_5_META_PROFILE_SETTLEMENT.md) | G2.5 局外成长、Profile v3、Recovery 拒绝与原子结算 |
+| [21_G2_6_UI_INPUT_ACCESSIBILITY.md](21_G2_6_UI_INPUT_ACCESSIBILITY.md) | G2.6 完整页面、HUD、键鼠/手柄与可访问性设置 |
 
 ## 4. 模块分支
 

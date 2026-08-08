@@ -38,6 +38,8 @@ namespace Game.Infrastructure
         public SaveDiagnostic LastDiagnostic { get; private set; }
         /// <summary>Gets the latest platform event result.</summary>
         public PlatformOperationResult LastPlatformOperation => platformRouter.LastOperation;
+        /// <summary>Shared persistence boundary used by the Qinglan Profile owner.</summary>
+        public SaveCoordinator SaveCoordinator => saves;
 
         /// <summary>Loads settings and profile, falling back to local defaults.</summary>
         public void Initialize()

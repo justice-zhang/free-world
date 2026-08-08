@@ -11,6 +11,16 @@ namespace Game.Application
         Disabled = 3
     }
 
+    /// <summary>Color-independent danger presentation palettes selected by the player.</summary>
+    public enum ColorVisionMode : byte
+    {
+        Standard = 0,
+        Protanopia = 1,
+        Deuteranopia = 2,
+        Tritanopia = 3,
+        HighContrast = 4
+    }
+
     /// <summary>
     /// Runtime accessibility settings. Values are normalized here so UI, input,
     /// camera, and effects consume one stable application-owned source.
@@ -23,12 +33,25 @@ namespace Game.Application
         public float FlashIntensity { get; private set; } = 1f;
         public bool DamageNumbersEnabled { get; private set; } = true;
         public AutoAimStrategy AutoAim { get; private set; } = AutoAimStrategy.Nearest;
+        public float FontScale { get; private set; } = 1f;
+        public ColorVisionMode ColorVision { get; private set; } = ColorVisionMode.Standard;
+        public float MasterVolume { get; private set; } = 1f;
+        public float MusicVolume { get; private set; } = 1f;
+        public float AmbienceVolume { get; private set; } = 1f;
+        public float EffectsVolume { get; private set; } = 1f;
+        public bool SubtitlesEnabled { get; private set; } = true;
 
         public void SetStickDeadzone(float value) => StickDeadzone = Clamp(value, 0f, 0.95f);
         public void SetVibrationIntensity(float value) => VibrationIntensity = Clamp01(value);
         public void SetScreenShakeEnabled(bool value) => ScreenShakeEnabled = value;
         public void SetFlashIntensity(float value) => FlashIntensity = Clamp01(value);
         public void SetDamageNumbersEnabled(bool value) => DamageNumbersEnabled = value;
+        public void SetFontScale(float value) => FontScale = Clamp(value, 1f, 1.5f);
+        public void SetMasterVolume(float value) => MasterVolume = Clamp01(value);
+        public void SetMusicVolume(float value) => MusicVolume = Clamp01(value);
+        public void SetAmbienceVolume(float value) => AmbienceVolume = Clamp01(value);
+        public void SetEffectsVolume(float value) => EffectsVolume = Clamp01(value);
+        public void SetSubtitlesEnabled(bool value) => SubtitlesEnabled = value;
 
         /// <summary>Applies persisted accessibility values through existing validation setters.</summary>
         public void Apply(SettingsSaveData data)
@@ -40,6 +63,13 @@ namespace Game.Application
             SetFlashIntensity(data.FlashIntensity);
             SetDamageNumbersEnabled(data.DamageNumbersEnabled);
             SetAutoAim(data.AutoAim);
+            SetFontScale(data.FontScale);
+            SetColorVision(data.ColorVision);
+            SetMasterVolume(data.MasterVolume);
+            SetMusicVolume(data.MusicVolume);
+            SetAmbienceVolume(data.AmbienceVolume);
+            SetEffectsVolume(data.EffectsVolume);
+            SetSubtitlesEnabled(data.SubtitlesEnabled);
         }
 
         public void SetAutoAim(AutoAimStrategy value)
@@ -50,6 +80,13 @@ namespace Game.Application
             }
 
             AutoAim = value;
+        }
+
+        public void SetColorVision(ColorVisionMode value)
+        {
+            if (value < ColorVisionMode.Standard || value > ColorVisionMode.HighContrast)
+                throw new ArgumentOutOfRangeException(nameof(value));
+            ColorVision = value;
         }
 
         private static float Clamp01(float value) => Clamp(value, 0f, 1f);

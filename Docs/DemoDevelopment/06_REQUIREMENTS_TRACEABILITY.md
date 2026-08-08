@@ -4,8 +4,8 @@
 
 | Req | 总纲需求 | Owner 模块 | 主要证据 | 状态 |
 |---|---|---|---|---|
-| R-001 | 标题至再次出发闭环 | M01、M11、M14 | PlayMode/Player | DESIGN |
-| R-002 | 陆青野与真实位移乘风 | M02 | EditMode/PlayMode | G1.2 EditMode PASS；G2.6 PlayMode PENDING |
+| R-001 | 标题至再次出发闭环 | M01、M11、M14 | PlayMode/Player | G2.6 键盘/手柄 PlayMode PASS；Player 待 G2.8/G3 |
+| R-002 | 陆青野与真实位移乘风 | M02 | EditMode/PlayMode | G1.2 EditMode、G2.6 两种输入 PlayMode PASS |
 | R-003 | 六把武器与等级成长 | M04 | Preview/EditMode | G1.3 主武器、G1.4 显化 Preview/EditMode PASS；G2 实机 PENDING |
 | R-004 | 六心诀与六显化 | M05 | Validation/Build Matrix | G1.4 数据/资格/转换 PASS；G1.7 Reward Choice 适配器/暂停/回退/重放 PASS；G2.3 宝匣内容 PENDING |
 | R-005 | 三种目标构筑 | M04、M05、M16 | Seed/人工矩阵 | G1.4 三 Synergy/固定 Seed 自动矩阵 PASS；G3.4 平衡 PENDING |
@@ -16,10 +16,10 @@
 | R-010 | 折枝和听风三阶段 | M10 | EditMode/PlayMode | CR-07 |
 | R-011 | 风脉台改变最终 Boss | M08、M10 | 参数快照/PlayMode | CR-06/07 |
 | R-012 | 胜败/首通/重复通关 | M01、M11、M14 | Save Fixture/PlayMode | CR-09 |
-| R-013 | 12 行脉、3 嵌片、4 设施 | M11 | EditMode/UI/Save | CR-09 |
-| R-014 | 6 藏品、3 故事 | M11、M14 | Save/Localization | CR-09 |
-| R-015 | 键鼠/手柄完整流程 | M12 | PlayMode | 现有输入边界可扩展 |
-| R-016 | 可访问性与双语 | M12、M14 | Locale/Layout/PlayMode | DESIGN |
+| R-013 | 12 行脉、3 嵌片、4 设施 | M11 | EditMode/UI/Save | G2.5 真值、G2.6 四设施/确认 UI PASS |
+| R-014 | 6 藏品、3 故事 | M11、M14 | Save/Localization | G2.5 真值、G2.6 页面/Localization PASS |
+| R-015 | 键鼠/手柄完整流程 | M12 | PlayMode | G2.6 键盘与手柄独立闭环 PASS |
+| R-016 | 可访问性与双语 | M12、M14 | Locale/Layout/PlayMode | G2.6 Placeholder 自动化 PASS；正式字体/正文待 G3.3 |
 | R-017 | 东方清朗视听与危险可读 | M13 | 资产评审/GPU 捕获 | G3 |
 | R-018 | 1080p 60 与 1% Low 警报 | M16 | 目标硬件 JSON | G3 |
 | R-019 | 正式资产合规/Release | M13、M15、M16 | provenance/Manifest | G3 |

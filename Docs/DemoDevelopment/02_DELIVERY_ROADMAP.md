@@ -45,6 +45,10 @@ G1 只使用程序化 Placeholder。正式角色、Logo、字体、音频和品�
 | G2.7 | `codex/g2-demo-placeholder-polish` | M13 | 程序化表现、池、预警和音频占位 |
 | G2.8 | `codex/g2-demo-vertical-slice-gate` | 全模块 | PlayMode、Development Build、可读性评审 |
 
+G2.6 已在统一实现分支交付，实际证据见 `21_G2_6_UI_INPUT_ACCESSIBILITY.md` 与
+`Docs/Reports/2026-08-09-g2-6-ui-input-accessibility.md`；G2.7 必须继续复用其单一 Canvas、输入命令和
+只读 `RunUiSnapshot`，不得建立第二套 UI 或玩法真值。
+
 ## 5. G3 发布候选
 
 | 顺序 | 分支建议 | 交付物 | 退出门禁 |

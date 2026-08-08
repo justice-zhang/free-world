@@ -27,6 +27,7 @@ namespace Game.Infrastructure
         [SerializeField] private InputActionAsset inputActions;
         private GameApplication application;
         private M8RuntimeServices persistence;
+        private QinglanDemoRuntimeHost demoHost;
 
         /// <summary>
         /// Gets the initialized application instance.
@@ -40,6 +41,8 @@ namespace Game.Infrastructure
 
         /// <summary>Gets M8 persistence and application-event services.</summary>
         public M8RuntimeServices Persistence => persistence;
+        /// <summary>Gets the active Qinglan Demo UI/input/lifecycle owner.</summary>
+        public QinglanDemoRuntimeHost DemoHost => demoHost;
 
         /// <summary>
         /// Gets the current high-level state.
@@ -139,13 +142,13 @@ namespace Game.Infrastructure
             persistence = new M8RuntimeServices(application, coordinator, platform, packVersions);
             persistence.Initialize();
 
-            var host = gameObject.AddComponent<M7RuntimeHost>();
-            host.Initialize(application, presentationCamera, inputActions, persistence);
+            demoHost = gameObject.AddComponent<QinglanDemoRuntimeHost>();
+            demoHost.Initialize(application, presentationCamera, inputActions, persistence);
 
             Debug.Log(
                 "[Bootstrap] Loaded content: packs=" + initialization.Value.PackCount +
                 ", entries=" + initialization.Value.DefinitionCount +
-                "; M8 local save/localization and NullPlatformFacade initialized; entered MainMenu.");
+                "; G2.6 Qinglan Demo UI/input, local save/localization, and NullPlatformFacade initialized.");
         }
 
         private void OnDestroy()
@@ -154,6 +157,7 @@ namespace Game.Infrastructure
             {
                 persistence?.Dispose();
                 persistence = null;
+                demoHost = null;
                 activeInstance = null;
             }
         }

@@ -2219,6 +2219,398 @@ MonoBehaviour:
     m_Key: save.status.result_saved
     m_Metadata:
       m_Items: []
+  - m_Id: 4729946414915584
+    m_Key: ui.common.back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607360
+    m_Key: ui.common.close
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607361
+    m_Key: ui.common.on
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607362
+    m_Key: ui.common.off
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607363
+    m_Key: ui.qinglan.title.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607364
+    m_Key: ui.qinglan.title.subtitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607365
+    m_Key: ui.qinglan.title.start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607366
+    m_Key: ui.qinglan.title.start.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607367
+    m_Key: ui.qinglan.profile.ready
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607368
+    m_Key: ui.qinglan.character_select.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607369
+    m_Key: ui.qinglan.character_select.subtitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607370
+    m_Key: ui.qinglan.map_select.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607371
+    m_Key: ui.qinglan.map_select.subtitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607372
+    m_Key: ui.qinglan.loadout.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607373
+    m_Key: ui.qinglan.loadout.subtitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607374
+    m_Key: ui.qinglan.loadout.depart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607375
+    m_Key: ui.qinglan.loadout.depart.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607376
+    m_Key: ui.qinglan.loading.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607377
+    m_Key: ui.qinglan.loading.subtitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607378
+    m_Key: ui.qinglan.ending.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607379
+    m_Key: ui.qinglan.ending.subtitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607380
+    m_Key: ui.qinglan.run_hud.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607381
+    m_Key: ui.qinglan.map_overlay.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607382
+    m_Key: ui.qinglan.map_overlay.hint
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607383
+    m_Key: ui.qinglan.hud.vitals
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607384
+    m_Key: ui.qinglan.hud.run
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607385
+    m_Key: ui.qinglan.hud.windride
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607386
+    m_Key: ui.qinglan.hud.build
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607387
+    m_Key: ui.qinglan.hud.map
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607388
+    m_Key: ui.qinglan.level_up.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607389
+    m_Key: ui.qinglan.level_up.subtitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607390
+    m_Key: ui.qinglan.level_up.reroll
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607391
+    m_Key: ui.qinglan.level_up.reroll.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607392
+    m_Key: ui.qinglan.level_up.skip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607393
+    m_Key: ui.qinglan.level_up.skip.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607394
+    m_Key: ui.qinglan.reward.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607395
+    m_Key: ui.qinglan.reward.subtitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607396
+    m_Key: ui.qinglan.reward.fallback
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607397
+    m_Key: ui.qinglan.pause.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607398
+    m_Key: ui.qinglan.pause.subtitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607399
+    m_Key: ui.qinglan.pause.resume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607400
+    m_Key: ui.qinglan.pause.abandon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607401
+    m_Key: ui.qinglan.pause.abandon.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607402
+    m_Key: ui.qinglan.settings.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607403
+    m_Key: ui.qinglan.settings.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607404
+    m_Key: ui.qinglan.settings.font_scale
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607405
+    m_Key: ui.qinglan.settings.color_vision
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607406
+    m_Key: ui.qinglan.settings.master_volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607407
+    m_Key: ui.qinglan.settings.music_volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607408
+    m_Key: ui.qinglan.settings.ambience_volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607409
+    m_Key: ui.qinglan.settings.effects_volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607410
+    m_Key: ui.qinglan.settings.subtitles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607411
+    m_Key: ui.qinglan.rebind.invalid
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607412
+    m_Key: ui.qinglan.rebind.conflict
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607413
+    m_Key: ui.qinglan.rebind.applied
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607414
+    m_Key: ui.qinglan.result.victory
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607415
+    m_Key: ui.qinglan.result.defeat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607416
+    m_Key: ui.qinglan.result.abandoned
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607417
+    m_Key: ui.qinglan.result.recovery_rejected
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607418
+    m_Key: ui.qinglan.result.subtitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607419
+    m_Key: ui.qinglan.result.saving
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607420
+    m_Key: ui.qinglan.result.saved
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607421
+    m_Key: ui.qinglan.result.not_saved
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607422
+    m_Key: ui.qinglan.result.retry_save
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607423
+    m_Key: ui.qinglan.result.continue_hub
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607424
+    m_Key: ui.qinglan.result.continue_hub.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607425
+    m_Key: ui.qinglan.hub.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607426
+    m_Key: ui.qinglan.hub.subtitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607427
+    m_Key: ui.qinglan.hub.spirit_sand
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607428
+    m_Key: ui.qinglan.hub.locked
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607429
+    m_Key: ui.qinglan.hub.start_again
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607430
+    m_Key: ui.qinglan.hub.return_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607431
+    m_Key: ui.qinglan.meta.owned
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607432
+    m_Key: ui.qinglan.meta.equipped
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607433
+    m_Key: ui.qinglan.meta.saved
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607434
+    m_Key: ui.qinglan.meta.apply_loadout
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607435
+    m_Key: ui.qinglan.meta.apply_loadout.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607436
+    m_Key: ui.qinglan.story.locked
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607437
+    m_Key: ui.qinglan.story.page
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607438
+    m_Key: ui.qinglan.collection.hint
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607439
+    m_Key: ui.qinglan.collection.collected
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607440
+    m_Key: ui.qinglan.collection.unknown
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607441
+    m_Key: ui.qinglan.content_error.code
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607442
+    m_Key: ui.qinglan.content.unknown
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607443
+    m_Key: ui.qinglan.accessibility.danger_legend
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4729946494607444
+    m_Key: save.error.write_failed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4733009804533760
+    m_Key: ui.qinglan.loadout.confirm.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4733009880031232
+    m_Key: ui.qinglan.loadout.confirm.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4733009880031233
+    m_Key: ui.qinglan.loadout.confirm.apply
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4734409494110208
+    m_Key: ui.qinglan.card.tag.skill
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4734409569607680
+    m_Key: ui.qinglan.card.tag.passive
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4734409569607681
+    m_Key: ui.qinglan.card.tag.evolution
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4734409569607682
+    m_Key: ui.qinglan.card.tag.relic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4734409569607683
+    m_Key: ui.qinglan.card.tag.reward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4734409569607684
+    m_Key: ui.qinglan.card.relation.new
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4734409569607685
+    m_Key: ui.qinglan.card.relation.upgrade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4734409569607686
+    m_Key: ui.qinglan.card.relation.reward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4734409569607687
+    m_Key: ui.qinglan.card.evolution.ready
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -12,9 +12,10 @@
 `Application.persistentDataPath/Saves`；Editor 测试使用进程隔离的临时目录。测试可用
 `AZURESWORD_SAVE_ROOT` 显式覆盖。
 
-## 2. Schema 2 纯数据模型
+## 2. 按文档种类独立版本的纯数据模型
 
-所有文档包含 `schemaVersion: 2` 和 `gameVersion: "0.1.0"`。Profile 和 RunRecovery 只保存：
+所有文档包含各自 `schemaVersion` 和 `gameVersion: "0.1.0"`。当前 Settings/Profile/RunRecovery
+分别为 3/3/2。Profile 和 RunRecovery 只保存：
 
 - canonical `ContentId` 字符串；
 - `packId` 与语义化 Pack 版本；
@@ -55,7 +56,7 @@
 ## 5. 迁移
 
 `SaveMigrationRegistry` 只接受连续、单向、每次恰好加一的迁移。M8 为 Settings、Profile 和
-RunRecovery 都注册 `v1 -> v2` 固定样本；未来变化必须新增 `v2 -> v3`，不得修改已有迁移语义或
+RunRecovery 都注册 `v1 -> v2` 固定样本；Settings 与 Profile 另有独立 `v2 -> v3`，不得修改已有迁移语义或
 在加载器中堆积隐式条件分支。高于当前 Schema 的文档返回 `UnsupportedSchema`。
 
 ## 6. 内容缺失
@@ -77,7 +78,7 @@ ADR 0015 批准三个物理文档按 kind 独立演进：
 
 | 文档 | 当前版本 | G0.3 变化 |
 |---|---:|---|
-| Settings | 2 | 无字段变化 |
+| Settings | 3 | 字体缩放、色觉、四路音量和字幕 |
 | Profile | 3 | Loadout、首通、唯一奖励、故事、藏品和幂等事务 |
 | RunRecovery | 2 | 仍只作启动/未完成标记，不支持 Continue |
 
@@ -113,3 +114,19 @@ AlreadyCommitted 不重新发布完成事件；同一进程可在补删成功后
 
 CR-2026-015 完整局内恢复延期。检测到 `run_recovery.json` 时只显示本地化提示，用户明确开始新局
 后清理；不得显示 Continue，也不得把标记内容提交为胜利或首通。
+
+## 9. Qinglan Demo Settings Schema 3
+
+ADR 0024 批准 Settings 3 在 v2 字段后追加：
+
+```text
+fontScale: 1.0 / 1.25 / 1.5
+colorVision: standard / protanopia / deuteranopia / tritanopia / highContrast
+masterVolume / musicVolume / ambienceVolume / effectsVolume: [0,1]
+subtitlesEnabled: bool
+```
+
+wire 中 `colorVision` 保存稳定枚举整数 0—4；所有浮点必须有限且在范围内。v2→v3 默认字体 1.0、
+标准色觉、四路音量 1.0、字幕开启，并逐字段保留 v2 的 Locale、死区、震动、屏幕震动、闪光、伤害
+数字、自动瞄准和重绑。旧 Settings 构造函数继续产生相同默认新字段；v1 文件连续执行
+v1→v2→v3。UI 修改设置后仍通过 `SettingsChanged` 事件和 `SaveCoordinator` 原子保存，不直接写文件。

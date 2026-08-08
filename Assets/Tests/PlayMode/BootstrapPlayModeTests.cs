@@ -60,8 +60,8 @@ namespace Game.Tests.PlayMode
             var bootstrapper = GetOnlyBootstrapper();
             var skillId = ContentId.Create("test.skill.pulse").Value;
 
-            Assert.That(bootstrapper.ContentSummary.PackCount, Is.EqualTo(4));
-            Assert.That(bootstrapper.ContentSummary.DefinitionCount, Is.EqualTo(27));
+            Assert.That(bootstrapper.ContentSummary.PackCount, Is.EqualTo(5));
+            Assert.That(bootstrapper.ContentSummary.DefinitionCount, Is.EqualTo(220));
             Assert.That(
                 bootstrapper.Application.ContentRegistry.TryGet(skillId, out var entry),
                 Is.True);
@@ -69,13 +69,13 @@ namespace Game.Tests.PlayMode
         }
 
         [UnityTest]
-        public IEnumerator BootstrapComposesM7UiInputAndPresentation()
+        public IEnumerator BootstrapComposesQinglanUiInputAndPresentation()
         {
             yield return LoadBootstrapScene();
-            var host = Object.FindFirstObjectByType<M7RuntimeHost>();
+            var host = Object.FindFirstObjectByType<QinglanDemoRuntimeHost>();
 
             Assert.That(host, Is.Not.Null);
-            Assert.That(host.Ui.CurrentPage, Is.EqualTo(UiPageId.MainMenu));
+            Assert.That(host.Ui.CurrentPage, Is.EqualTo(QinglanUiPageId.TitleProfile));
             Assert.That(host.Input.UiMap.enabled, Is.True);
             Assert.That(host.Input.GameplayMap.enabled, Is.False);
             Assert.That(host.Presentation.ActiveViewCount, Is.Zero);

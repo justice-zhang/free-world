@@ -637,3 +637,13 @@ add_currency / unlock_content / grant_unique / trigger_story / spawn_enemy
 
 G1.1 必须以独立程序化 Placeholder Fixture 覆盖全部 14 kind 和负例。正式 Qinglan 内容不得与
 Schema 骨架同包提前创建。完整公共契约见 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md`。
+
+## 16. UI-safe Run Snapshot 与 Settings Schema 3
+
+G2.6 不改变 Content Schema 6。HUD 通过 Application 层固定容量 `RunUiSnapshot` 消费稳定 ContentId
+字符串和纯数值：生命/护盾/XP、风乘档位、Boss 阶段与生命、构筑等级，以及目标/事件/地标状态与进度。
+它不进入 Catalog Hash，不允许作者资产保存 RuntimeIndex，也不允许 UI 从 Snapshot 反推或写回玩法真值。
+
+Settings 是独立 Save Schema，当前版本 3；在 Settings 2 后追加字体缩放、色觉模式、主/音乐/环境/音效
+音量和字幕。完整 wire、默认值、连续迁移和回滚规则见 `Docs/SAVE_FORMAT.md` 与 ADR 0024。该 Save 版本
+提升不改变 Profile 3、RunRecovery 2 或 Content Schema 1—6 的兼容/Hash 规则。

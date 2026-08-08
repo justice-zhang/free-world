@@ -15,7 +15,7 @@ namespace Game.Application
     /// <summary>Defines independently evolving versions for the three save documents.</summary>
     public static class SaveSchema
     {
-        public const int SettingsCurrentVersion = 2;
+        public const int SettingsCurrentVersion = 3;
         public const int ProfileCurrentVersion = 3;
         public const int RunRecoveryCurrentVersion = 2;
 
@@ -116,6 +116,45 @@ namespace Game.Application
             SavedBindingOverride[] bindingOverrides = null,
             int schemaVersion = SaveSchema.SettingsCurrentVersion,
             string gameVersion = SaveSchema.GameVersion)
+            : this(
+                localeCode,
+                stickDeadzone,
+                vibrationIntensity,
+                screenShakeEnabled,
+                flashIntensity,
+                damageNumbersEnabled,
+                autoAim,
+                1f,
+                ColorVisionMode.Standard,
+                1f,
+                1f,
+                1f,
+                1f,
+                true,
+                bindingOverrides,
+                schemaVersion,
+                gameVersion)
+        {
+        }
+
+        public SettingsSaveData(
+            string localeCode,
+            float stickDeadzone,
+            float vibrationIntensity,
+            bool screenShakeEnabled,
+            float flashIntensity,
+            bool damageNumbersEnabled,
+            AutoAimStrategy autoAim,
+            float fontScale,
+            ColorVisionMode colorVision,
+            float masterVolume,
+            float musicVolume,
+            float ambienceVolume,
+            float effectsVolume,
+            bool subtitlesEnabled,
+            SavedBindingOverride[] bindingOverrides = null,
+            int schemaVersion = SaveSchema.SettingsCurrentVersion,
+            string gameVersion = SaveSchema.GameVersion)
         {
             if (schemaVersion < 1) throw new ArgumentOutOfRangeException(nameof(schemaVersion));
             if (string.IsNullOrWhiteSpace(localeCode)) throw new ArgumentException("Locale code is required.", nameof(localeCode));
@@ -130,6 +169,15 @@ namespace Game.Application
             if (autoAim < AutoAimStrategy.Nearest || autoAim > AutoAimStrategy.Disabled)
                 throw new ArgumentOutOfRangeException(nameof(autoAim));
             AutoAim = autoAim;
+            FontScale = RequireRange(fontScale, 1f, 1.5f, nameof(fontScale));
+            if (colorVision < ColorVisionMode.Standard || colorVision > ColorVisionMode.HighContrast)
+                throw new ArgumentOutOfRangeException(nameof(colorVision));
+            ColorVision = colorVision;
+            MasterVolume = RequireRange(masterVolume, 0f, 1f, nameof(masterVolume));
+            MusicVolume = RequireRange(musicVolume, 0f, 1f, nameof(musicVolume));
+            AmbienceVolume = RequireRange(ambienceVolume, 0f, 1f, nameof(ambienceVolume));
+            EffectsVolume = RequireRange(effectsVolume, 0f, 1f, nameof(effectsVolume));
+            SubtitlesEnabled = subtitlesEnabled;
             bindings = bindingOverrides == null ? Array.Empty<SavedBindingOverride>() : (SavedBindingOverride[])bindingOverrides.Clone();
             bindingsView = Array.AsReadOnly(bindings);
         }
@@ -143,6 +191,13 @@ namespace Game.Application
         public float FlashIntensity { get; }
         public bool DamageNumbersEnabled { get; }
         public AutoAimStrategy AutoAim { get; }
+        public float FontScale { get; }
+        public ColorVisionMode ColorVision { get; }
+        public float MasterVolume { get; }
+        public float MusicVolume { get; }
+        public float AmbienceVolume { get; }
+        public float EffectsVolume { get; }
+        public bool SubtitlesEnabled { get; }
         public IReadOnlyList<SavedBindingOverride> BindingOverrides => bindingsView;
 
         private static float RequireRange(float value, float minimum, float maximum, string parameter)

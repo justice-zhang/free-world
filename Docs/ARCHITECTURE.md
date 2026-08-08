@@ -271,28 +271,32 @@ View 释放。位置按夹紧到 `[0, 1]` 的 alpha 线性插值，朝向按最�
 ### 7.1 输入、UI 与摄像机
 
 `M7InputRouter` 持有 `Gameplay`、`UI`、`Debug` 三个 Action Map。RunHUD 仅启用 Gameplay，
-其余页面仅启用 UI，Debug 在开发框架阶段保持启用。键鼠和 Gamepad 绑定进入同一命令入口；
-UI 不读取 Simulation Store。
+其余页面与覆盖层仅启用 UI，Debug 只在 Development/Editor (`Debug.isDebugBuild`) 启用。键盘、鼠标和
+Gamepad 绑定进入同一命令入口；设备断连时暂停 Active Run 并恢复到可见、可用焦点。UI 不读取
+Simulation Store。
 
 ```text
-Bootstrap -> MainMenu -> CharacterSelect -> MapSelect -> Loading -> RunHUD
-                                ContentError <-/             |
-RunHUD <-> Pause -> Settings                              LevelUpDraft
-   |          |                                               |
-   +----------+-----------------> RunResult ------------------+
-                                      |
-                                   MainMenu
+Bootstrap -> Title/Profile -> CharacterSelect -> MapSelect -> Loadout -> Loading -> RunHUD
+                                     ContentError <-/                         |       |
+RunHUD <-> MapOverlay / Pause -> Settings                              LevelUp / Reward
+   |                         |                                               |
+   +-------------------------+-----------------> RunResult ------------------+
+                                                       |
+                                            Hub -> Facility / Story / Collection
+                                                       |
+                                                   StartAgain
 ```
 
-页面由 `GameFlowPresenter` 把 `GameState` 和 UI-safe 数据投影为只含本地化 Key 的
-`UiPageViewModel`。`RuntimeUiRoot` 使用一个共享 Canvas；伤害数字只在该 Canvas 的共享层中池化。
-Settings 的运行时模型包含重映射接口、摇杆死区、震动强度、屏幕震动、闪光强度、伤害数字和
-自动瞄准策略。`PresentationCameraRig` 只跟随 View Transform，提供边界夹紧、Shake Request 和
-总效果开关，不读取模拟 Store。
+G2.6 由 `QinglanDemoPresenter` 把 Application Owner 投影为只含本地化 Key/纯值的
+`QinglanPageViewModel`，并复用固定容量 `RunUiSnapshot`。`QinglanRuntimeUiRoot` 使用一个共享 Canvas，
+分离页面、HUD 与危险层；伤害数字在共享层中池化。Settings 运行时模型包含重映射、摇杆死区、震动、
+屏幕震动、闪光、伤害数字、自动瞄准、100/125/150% 字体、色觉、四路音量和字幕。
+`PresentationCameraRig` 只跟随 View Transform，提供边界夹紧、Shake Request 和总效果开关，不读取
+模拟 Store。
 
 M8 的 Presenter 仍只产生 Key；`UnityLocalizationService` 在 View 边界从 `UI` String Table 解析
 `en`、`zh-Hans` 或 Pseudo。Project Validation 检查所有固定 UI/诊断 Key 与 baked 内容 Key 在英、
-中表均非空。设置只保存 Locale Code，语言正文不会进入 Application 或存档。
+中表均非空。设置只保存 Locale Code，不保存语言正文；所有可见文字继续在 View 边界解析。
 
 ## 8. 地图运行时
 
@@ -652,7 +656,8 @@ Presentation 随机不能反馈 Simulation。所有稳定 ID/Tag 在 Run 装配�
 
 ### 17.4 存档和结束事务
 
-Settings、Profile、RunRecovery 改为按 kind 独立当前版本：2、3、2。Profile 3 追加 Loadout、首通、
+Settings、Profile、RunRecovery 按 kind 独立当前版本：3、3、2。Settings 3 追加字体缩放、色觉模式、
+主/音乐/环境/音效音量和字幕，并保留 v1→v2→v3 连续迁移。Profile 3 追加 Loadout、首通、
 唯一奖励、故事、藏品和已提交事务稳定 ID 集合。Profile v2→v3 不猜测历史首通，只初始化新集合。
 
 Run 结束固定为：冻结 → 不可变 RunResult → 校验/幂等合并 → 原子 Profile 保存 → 清理 Recovery →

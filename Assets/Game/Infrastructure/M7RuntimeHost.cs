@@ -151,6 +151,13 @@ namespace Game.Infrastructure
                 settings.FlashIntensity,
                 settings.DamageNumbersEnabled,
                 settings.AutoAim,
+                settings.FontScale,
+                settings.ColorVision,
+                settings.MasterVolume,
+                settings.MusicVolume,
+                settings.AmbienceVolume,
+                settings.EffectsVolume,
+                settings.SubtitlesEnabled,
                 Input.CaptureBindingOverrides());
         }
 

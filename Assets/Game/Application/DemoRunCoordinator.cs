@@ -213,7 +213,8 @@ namespace Game.Application
 
         public bool ReturnToTitle()
         {
-            if (Stage != DemoFlowStage.ContentError && Stage != DemoFlowStage.Hub) return false;
+            if (Stage != DemoFlowStage.ContentError && Stage != DemoFlowStage.Hub &&
+                Stage != DemoFlowStage.CharacterSelect && Stage != DemoFlowStage.MapSelect) return false;
             ReleaseRun();
             pendingDescriptor = null;
             ClearResult();

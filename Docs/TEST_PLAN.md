@@ -56,9 +56,9 @@
 > -\> Show Result  
 > -\> Save Profile
 
-M7 自动化覆盖：
+M7/G2.6 自动化覆盖：
 
-- 手柄完成完整流程
+- 键盘和手柄分别完成标题/选择/Run/升级/暂停/结算/据点/再次出发
 
 - UI 打开时 Gameplay 输入被禁用
 
@@ -73,6 +73,14 @@ M7 自动化覆盖：
 - Hit/Death/Status 表现请求、VFX/伤害数字回收和共享 Canvas
 
 - 场景释放后无 View、池 Owner 或输入订阅残留
+
+- 地图/设置/升级/奖励覆盖层禁用 Gameplay，关闭后立即恢复正确 Action Map
+
+- 手柄断开自动暂停并恢复到可见、启用控件；鼠标滚轮/点击进入相同 UI 命令入口
+
+- 卡牌显示行为描述、目标等级、类型标签、构筑关系和显化资格；配置写入前显示确认页
+
+- 100/125/150% 字体、五种色觉模式、形状/方向危险通道和关闭伤害数字组合
 
 M8 自动化覆盖：
 
@@ -216,10 +224,10 @@ M3 未引入 Jobs、Burst 或新的第三方运行时依赖。
 
 ## 12. M8 已落地覆盖
 
-- Settings、Profile、RunRecovery 三类 Schema 2 文档 round-trip；JSON 不含 RuntimeContentIndex。
+- Settings 3、Profile 3、RunRecovery 2 独立 round-trip；JSON 不含 RuntimeContentIndex。
 - 异步原子写入在 temp flush 后取消仍保留主文件并清理 temp。
 - 主文件 SHA-256 失败时恢复上一备份；无备份时返回 ChecksumMismatch。
-- Settings v1 固定样本通过显式注册表迁移到 v2；三类迁移链均已注册。
+- Settings v1 固定样本连续迁移到 v3，Profile v1/v2→v3，RunRecovery v1→v2；三类迁移链均已注册。
 - Profile 缺失解锁保留 ID 并告警；RunRecovery 缺少必需内容返回 MissingContent。
 - 英文、简中和 Pseudo Locale 实际解析；Project Validation 检查两张表全部固定/内容 Key 非空。
 - 云冲突覆盖本地较新、远端较新和分叉；Null 的五个子服务无需 Steam SDK 即完成调用。
@@ -422,3 +430,21 @@ ADR 0013—0015 和 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md` 批准下列实
   Windows x64 Development Build PASS，Manifest 的 EditMode/PlayMode/Validation/Soak 均为 pass。
 - 12 分钟 Headless `NOT RUN`：本包没有修改固定 Tick，只新增开局/页面低频路径；Release Player Smoke
   `NOT RUN`，G3 使用带专用 Smoke Scene 的 Release Build 执行。实际 UI/输入仍由 G2.6 关闭。
+
+## 23. Qinglan Demo G2.6 UI / Input / Accessibility 证据
+
+- G2.6 Focused EditMode 最终 7/7：Settings 1/2→3 与 round-trip、标准绑定/Composite 冲突、禁用项
+  跳过和焦点恢复、三档字体/CJK/五种色觉/形状方向危险通道、复用 UI Snapshot 0 B、真实 held 交互和
+  Game.UI 不引用 Simulation Store。
+- Focused PlayMode 2/2：键盘和手柄分别完成标题→角色/地图/Loadout→Run→暂停/地图/升级→结果保存→
+  据点设施/收藏/故事→确认装配→再次出发；覆盖层禁用 Gameplay，手柄连接不暂停、移除自动暂停并恢复焦点。
+- 最终全量 EditMode 283/283、PlayMode 15/15；第一次最终 PlayMode 为 14/15，原因是旧 G2.4 测试仍
+  预期 Result 页存在可离开命令。改为先完成 G2.5 持久提交契约后复测通过，没有移除保存门禁。
+- 旧 API Hash 验证按预期只报告 Game.Application 漂移；ADR 0024 接受 67 条追加及 Settings 版本常量
+  替换，其他四个冻结程序集逐字节不变。最终 Project Validation 与 API Freeze 均 PASS。
+- 内容未变：两次 CLI 各构建 7 Pack 且逐文件一致；性能短测 900 Tick＋300 预热，Tick p99
+  2.3676 ms、Render p99 0.6256 ms、热路径 0 B、GC 0/0/0、Checksum `a21da08ecd51c5a5`。
+- Windows x64 Development Build PASS；Manifest 为 Settings 3/Profile 3/Recovery 2，四项证据均
+  `pass`，Placeholder 210、未批准资产 0。Player 无图形启动实际记录 `packs=5, entries=220`。
+- 12 分钟 Headless `NOT RUN`：本包不改变固定 Tick 公式，真实 held 交互由 125 Tick 专项和性能短测覆盖。
+  Release Build/Release Player Smoke、正式字体/音频/视觉与目标硬件可读性评审 `NOT RUN`，由 G3 执行。

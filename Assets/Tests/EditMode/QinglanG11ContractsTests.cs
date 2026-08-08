@@ -908,7 +908,7 @@ namespace Game.Tests.EditMode
         [Test]
         public void SaveKindsRoundTripIndependentlyAndProfileMigratesOneOrTwoToThree()
         {
-            Assert.That(SaveSchema.GetCurrentVersion(SaveDocumentKind.Settings), Is.EqualTo(2));
+            Assert.That(SaveSchema.GetCurrentVersion(SaveDocumentKind.Settings), Is.EqualTo(3));
             Assert.That(SaveSchema.GetCurrentVersion(SaveDocumentKind.Profile), Is.EqualTo(3));
             Assert.That(SaveSchema.GetCurrentVersion(SaveDocumentKind.RunRecovery), Is.EqualTo(2));
             var codec = new UnityJsonSaveCodec();
