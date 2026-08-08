@@ -157,7 +157,7 @@
 | QD-KI-010 | RESOLVED | Medium | G1.5 已把异相灵核 Reward 绑定到四个精英词缀并执行有限 `SpawnEnemy` 死亡输出，但 AddCurrency/奇物三选一、暂停、回退和幂等提交仍未由 RewardResolution 消费。 | G2.3 已完成异相灵核地面来源、三槽奇物选择、灵砂回退、活动/已提交事务幂等和 Application 暂停/恢复；专项与完整回归均 PASS。 |
 | QD-KI-011 | PLANNED | High | G1.6 Encounter 已完成九段普通敌群与两个固定精英，但没有折枝/听风 BossDefinition、Boss Phase 或 BossRule，实际地图出生公平和 Boss 过渡也未验证。 | G2.2 追加两个 Boss 与一次性规则；G2.6/G2.8 在实际地图 PlayMode 验证出生保护、压力可读和过渡清理。在此之前“两 Boss 一次”和实机公平保持 `NOT RUN`。 |
 | QD-KI-012 | PLANNED | Medium | G1.7 曾只有受控 Evolution 选择适配器；G2.3 已完成显化宝匣、Boss/精英消费者和 fallback，但实际选择页面、键鼠/手柄输入与可访问性尚不存在。 | G2.6 通过现有 `RunSession.CurrentRewardChoice` 接入实际 UI/输入；在此之前只能宣称模拟与 Application 命令闭环，不能宣称玩家可见闭环。 |
-| QD-KI-013 | PLANNED | High | G2.3 的 Currency/Unique/Unlock/Story 只形成局内 `RewardResultEntry`，尚未进入 Profile v3 原子事务、保存重试或平台事件。 | G2.4 汇总胜负 RunResult，G2.5 以同一 Outcome 事务原子合并并持久化；Simulation 不得直接写 Profile。 |
+| QD-KI-013 | PLANNED | High | G2.4 已把 Currency/Unique/Unlock/Story、Build/Map/Boss/Pack 和四种 Outcome 冻结为不可变 RunResult，但尚未进入 Profile v3 原子事务、保存重试、Recovery 清理或平台事件。 | G2.5 以 `run.result.<RunId>` 同一事务原子合并并持久化；成功保存前保持 `HasUncommittedResult`，Simulation 不得直接写 Profile。 |
 
-当前没有阻止 G2.4 RunResult 开始的 `OPEN` 问题；QD-KI-012/013 在 G2.6/G2.5 前阻止玩家可见与持久化
+当前没有阻止 G2.5 Meta/Save 开始的 `OPEN` 问题；QD-KI-012/013 在 G2.6/G2.5 前阻止玩家可见与持久化
 奖励闭环，QD-KI-011 在 G2.8 前阻止完整 Encounter 验收，QD-KI-003/007/008 继续阻止 Release。

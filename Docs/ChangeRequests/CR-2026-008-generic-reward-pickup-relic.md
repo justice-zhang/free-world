@@ -85,3 +85,11 @@ Effect 适合战斗效果，Progression 适合升级，但缺少通用奖励所�
 - 六种即时操作、六 Relic 输出、唯一所有权快照和 Application 暂停/恢复：`IMPLEMENTED`。
 - 5,000 Reward Pickup 连续扫描 0 B、无容量增长/拒绝：`IMPLEMENTED`。
 - Profile v3 原子合并、保存重试和平台事件：`NOT RUN`，目标 G2.5；因此 CR 的持久化验收尚未关闭。
+
+## 12. G2.4 分期实施状态
+
+- Currency/Unlock/Unique/Story 已按稳定 ID 汇总进不可变 `RunResultDelta`：`IMPLEMENTED`。
+- Build、Relic、Evolution、Map、Boss、Pack Version/Hash 与四种 Outcome 结果冻结：`IMPLEMENTED`。
+- 最终 Boss 击杀数＋听风奖励事务双条件与 `run.result.<RunId>` 稳定结果事务：`IMPLEMENTED`。
+- Profile v3 原子合并、保存重试、Recovery 清理和平台事件：`NOT RUN`，目标 G2.5；CR 的持久化验收
+  继续保持未关闭。

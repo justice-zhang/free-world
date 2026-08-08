@@ -1023,7 +1023,11 @@ namespace Game.Simulation
                             position,
                             request.Source);
                     }
-                    world.Progression?.RecordEnemyDefeat(enemy.ExperienceReward, position);
+                    world.Progression?.RecordEnemyDefeat(
+                        enemy.ExperienceReward,
+                        position,
+                        enemy.Elite,
+                        enemy.Boss);
                     world.Enemies.ProcessDeathOutputs(world, request.Target.Handle, position);
                     if (!enemy.Boss && enemy.LootReward > 0f && world.Qinglan != null)
                     {

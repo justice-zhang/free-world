@@ -40,8 +40,8 @@ namespace Game.Editor
         {
             new FrozenAssembly { Name = "Game.Core", Hash = "25766747b7014e0386506567e5e3c35f78b6dc5d00d850b00c35d28eb8d7e176" },
             new FrozenAssembly { Name = "Game.Content.Runtime", Hash = "cd72d779cf1ae53f0875d06140706e194081588b7a0429efd4e490ae72e35b00" },
-            new FrozenAssembly { Name = "Game.Simulation", Hash = "4d5bfc3d684b1db6c3c5591af6b558de28924f6ac0bc569ff184597fc6410c32" },
-            new FrozenAssembly { Name = "Game.Application", Hash = "f57fe00c2c1ead974c9b900e5396661c42c7900641534a87f45f8ce6d5b4f8a6" },
+            new FrozenAssembly { Name = "Game.Simulation", Hash = "533fa9b40a7f3c072ac2b799e86fa195ace5d18ed02dcde9f919c4b91ee61c82" },
+            new FrozenAssembly { Name = "Game.Application", Hash = "e423cdb71953b31773df2c47a0c02dd64fc07424c9b25010c149e65fd2fa71a4" },
             new FrozenAssembly { Name = "Game.Platform.Abstractions", Hash = "8eb5f2ccca0f5845a55d90c9f00fb42eae59cc82d81e98369995e84428a51738" }
         };
 

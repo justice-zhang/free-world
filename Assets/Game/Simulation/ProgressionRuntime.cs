@@ -10,6 +10,8 @@ namespace Game.Simulation
     {
         internal RunStatisticsSnapshot(
             long enemyDefeats,
+            long eliteDefeats,
+            long bossDefeats,
             long pickupsCollected,
             double experienceCollected,
             int offersSelected,
@@ -19,6 +21,8 @@ namespace Game.Simulation
             ulong decisionChecksum)
         {
             EnemyDefeats = enemyDefeats;
+            EliteDefeats = eliteDefeats;
+            BossDefeats = bossDefeats;
             PickupsCollected = pickupsCollected;
             ExperienceCollected = experienceCollected;
             OffersSelected = offersSelected;
@@ -29,6 +33,8 @@ namespace Game.Simulation
         }
 
         public long EnemyDefeats { get; }
+        public long EliteDefeats { get; }
+        public long BossDefeats { get; }
         public long PickupsCollected { get; }
         public double ExperienceCollected { get; }
         public int OffersSelected { get; }
@@ -71,6 +77,8 @@ namespace Game.Simulation
         private int pendingPickupCount;
         private float pendingExperience;
         private long enemyDefeats;
+        private long eliteDefeats;
+        private long bossDefeats;
         private long pickupsCollected;
         private double experienceCollected;
         private int offersSelected;
@@ -125,6 +133,8 @@ namespace Game.Simulation
 
         public RunStatisticsSnapshot Statistics => new RunStatisticsSnapshot(
             enemyDefeats,
+            eliteDefeats,
+            bossDefeats,
             pickupsCollected,
             experienceCollected,
             offersSelected,
@@ -173,9 +183,15 @@ namespace Game.Simulation
             return true;
         }
 
-        internal void RecordEnemyDefeat(float experienceReward, Vector2 position)
+        internal void RecordEnemyDefeat(
+            float experienceReward,
+            Vector2 position,
+            bool elite = false,
+            bool boss = false)
         {
             enemyDefeats++;
+            if (elite) eliteDefeats++;
+            if (boss) bossDefeats++;
             if (experienceReward > 0f && !float.IsNaN(experienceReward) && !float.IsInfinity(experienceReward))
                 QueueExperiencePickup(position, experienceReward);
         }

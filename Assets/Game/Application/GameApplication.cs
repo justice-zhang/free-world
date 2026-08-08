@@ -11,6 +11,8 @@ namespace Game.Application
     /// </summary>
     public sealed class GameApplication
     {
+        private IReadOnlyList<RunPackSnapshot> loadedRunPacks =
+            Array.AsReadOnly(Array.Empty<RunPackSnapshot>());
         /// <summary>
         /// Initializes a new application instance with explicit dependencies.
         /// </summary>
@@ -59,6 +61,9 @@ namespace Game.Application
         /// </summary>
         public ContentRegistrySummary ContentSummary { get; private set; }
 
+        /// <summary>Gets immutable dependency-sorted pack versions and hashes for run results.</summary>
+        public IReadOnlyList<RunPackSnapshot> LoadedRunPacks => loadedRunPacks;
+
         /// <summary>
         /// Gets a value indicating whether initialization has completed.
         /// </summary>
@@ -102,9 +107,34 @@ namespace Game.Application
             }
 
             ContentSummary = loadResult.Value;
+            loadedRunPacks = CaptureRunPacks(catalogs, ContentRegistry.LoadedPackIds);
             StateMachine.EnterMainMenu();
             IsInitialized = true;
             return loadResult;
+        }
+
+        private static IReadOnlyList<RunPackSnapshot> CaptureRunPacks(
+            IReadOnlyList<BakedContentCatalog> catalogs,
+            IReadOnlyList<ContentId> sortedPackIds)
+        {
+            var snapshots = new RunPackSnapshot[sortedPackIds.Count];
+            for (var sortedIndex = 0; sortedIndex < sortedPackIds.Count; sortedIndex++)
+            {
+                var found = false;
+                for (var catalogIndex = 0; catalogIndex < catalogs.Count; catalogIndex++)
+                {
+                    var catalog = catalogs[catalogIndex];
+                    if (catalog.Manifest.PackId != sortedPackIds[sortedIndex]) continue;
+                    snapshots[sortedIndex] = new RunPackSnapshot(
+                        catalog.Manifest.PackId,
+                        catalog.Manifest.Version,
+                        catalog.ContentHash);
+                    found = true;
+                    break;
+                }
+                if (!found) throw new InvalidOperationException("Loaded pack metadata is unavailable.");
+            }
+            return Array.AsReadOnly(snapshots);
         }
     }
 }

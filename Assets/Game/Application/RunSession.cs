@@ -4,46 +4,6 @@ using Game.Simulation;
 
 namespace Game.Application
 {
-    /// <summary>Terminal reasons recorded in an M6 run result.</summary>
-    public enum RunEndReason : byte
-    {
-        Completed = 1,
-        PlayerDefeated = 2,
-        Abandoned = 3
-    }
-
-    /// <summary>Immutable run result assembled without presentation dependencies.</summary>
-    public readonly struct RunResult
-    {
-        internal RunResult(
-            RunEndReason reason,
-            long completedTicks,
-            int level,
-            int skillCount,
-            int passiveCount,
-            int activeSynergyCount,
-            in RunStatisticsSnapshot statistics)
-        {
-            Reason = reason;
-            CompletedTicks = completedTicks;
-            DurationSeconds = completedTicks * SimulationClock.TickDurationSeconds;
-            Level = level;
-            SkillCount = skillCount;
-            PassiveCount = passiveCount;
-            ActiveSynergyCount = activeSynergyCount;
-            Statistics = statistics;
-        }
-
-        public RunEndReason Reason { get; }
-        public long CompletedTicks { get; }
-        public double DurationSeconds { get; }
-        public int Level { get; }
-        public int SkillCount { get; }
-        public int PassiveCount { get; }
-        public int ActiveSynergyCount { get; }
-        public RunStatisticsSnapshot Statistics { get; }
-    }
-
     /// <summary>
     /// Application-owned M6 run state. It translates presentation time and level-up
     /// commands while keeping candidate rules in Simulation.
@@ -52,6 +12,7 @@ namespace Game.Application
     {
         private readonly SimulationWorld world;
         private readonly EntityHandle player;
+        private readonly RunDescriptor descriptor;
         private RewardChoice currentRewardChoice;
 
         public RunSession(
@@ -59,17 +20,34 @@ namespace Game.Application
             EntityHandle playerActor,
             GameStateMachine stateMachine,
             SimulationClock clock = null)
+            : this(
+                simulationWorld,
+                playerActor,
+                stateMachine,
+                RunDescriptor.CreateLegacy(),
+                clock)
+        {
+        }
+
+        public RunSession(
+            SimulationWorld simulationWorld,
+            EntityHandle playerActor,
+            GameStateMachine stateMachine,
+            RunDescriptor runDescriptor,
+            SimulationClock clock = null)
         {
             world = simulationWorld ?? throw new ArgumentNullException(nameof(simulationWorld));
             StateMachine = stateMachine ?? throw new ArgumentNullException(nameof(stateMachine));
             if (world.Progression == null) throw new ArgumentException("World progression must be initialized.", nameof(simulationWorld));
             if (!world.Actors.Contains(playerActor)) throw new ArgumentException("Player must be live.", nameof(playerActor));
             player = playerActor;
+            descriptor = runDescriptor ?? throw new ArgumentNullException(nameof(runDescriptor));
             Runner = new FixedTickRunner(world, clock);
             StateMachine.EnterRun();
         }
 
         public FixedTickRunner Runner { get; }
+        public RunDescriptor Descriptor => descriptor;
         public GameStateMachine StateMachine { get; }
         public UpgradeOfferSet CurrentOffers => world.Progression.CurrentOffers;
         public RewardChoice CurrentRewardChoice => currentRewardChoice;
@@ -119,6 +97,10 @@ namespace Game.Application
             else if (world.Progression.HasPendingChoice)
             {
                 StateMachine.EnterLevelUpChoice();
+            }
+            else if (HasSatisfiedVictoryCondition())
+            {
+                End(RunEndReason.Completed);
             }
             return ticks;
         }
@@ -211,17 +193,10 @@ namespace Game.Application
 
         public bool End(RunEndReason reason)
         {
-            if (HasEnded) return false;
+            if (HasEnded || reason < RunEndReason.Completed || reason > RunEndReason.Abandoned)
+                return false;
             Runner.Clock.Pause();
-            var progression = world.Progression;
-            Result = new RunResult(
-                reason,
-                world.Tick,
-                progression.Experience.Level,
-                progression.Build.Skills.Count,
-                progression.Build.Passives.Count,
-                progression.Build.ActiveSynergyCount,
-                progression.Statistics);
+            Result = RunResultBuilder.Build(world, descriptor, reason);
             HasEnded = true;
             StateMachine.EnterRunResult();
             return true;
@@ -233,6 +208,17 @@ namespace Game.Application
             Runner.Clock.Resume();
             StateMachine.EnterRun();
             return true;
+        }
+
+        private bool HasSatisfiedVictoryCondition()
+        {
+            if (descriptor.RequiredBossDefeats <= 0 ||
+                world.Progression.Statistics.BossDefeats < descriptor.RequiredBossDefeats)
+                return false;
+            var rewards = world.Qinglan?.Rewards;
+            if (rewards == null || !descriptor.VictoryBossId.IsValid) return true;
+            return rewards.HasCommitted(
+                new RewardTransactionId(descriptor.RunId, descriptor.VictoryBossId, 0));
         }
 
         private static RewardChoice Project(RewardChoiceSnapshot source)

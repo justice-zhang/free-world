@@ -221,3 +221,17 @@ GC 2/2/2，结果为 `FAIL`。完全相同配置冷启动复测 `PASS`：Tick p9
 该 M10 Stress 场景使用框架 Pickup Store，不装配 G2.3 RewardRuntime；因此它证明改动未使生产核心
 规模基线回归，而 5,000 Reward Pickup 专项证明新增扫描本身。实际地图奖励密度、选择 UI、正式 VFX/
 GPU 和 54,000 Tick 正式内容仍由 G2.8/G3.5 验证。
+
+## 15. Qinglan G2.4 RunResult / Game Flow 短测
+
+Descriptor、Result 聚合、页面状态转换和资源释放都只在 Run 装配/结束低频路径运行，不进入 30 Hz
+固定 Tick。G2.4 对热路径的唯一变更是 DeathSystem 记录 Elite/Boss 两个布尔计数；不分配集合、不格式化
+字符串、不执行反射或 LINQ。结果冻结允许低频创建排序集合，完成后与 World 断开别名。
+
+目标规模短测继续使用 600 Enemy、1,200 Projectile、2,000 Pickup、100 VFX、900 测量 Tick和 300 Tick
+预热，结果 `PASS`：Tick p99 `4.2181 ms`、Render p99 `0.6962 ms`、热路径 0 B、GC 0/0/0、无效句柄/
+Proc 截断/VFX 丢弃均为 0，Checksum `b455f50ce958d212`。相对 G2.3 通过样本 4.8810 ms 无回归，仍
+远低于 33.33 ms Tick 预算。
+
+该 Null Device 场景不包含实际页面、正式 GPU、Scene/Addressables 卸载和结果保存 IO。对应 CPU/GPU、
+1% Low、内存趋势与保存延迟必须由 G2.8、G3.5 和 G3.6 的 Player 证据关闭。

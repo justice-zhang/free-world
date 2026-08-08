@@ -425,6 +425,9 @@ namespace Game.Simulation
 
         public int CommittedCount => count;
 
+        /// <summary>Checks whether one stable run/source/sequence transaction was committed.</summary>
+        public bool HasCommitted(in RewardTransactionId transaction) => IsCommitted(transaction);
+
         internal bool IsCommitted(in RewardTransactionId transaction)
         {
             for (var index = 0; index < count; index++)

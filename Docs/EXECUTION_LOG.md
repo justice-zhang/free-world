@@ -1000,3 +1000,40 @@ Focused EditMode 6/6、全量 EditMode 245/245、PlayMode 10/10、Project Valida
 
 只进入 G2.4：实现局内胜负 RunResult 和结算增量汇总；不得提前持久化 Profile（G2.5）或实现实际奖励
 UI（G2.6）。
+
+## Qinglan Demo G2.4：不可变 RunResult 与游戏流程
+
+- 状态：`COMPLETE`
+- 日期：2026-08-08
+- 分支：`codex/qinglan-demo-implementation`
+- 内容包：`qinglan.pack.demo` 0.8.0 / Content Schema 6 / 150 definitions（未改内容）
+- CR / ADR：CR-2026-008、CR-2026-015 / ADR 0022
+- 结果报告：`Docs/Reports/2026-08-08-g2-4-run-result-game-flow.md`
+
+### 实施结果
+
+| 范围 | 结果 |
+|---|---|
+| Descriptor | RunId/Seed、角色/地图/难度、2 Boss 门槛、Pack Version/Hash 不可变快照 |
+| Result | 四 Outcome、Build/Relic/Evolution、Map、Reward Delta、统计与三 Checksum |
+| Flow | Title→Run→Result→Hub→再次出发；Preparing/Ending 分 Tick、非法转换拒绝 |
+| Factory | 真实青岚 Catalog/Pipeline/角色/技能/机制装配和全 Entity 幂等释放 |
+| Boundary | 不写 Profile、不清 Recovery、不发布 RunCompleted、不调用平台；延期 G2.5 |
+| API | Simulation +6 至 1402；Application +95 至 450；均删除 0 |
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| 编译 | PASS | `dotnet build free-world.slnx`，0 error、27 条既有 DTO 警告 |
+| Focused EditMode / PlayMode | PASS | 7/7；1/1（含连续两局） |
+| 全量 EditMode / PlayMode | PASS | 268/268；12/12 |
+| Project Validation / API Freeze | PASS | Simulation 1402 / `533fa9b4...61c82`；Application 450 / `e423cdb7...71a4` |
+| 12 分钟 Headless | PASS | 2 Boss、0 InvalidHandle、Checksum `049cb8bdc48092eb` |
+| 性能短测 | PASS | Tick p99 4.2181 ms、0 B、GC 0/0/0 |
+| Windows Development Build | NOT RUN | 路线规定 G2.8 对完整垂直切片执行 |
+
+### 下一步
+
+只进入 G2.5：消费 `LatestResult/Delta.TransactionId`，实现 Profile v3 原子合并、保存失败重试、Recovery
+清理和提交后事件；保存成功前不得让真实玩家路径清除 `HasUncommittedResult`。

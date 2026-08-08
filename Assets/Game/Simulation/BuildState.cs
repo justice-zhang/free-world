@@ -54,6 +54,7 @@ namespace Game.Simulation
         private ContentId[] traits = new ContentId[4];
         private ContentId[] activeSynergies = new ContentId[4];
         private ContentId[] eligibleEvolutions = new ContentId[4];
+        private ContentId[] appliedEvolutions = new ContentId[4];
         private ContentId[] unlockedOffers = new ContentId[8];
         private ContentTag[] tags = new ContentTag[16];
         private int[] tagCounts = new int[16];
@@ -63,6 +64,7 @@ namespace Game.Simulation
         private int traitCount;
         private int activeSynergyCount;
         private int eligibleEvolutionCount;
+        private int appliedEvolutionCount;
         private int unlockedOfferCount;
         private int tagCount;
         private int modifierBindingCount;
@@ -100,12 +102,14 @@ namespace Game.Simulation
         public int TraitCount => traitCount;
         public int ActiveSynergyCount => activeSynergyCount;
         public int EligibleEvolutionCount => eligibleEvolutionCount;
+        public int AppliedEvolutionCount => appliedEvolutionCount;
         public int UnlockedOfferCount => unlockedOfferCount;
         public int Revision { get; private set; }
 
         public ContentId GetTraitAt(int index) => GetAt(traits, TraitCount, index);
         public ContentId GetActiveSynergyAt(int index) => GetAt(activeSynergies, ActiveSynergyCount, index);
         public ContentId GetEligibleEvolutionAt(int index) => GetAt(eligibleEvolutions, EligibleEvolutionCount, index);
+        public ContentId GetAppliedEvolutionAt(int index) => GetAt(appliedEvolutions, AppliedEvolutionCount, index);
 
         public bool OwnsContent(ContentId id)
         {
@@ -328,6 +332,7 @@ namespace Game.Simulation
                 skillInstances.Remove(previous.ContentId);
             }
             skillInstances[evolution.Source.ResultSkillId] = added.Value;
+            AddUnique(ref appliedEvolutions, ref appliedEvolutionCount, evolution.Source.Id);
             if (evolution.Source.ConsumePolicy == EvolutionConsumePolicy.ConsumeRequiredPassives)
             {
                 for (var index = 0; index < evolution.Source.RequiredPassiveIds.Count; index++)

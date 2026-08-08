@@ -8,8 +8,8 @@ M10 首次冻结、G1.1 按 ADR 0013—0015 更新以下程序集的公开类型
 |---|---:|---|
 | `Game.Core` | 168 | `25766747b7014e0386506567e5e3c35f78b6dc5d00d850b00c35d28eb8d7e176` |
 | `Game.Content.Runtime` | 940 | `cd72d779cf1ae53f0875d06140706e194081588b7a0429efd4e490ae72e35b00` |
-| `Game.Simulation` | 1396 | `4d5bfc3d684b1db6c3c5591af6b558de28924f6ac0bc569ff184597fc6410c32` |
-| `Game.Application` | 355 | `f57fe00c2c1ead974c9b900e5396661c42c7900641534a87f45f8ce6d5b4f8a6` |
+| `Game.Simulation` | 1402 | `533fa9b40a7f3c072ac2b799e86fa195ace5d18ed02dcde9f919c4b91ee61c82` |
+| `Game.Application` | 450 | `e423cdb71953b31773df2c47a0c02dd64fc07424c9b25010c149e65fd2fa71a4` |
 | `Game.Platform.Abstractions` | 73 | `8eb5f2ccca0f5845a55d90c9f00fb42eae59cc82d81e98369995e84428a51738` |
 
 ## 变更协议
@@ -133,3 +133,15 @@ ADR 0021 接受通用 `RewardRuntime` 的 Reward/Pickup/Relic 消费、三槽库
 `EntityHandle` 和纯值快照，不暴露 Unity Object、Scene 或持久化 RuntimeIndex。旧 Hash 下 Project
 Validation 按预期只报告 Simulation `e41c43…`→`4d5bfc…`；规范签名、65/0 对比、失败日志和最终捕获
 保存在 `TestResults/QinglanDemo/G2.3/`。
+
+## Qinglan Demo G2.4 批准追加
+
+ADR 0022 接受不可变 Run Descriptor/Result、四种 Outcome、Demo Flow Coordinator/Factory 边界和局内统计
+投影。规范 diff 为 `Game.Simulation` 6 条、`Game.Application` 95 条追加，均删除 0；Core、Content
+Runtime 与 Platform Abstractions 逐字节不变。
+
+旧 `RunSession(world, player, stateMachine, clock)`、`RunResult` 原公开属性、`RunEndReason` 数值 1—3 和
+旧 `GameState` 全部保留。新增结果只暴露稳定 ContentId、Pack Version/Hash、只读集合和纯值 Checksum，
+不暴露 Unity Object、Scene 或 RuntimeIndex。旧 Hash 下 Project Validation 按预期只报告 Simulation
+`4d5bfc…`→`533fa9…` 与 Application `f57fe0…`→`e423cd…`；规范签名和失败日志保存在
+`TestResults/QinglanDemo/G2.4/`。

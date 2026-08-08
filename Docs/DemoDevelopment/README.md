@@ -58,6 +58,9 @@ G3 发布候选
 | [14_G1_6_ENCOUNTER_SLICE.md](14_G1_6_ENCOUNTER_SLICE.md) | G1.6 九段十二分钟时间轴、固定精英与停止生成实施切片 |
 | [15_G1_7_PACK_REWARD_GATE.md](15_G1_7_PACK_REWARD_GATE.md) | G1.7 受控显化选择、完整 Placeholder Pack 与 Development Build 门禁 |
 | [16_G2_1_MAP_RUNTIME.md](16_G2_1_MAP_RUNTIME.md) | G2.1 旧演武场、目标、事件、地标、锚点与地图运行时 |
+| [17_G2_2_BOSS_RUNTIME.md](17_G2_2_BOSS_RUNTIME.md) | G2.2 折枝、听风三阶段、风脉台修正与清理运行时 |
+| [18_G2_3_REWARD_PICKUP_RELIC_RUNTIME.md](18_G2_3_REWARD_PICKUP_RELIC_RUNTIME.md) | G2.3 奖励、灵物、战斗奇物与幂等事务运行时 |
+| [19_G2_4_RUN_RESULT_GAME_FLOW.md](19_G2_4_RUN_RESULT_GAME_FLOW.md) | G2.4 不可变 RunResult、流程状态、装配与释放 |
 
 ## 4. 模块分支
 

@@ -391,3 +391,15 @@ ADR 0013—0015 和 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md` 批准下列实
   `b274fc24afa07194682968eb2a290e0b3e12c631a621dd98f2799f0925702236`。
 - Profile v3 原子合并、胜负 RunResult、叙事、实际选择 UI/输入、正式表现和 Windows Development Build
   为 `NOT RUN`，依次由 G2.4—G2.8 关闭。
+
+## 21. Qinglan Demo G2.4 RunResult / Game Flow 证据
+
+- Focused EditMode 7/7：覆盖 dependency-sorted Pack 快照、真实青岚 Factory、Build/Map/Reward/统计聚合、
+  Victory/Defeat/Abandoned/RecoveryRejected、最终 Boss 双条件、输入数组隔离和幂等全 Entity 释放。
+- Focused PlayMode 1/1：覆盖 Title→角色→地图→Preparing→Active→Pause/Resume→Ending→Result→Hub→
+  再次出发并完成第二局 Abandoned；证明旧结果不复用、G2.4 不发布 `RunCompleted` 且离开 Result 后
+  Session 已释放。最终全量 EditMode 268/268、PlayMode 12/12。
+- 旧 Freeze Hash 下 Project Validation 预期只报告 Simulation 6 条与 Application 95 条追加，删除 0；
+  Core、Content Runtime、Platform Abstractions 规范签名逐字节不变。ADR 0022 接受后更新 Freeze。
+- Profile v3 提交/失败重试、Recovery 清理和平台事件为 `NOT RUN`（G2.5）；实际页面/输入为 `NOT RUN`
+  （G2.6）；Windows Development Build 为 `NOT RUN`（G2.8）。

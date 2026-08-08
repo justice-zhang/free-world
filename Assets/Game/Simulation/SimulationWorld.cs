@@ -569,6 +569,28 @@ namespace Game.Simulation
             int passiveSlots = 6,
             ContentTag[] mapTags = null)
         {
+            return InitializeProgression(
+                catalog,
+                player,
+                runSeed,
+                runSeed,
+                curve,
+                skillSlots,
+                passiveSlots,
+                mapTags);
+        }
+
+        /// <summary>Attaches progression while keeping deterministic RNG seed separate from the stable run identity.</summary>
+        public ProgressionRuntime InitializeProgression(
+            BuildRuntimeCatalog catalog,
+            EntityHandle player,
+            ulong runSeed,
+            ulong rewardRunId,
+            ExperienceCurve? curve = null,
+            int skillSlots = 6,
+            int passiveSlots = 6,
+            ContentTag[] mapTags = null)
+        {
             if (Progression != null) throw new InvalidOperationException("Progression is already initialized.");
             if (!Actors.Contains(player)) throw new ArgumentException("Player must be a live actor.", nameof(player));
             Progression = new ProgressionRuntime(
@@ -583,7 +605,7 @@ namespace Game.Simulation
                 mapTags,
                 Math.Max(16, Actors.Count),
                 Qinglan?.Rewards);
-            Qinglan?.Rewards.Initialize(catalog, Progression, player, runSeed);
+            Qinglan?.Rewards.Initialize(catalog, Progression, player, rewardRunId);
             return Progression;
         }
 
