@@ -294,6 +294,18 @@ G2.6 由 `QinglanDemoPresenter` 把 Application Owner 投影为只含本地化 K
 `PresentationCameraRig` 只跟随 View Transform，提供边界夹紧、Shake Request 和总效果开关，不读取
 模拟 Store。
 
+### 7.2 G2.7 程序化表现与优先级池
+
+G2.7 继续由同一个 `PresentationCoordinator` 拥有四类 View、VFX、AudioSource、伤害数字和地图世界层。
+Infrastructure 从 Content Registry 的 kind/tag/Delivery 和稳定 Profile ID 在装配阶段生成
+`ProceduralPresentationCatalog`；Presentation 不按具体青岚内容 ID 分支。九类运行时 Sprite 同时提供颜色、
+形状、轮廓与方向通道，Affix 最多显示两个实例 Overlay。
+
+VFX 固定 200、AudioSource 固定 32 并预留 8 个 P0、伤害数字固定 96。P0 满池时驱逐低优先级或合并，
+P2/P3 可以丢弃/聚合并记录诊断。程序化 Map 只复制 RuntimeMapDefinition 到 DTO 并读取
+`RunUiSnapshot`，不参与地图判定。生成纹理和测试音均为 Development Placeholder；正式资源加载、
+Addressables 句柄和 GPU 门禁仍属于 G3。
+
 M8 的 Presenter 仍只产生 Key；`UnityLocalizationService` 在 View 边界从 `UI` String Table 解析
 `en`、`zh-Hans` 或 Pseudo。Project Validation 检查所有固定 UI/诊断 Key 与 baked 内容 Key 在英、
 中表均非空。设置只保存 Locale Code，不保存语言正文；所有可见文字继续在 View 边界解析。

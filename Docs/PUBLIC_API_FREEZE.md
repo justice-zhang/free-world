@@ -8,8 +8,8 @@ M10 首次冻结、G1.1 按 ADR 0013—0015 更新以下程序集的公开类型
 |---|---:|---|
 | `Game.Core` | 168 | `25766747b7014e0386506567e5e3c35f78b6dc5d00d850b00c35d28eb8d7e176` |
 | `Game.Content.Runtime` | 940 | `cd72d779cf1ae53f0875d06140706e194081588b7a0429efd4e490ae72e35b00` |
-| `Game.Simulation` | 1403 | `6966b53fc776347fa83b2dac8a40dd9079632edd98c60acab384d2cf6535db76` |
-| `Game.Application` | 589 | `279c5f16733528b331a2c838136aecfd7a5052cc1943af8e9cb4deb85aea8128` |
+| `Game.Simulation` | 1406 | `b901d06158d38b41b9d0024f9ac73112503c64cbbd22eb9f473fec1121d0ab82` |
+| `Game.Application` | 590 | `a595031235a1fc890d30311afc572aaefe9401a16055dfa249c6cdd0427293bc` |
 | `Game.Platform.Abstractions` | 73 | `8eb5f2ccca0f5845a55d90c9f00fb42eae59cc82d81e98369995e84428a51738` |
 
 ## 变更协议
@@ -171,3 +171,15 @@ Simulation Store、EntityHandle 或 RuntimeContentIndex。Core、Content Runtime
 Abstractions 的规范签名逐字节不变。旧 Hash 下 Project Validation 按预期仅报告 Application
 `743d38…`→`279c5f…`；完整规范签名、68 行对比和旧 Hash 失败日志保存在
 `TestResults/QinglanDemo/G2.6/`。
+
+## Qinglan Demo G2.7 批准变更
+
+CR-2026-018 与 ADR 0025 接受表现层读取已有稳定 Presentation/Profile/Affix 身份的最小只读桥接。
+`Game.Simulation` 从 1403 条变为 1406 条，仅新增 `SkillRuntime.TryGetDeliveryPresentationId`、
+`EnemyRuntime.TryGetAffixId` 和 `EnemyRuntime.GetAffixCount`；`Game.Application` 从 589 条变为 590 条，
+仅新增 `RunSession.TryGetVisualOverlayId`。新增 4 条、删除 0。
+
+查询不返回 Store、ActiveDeliveryRecord、Affix 可变对象、Unity Object 或运行时索引；Content Schema、
+Save Schema、Assembly 方向和 30 Hz Tick 均不变。Core、Content Runtime、Platform Abstractions 规范签名
+逐字节不变。旧 Hash 验证按预期只报告 Simulation `6966b5…`→`b901d0…` 与 Application
+`279c5f…`→`a59503…`；规范签名和差异证据保存在 `TestResults/QinglanDemo/G2.7/`。

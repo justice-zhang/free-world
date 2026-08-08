@@ -235,3 +235,19 @@ Proc 截断/VFX 丢弃均为 0，Checksum `b455f50ce958d212`。相对 G2.3 通�
 
 该 Null Device 场景不包含实际页面、正式 GPU、Scene/Addressables 卸载和结果保存 IO。对应 CPU/GPU、
 1% Low、内存趋势与保存延迟必须由 G2.8、G3.5 和 G3.6 的 Player 证据关闭。
+
+## 16. Qinglan G2.7 程序化表现与池短测
+
+G2.7 的 View/Profile 解析只发生在 Acquire/色觉切换，地图状态来自 10 Hz 可复用 `RunUiSnapshot`；VFX、
+AudioSource 与伤害数字由集中 Coordinator 推进。专项 EditMode 在 VFX 满池稳态推进 1,000 次测得当前
+线程分配 0 B，并分别验证 200 VFX、总计 32 AudioSource（2 循环＋30 瞬态）和 96 伤害数字的硬上限、
+P0 驱逐/合并、普通音频冷却及数字聚合。
+
+目标规模短测使用 600 Enemy、1,200 Projectile、2,000 Pickup、200 VFX、900 测量 Tick和 300 Tick
+预热，结果 `PASS`：Tick p99 `2.5539 ms`、Render CPU p99 `1.0531 ms`、热路径 0 B、GC 0/0/0、
+无效句柄/Proc 截断/VFX 丢弃均为 0，Checksum `6ab94ec0ac5b6571`。VFX 实际达到 Created/Peak 200，
+45,000 次池命中、0 获取失败。
+
+Render 指标仍是 Null Device 的 Snapshot 插值与池化 VFX CPU 探针，不包含程序化地图 Overdraw、正式
+Shader、动画、音频 DSP 或目标 GPU。G2.8 执行完整可玩切片可读性审查；G3.5 必须执行正式资产 GPU、
+1% Low、显存和 54,000 Tick，不能以本短测替代。

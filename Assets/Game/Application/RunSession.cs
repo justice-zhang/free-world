@@ -155,11 +155,48 @@ namespace Game.Application
         /// <summary>Resolves optional stable presentation identity without exposing stores.</summary>
         public bool TryGetVisualProfileId(SpatialEntity entity, out ContentId profileId)
         {
+            if (entity.Kind == EntityKind.Actor && entity.Handle == player && descriptor.CharacterId.IsValid)
+            {
+                profileId = descriptor.CharacterId;
+                return true;
+            }
+
             if (entity.Kind == EntityKind.Actor &&
                 world.Enemies.TryGetSnapshot(entity.Handle, out var enemy) &&
                 world.Enemies.Catalog.TryGet(enemy.EnemyId, out var definition))
             {
                 profileId = definition.Source.VisualProfileId;
+                return profileId.IsValid;
+            }
+
+            if ((entity.Kind == EntityKind.Projectile || entity.Kind == EntityKind.Area) &&
+                world.Skills.TryGetDeliveryPresentationId(entity.Kind, entity.Handle, out profileId))
+            {
+                return true;
+            }
+
+            if (entity.Kind == EntityKind.Pickup &&
+                world.Qinglan?.Rewards.TryGetPickup(entity.Handle, out var pickup) == true)
+            {
+                // The Infrastructure profile factory registers both the stable content ID
+                // and its authored PresentationProfileId as aliases for the same style.
+                profileId = pickup.PickupId;
+                return profileId.IsValid;
+            }
+
+            profileId = default;
+            return false;
+        }
+
+        /// <summary>Resolves one optional stable overlay identity without exposing enemy stores.</summary>
+        public bool TryGetVisualOverlayId(
+            SpatialEntity entity,
+            int overlayIndex,
+            out ContentId profileId)
+        {
+            if (overlayIndex >= 0 && entity.Kind == EntityKind.Actor &&
+                world.Enemies.TryGetAffixId(entity.Handle, overlayIndex, out profileId))
+            {
                 return profileId.IsValid;
             }
 

@@ -63,6 +63,7 @@ G3 发布候选
 | [19_G2_4_RUN_RESULT_GAME_FLOW.md](19_G2_4_RUN_RESULT_GAME_FLOW.md) | G2.4 不可变 RunResult、流程状态、装配与释放 |
 | [20_G2_5_META_PROFILE_SETTLEMENT.md](20_G2_5_META_PROFILE_SETTLEMENT.md) | G2.5 局外成长、Profile v3、Recovery 拒绝与原子结算 |
 | [21_G2_6_UI_INPUT_ACCESSIBILITY.md](21_G2_6_UI_INPUT_ACCESSIBILITY.md) | G2.6 完整页面、HUD、键鼠/手柄与可访问性设置 |
+| [22_G2_7_PLACEHOLDER_PRESENTATION_POLISH.md](22_G2_7_PLACEHOLDER_PRESENTATION_POLISH.md) | G2.7 程序化表现、地图标记、优先级池与测试音混音 |
 
 ## 4. 模块分支
 

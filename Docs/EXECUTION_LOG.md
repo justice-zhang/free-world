@@ -1076,3 +1076,66 @@ UI（G2.6）。
 
 只进入 G2.6：使用现有 Flow/Profile 投影实现实际标题、选择、结算、据点、故事/收藏页面和输入；UI 不得
 直接写 Profile、删除 Recovery、复制设施派生规则或在提交完成前显示“已保存”。
+
+## Qinglan Demo G2.6：完整 UI、输入与可访问性
+
+- 状态：`COMPLETE`
+- 日期：2026-08-09
+- 分支：`codex/qinglan-demo-implementation`
+- 内容包：`qinglan.pack.demo` 0.9.0 / Content Schema 6 / 193 definitions（未改内容）
+- CR / ADR：CR-2026-017 / ADR 0024
+- 结果报告：`Docs/Reports/2026-08-09-g2-6-ui-input-accessibility.md`
+
+### 实施结果
+
+单一程序化 Canvas、全页面/HUD、键鼠/手柄统一命令、held 地图交互、焦点/断连边界，以及 Settings 3
+字体、色觉、四路音量、字幕和 v1/v2 迁移全部交付。Application API 更新到 589 条，其他冻结程序集不变。
+
+### 检查
+
+Focused EditMode 7/7、Focused PlayMode 2/2、全量 EditMode 283/283、PlayMode 15/15、Project
+Validation/API Freeze、Pack 双构建、性能短测、Windows Development Build 与 Player 启动 Smoke 均
+`PASS`。正式字体/音频/视觉与 Release `NOT RUN`。
+
+### 下一步
+
+只进入 G2.7：复用同一 Host/Canvas/Snapshot，完成程序化表现身份、地图标记、P0 预警和有界池。
+
+## Qinglan Demo G2.7：程序化 Placeholder 表现、池与音频
+
+- 状态：`COMPLETE`
+- 日期：2026-08-09
+- 分支：`codex/qinglan-demo-implementation`
+- 内容包：`qinglan.pack.demo` 0.9.0 / Content Schema 6 / 193 definitions（未改内容）
+- CR / ADR：CR-2026-018 / ADR 0025
+- 结果报告：`Docs/Reports/2026-08-09-g2-7-placeholder-presentation-polish.md`
+
+### 实施结果
+
+| 范围 | 结果 |
+|---|---|
+| Profile | Registry kind/tag/Delivery 驱动九形状、轮廓、方向、玩家/敌人/Boss/Pickup/Skill/Affix |
+| Map | 96×72 边界、9 障碍、5 区和 11 个 Objective/Event/Landmark 世界标记 |
+| VFX/Text | VFX 200、伤害数字 96；P0 驱逐/合并、低层丢弃/聚合与诊断 |
+| Audio | 总计 32 AudioSource、生成测试音/循环、8 P0 预留、冷却/Duck、四路音量与四混音状态 |
+| Accessibility | 五色觉、低闪、无震动和无伤害数字不移除 P0 形状/方向通道 |
+| API | Simulation +3 至 1406；Application +1 至 590；删除 0 |
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| Focused EditMode / PlayMode | PASS | 7/7；1/1 |
+| 全量 EditMode / PlayMode | PASS | 290/290；16/16 |
+| Project Validation / API Freeze | PASS | Simulation `b901d061...ab82`；Application `a5950312...a3bc` |
+| Pack 双构建 | PASS | 各 7 Pack / 14 文件，差异 0 |
+| 性能短测 | PASS | Tick p99 2.5539 ms、Render p99 1.0531 ms、0 B、GC 0/0/0、200 VFX 0 丢弃 |
+| Windows Development Build | PASS | EXE SHA-256 `5d7eeb53...c9c6`；Manifest 四项证据 pass |
+| Player 启动 Smoke | PASS | Bootstrap 真实加载 5 Pack / 220 definitions 后明确终止测试进程 |
+| 12 分钟完整玩家局 / 人工 P0 可读性 | NOT RUN | 固定由 G2.8 垂直切片门禁执行 |
+| 正式 GPU/音频/资产 / Release | NOT RUN | G3 provenance、目标硬件和 Release 范围 |
+
+### 下一步
+
+只进入 G2.8：对已完成的全部 G1/G2 模块执行 12 分钟垂直切片、压力可读性、生命周期、Development
+Build/Smoke 与完成定义门禁；不扩 Schema，不提前导入 G3 正式资产。

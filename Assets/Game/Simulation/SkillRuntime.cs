@@ -424,6 +424,26 @@ namespace Game.Simulation
             return true;
         }
 
+        /// <summary>
+        /// Resolves the stable presentation identity of one active projectile or area
+        /// without exposing the mutable delivery record to presentation consumers.
+        /// </summary>
+        public bool TryGetDeliveryPresentationId(
+            EntityKind kind,
+            EntityHandle handle,
+            out ContentId presentationId)
+        {
+            if ((kind != EntityKind.Projectile && kind != EntityKind.Area) ||
+                !deliveries.TryGet(kind, handle, out var record))
+            {
+                presentationId = default;
+                return false;
+            }
+
+            presentationId = record.Level.Delivery.PresentationId;
+            return presentationId.IsValid;
+        }
+
         internal bool SetSuppressed(SkillInstanceHandle handle, bool suppressed)
         {
             if (!TryGetInstance(handle, out var instance)) return false;

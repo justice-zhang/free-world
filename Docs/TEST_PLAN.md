@@ -448,3 +448,20 @@ ADR 0013—0015 和 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md` 批准下列实
   `pass`，Placeholder 210、未批准资产 0。Player 无图形启动实际记录 `packs=5, entries=220`。
 - 12 分钟 Headless `NOT RUN`：本包不改变固定 Tick 公式，真实 held 交互由 125 Tick 专项和性能短测覆盖。
   Release Build/Release Player Smoke、正式字体/音频/视觉与目标硬件可读性评审 `NOT RUN`，由 G3 执行。
+
+## 24. Qinglan Demo G2.7 Placeholder Presentation / Audio 证据
+
+- Focused EditMode 最终 7/7：Registry 驱动玩家/Boss/Boss Area 形状和 P0、真实 Skill Delivery 稳定 ID、
+  96×72 地图/9 障碍/5 区/11 标记、VFX 驱逐/合并、音频预留/冷却/丢弃/合并、伤害数字聚合和稳态 0 B。
+- Focused PlayMode 1/1：Bootstrap 真实 Run 生成程序化地图，玩家保持 Triangle 非颜色通道，High Contrast
+  切换不改变形状；推进 360 Tick 后 VFX≤200、AudioSource≤32。最终全量 EditMode 290/290、
+  PlayMode 16/16。
+- 旧 Freeze Hash 下 Project Validation 按预期只报告 Simulation +3、Application +1；签名对比新增 4、
+  删除 0，其他三个冻结程序集逐字节不变。ADR 0025 更新后 Validation/API Freeze 均 PASS。
+- 内容未变：两次 CLI 各构建 7 Pack、14 文件逐 Hash/长度一致；Qinglan 仍为 0.9.0 / Schema 6 /
+  193 definitions / Content Hash `d3321996...98d8d`。
+- 性能短测 900 Tick＋300 预热：Tick p99 2.5539 ms、Render CPU p99 1.0531 ms、热路径 0 B、GC 0/0/0、
+  200 VFX 无丢弃。Windows x64 Development Build 与 Manifest 四项证据 PASS；Player 启动实际记录
+  `packs=5, entries=220` 后由测试进程明确终止。
+- 12 分钟完整玩家流程、600—1200 敌人 P0 人工可读性为 `NOT RUN`，由 G2.8 执行；正式资产、正式音频、
+  GPU/Overdraw、字体和 Release 为 `NOT RUN`，由 G3 执行。

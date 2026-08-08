@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Game.Application;
 using Game.Core;
 using Game.Simulation;
 using UnityEngine;
@@ -15,18 +16,24 @@ namespace Game.Presentation
         private readonly Transform root;
         private readonly EntityKind kind;
         private readonly VisualProfileCatalog profiles;
+        private readonly ProceduralPresentationCatalog proceduralProfiles;
+        private readonly AccessibilitySettings settings;
         private readonly ProceduralVisualLibrary fallback;
 
         internal EntityViewPool(
             Transform poolRoot,
             EntityKind entityKind,
             VisualProfileCatalog catalog,
+            ProceduralPresentationCatalog proceduralCatalog,
+            AccessibilitySettings accessibilitySettings,
             ProceduralVisualLibrary proceduralFallback,
             int prewarm)
         {
             root = poolRoot ?? throw new ArgumentNullException(nameof(poolRoot));
             kind = entityKind;
             profiles = catalog ?? throw new ArgumentNullException(nameof(catalog));
+            proceduralProfiles = proceduralCatalog ?? throw new ArgumentNullException(nameof(proceduralCatalog));
+            settings = accessibilitySettings ?? throw new ArgumentNullException(nameof(accessibilitySettings));
             fallback = proceduralFallback ?? throw new ArgumentNullException(nameof(proceduralFallback));
             available = new Stack<T>(Math.Max(1, prewarm));
             all = new List<T>(Math.Max(1, prewarm));
@@ -38,7 +45,11 @@ namespace Game.Presentation
         public int AvailableCount => available.Count;
         public int ActiveCount => all.Count - available.Count;
 
-        public T Acquire(SpatialEntity entity, ContentId visualProfileId, out bool usedFallback)
+        public T Acquire(
+            SpatialEntity entity,
+            ContentId visualProfileId,
+            bool playerStyle,
+            out bool usedFallback)
         {
             if (entity.Kind != kind) throw new ArgumentException("Entity kind does not match this pool.", nameof(entity));
             var view = available.Count > 0 ? available.Pop() : Create();
@@ -49,11 +60,48 @@ namespace Game.Presentation
             }
             else
             {
-                view.Configure(fallback.Sprite, ProceduralVisualLibrary.ColorFor(kind), ProceduralVisualLibrary.SizeFor(kind));
-                usedFallback = true;
+                usedFallback = !proceduralProfiles.TryResolve(
+                    visualProfileId,
+                    kind,
+                    playerStyle,
+                    settings.ColorVision,
+                    out var style);
+                view.Configure(style, fallback);
             }
+            view.SetStyleIdentity(visualProfileId, playerStyle);
             view.Bind(entity);
             return view;
+        }
+
+        internal void RefreshStyle(T view)
+        {
+            if (view == null || !view.IsBound) return;
+            if (profiles.TryResolve(view.ProfileId, kind, out var profile))
+            {
+                view.Configure(profile.Sprite != null ? profile.Sprite : fallback.Sprite, profile.Color, profile.Size);
+                return;
+            }
+            proceduralProfiles.TryResolve(
+                view.ProfileId,
+                kind,
+                view.UsesPlayerStyle,
+                settings.ColorVision,
+                out var style);
+            view.Configure(style, fallback);
+        }
+
+        internal bool ApplyOverlay(T view, int index, ContentId overlayId)
+        {
+            if (view == null || !view.IsBound || !overlayId.IsValid) return false;
+            if (!proceduralProfiles.TryResolve(
+                    overlayId,
+                    kind,
+                    false,
+                    settings.ColorVision,
+                    out var style))
+                return false;
+            view.SetOverlay(index, style, fallback);
+            return true;
         }
 
         public bool Release(T view)

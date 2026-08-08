@@ -55,7 +55,11 @@ namespace Game.Infrastructure
             var presentationObject = new GameObject("Qinglan_Demo_Presentation");
             presentationObject.transform.SetParent(transform, false);
             Presentation = presentationObject.AddComponent<PresentationCoordinator>();
-            Presentation.Initialize(Ui.SharedCanvas, Flow.Settings);
+            Presentation.Initialize(
+                Ui.SharedCanvas,
+                Flow.Settings,
+                null,
+                QinglanProceduralPresentationFactory.Build(application.ContentRegistry));
             presenter = new QinglanDemoPresenter(Flow, Ui);
 
             if (presentationCamera == null)
@@ -102,6 +106,8 @@ namespace Game.Infrastructure
             if (lastSession != session)
             {
                 Presentation.Clear();
+                Presentation.SetMap(session == null ? null :
+                    QinglanProceduralMapFactory.Build(bootstrapApplication.ContentRegistry, session.Descriptor.MapId));
                 cameraRig.SetTarget(null);
                 lastSession = session;
             }
@@ -120,7 +126,9 @@ namespace Game.Infrastructure
                 }
                 Presentation.Sync(session.RenderSnapshot, session.InterpolationAlpha, session);
                 if (Presentation.TryGetView(session.Player, out var playerView)) cameraRig.SetTarget(playerView.transform);
+                Presentation.SyncRunState(presenter.CurrentHud);
             }
+            Presentation.SetMixState(ResolveMixState());
             Presentation.TickEffects((float)elapsedSeconds);
 
             var stageChanged = lastStage != Flow.Stage;
@@ -150,6 +158,17 @@ namespace Game.Infrastructure
         }
 
         private GameApplication bootstrapApplication;
+
+        private PresentationMixState ResolveMixState()
+        {
+            if (presenter?.CurrentPage?.Page == QinglanUiPageId.StoryOverlay)
+                return PresentationMixState.Story;
+            if (Flow.Stage == DemoFlowStage.UserPaused || Flow.Stage == DemoFlowStage.UpgradePaused ||
+                Flow.Stage == DemoFlowStage.RewardPaused)
+                return PresentationMixState.Paused;
+            if (presenter?.CurrentHud?.HasBoss == true) return PresentationMixState.Boss;
+            return PresentationMixState.Gameplay;
+        }
 
         private void ApplyInputMode() => Input.SetGameplayMode(Flow.IsGameplayInputEnabled);
 

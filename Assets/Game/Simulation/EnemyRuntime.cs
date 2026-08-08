@@ -397,7 +397,8 @@ namespace Game.Simulation
             return new EliteAffixSelection(first, second);
         }
 
-        internal bool TryGetAffixId(EntityHandle handle, int index, out ContentId id)
+        /// <summary>Resolves one stable affix identity for presentation overlays.</summary>
+        public bool TryGetAffixId(EntityHandle handle, int index, out ContentId id)
         {
             if (!TryGetInstance(handle, out var instance) ||
                 index < 0 || index >= instance.Affixes.Count)
@@ -410,7 +411,8 @@ namespace Game.Simulation
             return true;
         }
 
-        internal int GetAffixCount(EntityHandle handle) =>
+        /// <summary>Gets the number of immutable affixes assigned when this enemy spawned.</summary>
+        public int GetAffixCount(EntityHandle handle) =>
             TryGetInstance(handle, out var instance) ? instance.Affixes.Count : 0;
 
         internal int GetSplitGeneration(EntityHandle handle) =>
