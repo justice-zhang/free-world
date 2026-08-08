@@ -1,0 +1,12 @@
+ART-CHAR-002 / Lu Qingye portrait and silhouette
+Built-in ImageGen portrait mode plus deterministic first-party silhouette derivation.
+
+PORTRAIT GENERATION PROMPT
+
+Create one production-ready square character selection portrait of the exact same original Lu Qingye design shown in the provided project-owned sprite atlas. Preserve his identity and continuity: 18–19-year-old Chinese wandering swordsman, lean build, warm determined face, dark hair in a short high ponytail, practical layered travel robe in muted teal and warm stone-beige, cream trim, plain belt with one small wine gourd, weathered nameless broken straight sword with no insignia. Chest-up three-quarter view facing slightly toward image-right, relaxed alert expression with a subtle hopeful confidence, one hand resting near the plain sword strap. Bright clear eastern fantasy, sunlit, hand-painted 2D game portrait, clean deep-teal outline, restrained texture, strong readable silhouette, player palette centered on #59C7C1 with #F4EFD8 highlights and #163D45 deep outlines. Original commercial game character only; no sect emblem, no crown, no armor, no logo, no recognizable franchise design.
+
+Keep the entire head, ponytail, shoulders, gourd edge, hand, and sword detail inside the square with at least 8% blank margin. No scene, no frame, no UI, no text, no calligraphy, no labels, no numbers, no watermark, no signature, no extra person, no detached object. Render on a perfectly flat solid chroma-key magenta background #FF00FF with no gradients, texture, shadows, or magenta details on the character, for clean alpha removal. One square portrait only.
+
+SILHOUETTE DERIVATION SPECIFICATION
+
+Use only the approved ART-CHAR-001 final Down/Idle Sprite. Preserve its original Alpha silhouette on a 256x256 transparent canvas. Fill the character core with deep player outline #163D45 and add a 4-pixel pale cream #F4EFD8 outer edge. Do not invent or redraw anatomy, equipment, text, symbols, brands, scenery, or effects.

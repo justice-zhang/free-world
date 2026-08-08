@@ -23,6 +23,22 @@ MonoBehaviour:
     - release
     - visual.release
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5d6cc679b035bee42b42718e9a7397c7
+    m_Address: qinglan/character/lu-qingye/silhouette
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - pack.qinglan_demo
+    - release
+    - visual.release
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a6aac9f32156317479d8beb6c3fd0b57
+    m_Address: qinglan/character/lu-qingye/portrait
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - pack.qinglan_demo
+    - release
+    - visual.release
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b01aa063ff0e00940b949dea9de1b81f
     m_Address: qinglan/profile/character/lu-qingye
     m_ReadOnly: 0

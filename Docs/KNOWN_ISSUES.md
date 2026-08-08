@@ -147,18 +147,18 @@
 |---|---|---|---|---|
 | QD-KI-001 | RESOLVED | High | CR-01—CR-11 曾未形成正式决定，G1/G2 多项核心能力被阻塞。 | G0.2 已形成 12 份正式 CR：CR-01—09 接受、CR-10 拆为属性/伤害策略两项接受、CR-11 延期；决定见 `DemoDevelopment/07_CHANGE_REQUEST_DECISIONS.md`。 |
 | QD-KI-002 | ACCEPTED | Medium | Demo 设计提交尚未合并 `main`；用户要求在单一新分支连续开发，与路线文档默认“每包独立分支并先合并”不同。 | 以 `codex/qinglan-demo-implementation` 为唯一 Owner 分支，每个工作包单独提交并 Push；未经新授权不自动合并 `main` 或打标签。 |
-| QD-KI-003 | IN PROGRESS | High | ART-CHAR-001 已导入陆青野正式 Atlas/Profile 与完整 provenance；其余 26 个视觉批次及音频、字体和商业本地化仍缺实际文件、许可证或目标硬件证据。 | 继续按 G0.4 的 41 批生产/预算/权利清单逐批导入；任一剩余项缺失仍阻断 Release。 |
+| QD-KI-003 | IN PROGRESS | High | ART-CHAR-001/002 已导入陆青野正式 Atlas/Profile、肖像、轮廓与完整 provenance；其余 25 个视觉批次及音频、字体和商业本地化仍缺实际文件、许可证或目标硬件证据。 | 继续按 G0.4 的 41 批生产/预算/权利清单逐批导入；任一剩余项缺失仍阻断 Release。 |
 | QD-KI-004 | RESOLVED | High | 已接受 CR 曾未形成 ADR、Schema 6、Profile Schema 3、公共 API Freeze、迁移和测试契约。 | G0.3 已由 ADR 0013—0015 和 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md` 固化全部契约；现有 Hash 保持不变直到 G1.1 实现门禁。 |
 | QD-KI-005 | ACCEPTED | Low | CR-11 完整 Run Recovery 延期，Demo 不支持任意 Tick 继续本局。 | 只检测不完整记录、显示本地化提示并在明确开始新局后清理；不得显示 Continue 或把不完整 Run 结算为胜利。 |
 | QD-KI-006 | RESOLVED | High | Schema 6、Demo Pipeline、Profile 3 和批准公共 API 曾只有契约，尚未实现或取得新 Freeze Hash 证据。 | G1.1 已实现通用骨架/Codec/Migration/Fixture，保留旧 Hash 预期差异并完成 203 EditMode、9 PlayMode、Validation、配对性能短测和 Windows x64 Development Build；新 Hash 见 `PUBLIC_API_FREEZE.md`。 |
-| QD-KI-007 | PLANNED | High | 当前 `AssetProvenanceValidator` 只主动扫描 AI 目录，FirstParty 正式资产尚无等价自动 provenance/Hash 门禁。 | G3.1 在任何 FirstParty 文件取得 `release` 标签前，把校验扩展到全部实际 Release 输入并补负向测试；仅有 sidecar 文档不能关闭。 |
+| QD-KI-007 | RESOLVED | None | G3.1 前 `AssetProvenanceValidator` 只主动扫描 AI 目录，FirstParty 正式资产没有等价自动 provenance/Hash 门禁。 | G3.1 Governance 已升级为 Provenance Schema 2，并同时扫描 AI、FirstParty 与实际 `release` Addressables 输入；源/输出 Hash、权利字段、Group/Label、正式路径和负向测试均已通过。 |
 | QD-KI-008 | PLANNED | Medium | Noto CJK SC 只锁定官方候选和 OFL 1.1 许可路径，尚未固定发布版本、下载文件、SHA-256、Notice 或 TMP 缺字证据。 | G3.3 按官方发布固定版本/Hash，保存 LICENSE、登记每个路径并做简中/英文/Pseudo 缺字与裁切；任一缺失阻断 Release。 |
 | QD-KI-009 | RESOLVED | Medium | G1.4 的六个锁定 Evolution Offer 曾缺少独立候选、回退、暂停和幂等事务。 | G1.7 已按 CR-2026-007 / ADR 0018 实现 Reward Choice、Reward RNG、BuildState 再验证、fallback 和 RunSession 暂停/恢复；普通 Level-up 流回归通过。 |
 | QD-KI-010 | RESOLVED | Medium | G1.5 已把异相灵核 Reward 绑定到四个精英词缀并执行有限 `SpawnEnemy` 死亡输出，但 AddCurrency/奇物三选一、暂停、回退和幂等提交仍未由 RewardResolution 消费。 | G2.3 已完成异相灵核地面来源、三槽奇物选择、灵砂回退、活动/已提交事务幂等和 Application 暂停/恢复；专项与完整回归均 PASS。 |
 | QD-KI-011 | RESOLVED | High | G1.6 Encounter 曾缺折枝/听风 BossDefinition、Boss Phase/BossRule、实际地图出生公平和过渡验证。 | G2.2 已追加两 Boss/三阶段/八组合；G2.8 真实 Factory 四局均两 Boss 一次、0 InvalidHandle，实际地图 21,600 Tick 的 2,552 普通出生全部 Walkable 且距离≥14。 |
 | QD-KI-012 | RESOLVED | Medium | G1.7 曾只有受控 Evolution 选择适配器；G2.3 已完成消费者，但缺实际选择页面、统一输入与可访问性。 | G2.6 已通过 `RunSession.CurrentRewardChoice` 接入键鼠/手柄实际 UI，覆盖奖励暂停、选择、焦点和结果保存门禁。 |
 | QD-KI-013 | RESOLVED | High | G2.4 的不可变 RunResult 曾未进入 Profile v3 原子事务、保存重试、Recovery 清理或平台事件。 | G2.5 已以稳定事务 ID 完成原子合并、失败重试、清理补偿与提交后事件；成功前保持 `HasUncommittedResult`。 |
-| QD-KI-014 | IN PROGRESS | High | G2.8 已完成 Placeholder 可读性；ART-CHAR-001 已有正式玩家 Atlas/Profile，但尚未完成运行时正式 Profile 装载、其余正式视觉/音频、目标 GPU 或最终视听签字。 | 继续完成 G3.1 全部视觉并在最终集成启用正式 Profile；随后执行 G3.2 音频、G3.5 GPU 和 G3.6 Release 门禁。 |
+| QD-KI-014 | IN PROGRESS | High | G2.8 已完成 Placeholder 可读性；ART-CHAR-001/002 已有正式玩家 Atlas/Profile、肖像与轮廓，但尚未完成运行时正式 Profile 装载、其余正式视觉/音频、目标 GPU 或最终视听签字。 | 继续完成 G3.1 全部视觉并在最终集成启用正式 Profile；随后执行 G3.2 音频、G3.5 GPU 和 G3.6 Release 门禁。 |
 
-G2.8 垂直切片门禁已完成，G3.1 正在按 Manifest 顺序执行；QD-KI-003/007/008/014 继续阻止
+G2.8 垂直切片门禁已完成，G3.1 正在按 Manifest 顺序执行；QD-KI-003/008/014 继续阻止
 Release，必须按 G3.1—G3.6 的正式资产、字体、GPU 和合规证据关闭。
