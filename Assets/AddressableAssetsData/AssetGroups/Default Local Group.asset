@@ -182,6 +182,14 @@ MonoBehaviour:
     - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2bb5fc5a1c3f5c84c8a9ff7a7efcc1f2
+    m_Address: qinglan/demo/content/qinglan/skill/boss/zhezhi/falling_wood_shadow
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2ca65cd373c917c42803bfa5ccc6c1f8
     m_Address: test.synergy.m9
     m_ReadOnly: 0
@@ -263,6 +271,14 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3d8ee1bbfdbad97498f9e620dce13d6f
     m_Address: qinglan/demo/content/qinglan/mechanic/lu_qingye/riding_wind
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3dc5fd8c1fb67e945bf9de7faf678417
+    m_Address: qinglan/demo/content/qinglan/boss/zhezhi
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
@@ -365,6 +381,14 @@ MonoBehaviour:
     - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4fcb563ef68137f42b6e8a05d3ea3c7f
+    m_Address: qinglan/demo/content/qinglan/enemy/boss/tingfeng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5013181cee96bfd4aac5fc7493c99e18
     m_Address: Assets/GameAssets/Placeholder/circle.png
     m_ReadOnly: 0
@@ -390,6 +414,22 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5875ca928f7941e4e959e9454111286b
     m_Address: qinglan/demo/content/qinglan/skill/hidden/tide_rising
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 58aee6083ee836b46bb3717ec92d8db2
+    m_Address: qinglan/demo/content/qinglan/skill/boss/tingfeng/obscuring_windfield
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5b13834f9d5dd144d83e1b42fc05aec2
+    m_Address: qinglan/demo/content/qinglan/skill/boss/tingfeng/undying_oath
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
@@ -516,8 +556,24 @@ MonoBehaviour:
     - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7f57d1e70e68a2b45a154858f8832fc9
+    m_Address: qinglan/demo/content/qinglan/skill/boss/zhezhi/horizontal_trial
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7f67e0250f105284ab7fd9a3304a9d86
     m_Address: qinglan/demo/content/qinglan/status/enemy/puppet_brace
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 80a7327334140cc43ad1f5b1a61a37ff
+    m_Address: qinglan/demo/content/qinglan/skill/boss/zhezhi/training_dummy
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
@@ -588,6 +644,14 @@ MonoBehaviour:
     - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 90a2a11e551729b43a17018da5d56bb2
+    m_Address: qinglan/demo/content/qinglan/skill/boss/tingfeng/crossing_wind_scar
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 91f510b0e4c79c3489dbf6c535f4e1dd
     m_Address: test.character.second
     m_ReadOnly: 0
@@ -598,6 +662,22 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9588d0b0029a43b4daba53b30cd40959
     m_Address: qinglan/demo/content/qinglan/skill/evolved/qinglan_flowing_shadow_sword
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 97b0b78ebb471554a8e4d536e22b0497
+    m_Address: qinglan/demo/content/qinglan/enemy/boss/zhezhi
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 992d1e55c18f5284daf60ec5f6c2c9a3
+    m_Address: qinglan/demo/content/qinglan/skill/boss/tingfeng/false_sword_chime
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
@@ -630,6 +710,14 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a040922bc6cad134386567b914653aec
     m_Address: qinglan/demo/content/qinglan/reward/elite/splitting
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a2577557c6b371a4784bf7d2c2347969
+    m_Address: qinglan/demo/content/qinglan/skill/boss/tingfeng/charge
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
@@ -700,6 +788,14 @@ MonoBehaviour:
     - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b4af8ed93400e0445a56a1a19cdfa417
+    m_Address: qinglan/demo/content/qinglan/boss/tingfeng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b5b14f17f97f25242b9833837bdd2211
     m_Address: test.encounter.m9
     m_ReadOnly: 0
@@ -758,6 +854,22 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c465a497b11c04d4fa71b7dcafc35000
     m_Address: qinglan/demo/content/qinglan/status/enemy/wind_bell_ward
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c4ff62d6facb2a245ae34ad8f024ca5b
+    m_Address: qinglan/demo/content/qinglan/skill/boss/tingfeng/sword_qi
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c6f79675235739e4daa3810697c44d6c
+    m_Address: qinglan/demo/content/qinglan/skill/boss/tingfeng/remnant_sword
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only

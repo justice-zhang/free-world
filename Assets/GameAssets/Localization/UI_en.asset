@@ -1368,6 +1368,118 @@ MonoBehaviour:
     m_Localized: Wind Vein Stele
     m_Metadata:
       m_Items: []
+  - m_Id: 3716023033143296
+    m_Localized: 'Sword Trial Puppet: Zhezhi'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389504
+    m_Localized: The Old Court's mid-run three-phase sword trial.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389505
+    m_Localized: 'Court Guardian: Tingfeng'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389506
+    m_Localized: The final guardian whose rules respond to restored wind altars.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389507
+    m_Localized: Zhezhi Phase Rules
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389508
+    m_Localized: Three ordered phases with deterministic cleanup.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389509
+    m_Localized: Tingfeng Phase Rules
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389510
+    m_Localized: Three ordered phases and eight deterministic altar combinations.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389511
+    m_Localized: Horizontal Trial
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389512
+    m_Localized: A clearly telegraphed horizontal sword wave.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389513
+    m_Localized: Falling Wood Shadow
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389514
+    m_Localized: An area strike used in Zhezhi's second phase.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389515
+    m_Localized: Training Dummy Formation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389516
+    m_Localized: Accelerated close-area sword formation.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389517
+    m_Localized: Listening Sword Qi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389518
+    m_Localized: A direct opening sword wave.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389519
+    m_Localized: Wind Charge
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389520
+    m_Localized: A committed charge with a readable windup.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389521
+    m_Localized: Obscuring Windfield
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389522
+    m_Localized: A persistent spatial pressure field.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389523
+    m_Localized: False Sword Chime
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389524
+    m_Localized: A deceptive sword-chime projectile.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389525
+    m_Localized: Remnant Sword
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389526
+    m_Localized: A repositioning remnant-sword projectile.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389527
+    m_Localized: Crossing Wind Scar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389528
+    m_Localized: Crossing scars constrain the final arena.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389529
+    m_Localized: Undying Oath
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389530
+    m_Localized: Tingfeng's strongest final-phase area oath.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

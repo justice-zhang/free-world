@@ -766,6 +766,7 @@ namespace Game.Simulation
         /// <summary>Gets remaining cooldown seconds.</summary>
         public float CooldownRemaining { get; internal set; }
         internal bool SecondaryOnly { get; }
+        internal bool Suppressed { get; set; }
         internal long ActivationSequence { get; set; }
     }
 }

@@ -901,3 +901,64 @@ Development Build；不提前创建 G2 地图目标、Boss、拾取/奇物或正
 
 只进入 G2.1：实现 M08 五区、三风脉台、三事件、五地标的地图运行时、内容和自动验证；不提前实现
 G2.2 Boss、G2.3 Reward/Pickup/Relic 或 G2.6 UI。
+
+## Qinglan Demo G2.1：旧演武场地图运行时
+
+- 状态：`COMPLETE`
+- 日期：2026-08-06
+- 分支：`codex/qinglan-demo-implementation`
+- 内容包：`qinglan.pack.demo` 0.6.0 / Content Schema 6 / 107 definitions
+- CR / ADR：CR-2026-009 / ADR 0019
+- 结果报告：`Docs/Reports/2026-08-06-g2-1-map-runtime.md`
+
+### 实施结果
+
+五区有限地图、13 个稳定锚点、三风脉台、三事件、五地标、固定容量纯模拟状态机、独立事件 RNG、
+幂等输出事务、程序化 Placeholder Scene 与双语 Addressables 已完成。Simulation API 追加 81、删除 0。
+
+### 检查
+
+Focused EditMode 6/6、全量 EditMode 245/245、PlayMode 10/10、Project Validation、API Freeze、Pack
+双构建和性能短测均 `PASS`；Windows Development Build `NOT RUN`，固定由 G2.8 执行。
+
+### 下一步
+
+只进入 G2.2：实现折枝/听风 Boss、三阶段、三风脉台参数、清理和一次性死亡事务。
+
+## Qinglan Demo G2.2：折枝与听风 Boss 运行时
+
+- 状态：`COMPLETE`
+- 日期：2026-08-08
+- 分支：`codex/qinglan-demo-implementation`
+- 内容包：`qinglan.pack.demo` 0.7.0 / Content Schema 6 / 121 definitions
+- CR / ADR：CR-2026-014 / ADR 0020
+- 结果报告：`Docs/Reports/2026-08-08-g2-2-boss-runtime.md`
+
+### 实施结果
+
+| 范围 | 结果 |
+|---|---|
+| Boss | 折枝/听风独立 Enemy＋BossDefinition，各三阶段、10 个通用 Skill |
+| Encounter | 360.0/719.9 秒固定锚点各一次；整数 Tick 消除 12 分钟 float 漂移 |
+| Runtime | 阶段技能预加载/抑制、跨阈值、致命优先、三策略清理、一次性事务 |
+| Objective | 三风脉台 8 组合输出空间/欺骗/节奏倍率，不跳阶段 |
+| API | Simulation 批准追加 58 项至 1331，删除 0；其他冻结程序集不变 |
+| Boundary | 正式 Reward/Pickup、叙事、表现 Telegraph 和 Build 延期后续工作包 |
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| 编译 | PASS | `dotnet build free-world.slnx`，0 error |
+| Focused EditMode | PASS | 15/15 |
+| 全量 EditMode / PlayMode | PASS | 253/253；10/10 |
+| Project Validation / API Freeze | PASS | Simulation 1331 / `e41c43a1...f0249` |
+| 12 分钟 Headless | PASS | 2 Boss、0 InvalidHandle、Checksum `049cb8bdc48092eb` |
+| Pack 双构建 | PASS | 各 7 Pack；Qinglan Catalog SHA-256 `b2f0a3ac...88270` |
+| 性能短测 | PASS | p99 5.2451 ms、0 B、GC 0/0/0 |
+| Windows Development Build | NOT RUN | 路线规定 G2.8 对完整垂直切片执行 |
+
+### 下一步
+
+只进入 G2.3：实现 Reward/Pickup/灵物/唯一奇物的真实内容和幂等消费，不提前实现 RunResult/Profile、
+叙事或 UI。

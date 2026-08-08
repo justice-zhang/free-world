@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ab5523569c43f3add3cd44c96bed44, type: 3}
+  m_Name: BossZhezhiDefinition
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.QinglanDefinitionAuthoring
+  contentId: qinglan.boss.zhezhi
+  localizedNameKey: content.qinglan.boss.zhezhi.name
+  localizedDescriptionKey: content.qinglan.boss.zhezhi.description
+  tags:
+  - content.placeholder
+  - boss.definition
+  - boss.three_phase
+  runtimeKind: boss
+  runtime:
+    presentationProfileId: placeholder.presentation.qinglan.boss.zhezhi
+    resourceId:
+    value0: 0.35
+    value1: 0
+    int0: 0
+    enum0: 0
+    bool0: 0
+    text0:
+    referenceId0: qinglan.enemy.boss.zhezhi
+    referenceId1:
+    referenceId2:
+    references0: []
+    references1: []
+    references2: []
+    tags0: []
+    tags1: []
+    localizedSequenceKeys: []
+    mechanicTiers: []
+    rewardOperations: []
+    stateTransitions: []
+    bossPhases:
+    - healthThreshold: 0.65
+      acceptedRuleIds:
+      - qinglan.skill.boss.zhezhi.horizontal_trial
+      cleanupPolicy: 1
+    - healthThreshold: 0.3
+      acceptedRuleIds:
+      - qinglan.skill.boss.zhezhi.falling_wood_shadow
+      cleanupPolicy: 2
+    - healthThreshold: 0
+      acceptedRuleIds:
+      - qinglan.skill.boss.zhezhi.training_dummy
+      cleanupPolicy: 3

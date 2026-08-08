@@ -424,6 +424,93 @@ namespace Game.Simulation
             return true;
         }
 
+        internal bool SetSuppressed(SkillInstanceHandle handle, bool suppressed)
+        {
+            if (!TryGetInstance(handle, out var instance)) return false;
+            instance.Suppressed = suppressed;
+            return true;
+        }
+
+        internal int CountUnsuppressedOwned(SpatialEntity owner)
+        {
+            var count = 0;
+            for (var index = 0; index < instanceSlotCount; index++)
+            {
+                var instance = instances[index];
+                if (instance != null && instance.Owner == owner &&
+                    !instance.SecondaryOnly && !instance.Suppressed)
+                    count++;
+            }
+            return count;
+        }
+
+        internal void ExpireDeliveries(SimulationWorld world, SkillInstanceHandle instanceHandle)
+        {
+            if (world == null || !instanceHandle.IsValid) return;
+            for (var dense = 0; dense < world.Projectiles.Count; dense++)
+            {
+                var handle = world.Projectiles.GetHandleAt(dense);
+                if (!deliveries.TryGet(EntityKind.Projectile, handle, out var record) ||
+                    record.Instance.Handle != instanceHandle)
+                    continue;
+                deliveries.Detach(EntityKind.Projectile, handle);
+                world.Commands.Remove(EntityKind.Projectile, handle);
+            }
+            for (var dense = 0; dense < world.Areas.Count; dense++)
+            {
+                var handle = world.Areas.GetHandleAt(dense);
+                if (!deliveries.TryGet(EntityKind.Area, handle, out var record) ||
+                    record.Instance.Handle != instanceHandle)
+                    continue;
+                deliveries.Detach(EntityKind.Area, handle);
+                world.Commands.Remove(EntityKind.Area, handle);
+            }
+        }
+
+        internal void DisableDeliveries(SimulationWorld world, SkillInstanceHandle instanceHandle)
+        {
+            if (world == null || !instanceHandle.IsValid) return;
+            for (var dense = 0; dense < world.Projectiles.Count; dense++)
+            {
+                var handle = world.Projectiles.GetHandleAt(dense);
+                if (deliveries.TryGet(EntityKind.Projectile, handle, out var record) &&
+                    record.Instance.Handle == instanceHandle)
+                    deliveries.Detach(EntityKind.Projectile, handle);
+            }
+            for (var dense = 0; dense < world.Areas.Count; dense++)
+            {
+                var handle = world.Areas.GetHandleAt(dense);
+                if (deliveries.TryGet(EntityKind.Area, handle, out var record) &&
+                    record.Instance.Handle == instanceHandle)
+                    deliveries.Detach(EntityKind.Area, handle);
+            }
+        }
+
+        internal void ExpireOwnedDeliveries(SimulationWorld world, EntityHandle owner)
+        {
+            if (world == null || !owner.IsValid) return;
+            for (var dense = 0; dense < world.Projectiles.Count; dense++)
+            {
+                var handle = world.Projectiles.GetHandleAt(dense);
+                if (!deliveries.TryGet(EntityKind.Projectile, handle, out var record) ||
+                    record.Instance.Owner.Kind != EntityKind.Actor ||
+                    record.Instance.Owner.Handle != owner)
+                    continue;
+                deliveries.Detach(EntityKind.Projectile, handle);
+                world.Commands.Remove(EntityKind.Projectile, handle);
+            }
+            for (var dense = 0; dense < world.Areas.Count; dense++)
+            {
+                var handle = world.Areas.GetHandleAt(dense);
+                if (!deliveries.TryGet(EntityKind.Area, handle, out var record) ||
+                    record.Instance.Owner.Kind != EntityKind.Actor ||
+                    record.Instance.Owner.Handle != owner)
+                    continue;
+                deliveries.Detach(EntityKind.Area, handle);
+                world.Commands.Remove(EntityKind.Area, handle);
+            }
+        }
+
         /// <summary>Removes one owned skill instance without touching the actor entity.</summary>
         public bool RemoveInstance(SkillInstanceHandle handle)
         {
@@ -479,7 +566,7 @@ namespace Game.Simulation
             for (var index = 0; index < instanceSlotCount; index++)
             {
                 var instance = instances[index];
-                if (instance == null) continue;
+                if (instance == null || instance.Suppressed) continue;
                 if (instance.CooldownRemaining > 0f)
                 {
                     instance.CooldownRemaining = Math.Max(0f, instance.CooldownRemaining - delta);
@@ -514,7 +601,7 @@ namespace Game.Simulation
                          instanceIndex++)
                     {
                         var instance = instances[instanceIndex];
-                        if (instance == null) continue;
+                        if (instance == null || instance.Suppressed) continue;
                         if (instance.Owner == context.Source &&
                             instance.Definition.Index == context.ReferenceIndex)
                         {
@@ -531,7 +618,7 @@ namespace Game.Simulation
                      instanceIndex++)
                 {
                     var instance = instances[instanceIndex];
-                    if (instance == null) continue;
+                    if (instance == null || instance.Suppressed) continue;
                     if (!instance.SecondaryOnly)
                     {
                         TryActivate(world, instance, context, false, false);

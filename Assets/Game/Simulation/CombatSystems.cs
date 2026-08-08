@@ -479,7 +479,7 @@ namespace Game.Simulation
                     return;
                 }
 
-                instance = CreateInstance(definition, request);
+                instance = CreateInstance(world, definition, request);
                 if (!InstallModifier(actor, ref instance))
                 {
                     world.Diagnostics.RecordRejectedStatus();
@@ -502,7 +502,7 @@ namespace Game.Simulation
             }
             else if (isNew)
             {
-                instance = CreateInstance(definition, request);
+                instance = CreateInstance(world, definition, request);
                 if (!InstallModifier(actor, ref instance))
                 {
                     world.Diagnostics.RecordRejectedStatus();
@@ -530,7 +530,7 @@ namespace Game.Simulation
                 switch (definition.StackingPolicy)
                 {
                     case StatusStackingPolicy.RefreshDuration:
-                        RefreshInstance(ref instance, request, definition, true);
+                        RefreshInstance(world, ref instance, request, definition, true);
                         outcome = StatusApplicationOutcome.Refreshed;
                         break;
 
@@ -545,7 +545,7 @@ namespace Game.Simulation
                             outcome = StatusApplicationOutcome.Refreshed;
                         }
 
-                        instance.RemainingDuration = definition.DurationSeconds;
+                        instance.RemainingDuration = ResolveDuration(world, request.Target.Handle, definition);
                         instance.Source = request.Source;
                         instance.SourceContentId = request.SourceContentId;
                         instance.Strength = Math.Max(instance.Strength, request.Strength);
@@ -561,13 +561,13 @@ namespace Game.Simulation
 
                         if (request.Strength > instance.Strength)
                         {
-                            RefreshInstance(ref instance, request, definition, true);
+                            RefreshInstance(world, ref instance, request, definition, true);
                             instance.TickCount = 0;
                             outcome = StatusApplicationOutcome.Replaced;
                         }
                         else
                         {
-                            RefreshInstance(ref instance, request, definition, false);
+                            RefreshInstance(world, ref instance, request, definition, false);
                             outcome = StatusApplicationOutcome.Refreshed;
                         }
 
@@ -630,6 +630,7 @@ namespace Game.Simulation
         }
 
         private static StatusInstance CreateInstance(
+            SimulationWorld world,
             RuntimeStatusDefinition definition,
             in StatusApplicationRequest request)
         {
@@ -641,7 +642,7 @@ namespace Game.Simulation
                 SourceContentId = request.SourceContentId,
                 Strength = request.Strength,
                 Stacks = 1,
-                RemainingDuration = definition.DurationSeconds,
+                RemainingDuration = ResolveDuration(world, request.Target.Handle, definition),
                 TickAccumulator = 0f,
                 TickCount = 0,
                 ProcDepth = request.ProcDepth,
@@ -651,6 +652,7 @@ namespace Game.Simulation
         }
 
         private static void RefreshInstance(
+            SimulationWorld world,
             ref StatusInstance instance,
             in StatusApplicationRequest request,
             RuntimeStatusDefinition definition,
@@ -661,7 +663,7 @@ namespace Game.Simulation
             instance.SourceContentId = request.SourceContentId;
             instance.Strength = request.Strength;
             instance.Stacks = 1;
-            instance.RemainingDuration = definition.DurationSeconds;
+            instance.RemainingDuration = ResolveDuration(world, request.Target.Handle, definition);
             if (resetTickAccumulator)
             {
                 instance.TickAccumulator = 0f;
@@ -669,6 +671,17 @@ namespace Game.Simulation
 
             instance.ProcDepth = request.ProcDepth;
             instance.ModifierHandle = default;
+        }
+
+        private static float ResolveDuration(
+            SimulationWorld world,
+            EntityHandle target,
+            RuntimeStatusDefinition definition)
+        {
+            var runtime = world.Qinglan?.Bosses;
+            return runtime == null
+                ? definition.DurationSeconds
+                : runtime.ResolveStatusDuration(target, definition, definition.DurationSeconds);
         }
 
         private static bool InstallModifier(
@@ -987,6 +1000,16 @@ namespace Game.Simulation
                 var position = bodyFound ? body.Position : request.Position;
                 if (world.Enemies.TryGetSnapshot(request.Target.Handle, out var enemy))
                 {
+                    if (enemy.Boss && world.Qinglan != null &&
+                        world.Qinglan.Bosses.TryFinalizeDeath(
+                            request.Target.Handle,
+                            0UL,
+                            out var bossTransaction,
+                            out var bossRewardId) &&
+                        bossRewardId.IsValid)
+                    {
+                        world.Qinglan.Rewards.TryCommit(bossTransaction);
+                    }
                     world.Progression?.RecordEnemyDefeat(enemy.ExperienceReward, position);
                     world.Enemies.ProcessDeathOutputs(world, request.Target.Handle, position);
                 }

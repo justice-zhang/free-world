@@ -87,3 +87,12 @@ Boss 死亡先发一次 EntityDied/Reward 请求，再统一清理 Boss-owned �
 | Performance | 最坏阶段 Projectile/Area/VFX 上限和无持续分配 |
 
 退出条件：两 Boss 有规则变化而非纯血量膨胀，听风三阶段与风脉台联动真实、确定、可读且可清理。
+
+## 8. G2.2 实现记录（2026-08-08）
+
+- Pack 0.7.0 已创建独立 Enemy Actor 与 BossDefinition ID；折枝 360.0 秒中央、听风 719.9 秒北侧各
+  生成一次。Encounter 内部时钟改为整数 Tick，消除最终边界的 float 累计漂移。
+- Boss Spawn 时预加载全部唯一阶段技能，阶段外实例抑制；BossPhaseSystem 在 SkillTrigger 前切换集合。
+- 三风脉台 8 组合通过稳定 Objective ID 输出空间负载、欺骗和节奏倍率，不跳阶段或直接扣血。
+- 三种 CleanupPolicy、Owner 移除 Delivery 清理、致命优先和一次性 RewardTransaction 已进入运行时。
+- 当前内容保持程序化 Placeholder；PlayMode 的具体 Telegraph 视觉/音频/可访问性仍由 G2.6/G2.8 关闭。

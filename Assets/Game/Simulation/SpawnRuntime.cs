@@ -59,6 +59,31 @@ namespace Game.Simulation
             int splitGeneration,
             float combatScale,
             float rewardScale)
+            : this(
+                enemyIndex,
+                position,
+                elite,
+                boss,
+                sequence,
+                affixes,
+                splitGeneration,
+                combatScale,
+                rewardScale,
+                null)
+        {
+        }
+
+        internal SpawnRequest(
+            RuntimeContentIndex enemyIndex,
+            Vector2 position,
+            bool elite,
+            bool boss,
+            long sequence,
+            in EliteAffixSelection affixes,
+            int splitGeneration,
+            float combatScale,
+            float rewardScale,
+            RuntimeBossDefinition bossDefinition)
         {
             EnemyIndex = enemyIndex;
             Position = position;
@@ -69,6 +94,7 @@ namespace Game.Simulation
             SplitGeneration = splitGeneration;
             CombatScale = combatScale;
             RewardScale = rewardScale;
+            BossDefinition = bossDefinition;
         }
 
         public RuntimeContentIndex EnemyIndex { get; }
@@ -80,6 +106,7 @@ namespace Game.Simulation
         internal int SplitGeneration { get; }
         internal float CombatScale { get; }
         internal float RewardScale { get; }
+        internal RuntimeBossDefinition BossDefinition { get; }
     }
 
     /// <summary>Reusable FIFO spawn buffer applied only by CleanupSystem.</summary>
@@ -271,7 +298,7 @@ namespace Game.Simulation
         private readonly bool[] bossTriggered;
         private readonly int[] bossOffsets;
         private RandomStream random;
-        private float elapsedSeconds;
+        private long elapsedTicks;
         private float accumulatedBudget;
         private float spawnCooldown;
         private long sequence;
@@ -304,7 +331,8 @@ namespace Game.Simulation
             bossTriggered = new bool[bossCount];
         }
 
-        public float ElapsedSeconds => elapsedSeconds;
+        public float ElapsedSeconds =>
+            (float)(elapsedTicks * SimulationClock.TickDurationSeconds);
         public float AccumulatedBudget => accumulatedBudget;
         public long SpawnedRequestCount { get; private set; }
         public int BossRequestCount { get; private set; }
@@ -315,11 +343,12 @@ namespace Game.Simulation
             if (world == null) throw new ArgumentNullException(nameof(world));
             if (!world.TryGetPlayerPosition(out var playerPosition))
             {
-                elapsedSeconds += world.DeltaTimeSeconds;
+                elapsedTicks++;
                 return;
             }
 
             map.UpdateFocus(playerPosition);
+            var elapsedSeconds = ElapsedSeconds;
             var phaseIndex = FindPhase(elapsedSeconds);
             if (phaseIndex < 0)
             {
@@ -329,7 +358,7 @@ namespace Game.Simulation
                     accumulatedBudget = 0f;
                     spawnCooldown = 0f;
                 }
-                elapsedSeconds += world.DeltaTimeSeconds;
+                elapsedTicks++;
                 return;
             }
 
@@ -358,8 +387,8 @@ namespace Game.Simulation
                     curveSample.SpawnIntervalSeconds);
             }
 
-            elapsedSeconds += world.DeltaTimeSeconds;
-            if (elapsedSeconds >= schedule.Phases[schedule.Phases.Count - 1].EndTimeSeconds)
+            elapsedTicks++;
+            if (ElapsedSeconds >= schedule.Phases[schedule.Phases.Count - 1].EndTimeSeconds)
             {
                 accumulatedBudget = 0f;
                 spawnCooldown = 0f;
@@ -397,7 +426,7 @@ namespace Game.Simulation
             for (var index = 0; index < phase.EliteRules.Count; index++)
             {
                 var globalIndex = eliteOffsets[phaseIndex] + index;
-                if (eliteTriggered[globalIndex] || elapsedSeconds < phase.EliteRules[index].SpawnTimeSeconds)
+                if (eliteTriggered[globalIndex] || ElapsedSeconds < phase.EliteRules[index].SpawnTimeSeconds)
                     continue;
                 var cap = Math.Min(schedule.MaximumConcurrentEnemies, phase.MaximumConcurrentEnemies);
                 if (world.Enemies.Count + world.Enemies.PendingSpawns.Count >= cap) return;
@@ -444,12 +473,16 @@ namespace Game.Simulation
             for (var index = 0; index < phase.BossRules.Count; index++)
             {
                 var globalIndex = bossOffsets[phaseIndex] + index;
-                if (bossTriggered[globalIndex] || elapsedSeconds < phase.BossRules[index].SpawnTimeSeconds)
+                if (bossTriggered[globalIndex] || ElapsedSeconds < phase.BossRules[index].SpawnTimeSeconds)
                     continue;
                 var cap = Math.Min(schedule.MaximumConcurrentEnemies, phase.MaximumConcurrentEnemies);
                 if (world.Enemies.Count + world.Enemies.PendingSpawns.Count >= cap) return;
                 var boss = phase.BossRules[index];
                 if (!world.Enemies.Catalog.TryGet(boss.EnemyId, out var enemy)) continue;
+                RuntimeBossDefinition bossDefinition = null;
+                if (boss.BossDefinitionId.IsValid &&
+                    !world.Enemies.Catalog.TryGetBoss(boss.BossDefinitionId, out bossDefinition))
+                    continue;
                 var position = SpawnPatternGenerator.Generate(
                     boss.Pattern,
                     map,
@@ -460,7 +493,17 @@ namespace Game.Simulation
                     0,
                     ref random);
                 world.Enemies.PendingSpawns.Add(
-                    new SpawnRequest(enemy.Index, position, true, true, sequence++));
+                    new SpawnRequest(
+                        enemy.Index,
+                        position,
+                        true,
+                        true,
+                        sequence++,
+                        default,
+                        0,
+                        1f,
+                        1f,
+                        bossDefinition));
                 bossTriggered[globalIndex] = true;
                 SpawnedRequestCount++;
                 BossRequestCount++;

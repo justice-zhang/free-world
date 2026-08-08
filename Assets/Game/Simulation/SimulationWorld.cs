@@ -688,11 +688,13 @@ namespace Game.Simulation
 
             removedPosition = state.Position;
             SpatialGrid.Remove(new SpatialEntity(kind, handle));
+            if (kind == EntityKind.Actor) Skills.ExpireOwnedDeliveries(this, handle);
             Skills.OnEntityRemoved(kind, handle);
             if (kind == EntityKind.Actor)
             {
                 Enemies.OnEntityRemoved(handle);
                 Qinglan?.Mechanics.Detach(handle);
+                Qinglan?.Bosses.Detach(handle);
             }
             if (kind == EntityKind.Pickup) Progression?.OnPickupRemoved(handle);
             switch (kind)

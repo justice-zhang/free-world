@@ -8,7 +8,7 @@ M10 首次冻结、G1.1 按 ADR 0013—0015 更新以下程序集的公开类型
 |---|---:|---|
 | `Game.Core` | 168 | `25766747b7014e0386506567e5e3c35f78b6dc5d00d850b00c35d28eb8d7e176` |
 | `Game.Content.Runtime` | 940 | `cd72d779cf1ae53f0875d06140706e194081588b7a0429efd4e490ae72e35b00` |
-| `Game.Simulation` | 1273 | `fd387bc6ed0eaea6f1d1f1d9c568f6a157da166b0f068820a5eeacb56d1a92b8` |
+| `Game.Simulation` | 1331 | `e41c43a1beae76f3a40248a25d8025d73ff221d4278ab09fcf5bd5c8cc5f0249` |
 | `Game.Application` | 355 | `f57fe00c2c1ead974c9b900e5396661c42c7900641534a87f45f8ce6d5b4f8a6` |
 | `Game.Platform.Abstractions` | 73 | `8eb5f2ccca0f5845a55d90c9f00fb42eae59cc82d81e98369995e84428a51738` |
 
@@ -110,3 +110,14 @@ Application 与 Platform 签名逐字节不变。
 只使用稳定 `ContentId`、`SpatialEntity` 与 `RewardTransactionId`。旧 Hash 下 Project Validation 仅报告
 Simulation `57e294…`→`fd387b…`；规范签名、81/0 差异和失败日志保存在
 `TestResults/QinglanDemo/G2.1/`。
+
+## Qinglan Demo G2.2 批准追加
+
+ADR 0020 接受通用 `BossPhaseRuntime` 的公开快照、阶段转换、三规则修正、Boss-owned Effect 生命周期
+和容量构造。规范 diff 为 `Game.Simulation` 58 条追加、零删除；Core、Content Runtime、Application 与
+Platform 签名逐字节不变。
+
+公开无参 `BossPhaseRuntime()` 被显式保留，既有二进制构造签名未删除；新增值只使用稳定
+`ContentId`、`EntityHandle`、`RewardTransactionId` 和纯值状态，不暴露 Unity Object 或运行时索引。
+旧 Hash 下 Project Validation 仅报告 Simulation `fd387b…`→`e41c43…`；规范签名、58/0 差异、旧 Hash
+失败日志和最终捕获保存在 `TestResults/QinglanDemo/G2.2/`。

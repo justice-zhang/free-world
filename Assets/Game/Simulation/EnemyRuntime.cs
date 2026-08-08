@@ -50,18 +50,24 @@ namespace Game.Simulation
         private readonly CompiledEnemyDefinition[] byIndex;
         private readonly Dictionary<ContentId, CompiledEnemyDefinition> byId;
         private readonly Dictionary<ContentId, CompiledEliteAffixDefinition> affixesById;
+        private readonly Dictionary<ContentId, RuntimeBossDefinition> bossesById;
 
         private EnemyRuntimeCatalog(
             CompiledEnemyDefinition[] definitions,
             Dictionary<ContentId, CompiledEnemyDefinition> definitionsById,
-            Dictionary<ContentId, CompiledEliteAffixDefinition> compiledAffixes)
+            Dictionary<ContentId, CompiledEliteAffixDefinition> compiledAffixes,
+            Dictionary<ContentId, RuntimeBossDefinition> compiledBosses,
+            ContentRegistry registry)
         {
             byIndex = definitions;
             byId = definitionsById;
             affixesById = compiledAffixes;
+            bossesById = compiledBosses;
+            Registry = registry;
         }
 
         public int Count => byId.Count;
+        internal ContentRegistry Registry { get; }
 
         public static Result<EnemyRuntimeCatalog> Build(ContentRegistry content)
         {
@@ -95,10 +101,16 @@ namespace Game.Simulation
             }
 
             var compiledAffixes = new Dictionary<ContentId, CompiledEliteAffixDefinition>();
+            var compiledBosses = new Dictionary<ContentId, RuntimeBossDefinition>();
             for (var index = 0; index < content.Count; index++)
             {
                 var entry = content.Get(new RuntimeContentIndex(index));
                 if (!entry.IsSuccess) return Result<EnemyRuntimeCatalog>.Failure(entry.Error);
+                if (entry.Value.Definition is RuntimeBossDefinition boss)
+                {
+                    compiledBosses.Add(boss.Id, boss);
+                    continue;
+                }
                 if (!(entry.Value.Definition is RuntimeEliteAffixDefinition affix)) continue;
 
                 var modifierResult = CompileModifiers(content, affix, entry.Value.SourcePackId);
@@ -141,7 +153,12 @@ namespace Game.Simulation
             }
 
             return Result<EnemyRuntimeCatalog>.Success(
-                new EnemyRuntimeCatalog(definitions, definitionsById, compiledAffixes));
+                new EnemyRuntimeCatalog(
+                    definitions,
+                    definitionsById,
+                    compiledAffixes,
+                    compiledBosses,
+                    content));
         }
 
         private static Result<RuntimeBuildModifier[]> CompileModifiers(
@@ -221,11 +238,16 @@ namespace Game.Simulation
         internal bool TryGetAffix(ContentId id, out CompiledEliteAffixDefinition definition) =>
             affixesById.TryGetValue(id, out definition);
 
+        internal bool TryGetBoss(ContentId id, out RuntimeBossDefinition definition) =>
+            bossesById.TryGetValue(id, out definition);
+
         internal static EnemyRuntimeCatalog Empty() =>
             new EnemyRuntimeCatalog(
                 Array.Empty<CompiledEnemyDefinition>(),
                 new Dictionary<ContentId, CompiledEnemyDefinition>(),
-                new Dictionary<ContentId, CompiledEliteAffixDefinition>());
+                new Dictionary<ContentId, CompiledEliteAffixDefinition>(),
+                new Dictionary<ContentId, RuntimeBossDefinition>(),
+                null);
     }
 
     public enum EnemyBehaviorState : byte
@@ -471,6 +493,16 @@ namespace Game.Simulation
                     definition.AttackSkillIndex);
                 if (!skill.IsSuccess)
                     throw new InvalidOperationException("Enemy attack skill could not be instantiated: " + skill.Error.Message);
+                if (request.BossDefinition != null && world.Qinglan != null &&
+                    !world.Qinglan.Bosses.TryAttachWorld(
+                        handle,
+                        request.BossDefinition,
+                        Catalog.Registry,
+                        world.Skills,
+                        skill.Value))
+                {
+                    throw new InvalidOperationException("Boss phase runtime capacity was exhausted or the definition was invalid.");
+                }
                 ApplyAffixOutputs(world, handle, request.Affixes);
                 world.EmitEvent(SimulationEventType.Created, EntityKind.Actor, handle, request.Position);
             }

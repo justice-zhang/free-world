@@ -354,3 +354,22 @@ ADR 0013—0015 和 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md` 批准下列实
   Checksum `b455f50ce958d212`。
 - Boss 参数组合、实际奖励、RunResult/Profile、UI/可读性和 Development Build 为 `NOT RUN`，由
   G2.2—G2.8 按路线关闭。
+
+## 19. Qinglan Demo G2.2 Boss Runtime 证据
+
+- Focused EditMode 最终 15/15：G1.6 Encounter 7 项和 G2.2 Boss 8 项；覆盖两只三阶段 Boss、最终
+  719.9 秒边界、8 种风脉组合 Golden、跨多阈值/致命优先、三种清理策略、控制倍率、阶段技能预加载
+  与 54,000 次阶段解析 0 B。
+- 首次全量 EditMode 为 250/252：Harness 写入两个具体青岚锚点 ID、G2.2 新资产未进入 Addressables。
+  Harness 改为从 BossRule 动态收集锚点，配置步骤统一调用 Pack Addressables；再加入真实
+  TelegraphOnly Delivery 禁伤/保留视觉寿命测试后最终 253/253 PASS。
+- 全量 PlayMode 10/10、Project Validation 和 API Freeze PASS。旧 Freeze Hash 下 Validation 按预期只
+  报告 Simulation 漂移；签名对比为追加 58、删除 0，其他四个程序集 0/0。
+- 12 分钟 Headless 双实例各推进 21,600 Tick：2,584 Spawn、2,572 Death、2 Elite、2 Affixed、2 Boss、
+  Peak 16、0 InvalidHandle；确定性 Checksum `049cb8bdc48092eb`，清理后只剩玩家。
+- `qinglan.pack.demo` 0.7.0 / Schema 6 / 121 definitions，Content Hash
+  `a654cca5b99f355d9d5122fe106fa4bdba73aebcd745ddbbf136446b5214895a`。两次 Pack CLI 各构建 7 个
+  Pack，Qinglan Catalog 字节一致，SHA-256 为
+  `b2f0a3aca2544619159ca7a1b55b7535c7d79153701e33fcd57c14211a188270`。
+- Boss RewardDefinition/拾取/奇物消费、表现层 Telegraph/音频/可访问性和 Windows Development Build
+  为 `NOT RUN`，依次由 G2.3、G2.6/G2.8 和 G2.8 关闭。

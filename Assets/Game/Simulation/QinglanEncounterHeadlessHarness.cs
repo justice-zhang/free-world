@@ -119,7 +119,7 @@ namespace Game.Simulation
                 return Result<QinglanEncounterHeadlessSummary>.Failure(enemyCatalog.Error);
 
             var capacity = Math.Max(128, schedule.MaximumConcurrentEnemies + 32);
-            var mapDefinition = CreateMap(encounterId);
+            var mapDefinition = CreateMap(schedule);
             var map = MapRuntimeFactory.Create(mapDefinition, seed);
             var enemies = new EnemyRuntime(enemyCatalog.Value, DifficultySnapshot.Default, capacity);
             var skills = new SkillRuntime(skillCatalog.Value, seed, capacity);
@@ -240,8 +240,37 @@ namespace Game.Simulation
                 new SnapshotBuildSystem());
         }
 
-        private static RuntimeMapDefinition CreateMap(ContentId encounterId)
+        private static RuntimeMapDefinition CreateMap(RuntimeEncounterSchedule schedule)
         {
+            var bossRuleCount = 0;
+            for (var phaseIndex = 0; phaseIndex < schedule.Phases.Count; phaseIndex++)
+                bossRuleCount += schedule.Phases[phaseIndex].BossRules.Count;
+            var anchors = new RuntimeMapAnchor[bossRuleCount];
+            var anchorCount = 0;
+            for (var phaseIndex = 0; phaseIndex < schedule.Phases.Count; phaseIndex++)
+            {
+                var rules = schedule.Phases[phaseIndex].BossRules;
+                for (var ruleIndex = 0; ruleIndex < rules.Count; ruleIndex++)
+                {
+                    var id = rules[ruleIndex].AnchorId;
+                    var duplicate = false;
+                    for (var existing = 0; existing < anchorCount; existing++)
+                    {
+                        if (anchors[existing].Id != id) continue;
+                        duplicate = true;
+                        break;
+                    }
+                    if (duplicate || !id.IsValid) continue;
+                    var angle = anchorCount == 0
+                        ? 0d
+                        : (anchorCount - 1) * Math.PI * 2d / Math.Max(1, bossRuleCount - 1);
+                    var position = anchorCount == 0
+                        ? Vector2.Zero
+                        : new Vector2((float)Math.Cos(angle) * 27f, (float)Math.Sin(angle) * 27f);
+                    anchors[anchorCount++] = new RuntimeMapAnchor(id, position);
+                }
+            }
+            if (anchorCount != anchors.Length) Array.Resize(ref anchors, anchorCount);
             return new RuntimeMapDefinition(
                 Id("test.encounter.map.g1_6_harness"),
                 "content.test.encounter.map.g1_6_harness.name",
@@ -255,10 +284,10 @@ namespace Game.Simulation
                 new Vector2(64f, 48f),
                 32f,
                 2,
-                encounterId,
+                schedule.Id,
                 Id("placeholder.presentation.encounter.map.g1_6_harness"),
                 Array.Empty<RuntimeMapObstacle>(),
-                Array.Empty<RuntimeMapAnchor>());
+                anchors);
         }
 
         private static void QueueEnemyDeaths(SimulationWorld world, EntityHandle player)

@@ -434,18 +434,6 @@ namespace Game.Simulation
         }
     }
 
-    public sealed class BossPhaseRuntime
-    {
-        public int ResolvePhase(RuntimeBossDefinition definition, int currentPhase, float healthFraction, bool lethal)
-        {
-            if (definition == null) throw new ArgumentNullException(nameof(definition));
-            if (lethal) return definition.Phases.Count;
-            var phase = Math.Max(0, currentPhase);
-            while (phase < definition.Phases.Count && healthFraction <= definition.Phases[phase].HealthThreshold) phase++;
-            return phase;
-        }
-    }
-
     public sealed class EliteAffixRuntime
     {
         public bool IsEligible(RuntimeEliteAffixDefinition definition, ContentTag[] targetTags)

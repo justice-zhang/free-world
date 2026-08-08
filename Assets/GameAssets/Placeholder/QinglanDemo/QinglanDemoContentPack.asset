@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: QinglanDemoContentPack
   m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.ContentPackAuthoring
   packId: qinglan.pack.demo
-  version: 0.6.0
+  version: 0.7.0
   schemaVersion: 6
   minimumGameVersion: 0.1.0
   maximumGameVersion: 
@@ -129,3 +129,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c180563082e64d54eb3de76f946750e0, type: 2}
   - {fileID: 11400000, guid: 4f31de496fb0fbd459253c613828530c, type: 2}
   - {fileID: 11400000, guid: 9093975fa546ced4d83b7b821cab550a, type: 2}
+  - {fileID: 11400000, guid: 7f57d1e70e68a2b45a154858f8832fc9, type: 2}
+  - {fileID: 11400000, guid: 2bb5fc5a1c3f5c84c8a9ff7a7efcc1f2, type: 2}
+  - {fileID: 11400000, guid: 80a7327334140cc43ad1f5b1a61a37ff, type: 2}
+  - {fileID: 11400000, guid: c4ff62d6facb2a245ae34ad8f024ca5b, type: 2}
+  - {fileID: 11400000, guid: a2577557c6b371a4784bf7d2c2347969, type: 2}
+  - {fileID: 11400000, guid: 58aee6083ee836b46bb3717ec92d8db2, type: 2}
+  - {fileID: 11400000, guid: 992d1e55c18f5284daf60ec5f6c2c9a3, type: 2}
+  - {fileID: 11400000, guid: c6f79675235739e4daa3810697c44d6c, type: 2}
+  - {fileID: 11400000, guid: 90a2a11e551729b43a17018da5d56bb2, type: 2}
+  - {fileID: 11400000, guid: 5b13834f9d5dd144d83e1b42fc05aec2, type: 2}
+  - {fileID: 11400000, guid: 97b0b78ebb471554a8e4d536e22b0497, type: 2}
+  - {fileID: 11400000, guid: 4fcb563ef68137f42b6e8a05d3ea3c7f, type: 2}
+  - {fileID: 11400000, guid: 3dc5fd8c1fb67e945bf9de7faf678417, type: 2}
+  - {fileID: 11400000, guid: b4af8ed93400e0445a56a1a19cdfa417, type: 2}

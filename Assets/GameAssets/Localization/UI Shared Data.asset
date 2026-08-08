@@ -1363,6 +1363,118 @@ MonoBehaviour:
     m_Key: content.qinglan.landmark.guest_pavilion_letter.description
     m_Metadata:
       m_Items: []
+  - m_Id: 3716023033143296
+    m_Key: content.qinglan.enemy.boss.zhezhi.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389504
+    m_Key: content.qinglan.enemy.boss.zhezhi.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389505
+    m_Key: content.qinglan.enemy.boss.tingfeng.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389506
+    m_Key: content.qinglan.enemy.boss.tingfeng.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389507
+    m_Key: content.qinglan.boss.zhezhi.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389508
+    m_Key: content.qinglan.boss.zhezhi.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389509
+    m_Key: content.qinglan.boss.tingfeng.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389510
+    m_Key: content.qinglan.boss.tingfeng.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389511
+    m_Key: content.qinglan.skill.boss.zhezhi.horizontal_trial.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389512
+    m_Key: content.qinglan.skill.boss.zhezhi.horizontal_trial.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389513
+    m_Key: content.qinglan.skill.boss.zhezhi.falling_wood_shadow.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389514
+    m_Key: content.qinglan.skill.boss.zhezhi.falling_wood_shadow.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389515
+    m_Key: content.qinglan.skill.boss.zhezhi.training_dummy.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389516
+    m_Key: content.qinglan.skill.boss.zhezhi.training_dummy.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389517
+    m_Key: content.qinglan.skill.boss.tingfeng.sword_qi.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389518
+    m_Key: content.qinglan.skill.boss.tingfeng.sword_qi.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389519
+    m_Key: content.qinglan.skill.boss.tingfeng.charge.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389520
+    m_Key: content.qinglan.skill.boss.tingfeng.charge.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389521
+    m_Key: content.qinglan.skill.boss.tingfeng.obscuring_windfield.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389522
+    m_Key: content.qinglan.skill.boss.tingfeng.obscuring_windfield.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389523
+    m_Key: content.qinglan.skill.boss.tingfeng.false_sword_chime.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389524
+    m_Key: content.qinglan.skill.boss.tingfeng.false_sword_chime.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389525
+    m_Key: content.qinglan.skill.boss.tingfeng.remnant_sword.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389526
+    m_Key: content.qinglan.skill.boss.tingfeng.remnant_sword.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389527
+    m_Key: content.qinglan.skill.boss.tingfeng.crossing_wind_scar.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389528
+    m_Key: content.qinglan.skill.boss.tingfeng.crossing_wind_scar.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389529
+    m_Key: content.qinglan.skill.boss.tingfeng.undying_oath.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3716023146389530
+    m_Key: content.qinglan.skill.boss.tingfeng.undying_oath.description
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

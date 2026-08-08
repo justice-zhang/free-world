@@ -42,6 +42,7 @@ namespace Game.Tests.EditMode
             var expectedCaps = new[] { 120, 180, 240, 320, 80, 360, 440, 520, 600 };
             Assert.That(schedule.Phases.Count, Is.EqualTo(expectedStarts.Length));
             var eliteCount = 0;
+            var bossCount = 0;
             for (var index = 0; index < schedule.Phases.Count; index++)
             {
                 var phase = schedule.Phases[index];
@@ -49,13 +50,14 @@ namespace Game.Tests.EditMode
                 Assert.That(phase.EndTimeSeconds, Is.EqualTo(expectedEnds[index]));
                 Assert.That(phase.EnemyEntries.Count, Is.EqualTo(expectedEnemyCounts[index]));
                 Assert.That(phase.MaximumConcurrentEnemies, Is.EqualTo(expectedCaps[index]));
-                Assert.That(phase.BossRules.Count, Is.Zero, "Boss definitions belong to G2.2.");
                 for (var entryIndex = 0; entryIndex < phase.EnemyEntries.Count; entryIndex++)
                     Assert.That(phase.EnemyEntries[entryIndex].AffixPoolIds.Count, Is.EqualTo(4));
                 eliteCount += phase.EliteRules.Count;
+                bossCount += phase.BossRules.Count;
             }
 
             Assert.That(eliteCount, Is.EqualTo(2));
+            Assert.That(bossCount, Is.EqualTo(2));
             Assert.That(schedule.Phases[2].EliteRules[0].SpawnTimeSeconds, Is.EqualTo(180f));
             Assert.That(schedule.Phases[6].EliteRules[0].SpawnTimeSeconds, Is.EqualTo(450f));
             Assert.That(schedule.Phases[2].EliteRules[0].AffixPoolIds.Count, Is.EqualTo(4));
@@ -215,7 +217,7 @@ namespace Game.Tests.EditMode
             Assert.That(a.Deaths, Is.GreaterThan(0));
             Assert.That(a.EliteSpawns, Is.EqualTo(2));
             Assert.That(a.AffixedSpawns, Is.EqualTo(2));
-            Assert.That(a.BossSpawns, Is.Zero);
+            Assert.That(a.BossSpawns, Is.EqualTo(2));
             Assert.That(a.PeakEnemies, Is.LessThanOrEqualTo(600));
             Assert.That(a.PositionsFinite, Is.True);
             Assert.That(a.ConcurrencyRespected, Is.True);

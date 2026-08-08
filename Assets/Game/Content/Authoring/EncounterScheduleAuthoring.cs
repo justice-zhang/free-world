@@ -77,6 +77,19 @@ namespace Game.Content.Authoring
                 : (EncounterPhaseAuthoringData[])encounterPhases.Clone();
         }
 
+        /// <summary>Replaces one phase's one-shot Boss rules without rebuilding its approved pressure curve.</summary>
+        public bool TryConfigureBossRules(
+            int phaseIndex,
+            EncounterBossRuleAuthoringData[] bossRules)
+        {
+            if (phaseIndex < 0 || phaseIndex >= phases.Length || phases[phaseIndex] == null)
+                return false;
+            phases[phaseIndex].bosses = bossRules == null
+                ? Array.Empty<EncounterBossRuleAuthoringData>()
+                : (EncounterBossRuleAuthoringData[])bossRules.Clone();
+            return true;
+        }
+
         internal override Result<RuntimeContentDefinition> Bake(ContentId packId, string authorAssetPath)
         {
             var commonResult = BakeCommon(packId, authorAssetPath);

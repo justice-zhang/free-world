@@ -223,7 +223,12 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
       - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
     elites: []
-    bosses: []
+    bosses:
+    - enemy: {fileID: 11400000, guid: 97b0b78ebb471554a8e4d536e22b0497, type: 2}
+      spawnTimeSeconds: 360
+      pattern: 7
+      anchorId: qinglan.anchor.old_court.zone.central
+      bossDefinition: {fileID: 11400000, guid: 3dc5fd8c1fb67e945bf9de7faf678417, type: 2}
   - startTimeSeconds: 390
     endTimeSeconds: 450
     budgetPerSecondStart: 7
@@ -533,4 +538,9 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 737636c1d9f9cde4abd123d6943e1ecc, type: 2}
       - {fileID: 11400000, guid: 7d2335da421a6374b8d465db4e169abb, type: 2}
     elites: []
-    bosses: []
+    bosses:
+    - enemy: {fileID: 11400000, guid: 4fcb563ef68137f42b6e8a05d3ea3c7f, type: 2}
+      spawnTimeSeconds: 719.9
+      pattern: 7
+      anchorId: qinglan.anchor.old_court.zone.north
+      bossDefinition: {fileID: 11400000, guid: b4af8ed93400e0445a56a1a19cdfa417, type: 2}

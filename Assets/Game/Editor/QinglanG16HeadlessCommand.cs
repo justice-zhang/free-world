@@ -65,7 +65,7 @@ namespace Game.Editor
             return summary.TickCount == QinglanEncounterHeadlessHarness.TwelveMinuteTickCount &&
                    summary.SpawnedEnemies > 0 && summary.Deaths > 0 &&
                    summary.EliteSpawns == 2 && summary.AffixedSpawns == 2 &&
-                   summary.BossSpawns == 0 && summary.PositionsFinite &&
+                   summary.BossSpawns == 2 && summary.PositionsFinite &&
                    summary.ConcurrencyRespected && summary.StoppedAfterDuration &&
                    summary.BudgetCleared && summary.EntityLeakFree &&
                    summary.InvalidHandleAccesses == 0 && summary.Minutes.Length == 12;

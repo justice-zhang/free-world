@@ -190,3 +190,17 @@ Checksum 一致，未出现由低频适配器导致的确定性漂移。
 
 候选请求本身是低频路径，G1.7 没有把其临时数组分配宣称为 0 B 热路径。目标硬件 GPU、完整地图、
 Boss、拾取/奇物和选择 UI 仍未进入本短测，必须由 G2.8/G3.5 的真实可玩切片与正式内容证据关闭。
+
+## 13. Qinglan G2.2 Boss Runtime 短测
+
+Boss Spawn 的唯一技能预加载属于低频装配；固定 Tick 阶段解析、规则 Mask 和技能抑制使用预分配数组。
+专项测试循环解析听风 Phase 54,000 次，当前线程分配为 0 B。12 分钟 Headless 双实例各 21,600 Tick，
+两 Boss 各一次，Peak Enemy 16、0 InvalidHandle，并在结束后清空所有 Boss 技能和 Delivery。
+
+目标规模短测继续使用 600 Enemy、1,200 Projectile、2,000 Pickup、100 VFX、900 测量 Tick和 300 Tick
+预热，结果 `PASS`：Tick p99 `5.2451 ms`、Render p99 `0.8541 ms`、热路径 0 B、GC 0/0/0、无效句柄/
+Proc 截断/VFX 丢弃均为 0，Checksum `b455f50ce958d212`。相对 G2.1 的 4.6635 ms p99 增加约 12.5%，
+仍低于 15% 工作包回归阈值和 33.33 ms Tick 预算，因此不迁移 Jobs/Burst。
+
+此场景以 600 个草灵覆盖框架规模，不会同时模拟最终 Boss 的完整视觉压力；完整地图、Boss Telegraph、
+GPU/1% Low 和 54,000 Tick 正式内容基准仍由 G2.8/G3.5 执行，本节不能替代对应门禁。

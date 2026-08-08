@@ -135,8 +135,10 @@ Offer 的权重、前置、互斥和满级过滤由 M6 现有候选真值处理�
 | Affix | `qinglan.affix.barrier` | 结界 |
 | Affix | `qinglan.affix.splitting` | 分裂 |
 | Affix | `qinglan.affix.quaking` | 震地 |
-| Boss | `qinglan.enemy.boss.zhezhi` | 试剑傀·折枝 |
-| Boss | `qinglan.enemy.boss.tingfeng` | 守庭剑傀·听风 |
+| Enemy（Boss Actor） | `qinglan.enemy.boss.zhezhi` | 试剑傀·折枝实体 |
+| Enemy（Boss Actor） | `qinglan.enemy.boss.tingfeng` | 守庭剑傀·听风实体 |
+| BossDefinition | `qinglan.boss.zhezhi` | 试剑傀·折枝阶段规则 |
+| BossDefinition | `qinglan.boss.tingfeng` | 守庭剑傀·听风阶段规则 |
 
 敌人攻击技能使用 `qinglan.skill.enemy.<enemy>.<attack>`；Boss 招式使用
 `qinglan.skill.boss.<boss>.<move>`。词缀必须是组合定义，不得以四倍 EnemyDefinition 复制实现。

@@ -26,7 +26,16 @@ namespace Game.Simulation
                 runtime.UpdateLandmarkDiscovery(playerPosition);
         }
     }
-    public sealed class BossPhaseSystem : QinglanOwnedSystem { public override SimulationSystemId Id => SimulationSystemId.BossPhase; }
+    public sealed class BossPhaseSystem : QinglanOwnedSystem
+    {
+        public override SimulationSystemId Id => SimulationSystemId.BossPhase;
+
+        public override void Execute(SimulationWorld world)
+        {
+            base.Execute(world);
+            world.Qinglan?.Bosses.Tick(world);
+        }
+    }
     public sealed class CharacterMechanicAccumulateSystem : QinglanOwnedSystem
     {
         public override SimulationSystemId Id => SimulationSystemId.CharacterMechanicAccumulate;
