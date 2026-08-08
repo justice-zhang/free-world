@@ -56,11 +56,11 @@ Save Backend 能原子写文件，但 SimulationWorld、运行时索引和句柄
 ## 8. 验收标准
 
 - [ ] 未来机制不得序列化运行时索引/句柄
-- [ ] 当前 Demo 不显示 Continue
-- [ ] 当前自动测试覆盖检测、清理和禁止结算
+- [x] 当前 Demo 不显示 Continue
+- [x] 当前自动测试覆盖检测、清理和禁止结算
 - [ ] 完整恢复性能验证延期到重新评审
 - [ ] 重新启用前新增 ADR、Schema 与迁移设计
-- [ ] 不破坏 Profile/Settings 存档
+- [x] 不破坏 Profile/Settings 存档
 
 ## 9. 审批
 
@@ -68,3 +68,10 @@ Save Backend 能原子写文件，但 SimulationWorld、运行时索引和句柄
 - 内容负责人：Demo 体验接受“检测后开始新局”边界
 - 制作人：依据用户当前连续 Demo 开发指令记录延期
 - 结论：Deferred；Demo 后重新评审，当前仅允许检测/提示/清理
+
+## 10. G2.5 当前 Demo 边界实施状态
+
+- 启动检查不完整 Recovery、返回本地化拒绝 Key、固定空 `RecoveryRejected`：`IMPLEMENTED`。
+- 不提供 Continue、不创建 World、不写 Profile、不授予胜利/首通：`IMPLEMENTED`。
+- 用户明确开始新局才清 Recovery；删除失败保留可重试状态：`IMPLEMENTED`。
+- 完整任意 Tick 恢复仍为 `DEFERRED`，本次没有序列化 EntityHandle、运行时索引或随机流内部状态。

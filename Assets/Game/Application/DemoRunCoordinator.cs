@@ -42,14 +42,26 @@ namespace Game.Application
     {
         private readonly GameStateMachine stateMachine;
         private readonly IRunSessionFactory factory;
+        private readonly bool requireCommittedResult;
         private RunDescriptor pendingDescriptor;
         private IRunSessionHandle handle;
         private bool hasResult;
+        private bool resultCommitted;
 
         public DemoRunCoordinator(GameStateMachine gameStateMachine, IRunSessionFactory runFactory)
+            : this(gameStateMachine, runFactory, false)
+        {
+        }
+
+        /// <summary>Creates a flow that can optionally block page transitions until durable settlement.</summary>
+        public DemoRunCoordinator(
+            GameStateMachine gameStateMachine,
+            IRunSessionFactory runFactory,
+            bool requireDurableResultCommit)
         {
             stateMachine = gameStateMachine ?? throw new ArgumentNullException(nameof(gameStateMachine));
             factory = runFactory ?? throw new ArgumentNullException(nameof(runFactory));
+            requireCommittedResult = requireDurableResultCommit;
             stateMachine.EnterMainMenu();
             Stage = DemoFlowStage.Title;
         }
@@ -58,7 +70,7 @@ namespace Game.Application
         public GameState CurrentState => stateMachine.CurrentState;
         public RunSession Session => handle?.Session;
         public bool HasResult => hasResult;
-        public bool HasUncommittedResult => hasResult;
+        public bool HasUncommittedResult => hasResult && !resultCommitted;
         public RunResult LatestResult { get; private set; }
         public string ContentErrorKey { get; private set; } = string.Empty;
         public Error LastError { get; private set; }
@@ -164,6 +176,7 @@ namespace Game.Application
             if (Stage != DemoFlowStage.Title || descriptor == null || handle != null) return false;
             LatestResult = RunResult.RecoveryRejected(descriptor);
             hasResult = true;
+            resultCommitted = false;
             stateMachine.EnterRunResult();
             Stage = DemoFlowStage.Ending;
             return true;
@@ -171,10 +184,21 @@ namespace Game.Application
 
         public bool ContinueToHub()
         {
-            if (Stage != DemoFlowStage.Result) return false;
+            if (Stage != DemoFlowStage.Result ||
+                (requireCommittedResult && HasUncommittedResult)) return false;
             ReleaseRun();
             stateMachine.EnterMainMenu();
             Stage = DemoFlowStage.Hub;
+            return true;
+        }
+
+        /// <summary>Marks the frozen result handled only after durable save/Recovery cleanup.</summary>
+        public bool ConfirmResultCommitted(ContentId transactionId)
+        {
+            if (Stage != DemoFlowStage.Result || !hasResult || !transactionId.IsValid ||
+                LatestResult.Delta == null || LatestResult.Delta.TransactionId != transactionId)
+                return false;
+            resultCommitted = true;
             return true;
         }
 
@@ -256,6 +280,7 @@ namespace Game.Application
                     throw new InvalidOperationException("Ending requires a frozen run result.");
                 LatestResult = Session.Result;
                 hasResult = true;
+                resultCommitted = false;
             }
             Stage = DemoFlowStage.Result;
         }
@@ -270,6 +295,7 @@ namespace Game.Application
         {
             LatestResult = default;
             hasResult = false;
+            resultCommitted = false;
         }
     }
 }

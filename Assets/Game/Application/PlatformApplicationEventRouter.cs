@@ -32,7 +32,8 @@ namespace Game.Application
 
         private void OnEvent(ApplicationEvent applicationEvent)
         {
-            if (applicationEvent.Type != ApplicationEventType.RunCompleted) return;
+            if (applicationEvent.Type != ApplicationEventType.RunCompleted &&
+                applicationEvent.Type != ApplicationEventType.RunResultCommitted) return;
             var task = RouteAsync(applicationEvent).AsTask();
             if (task.IsCompletedSuccessfully) LastOperation = task.Result;
             else _ = ObserveAsync(task);
@@ -41,7 +42,10 @@ namespace Game.Application
         private async ValueTask<PlatformOperationResult> RouteAsync(ApplicationEvent applicationEvent)
         {
             var result = await platform.Stats.AddAsync(RunsCompleted, 1).ConfigureAwait(false);
-            if (string.Equals(applicationEvent.Result.ReasonKey, "ui.result.reason.completed", StringComparison.Ordinal))
+            var victory = applicationEvent.Type == ApplicationEventType.RunResultCommitted
+                ? applicationEvent.CommittedResult.IsVictory
+                : string.Equals(applicationEvent.Result.ReasonKey, "ui.result.reason.completed", StringComparison.Ordinal);
+            if (victory)
                 result = await platform.Achievements.UnlockAsync(FirstCompletedRun).ConfigureAwait(false);
             return result;
         }

@@ -566,6 +566,16 @@ RuntimeStoryDefinition / RuntimeCollectibleDefinition
 └─ PresentationProfileId
 ```
 
+ADR 0023 在不增加字段、不提升 Schema 版本的前提下，锁定 Meta 引用的允许类型：Facility 的
+`UnlockConditionId` 可引用 MetaNode、MapObjective、Story 或 Collectible；Story 的
+`UnlockConditionId` 可引用 MetaNode、MapObjective、Landmark、Story、MetaFacility 或 Trait。
+Collectible 的 AcquireRule 仍只允许 Landmark、MapObjective、Story 或 MetaNode。所有引用必须存在并
+通过精确类型校验，不能把该兼容扩展解释为任意 ContentId 引用。
+
+G2.5 `qinglan.pack.demo` 0.9.0 实际包含 12 MetaNode、3 MetaInsert、4 MetaFacility、3 Story、
+6 Collectible 及 15 个通用 Trait 输出，总计 193 definitions。Meta 输出只允许 Trait、Synergy 或
+UpgradeOffer；节点/嵌片具体 ID 不进入 Application/Simulation 分支。
+
 Schema 6 Character 追加可选 `MechanicIds[]`；Map 追加 Objective/Event/Landmark 引用；Encounter
 Elite Entry 可引用 Affix Pool，Phase 可追加一次性 `EliteRules[]`，Boss Rule 可引用 BossDefinition。
 EliteRule 保存 EnemyId、绝对 SpawnTime、Pattern、可选 AnchorId 与 canonical AffixPoolIds；时间必须落在

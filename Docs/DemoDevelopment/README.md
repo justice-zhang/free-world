@@ -61,6 +61,7 @@ G3 发布候选
 | [17_G2_2_BOSS_RUNTIME.md](17_G2_2_BOSS_RUNTIME.md) | G2.2 折枝、听风三阶段、风脉台修正与清理运行时 |
 | [18_G2_3_REWARD_PICKUP_RELIC_RUNTIME.md](18_G2_3_REWARD_PICKUP_RELIC_RUNTIME.md) | G2.3 奖励、灵物、战斗奇物与幂等事务运行时 |
 | [19_G2_4_RUN_RESULT_GAME_FLOW.md](19_G2_4_RUN_RESULT_GAME_FLOW.md) | G2.4 不可变 RunResult、流程状态、装配与释放 |
+| [20_G2_5_META_PROFILE_SETTLEMENT.md](20_G2_5_META_PROFILE_SETTLEMENT.md) | G2.5 局外成长、Profile v3、Recovery 拒绝与原子结算 |
 
 ## 4. 模块分支
 

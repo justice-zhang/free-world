@@ -223,6 +223,37 @@ namespace Game.Simulation
             return true;
         }
 
+        /// <summary>
+        /// Applies one validated Meta output at run assembly. Supported definitions remain
+        /// generic Trait, UpgradeOffer, or Synergy outputs; concrete Meta IDs never branch here.
+        /// </summary>
+        public bool GrantMetaOutput(ContentId outputId)
+        {
+            if (!outputId.IsValid) return false;
+            if (catalog.TryGetTrait(outputId, out _))
+                return Contains(traits, TraitCount, outputId) || GrantTrait(outputId);
+            if (catalog.TryGetOffer(outputId, out _))
+            {
+                if (Contains(unlockedOffers, UnlockedOfferCount, outputId)) return true;
+                AddUnique(ref unlockedOffers, ref unlockedOfferCount, outputId);
+                Revision++;
+                return true;
+            }
+            for (var index = 0; index < catalog.Synergies.Count; index++)
+            {
+                var synergy = catalog.Synergies[index];
+                if (synergy.Source.Id != outputId) continue;
+                if (Contains(activeSynergies, ActiveSynergyCount, outputId)) return true;
+                AddUnique(ref activeSynergies, ref activeSynergyCount, outputId);
+                for (var outputIndex = 0; outputIndex < synergy.Outputs.Count; outputIndex++)
+                    ApplySynergyOutput(outputId, synergy.Outputs[outputIndex]);
+                Revision++;
+                RefreshDerivedState();
+                return true;
+            }
+            return false;
+        }
+
         public void RefreshDerivedState()
         {
             RebuildTags();

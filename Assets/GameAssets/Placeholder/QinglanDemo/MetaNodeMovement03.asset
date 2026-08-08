@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ab5523569c43f3add3cd44c96bed44, type: 3}
+  m_Name: MetaNodeMovement03
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.QinglanDefinitionAuthoring
+  contentId: qinglan.meta.lu_qingye.movement.03
+  localizedNameKey: content.qinglan.meta.lu_qingye.movement.03.name
+  localizedDescriptionKey: content.qinglan.meta.lu_qingye.movement.03.description
+  tags:
+  - content.placeholder
+  - meta.node
+  - meta.branch.movement
+  runtimeKind: meta_node
+  runtime:
+    presentationProfileId: placeholder.presentation.qinglan.meta.lu_qingye.movement.03
+    resourceId:
+    value0: 0
+    value1: 0
+    int0: 35
+    enum0: 1
+    bool0: 0
+    text0:
+    referenceId0:
+    referenceId1:
+    referenceId2:
+    references0:
+    - qinglan.meta.lu_qingye.movement.02
+    references1:
+    - qinglan.trait.meta.lu_qingye.movement.03
+    references2: []
+    tags0: []
+    tags1: []
+    localizedSequenceKeys: []
+    mechanicTiers: []
+    rewardOperations: []
+    stateTransitions: []
+    bossPhases: []

@@ -47,6 +47,8 @@ namespace Game.Application
     {
         private readonly RunPackSnapshot[] packs;
         private readonly IReadOnlyList<RunPackSnapshot> packsView;
+        private readonly ContentId[] ownedUniqueRewardIds;
+        private readonly IReadOnlyList<ContentId> ownedUniqueRewardIdsView;
 
         public RunDescriptor(
             ulong runId,
@@ -57,6 +59,54 @@ namespace Game.Application
             int requiredBossDefeats,
             ContentId victoryBossId,
             RunPackSnapshot[] loadedPacks)
+            : this(
+                runId,
+                seed,
+                characterId,
+                mapId,
+                difficultyId,
+                requiredBossDefeats,
+                victoryBossId,
+                loadedPacks,
+                MetaLoadout.Empty)
+        {
+        }
+
+        public RunDescriptor(
+            ulong runId,
+            ulong seed,
+            ContentId characterId,
+            ContentId mapId,
+            ContentId difficultyId,
+            int requiredBossDefeats,
+            ContentId victoryBossId,
+            RunPackSnapshot[] loadedPacks,
+            MetaLoadout metaLoadout)
+            : this(
+                runId,
+                seed,
+                characterId,
+                mapId,
+                difficultyId,
+                requiredBossDefeats,
+                victoryBossId,
+                loadedPacks,
+                metaLoadout,
+                null)
+        {
+        }
+
+        public RunDescriptor(
+            ulong runId,
+            ulong seed,
+            ContentId characterId,
+            ContentId mapId,
+            ContentId difficultyId,
+            int requiredBossDefeats,
+            ContentId victoryBossId,
+            RunPackSnapshot[] loadedPacks,
+            MetaLoadout metaLoadout,
+            ContentId[] claimedUniqueRewardIds)
         {
             if (runId == 0UL) throw new ArgumentOutOfRangeException(nameof(runId));
             if (!characterId.IsValid) throw new ArgumentException("Character ID must be valid.", nameof(characterId));
@@ -74,10 +124,22 @@ namespace Game.Application
             VictoryBossId = victoryBossId;
             packs = loadedPacks == null ? Array.Empty<RunPackSnapshot>() : (RunPackSnapshot[])loadedPacks.Clone();
             packsView = Array.AsReadOnly(packs);
+            MetaLoadout = metaLoadout ?? throw new ArgumentNullException(nameof(metaLoadout));
+            ownedUniqueRewardIds = claimedUniqueRewardIds == null
+                ? Array.Empty<ContentId>()
+                : (ContentId[])claimedUniqueRewardIds.Clone();
+            Array.Sort(ownedUniqueRewardIds);
+            ownedUniqueRewardIdsView = Array.AsReadOnly(ownedUniqueRewardIds);
             for (var index = 0; index < packs.Length; index++)
             {
                 if (!packs[index].PackId.IsValid || string.IsNullOrWhiteSpace(packs[index].ContentHash))
                     throw new ArgumentException("Every pack snapshot must be valid.", nameof(loadedPacks));
+            }
+            for (var index = 0; index < ownedUniqueRewardIds.Length; index++)
+            {
+                if (!ownedUniqueRewardIds[index].IsValid ||
+                    (index > 0 && ownedUniqueRewardIds[index] == ownedUniqueRewardIds[index - 1]))
+                    throw new ArgumentException("Claimed unique reward IDs must be valid and unique.", nameof(claimedUniqueRewardIds));
             }
         }
 
@@ -89,6 +151,8 @@ namespace Game.Application
         public int RequiredBossDefeats { get; }
         public ContentId VictoryBossId { get; }
         public IReadOnlyList<RunPackSnapshot> LoadedPacks => packsView;
+        public MetaLoadout MetaLoadout { get; }
+        public IReadOnlyList<ContentId> OwnedUniqueRewardIds => ownedUniqueRewardIdsView;
 
         internal static RunDescriptor CreateLegacy() => new RunDescriptor(
             1UL,

@@ -30,7 +30,7 @@ MonoBehaviour:
     text0: 
     referenceId0: qinglan.anchor.old_court.landmark.stele
     referenceId1: qinglan.reward.map.exploration_token
-    referenceId2: 
+    referenceId2: qinglan.story.lu_qingye.hearing_sword
     references0: []
     references1: []
     references2: []

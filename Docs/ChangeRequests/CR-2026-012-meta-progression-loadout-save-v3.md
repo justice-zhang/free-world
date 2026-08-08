@@ -1,11 +1,11 @@
 # Change Request：局外成长、Loadout 与 Profile Save Schema 3
 
 - 编号：CR-2026-012
-- 状态：Approved
+- 状态：Implemented
 - 提交日期：2026-08-04
 - 提交人：Codex
-- 目标里程碑：G0.3、G2.6、G2.7、G3.2
-- 关联 ADR：ADR 0013、ADR 0015；对应 Demo CR-09
+- 目标里程碑：G0.3、G2.5、G2.6、G2.7、G3.2
+- 关联 ADR：ADR 0013、ADR 0015、ADR 0023；对应 Demo CR-09
 
 ## 1. 变更摘要
 
@@ -55,16 +55,27 @@
 
 ## 8. 验收标准
 
-- [ ] 五类 Meta 定义无核心硬编码内容 ID
-- [ ] Profile v2→v3 原子迁移可重复
-- [ ] 自动测试覆盖损坏、未知 ID、幂等和默认 Loadout
-- [ ] 启动/保存性能满足预算
-- [ ] ADR、Schema、API Freeze 已更新
-- [ ] Schema 2 Fixture 兼容通过
+- [x] 五类 Meta 定义无核心硬编码内容 ID
+- [x] Profile v2→v3 原子迁移可重复
+- [x] 自动测试覆盖损坏、未知 ID、幂等和默认 Loadout
+- [x] 启动/保存性能满足预算
+- [x] ADR、Schema、API Freeze 已更新
+- [x] Schema 2 Fixture 兼容通过
 
 ## 9. 审批
 
 - 技术负责人：依据用户当前连续 Demo 开发指令批准进入 G0.3 契约设计
 - 内容负责人：依据已提交 V2.0 与 G0.1 数量/体验基线
 - 制作人：依据用户当前连续 Demo 开发指令
-- 结论：Accepted / Approved for G0.3 design；尚未实现
+- 结论：Accepted；G1.1 完成 Profile 3 Codec/Migration，G2.5 完成 Meta Owner 与原子结算
+
+## 10. G2.5 实施状态
+
+- 12 个 MetaNode、3 个 Insert、4 个 Facility、3 个 Story、6 个 Collectible 与 15 个通用 Trait 输出：
+  `IMPLEMENTED`。
+- 6 Branch＋1 Terminal＋2 Insert、前置/互斥、灵砂购买、免费重置和缺失 ID 安全投影：`IMPLEMENTED`。
+- Profile 单一 Owner、Victory/Failure 过滤、事务幂等、保存与 Recovery 双失败重试：`IMPLEMENTED`。
+- Profile v1→2→3/v2→3 Fixture、内容验证、API Freeze、性能短测和 Windows Development Build：
+  `PASS`。
+- 实际据点/故事/收藏页面与确认式缺失 ID 修复入口属于 G2.6；正式表现属于 G3，不影响本 CR 的
+  数据与持久化验收关闭。

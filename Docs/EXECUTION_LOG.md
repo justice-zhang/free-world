@@ -1037,3 +1037,42 @@ UI（G2.6）。
 
 只进入 G2.5：消费 `LatestResult/Delta.TransactionId`，实现 Profile v3 原子合并、保存失败重试、Recovery
 清理和提交后事件；保存成功前不得让真实玩家路径清除 `HasUncommittedResult`。
+
+## Qinglan Demo G2.5：局外成长、Profile 与原子结算
+
+- 状态：`COMPLETE`
+- 日期：2026-08-08
+- 分支：`codex/qinglan-demo-implementation`
+- 内容包：`qinglan.pack.demo` 0.9.0 / Content Schema 6 / 193 definitions
+- CR / ADR：CR-2026-008、CR-2026-012、CR-2026-015 / ADR 0023
+- 结果报告：`Docs/Reports/2026-08-08-g2-5-meta-profile-settlement.md`
+
+### 实施结果
+
+| 范围 | 结果 |
+|---|---|
+| Meta | 12 节点三分支、3 嵌片、6＋1＋2 容量、前置/互斥、灵砂购买和免费重置 |
+| Hub | 4 设施由节点/故事/藏品和通用标签派生，不硬编码具体内容分支 |
+| Collection | 3 故事、6 藏品/3 Topic，失败局保留合法项，第三故事只限胜利 |
+| Settlement | Profile 单一 Owner、原子保存、Recovery 清理、提交后事件、Result 页面门禁 |
+| Retry | 保存失败不改真值；清理失败由持久事务补删；重复提交不重复发奖/平台输出 |
+| Recovery | 只检测、提示、明确清理；无 Continue、无 World、空 Delta、不算胜利 |
+| API | Simulation +1 至 1403；Application +73 至 523；均删除 0 |
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| 编译 | PASS | `dotnet build Game.Tests.EditMode.csproj`，0 error、27 条既有 DTO 警告 |
+| Focused EditMode / PlayMode | PASS | 8/8；1/1 |
+| 全量 EditMode / PlayMode | PASS | 276/276；13/13 |
+| Project Validation / API Freeze | PASS | Simulation 1403 / `6966b53f...db76`；Application 523 / `743d388f...1cf6` |
+| Pack 双构建 | PASS | 各 7 Pack；Qinglan Catalog SHA-256 `1a56442c...5aa` |
+| 性能短测 | PASS | Tick p99 2.6436 ms、0 B、GC 0/0/0 |
+| Windows Development Build | PASS | EXE SHA-256 `5d7eeb53...c9c6`；Manifest 四项证据 pass |
+| 12 分钟 / Release Smoke | NOT RUN | 无 Tick 变更；Release 专项留 G3 |
+
+### 下一步
+
+只进入 G2.6：使用现有 Flow/Profile 投影实现实际标题、选择、结算、据点、故事/收藏页面和输入；UI 不得
+直接写 Profile、删除 Recovery、复制设施派生规则或在提交完成前显示“已保存”。

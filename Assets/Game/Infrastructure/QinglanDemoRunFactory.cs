@@ -23,6 +23,16 @@ namespace Game.Infrastructure
         /// <summary>Freezes one selected Demo run identity before loading begins.</summary>
         public Result<RunDescriptor> CreateDescriptor(ulong runId, ulong seed)
         {
+            return CreateDescriptor(runId, seed, MetaLoadout.Empty, null);
+        }
+
+        /// <summary>Freezes validated Meta and unique-reward Profile snapshots into a run.</summary>
+        public Result<RunDescriptor> CreateDescriptor(
+            ulong runId,
+            ulong seed,
+            MetaLoadout metaLoadout,
+            ContentId[] claimedUniqueRewardIds)
+        {
             var characterId = RequireId(CharacterId);
             var mapId = RequireId(MapId);
             if (!application.ContentRegistry.TryGet(characterId, out RuntimeCharacterDefinition _))
@@ -48,6 +58,13 @@ namespace Game.Infrastructure
             }
             if (bossCount == 0 || !victoryBossId.IsValid)
                 return DescriptorFailure("Qinglan Demo encounter has no executable victory Boss.", schedule.Id);
+            var loadoutValidation = new QinglanMetaProgression(application.ContentRegistry)
+                .ValidateStructure(metaLoadout ?? MetaLoadout.Empty);
+            if (!loadoutValidation.IsSuccess)
+                return Result<RunDescriptor>.Failure(new Error(
+                    ErrorCode.InvalidCatalog,
+                    loadoutValidation.Diagnostic.MessageKey,
+                    loadoutValidation.Diagnostic.ContentId));
 
             var packs = new RunPackSnapshot[application.LoadedRunPacks.Count];
             for (var index = 0; index < packs.Length; index++)
@@ -62,7 +79,9 @@ namespace Game.Infrastructure
                     RequireId(DifficultyId),
                     bossCount,
                     victoryBossId,
-                    packs));
+                    packs,
+                    metaLoadout ?? MetaLoadout.Empty,
+                    claimedUniqueRewardIds));
             }
             catch (ArgumentException exception)
             {
@@ -135,6 +154,10 @@ namespace Game.Infrastructure
                 6,
                 6,
                 mapTags);
+            var ownedUnique = new ContentId[descriptor.OwnedUniqueRewardIds.Count];
+            for (var index = 0; index < ownedUnique.Length; index++)
+                ownedUnique[index] = descriptor.OwnedUniqueRewardIds[index];
+            hub.Rewards.SetOwnedUniqueRewards(ownedUnique);
             for (var index = 0; index < character.StartingSkillIds.Count; index++)
             {
                 if (!progression.Build.TryAcquireSkill(character.StartingSkillIds[index]))
@@ -144,6 +167,16 @@ namespace Game.Infrastructure
                         "A selected character starting skill could not be acquired.",
                         character.StartingSkillIds[index]);
                 }
+            }
+            var metaApplied = ApplyMetaLoadout(
+                content,
+                progression.Build,
+                descriptor.MetaLoadout,
+                out var failedMetaId);
+            if (!metaApplied)
+            {
+                DisposeWorld(world);
+                return Failure("A validated Meta output could not be applied.", failedMetaId);
             }
             for (var index = 0; index < character.MechanicIds.Count; index++)
             {
@@ -162,6 +195,47 @@ namespace Game.Infrastructure
                 new QinglanDemoRunHandle(
                     world,
                     new RunSession(world, player, stateMachine, descriptor)));
+        }
+
+        private static bool ApplyMetaLoadout(
+            ContentRegistry content,
+            BuildState build,
+            MetaLoadout loadout,
+            out ContentId failedId)
+        {
+            for (var index = 0; index < loadout.EquippedNodeIds.Count; index++)
+                if (!ApplyMetaDefinition(content, build, loadout.EquippedNodeIds[index], out failedId))
+                    return false;
+            if (loadout.HasTerminalNode &&
+                !ApplyMetaDefinition(content, build, loadout.TerminalNodeId, out failedId))
+                return false;
+            for (var index = 0; index < loadout.EquippedInsertIds.Count; index++)
+                if (!ApplyMetaDefinition(content, build, loadout.EquippedInsertIds[index], out failedId))
+                    return false;
+            failedId = default;
+            return true;
+        }
+
+        private static bool ApplyMetaDefinition(
+            ContentRegistry content,
+            BuildState build,
+            ContentId id,
+            out ContentId failedId)
+        {
+            if (!content.TryGet(id, out ContentRegistryEntry entry) ||
+                !(entry.Definition is RuntimeMetaDefinition definition))
+            {
+                failedId = id;
+                return false;
+            }
+            for (var index = 0; index < definition.OutputIds.Count; index++)
+            {
+                if (build.GrantMetaOutput(definition.OutputIds[index])) continue;
+                failedId = definition.OutputIds[index];
+                return false;
+            }
+            failedId = default;
+            return true;
         }
 
         private static Result<RunDescriptor> DescriptorFailure(string message, ContentId ownerId) =>

@@ -8,8 +8,8 @@ M10 首次冻结、G1.1 按 ADR 0013—0015 更新以下程序集的公开类型
 |---|---:|---|
 | `Game.Core` | 168 | `25766747b7014e0386506567e5e3c35f78b6dc5d00d850b00c35d28eb8d7e176` |
 | `Game.Content.Runtime` | 940 | `cd72d779cf1ae53f0875d06140706e194081588b7a0429efd4e490ae72e35b00` |
-| `Game.Simulation` | 1402 | `533fa9b40a7f3c072ac2b799e86fa195ace5d18ed02dcde9f919c4b91ee61c82` |
-| `Game.Application` | 450 | `e423cdb71953b31773df2c47a0c02dd64fc07424c9b25010c149e65fd2fa71a4` |
+| `Game.Simulation` | 1403 | `6966b53fc776347fa83b2dac8a40dd9079632edd98c60acab384d2cf6535db76` |
+| `Game.Application` | 523 | `743d388f632418522bbf9c191f80341416263135f06a27219ffcae45e6f85cf6` |
 | `Game.Platform.Abstractions` | 73 | `8eb5f2ccca0f5845a55d90c9f00fb42eae59cc82d81e98369995e84428a51738` |
 
 ## 变更协议
@@ -145,3 +145,17 @@ Runtime 与 Platform Abstractions 逐字节不变。
 不暴露 Unity Object、Scene 或 RuntimeIndex。旧 Hash 下 Project Validation 按预期只报告 Simulation
 `4d5bfc…`→`533fa9…` 与 Application `f57fe0…`→`e423cd…`；规范签名和失败日志保存在
 `TestResults/QinglanDemo/G2.4/`。
+
+## Qinglan Demo G2.5 批准追加
+
+ADR 0023 接受 Profile 3 单一 Owner、Meta 购买/装配/设施投影、Recovery 拒绝、结果提交门禁和不可变
+Run Meta/唯一奖励快照。规范 diff 为 `Game.Simulation` 1 条、`Game.Application` 73 条追加，删除均为 0；
+Core、Content Runtime 与 Platform Abstractions 签名文件逐字节不变。
+
+Simulation 唯一追加为 `BuildState.GrantMetaOutput(ContentId)`，只在开局装配低频应用已验证的 Trait、
+UpgradeOffer 或 Synergy。Application 保留既有 DemoRunCoordinator、RunDescriptor、MetaLoadout 构造，追加
+兼容重载、Profile Coordinator、Meta/Facility/Recovery 结果纯值和 `RunResultCommitted` 事件。公开类型不
+暴露 Unity Object、Scene、RuntimeContentIndex 或存储实现。
+
+旧 Hash 下 Project Validation 按预期只报告 Simulation `533fa9…`→`6966b5…` 与 Application
+`e423cd…`→`743d38…`；规范签名、74/0 对比和失败日志保存在 `TestResults/QinglanDemo/G2.5/`。

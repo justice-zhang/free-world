@@ -403,3 +403,22 @@ ADR 0013—0015 和 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md` 批准下列实
   Core、Content Runtime、Platform Abstractions 规范签名逐字节不变。ADR 0022 接受后更新 Freeze。
 - Profile v3 提交/失败重试、Recovery 清理和平台事件为 `NOT RUN`（G2.5）；实际页面/输入为 `NOT RUN`
   （G2.6）；Windows Development Build 为 `NOT RUN`（G2.8）。
+
+## 22. Qinglan Demo G2.5 Meta / Profile / Settlement 证据
+
+- G2.5 Focused EditMode 8/8：覆盖 12/3/4/3/6 内容拓扑、购买与设施派生、6＋1＋2 容量、终端互斥、
+  缺失 ID 保留/安全默认、胜负过滤、事务幂等、Profile 保存失败、Recovery 清理失败、明确拒绝和真实
+  Factory Meta 注入。
+- Focused PlayMode 1/1：真实 Title→Run→Result 路径在 Profile 原子保存和 Recovery 清理前拒绝离开；
+  保存、清理和 `RunResultCommitted` 完成后才允许进入 Hub。最终全量 EditMode 276/276、PlayMode 13/13。
+- 首次全量 EditMode 为 272/276；失败均来自旧测试硬编码 0.8.0/150 项、地标单输出和扩展前引用文案。
+  更新为 0.9.0 的向前兼容契约后完整复测通过，运行时行为没有通过删除断言规避。
+- 旧 Freeze Hash 下 Validation 按预期只报告 Simulation +1、Application +73，删除 0；Core、Content
+  Runtime、Platform Abstractions 签名逐字节不变。ADR 0023 更新 Hash 后 Project Validation PASS。
+- `qinglan.pack.demo` 0.9.0 / Schema 6 / 193 definitions，Content Hash
+  `d332199604988624b32837002059ed0218a4f89b947874810adfc2bfbf098d8d`。两次 CLI 各构建 7 Pack，
+  Qinglan Catalog SHA-256 均为 `1a56442c6c05839a9a4b9e6dc3bf776566530690cbb20c26d308d616026d05aa`。
+- 性能短测 900 Tick＋300 预热：Tick p99 2.6436 ms、Render p99 0.7134 ms、0 B、GC 0/0/0；
+  Windows x64 Development Build PASS，Manifest 的 EditMode/PlayMode/Validation/Soak 均为 pass。
+- 12 分钟 Headless `NOT RUN`：本包没有修改固定 Tick，只新增开局/页面低频路径；Release Player Smoke
+  `NOT RUN`，G3 使用带专用 Smoke Scene 的 Release Build 执行。实际 UI/输入仍由 G2.6 关闭。

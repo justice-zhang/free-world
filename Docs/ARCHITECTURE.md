@@ -335,8 +335,9 @@ M8 的 Presenter 仍只产生 Key；`UnityLocalizationService` 在 View 边界�
 初始只实现 NullPlatformFacade。Steam SDK 只存在于单独 Assembly，不反向污染游戏逻辑。
 
 M8 的子服务固定为 Achievements、Stats、Cloud、RichPresence 和 Identity。应用层
-`ApplicationEventStream` 发布 SettingsChanged、RunStarted、RunCompleted；存档服务处理三个本地
-文件生命周期，平台路由只从 RunCompleted 更新统计/成就。云冲突策略比较 Local、Remote 与最后
+`ApplicationEventStream` 保留 SettingsChanged、RunStarted、RunCompleted，并由 G2.5 追加只在 Profile
+保存与 Recovery 清理后发布的 RunResultCommitted；存档服务处理三个本地文件生命周期，平台路由从
+旧 RunCompleted 或新 RunResultCommitted 更新统计/成就，但同一 Demo 流只使用后一条。云冲突策略比较 Local、Remote 与最后
 同步校验和；双方分叉时返回 RequireUserChoice，不静默覆盖。
 
 ## 9.1 存档隔离
@@ -656,7 +657,8 @@ Settings、Profile、RunRecovery 改为按 kind 独立当前版本：2、3、2�
 
 Run 结束固定为：冻结 → 不可变 RunResult → 校验/幂等合并 → 原子 Profile 保存 → 清理 Recovery →
 发布已提交事件 → 平台/页面转换。保存失败停在可重试状态。RunRecovery 不升级为完整 World 快照，
-Demo 不提供 Continue。
+Demo 不提供 Continue。Profile 已写但 Recovery 清理失败时，持久化事务键阻止二次发奖；同一进程只在
+清理重试成功后发布一次待处理事件，重启后的 AlreadyCommitted 不重发平台输出。
 
 完整字段、API 最大面、迁移和测试矩阵见
 `Docs/DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md`。

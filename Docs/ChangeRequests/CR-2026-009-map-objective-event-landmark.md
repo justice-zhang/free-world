@@ -1,11 +1,11 @@
 # Change Request：地图目标、事件与地标 Runtime
 
 - 编号：CR-2026-009
-- 状态：Approved
+- 状态：Implemented
 - 提交日期：2026-08-04
 - 提交人：Codex
 - 目标里程碑：G0.3、G2.1、G2.2、G2.5
-- 关联 ADR：ADR 0013、ADR 0014；对应 Demo CR-06
+- 关联 ADR：ADR 0013、ADR 0014、ADR 0019、ADR 0023；对应 Demo CR-06
 
 ## 1. 变更摘要
 
@@ -55,16 +55,22 @@ Encounter、Trigger 和 Reward 可以承担输入/输出，但没有通用地图
 
 ## 8. 验收标准
 
-- [ ] 至少两种 Objective 与两种 Event 共享状态机
-- [ ] Scene 不是逻辑真相源
-- [ ] 自动测试覆盖状态可达、失败、重入和随机隔离
-- [ ] 目标规模状态机满足预算
-- [ ] ADR、Schema、API Freeze 已更新
-- [ ] 旧 Encounter Golden Fixture 不变
+- [x] 至少两种 Objective 与两种 Event 共享状态机
+- [x] Scene 不是逻辑真相源
+- [x] 自动测试覆盖状态可达、失败、重入和随机隔离
+- [x] 目标规模状态机满足预算
+- [x] ADR、Schema、API Freeze 已更新
+- [x] 旧 Encounter Golden Fixture 不变
 
 ## 9. 审批
 
 - 技术负责人：依据用户当前连续 Demo 开发指令批准进入 G0.3 契约设计
 - 内容负责人：依据已提交 V2.0 与 G0.1 数量/体验基线
 - 制作人：依据用户当前连续 Demo 开发指令
-- 结论：Accepted / Approved for G0.3 design；尚未实现
+- 结论：Accepted；G2.1 完成地图运行时，G2.5 完成地标故事/藏品的 Profile 推导
+
+## 10. 分期实施状态
+
+- G2.1：目标、事件、地标、稳定锚点、独立 RNG、一次输出和无头/Scene 一致性：`IMPLEMENTED`。
+- G2.2：三风脉台组合对 Boss 的通用规则输出：`IMPLEMENTED`。
+- G2.5：已领取地标从 Registry 推导故事与藏品并按 Outcome 原子合并 Profile：`IMPLEMENTED`。

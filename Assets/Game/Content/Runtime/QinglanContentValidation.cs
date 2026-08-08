@@ -280,14 +280,15 @@ namespace Game.Content.Runtime
             {
                 if (facility.UnlockConditionId.IsValid)
                     ValidateType(definition, facility.UnlockConditionId, definitions, packId, report,
-                        IsMetaUnlockCondition, "a MetaNode or MapObjective unlock condition");
+                        IsFacilityUnlockCondition,
+                        "a MetaNode, MapObjective, Story, or Collectible unlock condition");
             }
             else if (definition is RuntimeStoryDefinition story)
             {
                 if (story.UnlockConditionId.IsValid)
                     ValidateType(definition, story.UnlockConditionId, definitions, packId, report,
-                        value => IsMetaUnlockCondition(value) || value is RuntimeMetaFacilityDefinition,
-                        "a MetaNode, MapObjective, or MetaFacility unlock condition");
+                        IsStoryUnlockCondition,
+                        "a MetaNode, MapObjective, Landmark, Story, MetaFacility, or Trait unlock condition");
             }
             else if (definition is RuntimeCollectibleDefinition collectible)
             {
@@ -340,6 +341,18 @@ namespace Game.Content.Runtime
 
         private static bool IsMetaUnlockCondition(RuntimeContentDefinition value) =>
             value is RuntimeMetaNodeDefinition || value is RuntimeMapObjectiveDefinition;
+
+        private static bool IsFacilityUnlockCondition(RuntimeContentDefinition value) =>
+            IsMetaUnlockCondition(value) ||
+            value is RuntimeStoryDefinition ||
+            value is RuntimeCollectibleDefinition;
+
+        private static bool IsStoryUnlockCondition(RuntimeContentDefinition value) =>
+            IsMetaUnlockCondition(value) ||
+            value is RuntimeLandmarkDefinition ||
+            value is RuntimeStoryDefinition ||
+            value is RuntimeMetaFacilityDefinition ||
+            value is RuntimeTraitDefinition;
 
         private static bool IsCollectibleAcquireRule(RuntimeContentDefinition value) =>
             value is RuntimeLandmarkDefinition ||

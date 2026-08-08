@@ -170,11 +170,15 @@ namespace Game.Tests.EditMode
             Assert.That(runtime.UpdateLandmarkDiscovery(position, 2.5f), Is.EqualTo(1));
             Assert.That(runtime.ClaimLandmark(landmark.Id), Is.EqualTo(MapCommandStatus.Applied));
             Assert.That(runtime.ClaimLandmark(landmark.Id), Is.EqualTo(MapCommandStatus.AlreadyApplied));
-            Assert.That(runtime.OutputCount, Is.EqualTo(1));
+            Assert.That(runtime.OutputCount, Is.EqualTo(2));
             var output = runtime.GetOutputAt(0);
             Assert.That(output.SourceKind, Is.EqualTo(MapRuntimeEntryKind.LandmarkReward));
             Assert.That(output.SourceId, Is.EqualTo(landmark.Id));
             Assert.That(output.Transaction, Is.EqualTo(new RewardTransactionId(RunId, landmark.Id, 0)));
+            var story = runtime.GetOutputAt(1);
+            Assert.That(story.SourceKind, Is.EqualTo(MapRuntimeEntryKind.LandmarkStory));
+            Assert.That(story.OutputId, Is.EqualTo(landmark.StoryId));
+            Assert.That(story.Transaction, Is.EqualTo(new RewardTransactionId(RunId, landmark.Id, 1)));
             var claimed = default(LandmarkSnapshot);
             for (var index = 0; index < runtime.LandmarkCount; index++)
                 if (runtime.GetLandmarkAt(index).Id == landmark.Id) claimed = runtime.GetLandmarkAt(index);

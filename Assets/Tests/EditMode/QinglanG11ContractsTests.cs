@@ -181,7 +181,7 @@ namespace Game.Tests.EditMode
             Assert.That(typedErrors, Does.Contain("a Passive, Trait, or Synergy modifier output"));
             Assert.That(typedErrors, Does.Contain("a MetaNode prerequisite"));
             Assert.That(typedErrors, Does.Contain("a Trait, Synergy rule, or UpgradeOffer output"));
-            Assert.That(typedErrors, Does.Contain("a MetaNode or MapObjective unlock condition"));
+            Assert.That(typedErrors, Does.Contain("a MetaNode, MapObjective, Story, or Collectible unlock condition"));
             Assert.That(typedErrors, Does.Contain("a Landmark, MapObjective, Story, or MetaNode acquire rule"));
 
             var missingMechanic = new RuntimeCharacterMechanicDefinition(

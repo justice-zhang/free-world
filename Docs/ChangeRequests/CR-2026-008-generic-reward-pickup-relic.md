@@ -1,7 +1,7 @@
 # Change Request：泛化 Reward、Pickup 与 Relic
 
 - 编号：CR-2026-008
-- 状态：Approved
+- 状态：Implemented
 - 提交日期：2026-08-04
 - 提交人：Codex
 - 目标里程碑：G0.3、G1.7、G2.2、G2.3、G2.4、G2.5
@@ -55,19 +55,19 @@ Effect 适合战斗效果，Progression 适合升级，但缺少通用奖励所�
 
 ## 8. 验收标准
 
-- [ ] 至少三类来源共享 Reward Runtime
-- [ ] 所有结构创建/删除经 Cleanup
-- [ ] 自动测试覆盖幂等、随机隔离、容量和失败回退
-- [ ] 目标规模 Pickup 热路径满足预算
-- [ ] ADR、Schema、API Freeze 已更新
-- [ ] 旧 XP 拾取回归通过
+- [x] 至少三类来源共享 Reward Runtime
+- [x] 所有结构创建/删除经 Cleanup
+- [x] 自动测试覆盖幂等、随机隔离、容量和失败回退
+- [x] 目标规模 Pickup 热路径满足预算
+- [x] ADR、Schema、API Freeze 已更新
+- [x] 旧 XP 拾取回归通过
 
 ## 9. 审批
 
 - 技术负责人：依据用户当前连续 Demo 开发指令批准进入 G0.3 契约设计
 - 内容负责人：依据已提交 V2.0 与 G0.1 数量/体验基线
 - 制作人：依据用户当前连续 Demo 开发指令
-- 结论：Accepted / Approved for G0.3 design；尚未实现
+- 结论：Accepted；G1.7/G2.3 完成运行时与内容，G2.5 完成永久结果原子持久化
 
 ## 10. G1.7 分期实施状态
 
@@ -93,3 +93,10 @@ Effect 适合战斗效果，Progression 适合升级，但缺少通用奖励所�
 - 最终 Boss 击杀数＋听风奖励事务双条件与 `run.result.<RunId>` 稳定结果事务：`IMPLEMENTED`。
 - Profile v3 原子合并、保存重试、Recovery 清理和平台事件：`NOT RUN`，目标 G2.5；CR 的持久化验收
   继续保持未关闭。
+
+## 13. G2.5 分期实施状态
+
+- Currency/Unlock/Unique/Story 按 `RunResultDelta.TransactionId` 原子合并 Profile 3：`IMPLEMENTED`。
+- Victory/Defeat/Abandoned 资格过滤、唯一领取快照和重复事务不重复发放：`IMPLEMENTED`。
+- Profile 保存失败、Recovery 清理失败、同进程待发布事件与重启后重复安全：`IMPLEMENTED`。
+- CR 的永久奖励持久化验收已关闭；实际 Reward/Result UI 属于 G2.6。

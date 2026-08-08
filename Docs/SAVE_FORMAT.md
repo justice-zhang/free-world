@@ -107,5 +107,9 @@ Profile v2→v3 迁移逐字段保留 v2 值，新集合全部初始化为空；
 `committedTransactionIds`；已存在返回 `AlreadyCommitted`，不重复改变任何集合/货币/统计。只有原子
 Profile 写成功后才删除 Recovery、发布平台事件或显示“已保存”。
 
+若 Profile 已原子写入但 Recovery 删除失败，当前 Profile 立即以持久化事务为真值，Result 页面保持
+可重试；重试返回 `AlreadyCommitted` 并只补删 Recovery，不再合并奖励。为避免平台重复，进程重启后的
+AlreadyCommitted 不重新发布完成事件；同一进程可在补删成功后发布一次尚未发布的待处理事件。
+
 CR-2026-015 完整局内恢复延期。检测到 `run_recovery.json` 时只显示本地化提示，用户明确开始新局
 后清理；不得显示 Continue，也不得把标记内容提交为胜利或首通。

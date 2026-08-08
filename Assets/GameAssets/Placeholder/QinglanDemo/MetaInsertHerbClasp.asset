@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ab5523569c43f3add3cd44c96bed44, type: 3}
+  m_Name: MetaInsertHerbClasp
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.QinglanDefinitionAuthoring
+  contentId: qinglan.insert.herb_garden_spring_clasp
+  localizedNameKey: content.qinglan.insert.herb_garden_spring_clasp.name
+  localizedDescriptionKey: content.qinglan.insert.herb_garden_spring_clasp.description
+  tags:
+  - content.placeholder
+  - meta.insert
+  runtimeKind: meta_insert
+  runtime:
+    presentationProfileId: placeholder.presentation.qinglan.insert.herb_garden_spring_clasp
+    resourceId:
+    value0: 0
+    value1: 0
+    int0: 30
+    enum0: 0
+    bool0: 0
+    text0:
+    referenceId0:
+    referenceId1:
+    referenceId2:
+    references0: []
+    references1:
+    - qinglan.trait.meta.insert.herb_garden_spring_clasp
+    references2: []
+    tags0:
+    - meta.slot.defense
+    tags1: []
+    localizedSequenceKeys: []
+    mechanicTiers: []
+    rewardOperations: []
+    stateTransitions: []
+    bossPhases: []

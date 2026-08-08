@@ -1716,6 +1716,519 @@ MonoBehaviour:
     m_Localized: The explicit armor cost of the high-risk token.
     m_Metadata:
       m_Items: []
+  - m_Id: 4694393418031104
+    m_Localized: Innate Affinity Output
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694394009427968
+    m_Localized: A bounded data-driven Meta output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694394193977344
+    m_Localized: Innate Affinity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694394193977345
+    m_Localized: Qinglan Demo meta_node content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694394395303936
+    m_Localized: Riding-Wind Threshold Output
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694394395303937
+    m_Localized: A bounded data-driven Meta output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395074781184
+    m_Localized: Riding-Wind Threshold
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395074781185
+    m_Localized: Qinglan Demo meta_node content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395318050816
+    m_Localized: Innate Preview Output
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395318050817
+    m_Localized: A bounded data-driven Meta output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395536154624
+    m_Localized: Innate Preview
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395536154625
+    m_Localized: Qinglan Demo meta_node content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395695538176
+    m_Localized: Final Form Qualification Output
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395695538177
+    m_Localized: A bounded data-driven Meta output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395850727424
+    m_Localized: Final Form Qualification
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395850727425
+    m_Localized: Qinglan Demo meta_node content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396014305280
+    m_Localized: Footwork Tolerance Output
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396014305281
+    m_Localized: A bounded data-driven Meta output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396186271744
+    m_Localized: Footwork Tolerance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396186271745
+    m_Localized: Qinglan Demo meta_node content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396349849600
+    m_Localized: Recovery Window Output
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396349849601
+    m_Localized: A bounded data-driven Meta output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396517621760
+    m_Localized: Recovery Window
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396517621761
+    m_Localized: Qinglan Demo meta_node content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396681199616
+    m_Localized: Route Tolerance Output
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396681199617
+    m_Localized: A bounded data-driven Meta output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396853166080
+    m_Localized: Route Tolerance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396853166081
+    m_Localized: Qinglan Demo meta_node content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397020938240
+    m_Localized: Wind Route Terminal Output
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397020938241
+    m_Localized: A bounded data-driven Meta output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397184516096
+    m_Localized: Wind Route Terminal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397184516097
+    m_Localized: Qinglan Demo meta_node content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397356482560
+    m_Localized: Candidate Insight Output
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397356482561
+    m_Localized: A bounded data-driven Meta output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397520060416
+    m_Localized: Candidate Insight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397520060417
+    m_Localized: Qinglan Demo meta_node content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397671055360
+    m_Localized: Choice Reserve Output
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397671055361
+    m_Localized: A bounded data-driven Meta output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397830438912
+    m_Localized: Choice Reserve
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397830438913
+    m_Localized: Qinglan Demo meta_node content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397994016768
+    m_Localized: Journey Record Output
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397994016769
+    m_Localized: A bounded data-driven Meta output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398153400320
+    m_Localized: Journey Record
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398153400321
+    m_Localized: Qinglan Demo meta_node content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398321172480
+    m_Localized: Risk Choice Terminal Output
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398321172481
+    m_Localized: A bounded data-driven Meta output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398484750336
+    m_Localized: Risk Choice Terminal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398484750337
+    m_Localized: Qinglan Demo meta_node content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398644133888
+    m_Localized: Wind-Pattern Affinity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398644133889
+    m_Localized: A bounded data-driven Meta output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398799323136
+    m_Localized: Spring-Clasp Recovery
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398799323137
+    m_Localized: A bounded data-driven Meta output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398971289600
+    m_Localized: Vein-Needle Search
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398971289601
+    m_Localized: A bounded data-driven Meta output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399147450368
+    m_Localized: Qinglan Wind-Pattern Shard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399147450369
+    m_Localized: Qinglan Demo meta_insert content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399331999744
+    m_Localized: Herb-Garden Spring Clasp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399331999745
+    m_Localized: Qinglan Demo meta_insert content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399508160512
+    m_Localized: Old-Court Vein Needle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399508160513
+    m_Localized: Qinglan Demo meta_insert content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399684321280
+    m_Localized: Hearing the Sword Below the Mountain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399684321281
+    m_Localized: Qinglan Demo story content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399684321282
+    m_Localized: Hearing the Sword Below the Mountain I
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399684321283
+    m_Localized: Hearing the Sword Below the Mountain II
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399864676352
+    m_Localized: Old Sword and Wine Gourd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399864676353
+    m_Localized: Qinglan Demo story content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399864676354
+    m_Localized: Old Sword and Wine Gourd I
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399864676355
+    m_Localized: Old Sword and Wine Gourd II
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400053420032
+    m_Localized: Refusing the Inheritance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400053420033
+    m_Localized: Qinglan Demo story content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400053420034
+    m_Localized: Refusing the Inheritance I
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400053420035
+    m_Localized: Refusing the Inheritance II
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400221192192
+    m_Localized: Broken Balance Inscription
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400221192193
+    m_Localized: Qinglan Demo collectible content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400221192194
+    m_Localized: Broken Balance Inscription record.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400221192195
+    m_Localized: A recoverable old-court archive entry.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400397352960
+    m_Localized: Old-Court Sword-Trial Record
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400397352961
+    m_Localized: Qinglan Demo collectible content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400397352962
+    m_Localized: Old-Court Sword-Trial Record record.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400397352963
+    m_Localized: A recoverable old-court archive entry.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400602873856
+    m_Localized: Tingyun Sword Note
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400602873857
+    m_Localized: Qinglan Demo collectible content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400602873858
+    m_Localized: Tingyun Sword Note record.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400602873859
+    m_Localized: A recoverable old-court archive entry.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400774840320
+    m_Localized: Unsent Mountain Letter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400774840321
+    m_Localized: Qinglan Demo collectible content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400774840322
+    m_Localized: Unsent Mountain Letter record.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400774840323
+    m_Localized: A recoverable old-court archive entry.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400934223872
+    m_Localized: Herb-Garden Wooden Tag
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400934223873
+    m_Localized: Qinglan Demo collectible content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400934223874
+    m_Localized: Herb-Garden Wooden Tag record.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400934223875
+    m_Localized: A recoverable old-court archive entry.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401097801728
+    m_Localized: Guest-Pavilion Wine Token
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401097801729
+    m_Localized: Qinglan Demo collectible content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401097801730
+    m_Localized: Guest-Pavilion Wine Token record.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401097801731
+    m_Localized: A recoverable old-court archive entry.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401265573888
+    m_Localized: Vein Inquiry Platform
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401265573889
+    m_Localized: Qinglan Demo meta_facility content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401424957440
+    m_Localized: Scroll Pavilion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401424957441
+    m_Localized: Qinglan Demo meta_facility content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401588535296
+    m_Localized: Hundred-Artifact Pavilion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401588535297
+    m_Localized: Qinglan Demo meta_facility content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401752113152
+    m_Localized: Myriad-Phenomena Pavilion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401752113153
+    m_Localized: Qinglan Demo meta_facility content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635298234368
+    m_Localized: The loadout contains a duplicate selection.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493888
+    m_Localized: There is not enough Spirit Sand.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493889
+    m_Localized: The selected branch node is unavailable.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493890
+    m_Localized: The selected insert is unavailable.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493891
+    m_Localized: The selected terminal node is unavailable.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493892
+    m_Localized: The loadout exceeds its slot capacity.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493893
+    m_Localized: The selected item has not been unlocked.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493894
+    m_Localized: No loadout was supplied.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493895
+    m_Localized: Saved loadout content is missing.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493896
+    m_Localized: Only one terminal node may be equipped.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493897
+    m_Localized: The selected nodes are mutually exclusive.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882496
+    m_Localized: A prerequisite has not been unlocked.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882497
+    m_Localized: The requested Meta item is unavailable.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882498
+    m_Localized: The run result is invalid and was not saved.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882499
+    m_Localized: Recovery rejection is not valid in the current state.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882500
+    m_Localized: A collectible in the result is unavailable.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882501
+    m_Localized: The result contains duplicate currency entries.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882502
+    m_Localized: The result contains an invalid currency entry.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882503
+    m_Localized: A story in the result is unavailable.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882504
+    m_Localized: A unique reward in the result is invalid.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882505
+    m_Localized: Unlocked result content is unavailable.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882506
+    m_Localized: The run character or map is unavailable.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882507
+    m_Localized: The previous run cannot be continued. Start a new run to clear its
+      recovery marker.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882508
+    m_Localized: Progress saved.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -1707,6 +1707,518 @@ MonoBehaviour:
     m_Key: content.qinglan.trait.relic.blank_sword_trial_token.description
     m_Metadata:
       m_Items: []
+  - m_Id: 4694393418031104
+    m_Key: content.qinglan.trait.meta.lu_qingye.innate.01.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694394009427968
+    m_Key: content.qinglan.trait.meta.lu_qingye.innate.01.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694394193977344
+    m_Key: content.qinglan.meta.lu_qingye.innate.01.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694394193977345
+    m_Key: content.qinglan.meta.lu_qingye.innate.01.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694394395303936
+    m_Key: content.qinglan.trait.meta.lu_qingye.innate.02.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694394395303937
+    m_Key: content.qinglan.trait.meta.lu_qingye.innate.02.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395074781184
+    m_Key: content.qinglan.meta.lu_qingye.innate.02.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395074781185
+    m_Key: content.qinglan.meta.lu_qingye.innate.02.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395318050816
+    m_Key: content.qinglan.trait.meta.lu_qingye.innate.03.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395318050817
+    m_Key: content.qinglan.trait.meta.lu_qingye.innate.03.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395536154624
+    m_Key: content.qinglan.meta.lu_qingye.innate.03.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395536154625
+    m_Key: content.qinglan.meta.lu_qingye.innate.03.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395695538176
+    m_Key: content.qinglan.trait.meta.lu_qingye.innate.04.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395695538177
+    m_Key: content.qinglan.trait.meta.lu_qingye.innate.04.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395850727424
+    m_Key: content.qinglan.meta.lu_qingye.innate.04.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694395850727425
+    m_Key: content.qinglan.meta.lu_qingye.innate.04.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396014305280
+    m_Key: content.qinglan.trait.meta.lu_qingye.movement.01.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396014305281
+    m_Key: content.qinglan.trait.meta.lu_qingye.movement.01.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396186271744
+    m_Key: content.qinglan.meta.lu_qingye.movement.01.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396186271745
+    m_Key: content.qinglan.meta.lu_qingye.movement.01.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396349849600
+    m_Key: content.qinglan.trait.meta.lu_qingye.movement.02.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396349849601
+    m_Key: content.qinglan.trait.meta.lu_qingye.movement.02.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396517621760
+    m_Key: content.qinglan.meta.lu_qingye.movement.02.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396517621761
+    m_Key: content.qinglan.meta.lu_qingye.movement.02.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396681199616
+    m_Key: content.qinglan.trait.meta.lu_qingye.movement.03.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396681199617
+    m_Key: content.qinglan.trait.meta.lu_qingye.movement.03.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396853166080
+    m_Key: content.qinglan.meta.lu_qingye.movement.03.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694396853166081
+    m_Key: content.qinglan.meta.lu_qingye.movement.03.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397020938240
+    m_Key: content.qinglan.trait.meta.lu_qingye.movement.04.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397020938241
+    m_Key: content.qinglan.trait.meta.lu_qingye.movement.04.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397184516096
+    m_Key: content.qinglan.meta.lu_qingye.movement.04.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397184516097
+    m_Key: content.qinglan.meta.lu_qingye.movement.04.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397356482560
+    m_Key: content.qinglan.trait.meta.lu_qingye.mind.01.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397356482561
+    m_Key: content.qinglan.trait.meta.lu_qingye.mind.01.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397520060416
+    m_Key: content.qinglan.meta.lu_qingye.mind.01.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397520060417
+    m_Key: content.qinglan.meta.lu_qingye.mind.01.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397671055360
+    m_Key: content.qinglan.trait.meta.lu_qingye.mind.02.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397671055361
+    m_Key: content.qinglan.trait.meta.lu_qingye.mind.02.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397830438912
+    m_Key: content.qinglan.meta.lu_qingye.mind.02.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397830438913
+    m_Key: content.qinglan.meta.lu_qingye.mind.02.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397994016768
+    m_Key: content.qinglan.trait.meta.lu_qingye.mind.03.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694397994016769
+    m_Key: content.qinglan.trait.meta.lu_qingye.mind.03.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398153400320
+    m_Key: content.qinglan.meta.lu_qingye.mind.03.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398153400321
+    m_Key: content.qinglan.meta.lu_qingye.mind.03.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398321172480
+    m_Key: content.qinglan.trait.meta.lu_qingye.mind.04.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398321172481
+    m_Key: content.qinglan.trait.meta.lu_qingye.mind.04.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398484750336
+    m_Key: content.qinglan.meta.lu_qingye.mind.04.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398484750337
+    m_Key: content.qinglan.meta.lu_qingye.mind.04.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398644133888
+    m_Key: content.qinglan.trait.meta.insert.qinglan_wind_pattern.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398644133889
+    m_Key: content.qinglan.trait.meta.insert.qinglan_wind_pattern.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398799323136
+    m_Key: content.qinglan.trait.meta.insert.herb_garden_spring_clasp.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398799323137
+    m_Key: content.qinglan.trait.meta.insert.herb_garden_spring_clasp.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398971289600
+    m_Key: content.qinglan.trait.meta.insert.old_court_vein_needle.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694398971289601
+    m_Key: content.qinglan.trait.meta.insert.old_court_vein_needle.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399147450368
+    m_Key: content.qinglan.insert.qinglan_wind_pattern.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399147450369
+    m_Key: content.qinglan.insert.qinglan_wind_pattern.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399331999744
+    m_Key: content.qinglan.insert.herb_garden_spring_clasp.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399331999745
+    m_Key: content.qinglan.insert.herb_garden_spring_clasp.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399508160512
+    m_Key: content.qinglan.insert.old_court_vein_needle.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399508160513
+    m_Key: content.qinglan.insert.old_court_vein_needle.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399684321280
+    m_Key: content.qinglan.story.lu_qingye.hearing_sword.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399684321281
+    m_Key: content.qinglan.story.lu_qingye.hearing_sword.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399684321282
+    m_Key: story.qinglan.story.lu_qingye.hearing_sword.01
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399684321283
+    m_Key: story.qinglan.story.lu_qingye.hearing_sword.02
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399864676352
+    m_Key: content.qinglan.story.lu_qingye.old_sword_and_gourd.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399864676353
+    m_Key: content.qinglan.story.lu_qingye.old_sword_and_gourd.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399864676354
+    m_Key: story.qinglan.story.lu_qingye.old_sword_and_gourd.01
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694399864676355
+    m_Key: story.qinglan.story.lu_qingye.old_sword_and_gourd.02
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400053420032
+    m_Key: content.qinglan.story.lu_qingye.refusing_inheritance.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400053420033
+    m_Key: content.qinglan.story.lu_qingye.refusing_inheritance.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400053420034
+    m_Key: story.qinglan.story.lu_qingye.refusing_inheritance.01
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400053420035
+    m_Key: story.qinglan.story.lu_qingye.refusing_inheritance.02
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400221192192
+    m_Key: content.qinglan.collectible.old_court.01.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400221192193
+    m_Key: content.qinglan.collectible.old_court.01.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400221192194
+    m_Key: collectible.qinglan.collectible.old_court.01.body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400221192195
+    m_Key: collectible.qinglan.collectible.old_court.01.body.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400397352960
+    m_Key: content.qinglan.collectible.old_court.02.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400397352961
+    m_Key: content.qinglan.collectible.old_court.02.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400397352962
+    m_Key: collectible.qinglan.collectible.old_court.02.body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400397352963
+    m_Key: collectible.qinglan.collectible.old_court.02.body.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400602873856
+    m_Key: content.qinglan.collectible.old_court.03.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400602873857
+    m_Key: content.qinglan.collectible.old_court.03.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400602873858
+    m_Key: collectible.qinglan.collectible.old_court.03.body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400602873859
+    m_Key: collectible.qinglan.collectible.old_court.03.body.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400774840320
+    m_Key: content.qinglan.collectible.old_court.04.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400774840321
+    m_Key: content.qinglan.collectible.old_court.04.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400774840322
+    m_Key: collectible.qinglan.collectible.old_court.04.body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400774840323
+    m_Key: collectible.qinglan.collectible.old_court.04.body.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400934223872
+    m_Key: content.qinglan.collectible.old_court.05.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400934223873
+    m_Key: content.qinglan.collectible.old_court.05.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400934223874
+    m_Key: collectible.qinglan.collectible.old_court.05.body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694400934223875
+    m_Key: collectible.qinglan.collectible.old_court.05.body.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401097801728
+    m_Key: content.qinglan.collectible.old_court.06.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401097801729
+    m_Key: content.qinglan.collectible.old_court.06.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401097801730
+    m_Key: collectible.qinglan.collectible.old_court.06.body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401097801731
+    m_Key: collectible.qinglan.collectible.old_court.06.body.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401265573888
+    m_Key: content.qinglan.facility.vein_inquiry_platform.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401265573889
+    m_Key: content.qinglan.facility.vein_inquiry_platform.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401424957440
+    m_Key: content.qinglan.facility.scroll_pavilion.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401424957441
+    m_Key: content.qinglan.facility.scroll_pavilion.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401588535296
+    m_Key: content.qinglan.facility.hundred_artifact_pavilion.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401588535297
+    m_Key: content.qinglan.facility.hundred_artifact_pavilion.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401752113152
+    m_Key: content.qinglan.facility.myriad_phenomena_pavilion.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4694401752113153
+    m_Key: content.qinglan.facility.myriad_phenomena_pavilion.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635298234368
+    m_Key: meta.error.duplicate_loadout
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493888
+    m_Key: meta.error.insufficient_spirit_sand
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493889
+    m_Key: meta.error.invalid_branch_node
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493890
+    m_Key: meta.error.invalid_insert
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493891
+    m_Key: meta.error.invalid_terminal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493892
+    m_Key: meta.error.loadout_capacity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493893
+    m_Key: meta.error.loadout_locked
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493894
+    m_Key: meta.error.loadout_missing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493895
+    m_Key: meta.error.missing_loadout_content
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493896
+    m_Key: meta.error.multiple_terminals
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635843493897
+    m_Key: meta.error.mutually_exclusive
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882496
+    m_Key: meta.error.prerequisite_locked
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882497
+    m_Key: meta.error.purchase_missing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882498
+    m_Key: save.error.invalid_run_result
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882499
+    m_Key: save.error.recovery_rejection_state
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882500
+    m_Key: save.error.result_collectible_invalid
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882501
+    m_Key: save.error.result_currency_duplicate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882502
+    m_Key: save.error.result_currency_invalid
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882503
+    m_Key: save.error.result_story_invalid
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882504
+    m_Key: save.error.result_unique_invalid
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882505
+    m_Key: save.error.result_unlock_missing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882506
+    m_Key: save.error.run_identity_missing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882507
+    m_Key: save.prompt.recovery_rejected
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4710635851882508
+    m_Key: save.status.result_saved
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

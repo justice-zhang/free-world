@@ -35,7 +35,7 @@ namespace Game.Tests.EditMode
             Assert.That(descriptor.RequiredBossDefeats, Is.EqualTo(2));
             Assert.That(descriptor.VictoryBossId, Is.EqualTo(Id("qinglan.boss.tingfeng")));
             Assert.That(descriptor.LoadedPacks.Count, Is.EqualTo(1));
-            Assert.That(descriptor.LoadedPacks[0].Version, Is.EqualTo(new ContentVersion(0, 8, 0)));
+            Assert.That(descriptor.LoadedPacks[0].Version, Is.EqualTo(new ContentVersion(0, 9, 0)));
             Assert.That(descriptor.LoadedPacks[0].ContentHash, Has.Length.EqualTo(64));
 
             var created = factory.Create(descriptor, stateMachine);

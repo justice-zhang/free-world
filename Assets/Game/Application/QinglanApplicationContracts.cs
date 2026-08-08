@@ -82,18 +82,39 @@ namespace Game.Application
         private readonly IReadOnlyList<ContentId> insertIdsView;
 
         public MetaLoadout(ContentId[] equippedNodeIds, ContentId terminalNodeId, ContentId[] equippedInsertIds)
+            : this(equippedNodeIds, terminalNodeId, equippedInsertIds, true)
+        {
+        }
+
+        /// <summary>Creates a loadout without a terminal selection.</summary>
+        public MetaLoadout(ContentId[] equippedNodeIds, ContentId[] equippedInsertIds)
+            : this(equippedNodeIds, default, equippedInsertIds, false)
+        {
+        }
+
+        private MetaLoadout(
+            ContentId[] equippedNodeIds,
+            ContentId terminalNodeId,
+            ContentId[] equippedInsertIds,
+            bool requireTerminal)
         {
             nodeIds = CopyValid(equippedNodeIds, nameof(equippedNodeIds));
             insertIds = CopyValid(equippedInsertIds, nameof(equippedInsertIds));
             nodeIdsView = Array.AsReadOnly(nodeIds);
             insertIdsView = Array.AsReadOnly(insertIds);
-            if (!terminalNodeId.IsValid) throw new ArgumentException("Terminal node ID must be valid.", nameof(terminalNodeId));
+            if (requireTerminal && !terminalNodeId.IsValid)
+                throw new ArgumentException("Terminal node ID must be valid.", nameof(terminalNodeId));
             TerminalNodeId = terminalNodeId;
         }
 
         public IReadOnlyList<ContentId> EquippedNodeIds => nodeIdsView;
         public ContentId TerminalNodeId { get; }
+        public bool HasTerminalNode => TerminalNodeId.IsValid;
         public IReadOnlyList<ContentId> EquippedInsertIds => insertIdsView;
+
+        /// <summary>Safe no-output loadout used when saved IDs cannot be validated.</summary>
+        public static MetaLoadout Empty { get; } =
+            new MetaLoadout(Array.Empty<ContentId>(), Array.Empty<ContentId>());
 
         private static ContentId[] CopyValid(ContentId[] source, string parameter)
         {
