@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba0e317ef7e946bd81ad0b5942a05553, type: 3}
+  m_Name: RewardRidingWindFeatherStatus
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.StatusEffectAuthoring
+  contentId: qinglan.status.pickup.riding_wind_feather
+  localizedNameKey: content.qinglan.status.pickup.riding_wind_feather.name
+  localizedDescriptionKey: content.qinglan.status.pickup.riding_wind_feather.description
+  tags:
+  - content.placeholder
+  - status.beneficial
+  - status.pickup
+  stackingPolicy: 1
+  durationSeconds: 4
+  maxStacks: 1
+  tickIntervalSeconds: 0
+  dispelTags:
+  - status.dispel.beneficial
+  immunityTags: []
+  modifierEnabled: 1
+  modifierStatId: base.stat.move_speed
+  modifierOperation: 3
+  modifierValue: 1.45
+  modifierPriority: 0
+  modifierStackingGroup: qinglan.stack.pickup.riding_wind_feather
+  periodicDamageEnabled: 0
+  periodicDamageType: 0
+  periodicDamageTagMask: 0
+  periodicDamageValue: 0
+  periodicCanCritical: 0
+  periodicProcCoefficient: 0
+  periodicKnockback: {x: 0, y: 0}
+  shieldCapacity: 0

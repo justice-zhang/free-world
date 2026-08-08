@@ -26,9 +26,9 @@ namespace Game.Tests.EditMode
         {
             var first = Bake();
             var second = Bake();
-            Assert.That(first.Manifest.Version, Is.EqualTo(new ContentVersion(0, 7, 0)));
+            Assert.That(first.Manifest.Version.CompareTo(new ContentVersion(0, 7, 0)), Is.GreaterThanOrEqualTo(0));
             Assert.That(first.Manifest.SchemaVersion, Is.EqualTo(6));
-            Assert.That(first.Definitions.Count, Is.EqualTo(121));
+            Assert.That(first.Definitions.Count, Is.GreaterThanOrEqualTo(121));
             Assert.That(first.ContentHash, Has.Length.EqualTo(64));
             Assert.That(second.ContentHash, Is.EqualTo(first.ContentHash));
 

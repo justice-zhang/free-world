@@ -64,6 +64,15 @@ namespace Game.Simulation
 
             var rules = world.CombatRules;
             var normalizedBase = NormalizeDamage(packet.BaseValue, rules);
+            var targetIsBoss = world.Enemies.TryGetSnapshot(packet.Target.Handle, out var enemyTarget) &&
+                               enemyTarget.Boss;
+            normalizedBase = ClampFinite(
+                normalizedBase * (world.Qinglan?.Rewards.ResolveDamageMultiplier(
+                    packet.Source,
+                    packet.Target,
+                    targetIsBoss) ?? 1f),
+                rules.MinimumDamage,
+                rules.MaximumDamage);
             var sourceMultiplier = 1f;
             var criticalChance = 0f;
             var criticalMultiplier = rules.CriticalMultiplier;
@@ -1003,15 +1012,28 @@ namespace Game.Simulation
                     if (enemy.Boss && world.Qinglan != null &&
                         world.Qinglan.Bosses.TryFinalizeDeath(
                             request.Target.Handle,
-                            0UL,
+                            world.Qinglan.Rewards.RunId,
                             out var bossTransaction,
                             out var bossRewardId) &&
                         bossRewardId.IsValid)
                     {
-                        world.Qinglan.Rewards.TryCommit(bossTransaction);
+                        world.Qinglan.Rewards.TryQueueGroundReward(
+                            bossRewardId,
+                            bossTransaction,
+                            position,
+                            request.Source);
                     }
                     world.Progression?.RecordEnemyDefeat(enemy.ExperienceReward, position);
                     world.Enemies.ProcessDeathOutputs(world, request.Target.Handle, position);
+                    if (!enemy.Boss && enemy.LootReward > 0f && world.Qinglan != null)
+                    {
+                        world.Qinglan.Rewards.TryQueueRandomPickup(
+                            enemy.LootReward,
+                            enemy.EnemyId,
+                            request.Target.Handle,
+                            position,
+                            request.Source);
+                    }
                 }
                 var diedEvent = new EntityDied(
                     request.Target,

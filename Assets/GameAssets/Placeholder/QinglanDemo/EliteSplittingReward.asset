@@ -29,7 +29,7 @@ MonoBehaviour:
     enum0: 3
     bool0: 0
     text0: 
-    referenceId0: 
+    referenceId0: qinglan.reward.fallback.spirit_sand
     referenceId1: 
     referenceId2: 
     references0: []
@@ -40,11 +40,36 @@ MonoBehaviour:
     localizedSequenceKeys: []
     mechanicTiers: []
     rewardOperations:
-    - code: 7
+    - code: 5
       value: 0
-      integerValue: 1
-      referenceId: 
-      eligibilityTag: reward.afflicted_core
+      integerValue: 0
+      referenceId: qinglan.relic.broken_sword_tassel
+      eligibilityTag: 
+    - code: 5
+      value: 0
+      integerValue: 0
+      referenceId: qinglan.relic.wind_vein_copper
+      eligibilityTag: 
+    - code: 5
+      value: 0
+      integerValue: 0
+      referenceId: qinglan.relic.herb_garden_seed_pod
+      eligibilityTag: 
+    - code: 5
+      value: 0
+      integerValue: 0
+      referenceId: qinglan.relic.listening_wind_core
+      eligibilityTag: 
+    - code: 5
+      value: 0
+      integerValue: 0
+      referenceId: qinglan.relic.old_court_bell
+      eligibilityTag: 
+    - code: 5
+      value: 0
+      integerValue: 0
+      referenceId: qinglan.relic.blank_sword_trial_token
+      eligibilityTag: 
     - code: 11
       value: 0.35
       integerValue: 2

@@ -551,12 +551,14 @@ namespace Game.Simulation
                 var affix = instance.Affixes.GetAt(affixIndex);
                 var reward = affix.DeathReward;
                 if (reward == null) continue;
+                var hasRuntimeReward = false;
                 for (var operationIndex = 0; operationIndex < reward.Operations.Count; operationIndex++)
                 {
                     var operation = reward.Operations[operationIndex];
                     if (operation.Code != RewardOperationCode.SpawnEnemy ||
                         instance.SplitGeneration >= affix.Source.MaximumGeneration)
                     {
+                        hasRuntimeReward |= operation.Code != RewardOperationCode.SpawnEnemy;
                         continue;
                     }
                     var childDefinition = instance.Definition;
@@ -592,6 +594,18 @@ namespace Game.Simulation
                                 scale,
                                 scale));
                     }
+                }
+                if (hasRuntimeReward && world.Qinglan?.Rewards.IsInitialized == true)
+                {
+                    var transaction = new RewardTransactionId(
+                        world.Qinglan.Rewards.RunId,
+                        affix.Source.Id,
+                        RewardRuntime.ComposeEntitySequence(handle, affixIndex));
+                    world.Qinglan.Rewards.TryQueueGroundReward(
+                        reward.Id,
+                        transaction,
+                        position,
+                        new SpatialEntity(EntityKind.Actor, handle));
                 }
             }
         }

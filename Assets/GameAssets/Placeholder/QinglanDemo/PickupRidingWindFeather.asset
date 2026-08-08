@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ab5523569c43f3add3cd44c96bed44, type: 3}
+  m_Name: PickupRidingWindFeather
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.QinglanDefinitionAuthoring
+  contentId: qinglan.pickup.riding_wind_feather
+  localizedNameKey: content.qinglan.pickup.riding_wind_feather.name
+  localizedDescriptionKey: content.qinglan.pickup.riding_wind_feather.description
+  tags:
+  - content.placeholder
+  - pickup.instant
+  - reward.pickup.instant
+  runtimeKind: pickup
+  runtime:
+    presentationProfileId: placeholder.presentation.qinglan.pickup.riding_wind_feather
+    resourceId: 
+    value0: 0.65
+    value1: 90
+    int0: 0
+    enum0: 0
+    bool0: 0
+    text0: 
+    referenceId0: qinglan.reward.pickup.riding_wind_feather
+    referenceId1: 
+    referenceId2: 
+    references0: []
+    references1: []
+    references2: []
+    tags0:
+    - reward.pickup.instant
+    tags1: []
+    localizedSequenceKeys: []
+    mechanicTiers: []
+    rewardOperations: []
+    stateTransitions: []
+    bossPhases: []

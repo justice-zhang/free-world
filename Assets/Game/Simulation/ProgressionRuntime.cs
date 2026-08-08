@@ -79,6 +79,7 @@ namespace Game.Simulation
         private int offersSkipped;
         private ulong decisionChecksum = 1469598103934665603UL;
         private readonly ActorStore actors;
+        private readonly RewardRuntime rewardRuntime;
         private bool levelUpPauseRequested;
 
         internal ProgressionRuntime(
@@ -98,12 +99,13 @@ namespace Game.Simulation
             if (initialCapacity <= 0) throw new ArgumentOutOfRangeException(nameof(initialCapacity));
             Player = new SpatialEntity(EntityKind.Actor, player);
             this.actors = actors;
+            this.rewardRuntime = rewardRuntime ?? new RewardRuntime(initialCapacity);
             Build = new BuildState(catalog, actors, skills, Player, skillSlots, passiveSlots, mapTags);
             Offers = new OfferGenerator(catalog, runSeed, initialCapacity);
             RewardChoices = new RewardChoiceRuntime(
                 catalog,
                 Build,
-                rewardRuntime ?? new RewardRuntime(initialCapacity),
+                this.rewardRuntime,
                 runSeed,
                 initialCapacity);
             Experience = new ExperienceProgression(curve);
@@ -118,7 +120,7 @@ namespace Game.Simulation
         public ExperienceProgression Experience { get; }
         public UpgradeOfferSet CurrentOffers { get; private set; }
         public bool HasPendingChoice => CurrentOffers != null;
-        public bool PauseRequested => levelUpPauseRequested || RewardChoices.PauseRequested;
+        public bool PauseRequested => levelUpPauseRequested || RewardChoices.PauseRequested || rewardRuntime.PauseRequested;
         public float PickupAttractionSpeedUnitsPerSecond => PickupAttractionSpeed;
 
         public RunStatisticsSnapshot Statistics => new RunStatisticsSnapshot(

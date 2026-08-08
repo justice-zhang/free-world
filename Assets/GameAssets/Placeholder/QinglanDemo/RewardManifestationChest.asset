@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ab5523569c43f3add3cd44c96bed44, type: 3}
+  m_Name: RewardManifestationChest
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.QinglanDefinitionAuthoring
+  contentId: qinglan.reward.manifestation_chest
+  localizedNameKey: content.qinglan.reward.manifestation_chest.name
+  localizedDescriptionKey: content.qinglan.reward.manifestation_chest.description
+  tags:
+  - content.placeholder
+  - reward.runtime
+  runtimeKind: reward
+  runtime:
+    presentationProfileId: placeholder.presentation.qinglan.reward.manifestation_chest
+    resourceId: 
+    value0: 0
+    value1: 0
+    int0: 0
+    enum0: 1
+    bool0: 0
+    text0: 
+    referenceId0: qinglan.reward.fallback.spirit_sand
+    referenceId1: 
+    referenceId2: 
+    references0: []
+    references1: []
+    references2: []
+    tags0: []
+    tags1: []
+    localizedSequenceKeys: []
+    mechanicTiers: []
+    rewardOperations:
+    - code: 6
+      value: 0
+      integerValue: 0
+      referenceId: qinglan.evolution.qinglan_flowing_shadow_sword
+      eligibilityTag: 
+    - code: 6
+      value: 0
+      integerValue: 0
+      referenceId: qinglan.evolution.taiyi_spirit_sealing_array
+      eligibilityTag: 
+    - code: 6
+      value: 0
+      integerValue: 0
+      referenceId: qinglan.evolution.chilu_hundred_craft_wheel
+      eligibilityTag: 
+    - code: 6
+      value: 0
+      integerValue: 0
+      referenceId: qinglan.evolution.mirror_sea_tide_wheel
+      eligibilityTag: 
+    - code: 6
+      value: 0
+      integerValue: 0
+      referenceId: qinglan.evolution.mountain_boundary_seal
+      eligibilityTag: 
+    - code: 6
+      value: 0
+      integerValue: 0
+      referenceId: qinglan.evolution.earth_vein_spring_branch
+      eligibilityTag: 
+    stateTransitions: []
+    bossPhases: []

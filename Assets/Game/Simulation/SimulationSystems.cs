@@ -270,6 +270,7 @@ namespace Game.Simulation
             world.Enemies.ApplyPendingSpawns(world);
             world.Skills.ApplyPendingSpawns(world);
             world.Progression?.ApplyPendingPickups(world);
+            world.Qinglan?.Rewards.ApplyPendingPickups(world);
         }
     }
 

@@ -106,6 +106,11 @@ namespace Game.Application
             {
                 End(RunEndReason.PlayerDefeated);
             }
+            else if (world.Qinglan?.Rewards.HasPendingRelicChoice == true)
+            {
+                currentRewardChoice = Project(world.Qinglan.Rewards.CurrentRelicChoice);
+                StateMachine.EnterRewardChoice();
+            }
             else if (world.Progression.RewardChoices.HasPendingChoice)
             {
                 currentRewardChoice = Project(world.Progression.RewardChoices.CurrentChoice);
@@ -185,9 +190,12 @@ namespace Game.Application
 
         public bool SelectReward(ContentId offerId)
         {
-            if (HasEnded || StateMachine.CurrentState != GameState.RewardChoice ||
-                world.Progression.RewardChoices.Select(offerId) != RewardChoiceResolutionStatus.Committed)
+            if (HasEnded || StateMachine.CurrentState != GameState.RewardChoice)
                 return false;
+            var committed = world.Qinglan?.Rewards.HasPendingRelicChoice == true
+                ? world.Qinglan.Rewards.SelectRelic(world, offerId) == RelicChoiceResolutionStatus.Committed
+                : world.Progression.RewardChoices.Select(offerId) == RewardChoiceResolutionStatus.Committed;
+            if (!committed) return false;
             currentRewardChoice = null;
             Runner.Clock.Resume();
             StateMachine.EnterRun();
@@ -228,6 +236,20 @@ namespace Game.Application
         }
 
         private static RewardChoice Project(RewardChoiceSnapshot source)
+        {
+            if (source == null) return null;
+            var candidates = new ContentId[source.CandidateCount];
+            for (var index = 0; index < candidates.Length; index++)
+                candidates[index] = source.GetCandidateAt(index);
+            return new RewardChoice(
+                source.Transaction.RunId,
+                source.Transaction.SourceStableId,
+                source.Transaction.Sequence,
+                candidates,
+                source.FallbackId);
+        }
+
+        private static RewardChoice Project(RelicChoiceSnapshot source)
         {
             if (source == null) return null;
             var candidates = new ContentId[source.CandidateCount];

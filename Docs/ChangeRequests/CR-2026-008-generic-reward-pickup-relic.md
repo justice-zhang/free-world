@@ -4,8 +4,8 @@
 - 状态：Approved
 - 提交日期：2026-08-04
 - 提交人：Codex
-- 目标里程碑：G0.3、G1.7、G2.2、G2.4、G2.5
-- 关联 ADR：ADR 0013、ADR 0014；对应 Demo CR-05
+- 目标里程碑：G0.3、G1.7、G2.2、G2.3、G2.4、G2.5
+- 关联 ADR：ADR 0013、ADR 0014、ADR 0021；对应 Demo CR-05
 
 ## 1. 变更摘要
 
@@ -75,4 +75,13 @@ Effect 适合战斗效果，Progression 适合升级，但缺少通用奖励所�
   `IMPLEMENTED`。
 - Reward 独立随机流、空候选 fallback ID 记录和 Application 暂停/投影：`IMPLEMENTED`。
 - Reward/Pickup/Relic Definition 与操作码、三类实际来源、fallback 操作执行、永久输出和拾取热路径：
-  `NOT RUN`，仍由 G2.3/G2.5 实现；因此本 CR 的最终验收尚未关闭。
+  G2.3 已完成普通敌人/精英/Boss/Map 来源、六 Pickup、六 Relic、显化/fallback、三槽选择、局内永久
+  增量和 5,000 Pickup 0 B 专项；Profile v3 原子持久化仍由 G2.5 完成。
+
+## 11. G2.3 分期实施状态
+
+- 三类以上来源共享 RewardRuntime、结构创建/删除经 Cleanup：`IMPLEMENTED`。
+- 活动/已提交事务幂等、Reward RNG 与 Offer RNG 隔离、空池/满槽 fallback：`IMPLEMENTED`。
+- 六种即时操作、六 Relic 输出、唯一所有权快照和 Application 暂停/恢复：`IMPLEMENTED`。
+- 5,000 Reward Pickup 连续扫描 0 B、无容量增长/拒绝：`IMPLEMENTED`。
+- Profile v3 原子合并、保存重试和平台事件：`NOT RUN`，目标 G2.5；因此 CR 的持久化验收尚未关闭。

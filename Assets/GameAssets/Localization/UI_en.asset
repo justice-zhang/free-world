@@ -1480,6 +1480,242 @@ MonoBehaviour:
     m_Localized: Tingfeng's strongest final-phase area oath.
     m_Metadata:
       m_Items: []
+  - m_Id: 4669900448473088
+    m_Localized: Wind Feather Rush
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776256
+    m_Localized: A short movement-speed and traversal-tolerance window.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776257
+    m_Localized: Greenwood Dew
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776258
+    m_Localized: Restores a fixed amount plus fifteen percent maximum health.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776259
+    m_Localized: Boundary Talisman
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776260
+    m_Localized: Roots normal enemies in an area; Boss control is resistance-scaled.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776261
+    m_Localized: Thunder Jade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776262
+    m_Localized: Deals high area lightning damage with knockback.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776263
+    m_Localized: Spirit Gourd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776264
+    m_Localized: Pulls eligible ground pickups while excluding unique and choice
+      rewards.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776265
+    m_Localized: Heart-Guard Jade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776266
+    m_Localized: Grants a short all-channel damage-immunity window.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776267
+    m_Localized: Riding-Wind Feather
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776268
+    m_Localized: Grants a short movement burst without crossing hard map boundaries.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776269
+    m_Localized: Broken Sword Tassel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776270
+    m_Localized: Periodically emits a bounded secondary sword echo.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776271
+    m_Localized: Wind-Vein Copper
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776272
+    m_Localized: Improves movement and route pickup tolerance.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776273
+    m_Localized: Herb-Garden Seed Pod
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776274
+    m_Localized: Adds growth and converts controlled healing overflow into a capped
+      barrier.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776275
+    m_Localized: Listening-Wind Core
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776276
+    m_Localized: Periodically redirects a stable multi-target echo.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776277
+    m_Localized: Old Court Bell
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776278
+    m_Localized: Emits a telegraphed periodic slowing pulse.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776279
+    m_Localized: Blank Sword-Trial Token
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776280
+    m_Localized: Deals twenty-five percent more damage to Bosses but increases incoming
+      damage and lowers armor.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776281
+    m_Localized: Manifestation Chest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776282
+    m_Localized: Offers up to three currently eligible Evolutions with deterministic
+      fallback.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776283
+    m_Localized: Spirit-Sand Fallback
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776284
+    m_Localized: A deterministic reward when no choice remains eligible.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776285
+    m_Localized: Tingfeng First-Clear Reward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776286
+    m_Localized: A fixed unique Qinglan region mark and spirit sand.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776287
+    m_Localized: Qinglan Region Mark
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776288
+    m_Localized: The unique fixed proof of the first Tingfeng victory.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776289
+    m_Localized: Greenwood Dew Reward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776290
+    m_Localized: Controlled healing operation.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776291
+    m_Localized: Boundary Talisman Reward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776292
+    m_Localized: Controlled hostile-area status operation.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776293
+    m_Localized: Thunder Jade Reward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776294
+    m_Localized: Controlled area-damage operation.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776295
+    m_Localized: Spirit Gourd Reward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776296
+    m_Localized: Eligible-pickup collection operation.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776297
+    m_Localized: Heart-Guard Jade Reward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776298
+    m_Localized: Controlled immunity-status operation.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776299
+    m_Localized: Riding-Wind Feather Reward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776300
+    m_Localized: Controlled movement-status operation.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776301
+    m_Localized: Broken Sword Echo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776302
+    m_Localized: A bounded secondary projectile that cannot repeat itself.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776303
+    m_Localized: Listening-Wind Echo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776304
+    m_Localized: A stable capped multi-target echo.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776305
+    m_Localized: Old Court Bell Pulse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776306
+    m_Localized: A periodic control pulse with Boss resistance scaling.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776307
+    m_Localized: Wind-Vein Copper Output
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776308
+    m_Localized: Movement and pickup-range output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776309
+    m_Localized: Herb-Garden Growth
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776310
+    m_Localized: Health and regeneration growth output.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776311
+    m_Localized: Sword-Trial Cost
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776312
+    m_Localized: The explicit armor cost of the high-risk token.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

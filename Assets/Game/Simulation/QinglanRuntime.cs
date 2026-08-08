@@ -402,16 +402,26 @@ namespace Game.Simulation
         }
     }
 
-    public sealed class RewardRuntime
+    public sealed partial class RewardRuntime
     {
         private readonly RewardTransactionId[] committed;
         private int count;
 
         public RewardRuntime(int transactionCapacity = 128)
+            : this(transactionCapacity, transactionCapacity)
+        {
+        }
+
+        internal RewardRuntime(int transactionCapacity, int executionCapacity)
         {
             if (transactionCapacity < 1) throw new ArgumentOutOfRangeException(nameof(transactionCapacity));
+            if (executionCapacity < 1) throw new ArgumentOutOfRangeException(nameof(executionCapacity));
             committed = new RewardTransactionId[transactionCapacity];
+            spatialResults = new SpatialQueryBuffer(executionCapacity);
+            EnsureExecutionStorage(executionCapacity);
         }
+
+        internal static RewardRuntime CreateDemoDefault() => new RewardRuntime(4096, 512);
 
         public int CommittedCount => count;
 
@@ -463,7 +473,7 @@ namespace Game.Simulation
             EliteAffixRuntime affixes = null)
         {
             Mechanics = mechanics ?? new CharacterMechanicRuntime();
-            Rewards = rewards ?? new RewardRuntime();
+            Rewards = rewards ?? RewardRuntime.CreateDemoDefault();
             MapObjectives = mapObjectives ?? new MapObjectiveRuntime();
             Bosses = bosses ?? new BossPhaseRuntime();
             Affixes = affixes ?? new EliteAffixRuntime();

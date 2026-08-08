@@ -22,16 +22,16 @@ MonoBehaviour:
   runtimeKind: boss
   runtime:
     presentationProfileId: placeholder.presentation.qinglan.boss.zhezhi
-    resourceId:
+    resourceId: 
     value0: 0.35
     value1: 0
     int0: 0
     enum0: 0
     bool0: 0
-    text0:
+    text0: 
     referenceId0: qinglan.enemy.boss.zhezhi
-    referenceId1:
-    referenceId2:
+    referenceId1: qinglan.reward.manifestation_chest
+    referenceId2: 
     references0: []
     references1: []
     references2: []

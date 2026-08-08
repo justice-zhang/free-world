@@ -962,3 +962,41 @@ Focused EditMode 6/6、全量 EditMode 245/245、PlayMode 10/10、Project Valida
 
 只进入 G2.3：实现 Reward/Pickup/灵物/唯一奇物的真实内容和幂等消费，不提前实现 RunResult/Profile、
 叙事或 UI。
+
+## Qinglan Demo G2.3：奖励、灵物与战斗奇物运行时
+
+- 状态：`COMPLETE`
+- 日期：2026-08-08
+- 分支：`codex/qinglan-demo-implementation`
+- 内容包：`qinglan.pack.demo` 0.8.0 / Content Schema 6 / 150 definitions
+- CR / ADR：CR-2026-007、CR-2026-008 / ADR 0021
+- 结果报告：`Docs/Reports/2026-08-08-g2-3-reward-pickup-relic-runtime.md`
+
+### 实施结果
+
+| 范围 | 结果 |
+|---|---|
+| Reward | 四类来源、活动/已提交事务幂等、独立 RNG、固定/唯一结果增量 |
+| Pickup | 六种即时灵物、吸附/满血条件/葫芦排除、Cleanup 生命周期 |
+| Relic | 六种战斗奇物、三槽不重复、三选一、满槽灵砂 fallback |
+| Boss | 折枝显化宝匣、听风固定首通，沿用 G2.2 稳定事务 |
+| Application | Relic Choice 投影、暂停、再验证提交与 Clock 恢复 |
+| API | Simulation 批准追加 65 项至 1396，删除 0；其他冻结程序集不变 |
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| 编译 | PASS | `dotnet build free-world.slnx`，0 error |
+| Focused EditMode | PASS | 20/20 |
+| 全量 EditMode / PlayMode | PASS | 261/261；11/11 |
+| Project Validation / API Freeze | PASS | Simulation 1396 / `4d5bfc3d...c6410c32` |
+| 12 分钟 Headless | PASS | 2 Boss、0 InvalidHandle、Checksum `049cb8bdc48092eb` |
+| Pack 双构建 | PASS | 各 7 Pack；Qinglan Catalog SHA-256 `b274fc24...02236` |
+| 性能短测 | PASS | 复测 p99 4.8810 ms、0 B、GC 0/0/0；首轮 GC FAIL 保留 |
+| Windows Development Build | NOT RUN | 路线规定 G2.8 对完整垂直切片执行 |
+
+### 下一步
+
+只进入 G2.4：实现局内胜负 RunResult 和结算增量汇总；不得提前持久化 Profile（G2.5）或实现实际奖励
+UI（G2.6）。

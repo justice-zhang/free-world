@@ -204,3 +204,20 @@ Proc 截断/VFX 丢弃均为 0，Checksum `b455f50ce958d212`。相对 G2.1 的 4
 
 此场景以 600 个草灵覆盖框架规模，不会同时模拟最终 Boss 的完整视觉压力；完整地图、Boss Telegraph、
 GPU/1% Low 和 54,000 Tick 正式内容基准仍由 G2.8/G3.5 执行，本节不能替代对应门禁。
+
+## 14. Qinglan G2.3 Reward / Pickup / Relic 短测
+
+Reward/Pickup 使用固定 sidecar、活动事务索引和集中 Cleanup；Relic Choice、候选数组、Definition 绑定和
+永久结果投影均为低频请求路径。专项 EditMode 预建 5,000 Reward Pickup 后连续扫描 120 次，当前线程
+分配 0 B，`PickupCapacityGrowthCount=0`、`RejectedCapacity=0`。Demo 组合根容量为 4,096 整局事务和
+512 同帧执行结构，公开旧 128 容量构造语义不变。
+
+目标规模短测使用 600 Enemy、1,200 Projectile、2,000 Pickup、100 VFX、900 测量 Tick和 300 Tick
+预热。首轮热路径 0 B、Tick p99 5.8035 ms、Render p99 0.8944 ms，但 Unity 后台线程在测量窗触发
+GC 2/2/2，结果为 `FAIL`。完全相同配置冷启动复测 `PASS`：Tick p99 `4.8810 ms`、Render p99
+`0.6311 ms`、热路径 0 B、GC 0/0/0、无效句柄/Proc 截断/VFX 丢弃均为 0，Checksum
+`b455f50ce958d212`。阈值未放宽，首轮和复测 JSON/日志均保留。
+
+该 M10 Stress 场景使用框架 Pickup Store，不装配 G2.3 RewardRuntime；因此它证明改动未使生产核心
+规模基线回归，而 5,000 Reward Pickup 专项证明新增扫描本身。实际地图奖励密度、选择 UI、正式 VFX/
+GPU 和 54,000 Tick 正式内容仍由 G2.8/G3.5 验证。

@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ab5523569c43f3add3cd44c96bed44, type: 3}
+  m_Name: RewardTingfengFirstClear
+  m_EditorClassIdentifier: Game.Content.Authoring::Game.Content.Authoring.QinglanDefinitionAuthoring
+  contentId: qinglan.reward.first_clear.tingfeng
+  localizedNameKey: content.qinglan.reward.first_clear.tingfeng.name
+  localizedDescriptionKey: content.qinglan.reward.first_clear.tingfeng.description
+  tags:
+  - content.placeholder
+  - reward.runtime
+  runtimeKind: reward
+  runtime:
+    presentationProfileId: placeholder.presentation.qinglan.reward.first_clear.tingfeng
+    resourceId: 
+    value0: 0
+    value1: 0
+    int0: 0
+    enum0: 2
+    bool0: 0
+    text0: qinglan.first_clear.tingfeng
+    referenceId0: qinglan.reward.fallback.spirit_sand
+    referenceId1: 
+    referenceId2: 
+    references0: []
+    references1: []
+    references2: []
+    tags0: []
+    tags1: []
+    localizedSequenceKeys: []
+    mechanicTiers: []
+    rewardOperations:
+    - code: 9
+      value: 0
+      integerValue: 0
+      referenceId: qinglan.progress.region_mark.qinglan
+      eligibilityTag: 
+    - code: 7
+      value: 0
+      integerValue: 25
+      referenceId: 
+      eligibilityTag: qinglan.currency.spirit_sand
+    stateTransitions: []
+    bossPhases: []

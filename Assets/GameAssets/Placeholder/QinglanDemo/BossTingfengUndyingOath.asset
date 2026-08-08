@@ -31,11 +31,11 @@ MonoBehaviour:
     value3: 0
     int0: 0
     int1: 0
-    presentationId:
-    referenceId0:
-    referenceId1:
-    tag0:
-    tag1:
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
   condition:
     moduleId: base.condition.always
     value0: 0
@@ -44,11 +44,11 @@ MonoBehaviour:
     value3: 0
     int0: 0
     int1: 0
-    presentationId:
-    referenceId0:
-    referenceId1:
-    tag0:
-    tag1:
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
   targeting:
     moduleId: base.targeting.self
     value0: 0
@@ -57,11 +57,11 @@ MonoBehaviour:
     value3: 0
     int0: 0
     int1: 0
-    presentationId:
-    referenceId0:
-    referenceId1:
-    tag0:
-    tag1:
+    presentationId: 
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
   delivery:
     moduleId: base.delivery.area
     value0: 6.5
@@ -71,10 +71,10 @@ MonoBehaviour:
     int0: 0
     int1: 0
     presentationId: placeholder.presentation.qinglan.skill.boss.tingfeng.undying_oath
-    referenceId0:
-    referenceId1:
-    tag0:
-    tag1:
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    tag1: 
   effects:
   - moduleId: base.effect.damage
     value0: 22
@@ -82,9 +82,9 @@ MonoBehaviour:
     value2: 0
     int0: 1
     int1: 1
-    referenceId0:
-    referenceId1:
-    tag0:
-    statId0:
+    referenceId0: 
+    referenceId1: 
+    tag0: 
+    statId0: 
     flags: 0
   levelPatches: []

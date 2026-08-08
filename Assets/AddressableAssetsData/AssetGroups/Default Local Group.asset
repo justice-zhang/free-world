@@ -126,6 +126,14 @@ MonoBehaviour:
     - development-only
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 175fb37b111e561419cff07e6abfafaa
+    m_Address: qinglan/demo/content/qinglan/trait/relic/herb_garden_seed_pod
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 184854f8f37ed194e9da218af238dc37
     m_Address: qinglan/demo/content/qinglan/trait/elite/rampaging
     m_ReadOnly: 0
@@ -174,6 +182,14 @@ MonoBehaviour:
     - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22213f2b49d99bb4eaa887cc3c9e3d66
+    m_Address: qinglan/demo/content/qinglan/trait/relic/blank_sword_trial_token
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 235bc1803b84134429a30bea1046d3f2
     m_Address: qinglan/demo/content/qinglan/landmark/herb_garden_variant
     m_ReadOnly: 0
@@ -182,8 +198,32 @@ MonoBehaviour:
     - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23eab7f62251fa24f8313604b7409415
+    m_Address: qinglan/demo/content/qinglan/pickup/boundary_talisman
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23fe0ae4d30d0de46a2c2e3af13c869d
+    m_Address: qinglan/demo/content/qinglan/reward/pickup/greenwood_dew
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2bb5fc5a1c3f5c84c8a9ff7a7efcc1f2
     m_Address: qinglan/demo/content/qinglan/skill/boss/zhezhi/falling_wood_shadow
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ca1222d801f260489db214567a89d97
+    m_Address: qinglan/demo/content/qinglan/reward/pickup/thunder_jade
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
@@ -246,6 +286,14 @@ MonoBehaviour:
     - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 386aaba670dca8346a77a55b7cdcf5b2
+    m_Address: qinglan/demo/content/qinglan/relic/old_court_bell
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3895519a51fdd8c40906d37ccc7e7575
     m_Address: qinglan/demo/content/qinglan/skill/hidden/talisman_detonation
     m_ReadOnly: 0
@@ -267,6 +315,14 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3d59e12e73c2e57488d378e375ca3eea
+    m_Address: qinglan/demo/content/qinglan/skill/relic/listening_wind_echo
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3d8ee1bbfdbad97498f9e620dce13d6f
@@ -333,6 +389,14 @@ MonoBehaviour:
     - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 47838b130fe117c44bc609bce879a6f0
+    m_Address: qinglan/demo/content/qinglan/pickup/spirit_gourd
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 49088d85164390c48b05ca6aa37b860b
     m_Address: qinglan/demo/content/qinglan/passive/long_breath
     m_ReadOnly: 0
@@ -373,8 +437,24 @@ MonoBehaviour:
     - pack.test.m9_tools
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4dc1e2ecb6913a3409f2ebaedce9d644
+    m_Address: qinglan/demo/content/qinglan/reward/pickup/spirit_gourd
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4f31de496fb0fbd459253c613828530c
     m_Address: qinglan/demo/content/qinglan/landmark/guest_pavilion_letter
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4f58667f975d41540abca918270adce3
+    m_Address: qinglan/demo/content/qinglan/relic/listening_wind_core
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
@@ -452,6 +532,14 @@ MonoBehaviour:
     - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5fae27171183d72478ce01de24af90cc
+    m_Address: qinglan/demo/content/qinglan/relic/herb_garden_seed_pod
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6297d1f857c3b5e4b937d096b580f140
     m_Address: qinglan/demo/content/qinglan/evolution/qinglan_flowing_shadow_sword
     m_ReadOnly: 0
@@ -470,6 +558,14 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6a1c0b0afedf0724b8a4376fd2dafafc
     m_Address: qinglan/demo/content/qinglan/synergy/talisman_detonation
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6abac90b74243ac4a9f3b917294bd2c2
+    m_Address: qinglan/demo/content/qinglan/relic/wind_vein_copper
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
@@ -508,6 +604,14 @@ MonoBehaviour:
     - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 739e1cfa604542a4a9de6948491c45d3
+    m_Address: qinglan/demo/content/qinglan/status/pickup/riding_wind_feather
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 74ad947afb76fdc408430267f2037c75
     m_Address: qinglan/demo/content/qinglan/character/lu_qingye
     m_ReadOnly: 0
@@ -526,6 +630,14 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 769bb6b656597ac4d94a3295f063c83b
     m_Address: qinglan/demo/content/qinglan/trait/lu_qingye/riding_wind/swift
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7794d6d534bc05a41913d66b8f5e5162
+    m_Address: qinglan/demo/content/qinglan/pickup/thunder_jade
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
@@ -612,6 +724,22 @@ MonoBehaviour:
     - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 89fbe3506c2ada748a3df7e4866065e7
+    m_Address: qinglan/demo/content/qinglan/reward/pickup/boundary_talisman
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b39f5a68334d1946825c77131c31edc
+    m_Address: qinglan/demo/content/qinglan/relic/broken_sword_tassel
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8c909aab29120f64caacb2ab0a3fb642
     m_Address: qinglan/demo/content/qinglan/affix/rampaging
     m_ReadOnly: 0
@@ -636,6 +764,22 @@ MonoBehaviour:
     - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8f2ee96423a276647952053552013dd3
+    m_Address: qinglan/demo/content/qinglan/relic/blank_sword_trial_token
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8f7635ca93f540c4c9d914fdf6607041
+    m_Address: qinglan/demo/content/qinglan/pickup/heart_guard_jade
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9093975fa546ced4d83b7b821cab550a
     m_Address: qinglan/demo/content/qinglan/map/old_court
     m_ReadOnly: 0
@@ -646,6 +790,14 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 90a2a11e551729b43a17018da5d56bb2
     m_Address: qinglan/demo/content/qinglan/skill/boss/tingfeng/crossing_wind_scar
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 91d7e14c1ce3955459e27929fc486c20
+    m_Address: qinglan/demo/content/qinglan/reward/fallback/spirit_sand
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
@@ -710,6 +862,14 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a040922bc6cad134386567b914653aec
     m_Address: qinglan/demo/content/qinglan/reward/elite/splitting
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a0dd26a5a1db87c4da5d21accaea5776
+    m_Address: qinglan/demo/content/qinglan/trait/relic/wind_vein_copper
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
@@ -788,6 +948,14 @@ MonoBehaviour:
     - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b434594c8630f5e49a5422f12dbe849b
+    m_Address: qinglan/demo/content/qinglan/skill/relic/broken_sword_echo
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b4af8ed93400e0445a56a1a19cdfa417
     m_Address: qinglan/demo/content/qinglan/boss/tingfeng
     m_ReadOnly: 0
@@ -806,6 +974,14 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b796eda9dcb4dac4a81dfa709a14f8a2
     m_Address: qinglan/demo/content/qinglan/skill/hidden/yufeng_return
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bb9fb880e16c56f46bd0d29664234874
+    m_Address: qinglan/demo/content/qinglan/progress/region_mark/qinglan
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
@@ -980,6 +1156,14 @@ MonoBehaviour:
     - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dc2ed190367b7284487bacb37ad43b52
+    m_Address: qinglan/demo/content/qinglan/reward/pickup/riding_wind_feather
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e02ebc7b203f56a40a64aa7b84677751
     m_Address: qinglan/demo/content/qinglan/skill/evolved/earth_vein_spring_branch
     m_ReadOnly: 0
@@ -1012,8 +1196,32 @@ MonoBehaviour:
     - pack.qinglan.demo
     - placeholder
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e23955f29c2e9b24cbf50735b9435091
+    m_Address: qinglan/demo/content/qinglan/reward/pickup/heart_guard_jade
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e2b69b29ea4c4a340b1a43a488e9405b
+    m_Address: qinglan/demo/content/qinglan/reward/first_clear/tingfeng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e2c4ebd5ae43e5e4d8292f38b3003ceb
     m_Address: packs/qinglan.demo/catalog
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e40a66e589c2f614b9b2b2968f9463b7
+    m_Address: qinglan/demo/content/qinglan/reward/manifestation_chest
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
@@ -1030,6 +1238,22 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e5365750c3106334fa2d9d96cf7fd65a
     m_Address: qinglan/demo/content/qinglan/passive/artifact_control
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e659a7ef516b8064eaac43652908fb0b
+    m_Address: qinglan/demo/content/qinglan/pickup/riding_wind_feather
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e72427661428caf4a81b3378b2b7bf39
+    m_Address: qinglan/demo/content/qinglan/skill/relic/old_court_bell_pulse
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only
@@ -1094,6 +1318,14 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f5e0eaf339245de4e9ae04d0e460212e
     m_Address: qinglan/demo/content/qinglan/objective/wind_altar/guide
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - development-only
+    - pack.qinglan.demo
+    - placeholder
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fdb38c2df540ff04c9b42d89b8fd8d9f
+    m_Address: qinglan/demo/content/qinglan/pickup/greenwood_dew
     m_ReadOnly: 0
     m_SerializedLabels:
     - development-only

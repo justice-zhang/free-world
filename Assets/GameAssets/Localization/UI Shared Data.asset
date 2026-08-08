@@ -1475,6 +1475,238 @@ MonoBehaviour:
     m_Key: content.qinglan.skill.boss.tingfeng.undying_oath.description
     m_Metadata:
       m_Items: []
+  - m_Id: 4669900448473088
+    m_Key: content.qinglan.status.pickup.riding_wind_feather.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776256
+    m_Key: content.qinglan.status.pickup.riding_wind_feather.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776257
+    m_Key: content.qinglan.pickup.greenwood_dew.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776258
+    m_Key: content.qinglan.pickup.greenwood_dew.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776259
+    m_Key: content.qinglan.pickup.boundary_talisman.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776260
+    m_Key: content.qinglan.pickup.boundary_talisman.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776261
+    m_Key: content.qinglan.pickup.thunder_jade.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776262
+    m_Key: content.qinglan.pickup.thunder_jade.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776263
+    m_Key: content.qinglan.pickup.spirit_gourd.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776264
+    m_Key: content.qinglan.pickup.spirit_gourd.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776265
+    m_Key: content.qinglan.pickup.heart_guard_jade.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776266
+    m_Key: content.qinglan.pickup.heart_guard_jade.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776267
+    m_Key: content.qinglan.pickup.riding_wind_feather.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776268
+    m_Key: content.qinglan.pickup.riding_wind_feather.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776269
+    m_Key: content.qinglan.relic.broken_sword_tassel.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776270
+    m_Key: content.qinglan.relic.broken_sword_tassel.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776271
+    m_Key: content.qinglan.relic.wind_vein_copper.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776272
+    m_Key: content.qinglan.relic.wind_vein_copper.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776273
+    m_Key: content.qinglan.relic.herb_garden_seed_pod.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776274
+    m_Key: content.qinglan.relic.herb_garden_seed_pod.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776275
+    m_Key: content.qinglan.relic.listening_wind_core.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776276
+    m_Key: content.qinglan.relic.listening_wind_core.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776277
+    m_Key: content.qinglan.relic.old_court_bell.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776278
+    m_Key: content.qinglan.relic.old_court_bell.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776279
+    m_Key: content.qinglan.relic.blank_sword_trial_token.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776280
+    m_Key: content.qinglan.relic.blank_sword_trial_token.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776281
+    m_Key: content.qinglan.reward.manifestation_chest.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776282
+    m_Key: content.qinglan.reward.manifestation_chest.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776283
+    m_Key: content.qinglan.reward.fallback.spirit_sand.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776284
+    m_Key: content.qinglan.reward.fallback.spirit_sand.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776285
+    m_Key: content.qinglan.reward.first_clear.tingfeng.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776286
+    m_Key: content.qinglan.reward.first_clear.tingfeng.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776287
+    m_Key: content.qinglan.progress.region_mark.qinglan.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776288
+    m_Key: content.qinglan.progress.region_mark.qinglan.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776289
+    m_Key: content.qinglan.reward.pickup.greenwood_dew.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776290
+    m_Key: content.qinglan.reward.pickup.greenwood_dew.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776291
+    m_Key: content.qinglan.reward.pickup.boundary_talisman.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776292
+    m_Key: content.qinglan.reward.pickup.boundary_talisman.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776293
+    m_Key: content.qinglan.reward.pickup.thunder_jade.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776294
+    m_Key: content.qinglan.reward.pickup.thunder_jade.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776295
+    m_Key: content.qinglan.reward.pickup.spirit_gourd.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776296
+    m_Key: content.qinglan.reward.pickup.spirit_gourd.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776297
+    m_Key: content.qinglan.reward.pickup.heart_guard_jade.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776298
+    m_Key: content.qinglan.reward.pickup.heart_guard_jade.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776299
+    m_Key: content.qinglan.reward.pickup.riding_wind_feather.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776300
+    m_Key: content.qinglan.reward.pickup.riding_wind_feather.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776301
+    m_Key: content.qinglan.skill.relic.broken_sword_echo.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776302
+    m_Key: content.qinglan.skill.relic.broken_sword_echo.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776303
+    m_Key: content.qinglan.skill.relic.listening_wind_echo.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776304
+    m_Key: content.qinglan.skill.relic.listening_wind_echo.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776305
+    m_Key: content.qinglan.skill.relic.old_court_bell_pulse.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776306
+    m_Key: content.qinglan.skill.relic.old_court_bell_pulse.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776307
+    m_Key: content.qinglan.trait.relic.wind_vein_copper.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776308
+    m_Key: content.qinglan.trait.relic.wind_vein_copper.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776309
+    m_Key: content.qinglan.trait.relic.herb_garden_seed_pod.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776310
+    m_Key: content.qinglan.trait.relic.herb_garden_seed_pod.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776311
+    m_Key: content.qinglan.trait.relic.blank_sword_trial_token.name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4669900519776312
+    m_Key: content.qinglan.trait.relic.blank_sword_trial_token.description
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -583,6 +583,7 @@ namespace Game.Simulation
                 mapTags,
                 Math.Max(16, Actors.Count),
                 Qinglan?.Rewards);
+            Qinglan?.Rewards.Initialize(catalog, Progression, player, runSeed);
             return Progression;
         }
 
@@ -696,7 +697,11 @@ namespace Game.Simulation
                 Qinglan?.Mechanics.Detach(handle);
                 Qinglan?.Bosses.Detach(handle);
             }
-            if (kind == EntityKind.Pickup) Progression?.OnPickupRemoved(handle);
+            if (kind == EntityKind.Pickup)
+            {
+                Progression?.OnPickupRemoved(handle);
+                Qinglan?.Rewards.OnPickupRemoved(handle);
+            }
             switch (kind)
             {
                 case EntityKind.Actor:

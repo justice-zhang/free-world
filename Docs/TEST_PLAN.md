@@ -373,3 +373,21 @@ ADR 0013—0015 和 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md` 批准下列实
   `b2f0a3aca2544619159ca7a1b55b7535c7d79153701e33fcd57c14211a188270`。
 - Boss RewardDefinition/拾取/奇物消费、表现层 Telegraph/音频/可访问性和 Windows Development Build
   为 `NOT RUN`，依次由 G2.3、G2.6/G2.8 和 G2.8 关闭。
+
+## 20. Qinglan Demo G2.3 Reward / Pickup / Relic 证据
+
+- Focused EditMode 最终 20/20：G1.7 Reward Choice 4 项、G2.2 Boss 8 项、G2.3 新增 8 项；覆盖六种
+  即时操作、满血不消费、葫芦排除、活动/已提交事务重放、Reward RNG 隔离、三槽 fallback、Relic
+  输出、Boss 风险、显化空池、首通唯一快照、默认 256 事务和 5,000 Pickup 扫描 0 B。
+- 新增 PlayMode 端到端覆盖 RewardResolution 产生 Relic Choice、FixedTickRunner 暂停、RunSession
+  投影/提交和 Clock 恢复；最终全量 EditMode 261/261、PlayMode 11/11。
+- 旧 Freeze Hash 下 Project Validation 按预期只报告 Simulation 漂移；ADR 0021 接受 65 条追加、
+  0 删除，其他四个冻结程序集逐字节不变。更新后 Project Validation 与 API Freeze 均 PASS。
+- 12 分钟 Headless 双实例各 21,600 Tick：2,584 Spawn、2,572 Death、2 Elite、2 Affixed、2 Boss、
+  Peak 16、0 InvalidHandle、无泄漏，Checksum `049cb8bdc48092eb`。
+- `qinglan.pack.demo` 0.8.0 / Schema 6 / 150 definitions，Content Hash
+  `5f233508384d0f9b4b5babc98571ccd45e0d35319c776f4de217ae99e3107c9d`；两次 Pack CLI 各构建
+  7 Pack，Qinglan Catalog 字节一致，SHA-256 为
+  `b274fc24afa07194682968eb2a290e0b3e12c631a621dd98f2799f0925702236`。
+- Profile v3 原子合并、胜负 RunResult、叙事、实际选择 UI/输入、正式表现和 Windows Development Build
+  为 `NOT RUN`，依次由 G2.4—G2.8 关闭。

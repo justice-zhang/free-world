@@ -8,7 +8,7 @@ M10 首次冻结、G1.1 按 ADR 0013—0015 更新以下程序集的公开类型
 |---|---:|---|
 | `Game.Core` | 168 | `25766747b7014e0386506567e5e3c35f78b6dc5d00d850b00c35d28eb8d7e176` |
 | `Game.Content.Runtime` | 940 | `cd72d779cf1ae53f0875d06140706e194081588b7a0429efd4e490ae72e35b00` |
-| `Game.Simulation` | 1331 | `e41c43a1beae76f3a40248a25d8025d73ff221d4278ab09fcf5bd5c8cc5f0249` |
+| `Game.Simulation` | 1396 | `4d5bfc3d684b1db6c3c5591af6b558de28924f6ac0bc569ff184597fc6410c32` |
 | `Game.Application` | 355 | `f57fe00c2c1ead974c9b900e5396661c42c7900641534a87f45f8ce6d5b4f8a6` |
 | `Game.Platform.Abstractions` | 73 | `8eb5f2ccca0f5845a55d90c9f00fb42eae59cc82d81e98369995e84428a51738` |
 
@@ -121,3 +121,15 @@ Platform 签名逐字节不变。
 `ContentId`、`EntityHandle`、`RewardTransactionId` 和纯值状态，不暴露 Unity Object 或运行时索引。
 旧 Hash 下 Project Validation 仅报告 Simulation `fd387b…`→`e41c43…`；规范签名、58/0 差异、旧 Hash
 失败日志和最终捕获保存在 `TestResults/QinglanDemo/G2.2/`。
+
+## Qinglan Demo G2.3 批准追加
+
+ADR 0021 接受通用 `RewardRuntime` 的 Reward/Pickup/Relic 消费、三槽库存、Relic Choice、局内永久结果
+投影和只读诊断。规范 diff 为 `Game.Simulation` 65 条追加、零删除；Core、Content Runtime、Application
+与 Platform 签名逐字节不变。
+
+既有 `RewardRuntime(int transactionCapacity = 128)` 规范签名和行为保留；Demo 组合根通过内部容量构造
+使用 4096 个整局事务和 512 个执行结构。新增值只使用稳定 `ContentId`、`RewardTransactionId`、
+`EntityHandle` 和纯值快照，不暴露 Unity Object、Scene 或持久化 RuntimeIndex。旧 Hash 下 Project
+Validation 按预期只报告 Simulation `e41c43…`→`4d5bfc…`；规范签名、65/0 对比、失败日志和最终捕获
+保存在 `TestResults/QinglanDemo/G2.3/`。

@@ -51,7 +51,19 @@ namespace Game.Simulation
             world.ResolvedMovements.Clear();
         }
     }
-    public sealed class RewardResolutionSystem : QinglanOwnedSystem { public override SimulationSystemId Id => SimulationSystemId.RewardResolution; }
+    public sealed class RewardResolutionSystem : QinglanOwnedSystem
+    {
+        public override SimulationSystemId Id => SimulationSystemId.RewardResolution;
+
+        public override void Execute(SimulationWorld world)
+        {
+            base.Execute(world);
+            var rewards = world.Qinglan?.Rewards;
+            if (rewards == null || !rewards.IsInitialized) return;
+            rewards.CaptureMapOutputs(world.Qinglan.MapObjectives);
+            rewards.Resolve(world);
+        }
+    }
     public sealed class CharacterMechanicReactionSystem : QinglanOwnedSystem
     {
         public override SimulationSystemId Id => SimulationSystemId.CharacterMechanicReaction;
@@ -101,5 +113,8 @@ namespace Game.Simulation
             }
         }
     }
-    public sealed class LootAndRewardSystem : QinglanOwnedSystem { public override SimulationSystemId Id => SimulationSystemId.LootAndReward; }
+    public sealed class LootAndRewardSystem : QinglanOwnedSystem
+    {
+        public override SimulationSystemId Id => SimulationSystemId.LootAndReward;
+    }
 }

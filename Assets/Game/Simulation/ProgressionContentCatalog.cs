@@ -150,6 +150,7 @@ namespace Game.Simulation
         private readonly Dictionary<ContentId, CompiledUpgradeOfferDefinition> offersById;
         private readonly Dictionary<ContentId, RuntimeContentDefinition> definitionsById;
         private readonly Dictionary<ContentId, RuntimeContentIndex> indicesById;
+        private readonly RuntimeContentDefinition[] orderedDefinitions;
 
         private BuildRuntimeCatalog(
             CompiledPassiveDefinition[] passives,
@@ -158,7 +159,8 @@ namespace Game.Simulation
             CompiledEvolutionDefinition[] evolutions,
             CompiledUpgradeOfferDefinition[] offers,
             Dictionary<ContentId, RuntimeContentDefinition> runtimeDefinitions,
-            Dictionary<ContentId, RuntimeContentIndex> runtimeIndices)
+            Dictionary<ContentId, RuntimeContentIndex> runtimeIndices,
+            RuntimeContentDefinition[] definitions)
         {
             Passives = Array.AsReadOnly(passives);
             Traits = Array.AsReadOnly(traits);
@@ -171,6 +173,7 @@ namespace Game.Simulation
             offersById = Index(offers, value => value.Source.Id);
             definitionsById = runtimeDefinitions;
             indicesById = runtimeIndices;
+            orderedDefinitions = definitions ?? Array.Empty<RuntimeContentDefinition>();
         }
 
         public IReadOnlyList<CompiledPassiveDefinition> Passives { get; }
@@ -185,6 +188,15 @@ namespace Game.Simulation
         public bool TryGetOffer(ContentId id, out CompiledUpgradeOfferDefinition definition) => offersById.TryGetValue(id, out definition);
         public bool TryGetDefinition(ContentId id, out RuntimeContentDefinition definition) => definitionsById.TryGetValue(id, out definition);
         public bool TryGetIndex(ContentId id, out RuntimeContentIndex index) => indicesById.TryGetValue(id, out index);
+
+        internal int DefinitionCount => orderedDefinitions.Length;
+
+        internal RuntimeContentDefinition GetDefinitionAt(int index)
+        {
+            if (index < 0 || index >= orderedDefinitions.Length)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            return orderedDefinitions[index];
+        }
 
         public static Result<BuildRuntimeCatalog> Build(
             ContentRegistry content,
@@ -201,6 +213,7 @@ namespace Game.Simulation
             var offers = new List<CompiledUpgradeOfferDefinition>();
             var definitionsById = new Dictionary<ContentId, RuntimeContentDefinition>(content.Count);
             var indicesById = new Dictionary<ContentId, RuntimeContentIndex>(content.Count);
+            var orderedDefinitions = new RuntimeContentDefinition[content.Count];
 
             for (var index = 0; index < content.Count; index++)
             {
@@ -209,6 +222,7 @@ namespace Game.Simulation
                 var entry = entryResult.Value;
                 definitionsById.Add(entry.Definition.Id, entry.Definition);
                 indicesById.Add(entry.Definition.Id, entry.Index);
+                orderedDefinitions[index] = entry.Definition;
                 if (entry.Definition is RuntimePassiveDefinition passive)
                     passives.Add(new CompiledPassiveDefinition(entry.Index, passive));
                 else if (entry.Definition is RuntimeTraitDefinition trait)
@@ -241,7 +255,8 @@ namespace Game.Simulation
                     evolutions.ToArray(),
                     offers.ToArray(),
                     definitionsById,
-                    indicesById));
+                    indicesById,
+                    orderedDefinitions));
         }
 
         internal static BuildRuntimeCatalog Empty()
@@ -253,7 +268,8 @@ namespace Game.Simulation
                 Array.Empty<CompiledEvolutionDefinition>(),
                 Array.Empty<CompiledUpgradeOfferDefinition>(),
                 new Dictionary<ContentId, RuntimeContentDefinition>(),
-                new Dictionary<ContentId, RuntimeContentIndex>());
+                new Dictionary<ContentId, RuntimeContentIndex>(),
+                Array.Empty<RuntimeContentDefinition>());
         }
 
         private static Result<CompiledSynergyDefinition> CompileSynergy(

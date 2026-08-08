@@ -10,6 +10,7 @@ namespace Game.Simulation
         public void Execute(SimulationWorld world)
         {
             if (world == null) throw new ArgumentNullException(nameof(world));
+            world.Qinglan?.Rewards.TickPickups(world);
             world.Progression?.TickPickups(world);
         }
     }
