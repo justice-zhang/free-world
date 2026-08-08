@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: QinglanDemo-Visual
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: QinglanDemo-Visual
+  m_GUID: 56945edad50defa47bb5b54075ebd4c4
+  m_SerializeEntries:
+  - m_GUID: 1d98312cbb3aa0d40858b785a0db2a48
+    m_Address: qinglan/character/lu-qingye/directional-animation-atlas
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - pack.qinglan_demo
+    - release
+    - visual.release
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b01aa063ff0e00940b949dea9de1b81f
+    m_Address: qinglan/profile/character/lu-qingye
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - pack.qinglan_demo
+    - release
+    - visual.release
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 78cbfa92888072c49963101845d51bc0, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 4f9f6e3d3b3b58c43bd82e16a1ac6a06, type: 2}
+    - {fileID: 11400000, guid: fee86e051a6e32c4a81bf5b07551c9e0, type: 2}

@@ -1,0 +1,18 @@
+ART-CHAR-001 / Lu Qingye directional animation atlas
+Built-in ImageGen mode; no external/reference-project image was used.
+
+INITIAL GENERATION PROMPT
+
+Create one production-ready 2D game character animation sprite atlas for an original commercial Unity survivor-like game. Character: Lu Qingye, an original 18–19-year-old Chinese wandering swordsman with no sect insignia, lean agile build, warm determined face, dark hair tied in a short high ponytail, practical layered travel robe in muted teal and warm stone-beige, dark trousers and boots, narrow cream edge accents, a weathered nameless broken straight sword in a plain scabbard, one small wine gourd at the belt. No armor, no crown, no logo, no written characters, no recognizable franchise design. Visual language: bright clear eastern fantasy, sunlit and hopeful, hand-painted 2D sprite art with clean dark teal outlines, restrained texture, readable at 96–128 pixels tall, strong silhouette. Player palette must center #59C7C1 with outline highlights #F4EFD8 and deep outline #163D45; never use danger red as a glow core.
+
+Atlas layout is mandatory: exactly 24 equal square cells in a clean 6 columns by 4 rows grid, generous transparent-safe padding around every pose, character feet anchored at the same normalized point in every cell, consistent scale and costume. Rows are directions in this exact order: row 1 facing down/front, row 2 facing left, row 3 facing right, row 4 facing up/back. Columns are action key poses in this exact order: column 1 Idle, column 2 Move stride, column 3 Hit reaction, column 4 Down/fall, column 5 Victory, column 6 Imperial Sword technique. Do not draw grid lines, labels, captions, numbers, UI, shadows crossing cell boundaries, extra characters, detached body parts, or duplicate figures inside a cell. Imperial Sword pose may include one compact pale-cyan wind arc contained inside its own cell. Keep the same broken sword length, gourd side, ponytail, robe layers, body proportions, and lighting in all 24 poses.
+
+Render on a perfectly flat solid chroma-key magenta background #FF00FF with no gradients, texture, lighting spill, cast shadow, or magenta details on the character, so the background can be removed cleanly. Square atlas, orthographic/lightly top-down game camera, no perspective scene, no text, no watermark, no border.
+
+TARGETED TECHNICAL REVISION PROMPT
+
+Edit this exact Lu Qingye sprite atlas while preserving the same original character design, costume colors, face, broken sword, belt gourd, rendering style, and all 24 action concepts. Technical correction only.
+
+Rebuild it as exactly 24 isolated poses in a 6 columns by 4 rows layout. Make every pose, including every cyan wind arc, leaf, sword tip, ponytail, hand, foot, and robe edge, about 70% of its current size and fully contained inside its own cell with at least 12% blank magenta margin on all four sides. Absolutely no pixels, effects, shadows, or fragments may cross a cell boundary. Keep each figure centered horizontally and use a consistent bottom foot anchor. Keep the output background perfectly flat #FF00FF with no texture or gradients and no magenta details on the character.
+
+Correct direction rows to: row 1 facing down/front; row 2 facing left (nose/body toward image-left); row 3 facing right (nose/body toward image-right); row 4 facing up/back. Columns remain: Idle, Move stride, Hit reaction, Down/fall, Victory, Imperial Sword technique. The wind arc in column 6 must be compact and entirely within column 6. No grid lines, no text, no labels, no numbers, no border, no watermark, no extra figures. Output one clean atlas only.

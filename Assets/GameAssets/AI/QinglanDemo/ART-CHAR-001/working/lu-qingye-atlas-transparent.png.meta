@@ -1,0 +1,806 @@
+fileFormatVersion: 2
+guid: 3fb9bbe62bedf8f448cd23fe5a067e73
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4456364784417821593
+    second: lu-qingye-atlas-transparent_0
+  - first:
+      213: 7241662715321832446
+    second: lu-qingye-atlas-transparent_1
+  - first:
+      213: -4106667505458739856
+    second: lu-qingye-atlas-transparent_2
+  - first:
+      213: 4206382123679662802
+    second: lu-qingye-atlas-transparent_3
+  - first:
+      213: 3872082454951671772
+    second: lu-qingye-atlas-transparent_4
+  - first:
+      213: 3531240404338614141
+    second: lu-qingye-atlas-transparent_5
+  - first:
+      213: -7265917341368933851
+    second: lu-qingye-atlas-transparent_6
+  - first:
+      213: -7339729913557353625
+    second: lu-qingye-atlas-transparent_7
+  - first:
+      213: -3184638109447786608
+    second: lu-qingye-atlas-transparent_8
+  - first:
+      213: 7583324121131672314
+    second: lu-qingye-atlas-transparent_9
+  - first:
+      213: -7001260143266132050
+    second: lu-qingye-atlas-transparent_10
+  - first:
+      213: -8303195030138014457
+    second: lu-qingye-atlas-transparent_11
+  - first:
+      213: -7562918399842608453
+    second: lu-qingye-atlas-transparent_12
+  - first:
+      213: 4135135908320313897
+    second: lu-qingye-atlas-transparent_13
+  - first:
+      213: 3296283695668853070
+    second: lu-qingye-atlas-transparent_14
+  - first:
+      213: 5678189355698376858
+    second: lu-qingye-atlas-transparent_15
+  - first:
+      213: -4668270625245818677
+    second: lu-qingye-atlas-transparent_16
+  - first:
+      213: 140060602737629636
+    second: lu-qingye-atlas-transparent_17
+  - first:
+      213: 6201097712278472668
+    second: lu-qingye-atlas-transparent_18
+  - first:
+      213: 5177145928036006800
+    second: lu-qingye-atlas-transparent_19
+  - first:
+      213: 8319650832255113931
+    second: lu-qingye-atlas-transparent_20
+  - first:
+      213: -6304248155170460753
+    second: lu-qingye-atlas-transparent_21
+  - first:
+      213: -1442685596172893598
+    second: lu-qingye-atlas-transparent_22
+  - first:
+      213: 6131251031022012167
+    second: lu-qingye-atlas-transparent_23
+  - first:
+      213: 6655841053747927387
+    second: lu-qingye-atlas-transparent_24
+  - first:
+      213: 7268586875416711975
+    second: lu-qingye-atlas-transparent_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_0
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 959
+        width: 153
+        height: 259
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 993d8cc192038dd30800000000000000
+      internalID: 4456364784417821593
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_1
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 954
+        width: 138
+        height: 255
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef3d2f12fdd8f7460800000000000000
+      internalID: 7241662715321832446
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_2
+      rect:
+        serializedVersion: 2
+        x: 433
+        y: 957
+        width: 170
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0750e7e69af2207c0800000000000000
+      internalID: -4106667505458739856
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_3
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 1002
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d2ca7f4142106a30800000000000000
+      internalID: 4206382123679662802
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_4
+      rect:
+        serializedVersion: 2
+        x: 645
+        y: 950
+        width: 185
+        height: 145
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd7ba644a766cb530800000000000000
+      internalID: 3872082454951671772
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_5
+      rect:
+        serializedVersion: 2
+        x: 860
+        y: 953
+        width: 132
+        height: 266
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7f1c1d307c710130800000000000000
+      internalID: 3531240404338614141
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_6
+      rect:
+        serializedVersion: 2
+        x: 1009
+        y: 955
+        width: 237
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 522aa5caca64a2b90800000000000000
+      internalID: -7265917341368933851
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_7
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 659
+        width: 123
+        height: 251
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76bfa1bf78a042a90800000000000000
+      internalID: -7339729913557353625
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_8
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 660
+        width: 172
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09f613c2384edc3d0800000000000000
+      internalID: -3184638109447786608
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_9
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 659
+        width: 176
+        height: 227
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af264b82c116d3960800000000000000
+      internalID: 7583324121131672314
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_10
+      rect:
+        serializedVersion: 2
+        x: 636
+        y: 654
+        width: 200
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eaf85847ef686de90800000000000000
+      internalID: -7001260143266132050
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_11
+      rect:
+        serializedVersion: 2
+        x: 860
+        y: 654
+        width: 105
+        height: 249
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 705b5dfbc1025cc80800000000000000
+      internalID: -8303195030138014457
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_12
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 660
+        width: 254
+        height: 212
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bba9d1019cd1b0790800000000000000
+      internalID: -7562918399842608453
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_13
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 360
+        width: 119
+        height: 251
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92205612334f26930800000000000000
+      internalID: 4135135908320313897
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_14
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 361
+        width: 167
+        height: 235
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e49f0478e80cebd20800000000000000
+      internalID: 3296283695668853070
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_15
+      rect:
+        serializedVersion: 2
+        x: 435
+        y: 404
+        width: 12
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a905ec9722bfcce40800000000000000
+      internalID: 5678189355698376858
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_16
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 355
+        width: 170
+        height: 228
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc015d29998f63fb0800000000000000
+      internalID: -4668270625245818677
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_17
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 353
+        width: 196
+        height: 144
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c91439406891f100800000000000000
+      internalID: 140060602737629636
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_18
+      rect:
+        serializedVersion: 2
+        x: 875
+        y: 352
+        width: 113
+        height: 252
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd788d5b389be0650800000000000000
+      internalID: 6201097712278472668
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_19
+      rect:
+        serializedVersion: 2
+        x: 972
+        y: 357
+        width: 251
+        height: 210
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09b32f6bacae8d740800000000000000
+      internalID: 5177145928036006800
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_20
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 53
+        width: 137
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bca59df3a56557370800000000000000
+      internalID: 8319650832255113931
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_21
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 54
+        width: 136
+        height: 244
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fab272744bfc288a0800000000000000
+      internalID: -6304248155170460753
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_22
+      rect:
+        serializedVersion: 2
+        x: 417
+        y: 52
+        width: 170
+        height: 227
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 262ca8d081d8afbe0800000000000000
+      internalID: -1442685596172893598
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_23
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 49
+        width: 194
+        height: 152
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70780d4f354961550800000000000000
+      internalID: 6131251031022012167
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_24
+      rect:
+        serializedVersion: 2
+        x: 840
+        y: 50
+        width: 129
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b595b1a9c2c4e5c50800000000000000
+      internalID: 6655841053747927387
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye-atlas-transparent_25
+      rect:
+        serializedVersion: 2
+        x: 997
+        y: 49
+        width: 233
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7239748a0453fd460800000000000000
+      internalID: 7268586875416711975
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    outline: []
+    customData:
+    physicsShape: []
+    bones: []
+    spriteID:
+    internalID: 0
+    vertices: []
+    indices:
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      lu-qingye-atlas-transparent_0: 4456364784417821593
+      lu-qingye-atlas-transparent_1: 7241662715321832446
+      lu-qingye-atlas-transparent_10: -7001260143266132050
+      lu-qingye-atlas-transparent_11: -8303195030138014457
+      lu-qingye-atlas-transparent_12: -7562918399842608453
+      lu-qingye-atlas-transparent_13: 4135135908320313897
+      lu-qingye-atlas-transparent_14: 3296283695668853070
+      lu-qingye-atlas-transparent_15: 5678189355698376858
+      lu-qingye-atlas-transparent_16: -4668270625245818677
+      lu-qingye-atlas-transparent_17: 140060602737629636
+      lu-qingye-atlas-transparent_18: 6201097712278472668
+      lu-qingye-atlas-transparent_19: 5177145928036006800
+      lu-qingye-atlas-transparent_2: -4106667505458739856
+      lu-qingye-atlas-transparent_20: 8319650832255113931
+      lu-qingye-atlas-transparent_21: -6304248155170460753
+      lu-qingye-atlas-transparent_22: -1442685596172893598
+      lu-qingye-atlas-transparent_23: 6131251031022012167
+      lu-qingye-atlas-transparent_24: 6655841053747927387
+      lu-qingye-atlas-transparent_25: 7268586875416711975
+      lu-qingye-atlas-transparent_3: 4206382123679662802
+      lu-qingye-atlas-transparent_4: 3872082454951671772
+      lu-qingye-atlas-transparent_5: 3531240404338614141
+      lu-qingye-atlas-transparent_6: -7265917341368933851
+      lu-qingye-atlas-transparent_7: -7339729913557353625
+      lu-qingye-atlas-transparent_8: -3184638109447786608
+      lu-qingye-atlas-transparent_9: 7583324121131672314
+  mipmapLimitGroupName:
+  pSDRemoveMatte: 0
+  userData:
+  assetBundleName:
+  assetBundleVariant:

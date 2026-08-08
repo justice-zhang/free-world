@@ -1,0 +1,854 @@
+fileFormatVersion: 2
+guid: 1d98312cbb3aa0d40858b785a0db2a48
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7998775803864024270
+    second: lu-qingye-directional-animation-atlas_0
+  - first:
+      213: 255386051210514314
+    second: lu-qingye-directional-animation-atlas_1
+  - first:
+      213: -4535252248502712801
+    second: lu-qingye-directional-animation-atlas_2
+  - first:
+      213: 8041489510115539428
+    second: lu-qingye-directional-animation-atlas_3
+  - first:
+      213: -4916985975932433578
+    second: lu-qingye-directional-animation-atlas_4
+  - first:
+      213: -4856548307849898249
+    second: lu-qingye-directional-animation-atlas_5
+  - first:
+      213: 910404211754506419
+    second: lu-qingye-directional-animation-atlas_6
+  - first:
+      213: -899833018953616498
+    second: lu-qingye-directional-animation-atlas_7
+  - first:
+      213: -2407262423251301452
+    second: lu-qingye-directional-animation-atlas_8
+  - first:
+      213: 6247618146582240961
+    second: lu-qingye-directional-animation-atlas_9
+  - first:
+      213: -4956463437028180400
+    second: lu-qingye-directional-animation-atlas_10
+  - first:
+      213: 4857378087597619926
+    second: lu-qingye-directional-animation-atlas_11
+  - first:
+      213: 5204867682912700521
+    second: lu-qingye-directional-animation-atlas_12
+  - first:
+      213: 2029510153989344006
+    second: lu-qingye-directional-animation-atlas_13
+  - first:
+      213: -1530387230170626762
+    second: lu-qingye-directional-animation-atlas_14
+  - first:
+      213: -2660974835590123193
+    second: lu-qingye-directional-animation-atlas_15
+  - first:
+      213: -7447617219103700083
+    second: lu-qingye-directional-animation-atlas_16
+  - first:
+      213: -3155895325315678120
+    second: lu-qingye-directional-animation-atlas_17
+  - first:
+      213: -1204547070608695198
+    second: lu-qingye-directional-animation-atlas_18
+  - first:
+      213: -3164346682637918433
+    second: lu-qingye-directional-animation-atlas_19
+  - first:
+      213: -2262246636709969302
+    second: lu-qingye-directional-animation-atlas_20
+  - first:
+      213: -2606076972719832969
+    second: lu-qingye-directional-animation-atlas_21
+  - first:
+      213: -1935288105132770230
+    second: lu-qingye-directional-animation-atlas_22
+  - first:
+      213: -158537777309352671
+    second: lu-qingye-directional-animation-atlas_23
+  - first:
+      213: 8066735457157021147
+    second: lu-qingye-directional-animation-atlas_24
+  - first:
+      213: -4891710119343937332
+    second: lu-qingye.down.idle
+  - first:
+      213: 8661622443643114725
+    second: lu-qingye.down.move
+  - first:
+      213: -1443099644587757616
+    second: lu-qingye.down.hit
+  - first:
+      213: 3747360396536154624
+    second: lu-qingye.down.down
+  - first:
+      213: -690657876955246188
+    second: lu-qingye.down.victory
+  - first:
+      213: -3757914336639668852
+    second: lu-qingye.down.imperial-sword
+  - first:
+      213: 5244653221469102896
+    second: lu-qingye.left.idle
+  - first:
+      213: -8184778872431792645
+    second: lu-qingye.left.move
+  - first:
+      213: 707585271726557490
+    second: lu-qingye.left.hit
+  - first:
+      213: -3875781709867585244
+    second: lu-qingye.left.down
+  - first:
+      213: 949730997661193948
+    second: lu-qingye.left.victory
+  - first:
+      213: 4125759582520777380
+    second: lu-qingye.left.imperial-sword
+  - first:
+      213: -5555221889331556800
+    second: lu-qingye.right.idle
+  - first:
+      213: -7050915166174584250
+    second: lu-qingye.right.move
+  - first:
+      213: 5239405318696128919
+    second: lu-qingye.right.hit
+  - first:
+      213: 2585568443575926906
+    second: lu-qingye.right.down
+  - first:
+      213: -2416521691032664005
+    second: lu-qingye.right.victory
+  - first:
+      213: -3584228247295855107
+    second: lu-qingye.right.imperial-sword
+  - first:
+      213: -5537329783435129043
+    second: lu-qingye.up.idle
+  - first:
+      213: -7784531624805352839
+    second: lu-qingye.up.move
+  - first:
+      213: 8341012316708437086
+    second: lu-qingye.up.hit
+  - first:
+      213: 2856227195109830288
+    second: lu-qingye.up.down
+  - first:
+      213: 379105553229873723
+    second: lu-qingye.up.victory
+  - first:
+      213: 6811993328757368431
+    second: lu-qingye.up.imperial-sword
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 128
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 25
+    textureCompression: 1
+    compressionQuality: 100
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: lu-qingye.down.idle
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 768
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc8225850972d1cb0800000000000000
+      internalID: -4891710119343937332
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.down.move
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 768
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e416e3a8b3443870800000000000000
+      internalID: 8661622443643114725
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.down.hit
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 768
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0dfaad4e48419fbe0800000000000000
+      internalID: -1443099644587757616
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.down.down
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 768
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00a87e02d6c410430800000000000000
+      internalID: 3747360396536154624
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.down.victory
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 768
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 491d1c6f15a4a66f0800000000000000
+      internalID: -690657876955246188
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.down.imperial-sword
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 768
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8dae3432d439dbc0800000000000000
+      internalID: -3757914336639668852
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.left.idle
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03326cb4150c8c840800000000000000
+      internalID: 5244653221469102896
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.left.move
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 512
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfda497faf2d96e80800000000000000
+      internalID: -8184778872431792645
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.left.hit
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 512
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2394f814e09d1d900800000000000000
+      internalID: 707585271726557490
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.left.down
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 512
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 421f264d115763ac0800000000000000
+      internalID: -3875781709867585244
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.left.victory
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 512
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd6d5cb7f4f1e2d00800000000000000
+      internalID: 949730997661193948
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.left.imperial-sword
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 512
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4aa90d82b74a14930800000000000000
+      internalID: 4125759582520777380
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.right.idle
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 256
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04e0beddf13e7e2b0800000000000000
+      internalID: -5555221889331556800
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.right.move
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 256
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 642efb2830e162e90800000000000000
+      internalID: -7050915166174584250
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.right.hit
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 256
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 791dc27b06b16b840800000000000000
+      internalID: 5239405318696128919
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.right.down
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 256
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a708dcdecc8c1e320800000000000000
+      internalID: 2585568443575926906
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.right.victory
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 256
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b38c8f5435ac67ed0800000000000000
+      internalID: -2416521691032664005
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.right.imperial-sword
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 256
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df5720e2663424ec0800000000000000
+      internalID: -3584228247295855107
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.up.idle
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2f882666e37723b0800000000000000
+      internalID: -5537329783435129043
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.up.move
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97abea04bb9c7f390800000000000000
+      internalID: -7784531624805352839
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.up.hit
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5c709c628a31c370800000000000000
+      internalID: 8341012316708437086
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.up.down
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09ee452408b53a720800000000000000
+      internalID: 2856227195109830288
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.up.victory
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3205a8fd7ad24500800000000000000
+      internalID: 379105553229873723
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lu-qingye.up.imperial-sword
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 256
+        height: 256
+      alignment: 9
+      pivot: {x: 0.5, y: 0.046875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f66e9ec47df098e50800000000000000
+      internalID: 6811993328757368431
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    outline: []
+    customData:
+    physicsShape: []
+    bones: []
+    spriteID:
+    internalID: 0
+    vertices: []
+    indices:
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      lu-qingye-directional-animation-atlas_0: 7998775803864024270
+      lu-qingye-directional-animation-atlas_1: 255386051210514314
+      lu-qingye-directional-animation-atlas_10: -4956463437028180400
+      lu-qingye-directional-animation-atlas_11: 4857378087597619926
+      lu-qingye-directional-animation-atlas_12: 5204867682912700521
+      lu-qingye-directional-animation-atlas_13: 2029510153989344006
+      lu-qingye-directional-animation-atlas_14: -1530387230170626762
+      lu-qingye-directional-animation-atlas_15: -2660974835590123193
+      lu-qingye-directional-animation-atlas_16: -7447617219103700083
+      lu-qingye-directional-animation-atlas_17: -3155895325315678120
+      lu-qingye-directional-animation-atlas_18: -1204547070608695198
+      lu-qingye-directional-animation-atlas_19: -3164346682637918433
+      lu-qingye-directional-animation-atlas_2: -4535252248502712801
+      lu-qingye-directional-animation-atlas_20: -2262246636709969302
+      lu-qingye-directional-animation-atlas_21: -2606076972719832969
+      lu-qingye-directional-animation-atlas_22: -1935288105132770230
+      lu-qingye-directional-animation-atlas_23: -158537777309352671
+      lu-qingye-directional-animation-atlas_24: 8066735457157021147
+      lu-qingye-directional-animation-atlas_3: 8041489510115539428
+      lu-qingye-directional-animation-atlas_4: -4916985975932433578
+      lu-qingye-directional-animation-atlas_5: -4856548307849898249
+      lu-qingye-directional-animation-atlas_6: 910404211754506419
+      lu-qingye-directional-animation-atlas_7: -899833018953616498
+      lu-qingye-directional-animation-atlas_8: -2407262423251301452
+      lu-qingye-directional-animation-atlas_9: 6247618146582240961
+      lu-qingye.down.down: 3747360396536154624
+      lu-qingye.down.hit: -1443099644587757616
+      lu-qingye.down.idle: -4891710119343937332
+      lu-qingye.down.imperial-sword: -3757914336639668852
+      lu-qingye.down.move: 8661622443643114725
+      lu-qingye.down.victory: -690657876955246188
+      lu-qingye.left.down: -3875781709867585244
+      lu-qingye.left.hit: 707585271726557490
+      lu-qingye.left.idle: 5244653221469102896
+      lu-qingye.left.imperial-sword: 4125759582520777380
+      lu-qingye.left.move: -8184778872431792645
+      lu-qingye.left.victory: 949730997661193948
+      lu-qingye.right.down: 2585568443575926906
+      lu-qingye.right.hit: 5239405318696128919
+      lu-qingye.right.idle: -5555221889331556800
+      lu-qingye.right.imperial-sword: -3584228247295855107
+      lu-qingye.right.move: -7050915166174584250
+      lu-qingye.right.victory: -2416521691032664005
+      lu-qingye.up.down: 2856227195109830288
+      lu-qingye.up.hit: 8341012316708437086
+      lu-qingye.up.idle: -5537329783435129043
+      lu-qingye.up.imperial-sword: 6811993328757368431
+      lu-qingye.up.move: -7784531624805352839
+      lu-qingye.up.victory: 379105553229873723
+  mipmapLimitGroupName:
+  pSDRemoveMatte: 0
+  userData:
+  assetBundleName:
+  assetBundleVariant:

@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 0a36f78d28f50a844ad887ca617647e8
   m_currentHash:
     serializedVersion: 2
-    Hash: 7856903d9a76f1e59205538fa2d21400
+    Hash: 474407da04fa5e134eaaa64cb220b9bf
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -62,6 +62,7 @@ MonoBehaviour:
   m_GroupAssets:
   - {fileID: 11400000, guid: 909a93d91f2518741b2fad7b71023e2d, type: 2}
   - {fileID: 11400000, guid: 0fee787bf0efa4c48bdf199378977b92, type: 2}
+  - {fileID: 11400000, guid: 3397229314a315f409fe3707a217f03c, type: 2}
   - {fileID: 11400000, guid: a0ffa6d01e0391c42a4ce810172bc69f, type: 2}
   - {fileID: 11400000, guid: 25091efff793aa84c9ee134faa86d281, type: 2}
   - {fileID: 11400000, guid: d7344dc5b15b3d3478a0cd3887ade0bc, type: 2}
@@ -112,6 +113,9 @@ MonoBehaviour:
     - Preload
     - pack.test.m9_tools
     - pack.qinglan.demo
+    - pack.qinglan_demo
+    - release
+    - visual.release
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 546f1b19511b4364db7ecf6779b92bbc, type: 2}

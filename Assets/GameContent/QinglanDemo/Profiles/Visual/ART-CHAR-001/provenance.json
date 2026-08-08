@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 2,
+  "assetId": "ART-CHAR-001-PROFILE",
+  "owner": "Qinglan Demo Visual Owner",
+  "relativePaths": [
+    "Assets/GameContent/QinglanDemo/Profiles/Visual/ART-CHAR-001/lu-qingye-visual-profile.asset"
+  ],
+  "sourceCategory": "first-party-unity-profile-derived-from-approved-ai-asset",
+  "tool": "QinglanVisualAssetImporter.CreateVisualProfileAsset",
+  "modelVersion": "Unity 6000.3.20f1; ART-CHAR-001 importer",
+  "generatedOrAcquiredAt": "2026-08-09T02:59:45+08:00",
+  "operatorName": "Codex",
+  "promptFile": "Assets/GameAssets/AI/QinglanDemo/ART-CHAR-001/prompt.txt",
+  "seed": "not-applicable-deterministic-profile-authoring",
+  "referenceInputs": [
+    "Assets/GameAssets/AI/QinglanDemo/ART-CHAR-001/final/lu-qingye-directional-animation-atlas.png"
+  ],
+  "referenceRightsConfirmed": true,
+  "humanEdits": [
+    "Bound stable ID qinglan.character.lu_qingye to the lu-qingye.down.idle Sprite subasset",
+    "Configured Actor kind, white tint, and unit presentation scale"
+  ],
+  "sourceSha256": {
+    "lu-qingye-directional-animation-atlas.png": "6215a68890a0a3b2e83be5382d680dfb33906d684700d29989f321dd30e98d28"
+  },
+  "outputSha256": {
+    "lu-qingye-visual-profile.asset": "45c533dcf0d02e94f25769361147d91e5f414f36efaa9d3d53e60e4bb5afa5e5"
+  },
+  "licenseOrTermsUrl": "https://openai.com/policies/row-terms-of-use/",
+  "licenseOrTermsSnapshot": "Docs/AssetTerms/2026-08-09-openai-row-terms-review.md",
+  "termsReviewedAt": "2026-08-09",
+  "allowedPlatforms": [
+    "Windows x64",
+    "Steam"
+  ],
+  "allowedUses": [
+    "commercial game runtime",
+    "internal development and testing"
+  ],
+  "commercialUseReviewed": true,
+  "steamDisclosureCategory": "profile references a pre-generated generative-AI visual asset; no runtime generation",
+  "technicalReviewer": "Codex",
+  "creativeReviewer": "Codex",
+  "rightsReviewer": "Codex",
+  "reviewedAt": "2026-08-09T02:59:45+08:00",
+  "status": "approved-for-release",
+  "notes": "The profile contains no new artwork and only references the approved ART-CHAR-001 final atlas."
+}

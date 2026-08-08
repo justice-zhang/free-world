@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 2,
+  "assetId": "ART-CHAR-001",
+  "owner": "Qinglan Demo Visual Owner",
+  "relativePaths": [
+    "Assets/GameAssets/AI/QinglanDemo/ART-CHAR-001/prompt.txt",
+    "Assets/GameAssets/AI/QinglanDemo/ART-CHAR-001/source/lu-qingye-atlas-imagegen.png",
+    "Assets/GameAssets/AI/QinglanDemo/ART-CHAR-001/source/lu-qingye-atlas-imagegen-v2.png",
+    "Assets/GameAssets/AI/QinglanDemo/ART-CHAR-001/working/lu-qingye-atlas-transparent.png",
+    "Assets/GameAssets/AI/QinglanDemo/ART-CHAR-001/working/lu-qingye-atlas-transparent-v2.png",
+    "Assets/GameAssets/AI/QinglanDemo/ART-CHAR-001/final/lu-qingye-directional-animation-atlas.png"
+  ],
+  "sourceCategory": "original-ai-assisted-no-external-reference-input",
+  "tool": "Codex built-in ImageGen plus bundled chroma-key helper and repository atlas processor",
+  "modelVersion": "built-in ImageGen service model version not exposed; atlas processor sha256:e0bfb509a65703c413b89960d0a590d31c4d6a8adf70f20e14928916a516bb78",
+  "generatedOrAcquiredAt": "2026-08-09T02:48:12+08:00",
+  "operatorName": "Codex",
+  "promptFile": "Assets/GameAssets/AI/QinglanDemo/ART-CHAR-001/prompt.txt",
+  "seed": "not-provided-by-built-in-imagegen-service",
+  "referenceInputs": [
+    "Assets/GameAssets/AI/QinglanDemo/ART-CHAR-001/source/lu-qingye-atlas-imagegen.png (self-owned initial output used only for targeted revision)"
+  ],
+  "referenceRightsConfirmed": true,
+  "humanEdits": [
+    "Removed flat magenta background with bundled remove_chroma_key.py using border auto-key, soft matte, despill, thresholds 12/220",
+    "Rejected initial equal-grid crop because Imperial Sword effects crossed nominal cells; retained initial source and working evidence",
+    "Requested one targeted ImageGen technical revision with smaller isolated poses",
+    "Reordered generated left/right direction rows to the required Down/Left/Right/Up runtime order",
+    "Assigned alpha-connected components to pose centers, normalized all cells to 256x256, bottom-anchored poses, and packed a 1536x1024 atlas",
+    "No creative repaint, external reference, text, logo, trademark, or reference-project asset was added"
+  ],
+  "sourceSha256": {
+    "prompt.txt": "f4b1dd71f437e6e25ef9d9d9fd1c2116e4d2e74b153d817fc29fe21aa8ae9142",
+    "lu-qingye-atlas-imagegen.png": "7fb9e9d7422b551e47c073ccd31450b1de2ec6d41ccaa1a81469845c2c5233b3",
+    "lu-qingye-atlas-imagegen-v2.png": "0bd9e71f43eec7e5efe2d7dd3d8eb38edf6f7afc9c44975eb4f2097adc4af30f"
+  },
+  "outputSha256": {
+    "lu-qingye-atlas-transparent.png": "7008564fd69dcb25f8c5bc7928dd934efb0af2968fd8dab26254c42b72d8eacc",
+    "lu-qingye-atlas-transparent-v2.png": "e44ad8c64ae1fbd34722d22328327bcbf2ae63e727e23145aabe918cd7abee24",
+    "lu-qingye-directional-animation-atlas.png": "6215a68890a0a3b2e83be5382d680dfb33906d684700d29989f321dd30e98d28"
+  },
+  "licenseOrTermsUrl": "https://openai.com/policies/row-terms-of-use/",
+  "licenseOrTermsSnapshot": "Docs/AssetTerms/2026-08-09-openai-row-terms-review.md",
+  "termsReviewedAt": "2026-08-09",
+  "allowedPlatforms": [
+    "Windows x64",
+    "Steam"
+  ],
+  "allowedUses": [
+    "commercial game runtime",
+    "store and marketing screenshots",
+    "internal development and testing"
+  ],
+  "commercialUseReviewed": true,
+  "steamDisclosureCategory": "pre-generated generative-AI visual asset; no runtime generation",
+  "technicalReviewer": "Codex",
+  "creativeReviewer": "Codex",
+  "rightsReviewer": "Codex",
+  "reviewedAt": "2026-08-09T02:48:12+08:00",
+  "status": "approved-for-release",
+  "notes": "Initial generation used no image input. The targeted revision used only this batch's first generated output. Official ROW Terms page observed published/effective 2026-01-01 and rechecked on 2026-08-09. Output ownership and non-uniqueness were reviewed; similarity/trademark responsibility remains project-side and is rechecked at G3.6."
+}
