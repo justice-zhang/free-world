@@ -218,7 +218,9 @@ namespace Game.Simulation
             }
 
             var resolved = map.ResolveMovement(playerPosition, desired, 0f);
-            return map.IsWalkable(resolved)
+            return map.IsWalkable(resolved) &&
+                   Vector2.DistanceSquared(resolved, playerPosition) + 0.000001f >=
+                   minimumDistance * minimumDistance
                 ? resolved
                 : map.SampleEnemySpawnPosition(
                     playerPosition,

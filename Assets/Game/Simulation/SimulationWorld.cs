@@ -683,21 +683,21 @@ namespace Game.Simulation
             EntityHandle handle,
             out Vector2 removedPosition)
         {
-            SimulationEntityState state;
+            var state = default(SimulationEntityState);
             bool found;
             switch (kind)
             {
                 case EntityKind.Actor:
-                    found = Actors.TryRead(handle, out state);
+                    found = Actors.Contains(handle) && Actors.TryRead(handle, out state);
                     break;
                 case EntityKind.Projectile:
-                    found = Projectiles.TryRead(handle, out state);
+                    found = Projectiles.Contains(handle) && Projectiles.TryRead(handle, out state);
                     break;
                 case EntityKind.Area:
-                    found = Areas.TryRead(handle, out state);
+                    found = Areas.Contains(handle) && Areas.TryRead(handle, out state);
                     break;
                 case EntityKind.Pickup:
-                    found = Pickups.TryRead(handle, out state);
+                    found = Pickups.Contains(handle) && Pickups.TryRead(handle, out state);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(kind));

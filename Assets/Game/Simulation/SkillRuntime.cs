@@ -1053,6 +1053,7 @@ namespace Game.Simulation
                 if (record.Kind == ActiveDeliveryKind.OutboundReturn)
                 {
                     if (record.Instance.Owner.Kind != EntityKind.Actor ||
+                        !world.Actors.Contains(record.Instance.Owner.Handle) ||
                         !world.Actors.TryRead(record.Instance.Owner.Handle, out var owner) ||
                         world.Actors.IsDeathPending(record.Instance.Owner.Handle))
                     {
@@ -1163,6 +1164,7 @@ namespace Game.Simulation
                 {
                     if (record.Kind == ActiveDeliveryKind.OutboundReturn &&
                         record.Phase == OutboundReturnPhase.Outbound &&
+                        world.Actors.Contains(record.Instance.Owner.Handle) &&
                         world.Actors.TryRead(record.Instance.Owner.Handle, out var owner))
                     {
                         BeginReturn(world, dense, handle, ref state, ref record, owner.Position);
@@ -1237,7 +1239,9 @@ namespace Game.Simulation
                 if (record.Kind == ActiveDeliveryKind.Aura ||
                     record.Kind == ActiveDeliveryKind.Orbit)
                 {
-                    if (!world.Actors.TryRead(record.Instance.Owner.Handle, out var owner))
+                    if (record.Instance.Owner.Kind != EntityKind.Actor ||
+                        !world.Actors.Contains(record.Instance.Owner.Handle) ||
+                        !world.Actors.TryRead(record.Instance.Owner.Handle, out var owner))
                     {
                         world.Commands.Remove(EntityKind.Area, handle);
                         continue;

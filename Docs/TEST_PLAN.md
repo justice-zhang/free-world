@@ -465,3 +465,20 @@ ADR 0013—0015 和 `DemoDevelopment/08_G0_3_CONTRACT_FREEZE.md` 批准下列实
   `packs=5, entries=220` 后由测试进程明确终止。
 - 12 分钟完整玩家流程、600—1200 敌人 P0 人工可读性为 `NOT RUN`，由 G2.8 执行；正式资产、正式音频、
   GPU/Overdraw、字体和 Release 为 `NOT RUN`，由 G3 执行。
+
+## 25. Qinglan Demo G2.8 Vertical Slice Gate 证据
+
+- 真实 `QinglanDemoRunFactory` 共执行四局：Primary 同 Seed 两次、Mobility/Field 各一次；每局 21,784
+  Tick、约 726.13 秒、Victory、两 Boss、全部 Event/Landmark、至少一个 Relic/Evolution、0 InvalidHandle。
+  Primary 重放的 Spawn/Objective/Boss/Decision/Combined Checksum 一致；三条路线 Decision Checksum
+  互异，完成目标为 3/1/2，听风实际 Rule Mask 为 7/1/6。
+- 实际旧演武场 Scheduler 独立推进 21,600 Tick，2,552 普通＋2 Boss 请求，全部 Walkable，普通出生
+  Min 14 / Max 60，停止边界 PASS。
+- 全量 EditMode 292/292、PlayMode 17/17；PlayMode 新增十次真实 Bootstrap Host 的 Run→Result→Hub→
+  再次出发，Hub 后 Active View=0、Input Owner=1、池容量有界。
+- 600 真实 Enemy＋18 P0 Area 渲染一个生产 Tick后为 915 View/318 P0；玩家 Triangle、Boss Hexagon、
+  危险 Ring 和 P0 排序 40>Combat 20 自动 PASS。标准/High Contrast 1920×1080 截图人工复核 PASS。
+- Project Validation、冻结 API、两次 14 文件 Pack 构建（路径/长度/SHA-256 差异 0）、54,000 Tick
+  性能、Windows x64 Development Build 与独立 Player 完整流程均 PASS。
+- 正式 Sprite/Shader/VFX/音频/字体、目标 GPU/1% Low、Release、Placeholder=0 与商业合规为 `NOT RUN`，
+  依次由 G3.1—G3.6 提供证据；不得把 G2.8 Placeholder 审查外推为正式候选签字。

@@ -64,6 +64,7 @@ G3 发布候选
 | [20_G2_5_META_PROFILE_SETTLEMENT.md](20_G2_5_META_PROFILE_SETTLEMENT.md) | G2.5 局外成长、Profile v3、Recovery 拒绝与原子结算 |
 | [21_G2_6_UI_INPUT_ACCESSIBILITY.md](21_G2_6_UI_INPUT_ACCESSIBILITY.md) | G2.6 完整页面、HUD、键鼠/手柄与可访问性设置 |
 | [22_G2_7_PLACEHOLDER_PRESENTATION_POLISH.md](22_G2_7_PLACEHOLDER_PRESENTATION_POLISH.md) | G2.7 程序化表现、地图标记、优先级池与测试音混音 |
+| [23_G2_8_VERTICAL_SLICE_GATE.md](23_G2_8_VERTICAL_SLICE_GATE.md) | G2.8 真实 12 分钟、生命周期、可读性、性能、Build 与 Player 统一门禁 |
 
 ## 4. 模块分支
 

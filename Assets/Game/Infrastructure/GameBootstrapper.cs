@@ -144,6 +144,8 @@ namespace Game.Infrastructure
 
             demoHost = gameObject.AddComponent<QinglanDemoRuntimeHost>();
             demoHost.Initialize(application, presentationCamera, inputActions, persistence);
+            if (QinglanG28DevelopmentSmokeRunner.IsRequested())
+                gameObject.AddComponent<QinglanG28DevelopmentSmokeRunner>();
 
             Debug.Log(
                 "[Bootstrap] Loaded content: packs=" + initialization.Value.PackCount +

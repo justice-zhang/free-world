@@ -155,10 +155,10 @@
 | QD-KI-008 | PLANNED | Medium | Noto CJK SC 只锁定官方候选和 OFL 1.1 许可路径，尚未固定发布版本、下载文件、SHA-256、Notice 或 TMP 缺字证据。 | G3.3 按官方发布固定版本/Hash，保存 LICENSE、登记每个路径并做简中/英文/Pseudo 缺字与裁切；任一缺失阻断 Release。 |
 | QD-KI-009 | RESOLVED | Medium | G1.4 的六个锁定 Evolution Offer 曾缺少独立候选、回退、暂停和幂等事务。 | G1.7 已按 CR-2026-007 / ADR 0018 实现 Reward Choice、Reward RNG、BuildState 再验证、fallback 和 RunSession 暂停/恢复；普通 Level-up 流回归通过。 |
 | QD-KI-010 | RESOLVED | Medium | G1.5 已把异相灵核 Reward 绑定到四个精英词缀并执行有限 `SpawnEnemy` 死亡输出，但 AddCurrency/奇物三选一、暂停、回退和幂等提交仍未由 RewardResolution 消费。 | G2.3 已完成异相灵核地面来源、三槽奇物选择、灵砂回退、活动/已提交事务幂等和 Application 暂停/恢复；专项与完整回归均 PASS。 |
-| QD-KI-011 | PLANNED | High | G1.6 Encounter 已完成九段普通敌群与两个固定精英，但没有折枝/听风 BossDefinition、Boss Phase 或 BossRule，实际地图出生公平和 Boss 过渡也未验证。 | G2.2 追加两个 Boss 与一次性规则；G2.6/G2.8 在实际地图 PlayMode 验证出生保护、压力可读和过渡清理。在此之前“两 Boss 一次”和实机公平保持 `NOT RUN`。 |
+| QD-KI-011 | RESOLVED | High | G1.6 Encounter 曾缺折枝/听风 BossDefinition、Boss Phase/BossRule、实际地图出生公平和过渡验证。 | G2.2 已追加两 Boss/三阶段/八组合；G2.8 真实 Factory 四局均两 Boss 一次、0 InvalidHandle，实际地图 21,600 Tick 的 2,552 普通出生全部 Walkable 且距离≥14。 |
 | QD-KI-012 | RESOLVED | Medium | G1.7 曾只有受控 Evolution 选择适配器；G2.3 已完成消费者，但缺实际选择页面、统一输入与可访问性。 | G2.6 已通过 `RunSession.CurrentRewardChoice` 接入键鼠/手柄实际 UI，覆盖奖励暂停、选择、焦点和结果保存门禁。 |
 | QD-KI-013 | RESOLVED | High | G2.4 的不可变 RunResult 曾未进入 Profile v3 原子事务、保存重试、Recovery 清理或平台事件。 | G2.5 已以稳定事务 ID 完成原子合并、失败重试、清理补偿与提交后事件；成功前保持 `HasUncommittedResult`。 |
-| QD-KI-014 | PLANNED | High | G2.7 只有代码生成 Sprite/测试音和 Null Device CPU 证据；没有正式角色/敌人/地图/UI/VFX/音频、目标 GPU 或最坏混战人工可读性。 | G2.8 先完成 Placeholder 垂直切片可读性评审；G3 按 G0.4 清单导入带 provenance/许可的正式资产并执行 GPU、音频和 Release 门禁。 |
+| QD-KI-014 | PLANNED | High | G2.8 已完成程序化 Placeholder 的 600 敌人最坏混战自动/人工可读性，但仍没有正式角色/敌人/地图/UI/VFX/音频、目标 GPU 或最终视听签字。 | G2.8 截图只关闭 Placeholder 门禁；G3 按 G0.4 清单导入带 provenance/许可的正式资产并执行 GPU、音频和 Release 门禁。 |
 
-当前没有阻止 G2.8 垂直切片门禁开始的 `OPEN` 问题；QD-KI-011/014 在 G2.8 前阻止完整 Encounter/
-Placeholder 可读性验收，QD-KI-003/007/008/014 继续阻止 Release。
+G2.8 垂直切片门禁已完成，当前没有阻止 G3.1 开始的 `OPEN` 问题；QD-KI-003/007/008/014 继续阻止
+Release，必须按 G3.1—G3.6 的正式资产、字体、GPU 和合规证据关闭。

@@ -189,7 +189,8 @@ GC 0/0/0、无效句柄/Proc 截断/VFX 丢弃均为 0，Checksum `b455f50ce958d
 Checksum 一致，未出现由低频适配器导致的确定性漂移。
 
 候选请求本身是低频路径，G1.7 没有把其临时数组分配宣称为 0 B 热路径。目标硬件 GPU、完整地图、
-Boss、拾取/奇物和选择 UI 仍未进入本短测，必须由 G2.8/G3.5 的真实可玩切片与正式内容证据关闭。
+Boss、拾取/奇物和选择 UI 未进入本节短测；G2.8 已以真实 Placeholder 可玩切片关闭集成证据，正式内容
+仍必须由 G3.5 关闭。
 
 ## 13. Qinglan G2.2 Boss Runtime 短测
 
@@ -203,7 +204,7 @@ Proc 截断/VFX 丢弃均为 0，Checksum `b455f50ce958d212`。相对 G2.1 的 4
 仍低于 15% 工作包回归阈值和 33.33 ms Tick 预算，因此不迁移 Jobs/Burst。
 
 此场景以 600 个草灵覆盖框架规模，不会同时模拟最终 Boss 的完整视觉压力；完整地图、Boss Telegraph、
-GPU/1% Low 和 54,000 Tick 正式内容基准仍由 G2.8/G3.5 执行，本节不能替代对应门禁。
+G2.8 已执行 54,000 Tick Placeholder 基准；GPU/1% Low 和正式内容基准仍由 G3.5 执行，本节不能替代。
 
 ## 14. Qinglan G2.3 Reward / Pickup / Relic 短测
 
@@ -220,7 +221,7 @@ GC 2/2/2，结果为 `FAIL`。完全相同配置冷启动复测 `PASS`：Tick p9
 
 该 M10 Stress 场景使用框架 Pickup Store，不装配 G2.3 RewardRuntime；因此它证明改动未使生产核心
 规模基线回归，而 5,000 Reward Pickup 专项证明新增扫描本身。实际地图奖励密度、选择 UI、正式 VFX/
-GPU 和 54,000 Tick 正式内容仍由 G2.8/G3.5 验证。
+G2.8 已验证 54,000 Tick Placeholder 集成；GPU 和正式内容仍由 G3.5 验证。
 
 ## 15. Qinglan G2.4 RunResult / Game Flow 短测
 
@@ -234,7 +235,8 @@ Proc 截断/VFX 丢弃均为 0，Checksum `b455f50ce958d212`。相对 G2.3 通�
 远低于 33.33 ms Tick 预算。
 
 该 Null Device 场景不包含实际页面、正式 GPU、Scene/Addressables 卸载和结果保存 IO。对应 CPU/GPU、
-1% Low、内存趋势与保存延迟必须由 G2.8、G3.5 和 G3.6 的 Player 证据关闭。
+G2.8 已关闭 Development Player 流程和 Placeholder Soak；1% Low、正式内容内存趋势与保存延迟仍必须
+由 G3.5/G3.6 的 Player 证据关闭。
 
 ## 16. Qinglan G2.7 程序化表现与池短测
 
@@ -251,3 +253,19 @@ P0 驱逐/合并、普通音频冷却及数字聚合。
 Render 指标仍是 Null Device 的 Snapshot 插值与池化 VFX CPU 探针，不包含程序化地图 Overdraw、正式
 Shader、动画、音频 DSP 或目标 GPU。G2.8 执行完整可玩切片可读性审查；G3.5 必须执行正式资产 GPU、
 1% Low、显存和 54,000 Tick，不能以本短测替代。
+
+## 17. Qinglan G2.8 完整 Soak 与 Placeholder 可读性
+
+G2.8 以标准 M10 目标规模完整运行 54,000 Tick / 1,800 秒，配置为 1,500 Enemy、3,000 Projectile、
+5,000 Pickup、200 VFX 和 300 Tick 预热。结果 `PASS`：峰值 9,501 实体，Tick p99 `11.4069 ms`、
+Render CPU p99 `1.2213 ms`、固定热路径 `0 B`、GC `0/0/0`、InvalidHandle/Proc 截断为 0；Simulation
+Checksum `13193d7c4cc3251a`，确定性预算 PASS。EnemyDecision 平均 7.1274 ms 为当前热点，但 p99 仍
+显著低于 33.33 ms，故不引入 Jobs/Burst。
+
+另以生产 Profile/Coordinator/Map 渲染 600 个真实 Enemy、18 个注入 P0 Area；一个生产 Tick 后实际为
+915 View、318 CriticalDanger View，P0 最低排序 40 高于普通 Combat 最高排序 20。标准与 High Contrast
+1920×1080 截图的玩家/Boss/危险形状人工可读性 `PASS`。
+
+以上 Render 指标仍为 Null Device CPU 探针，可读性仍为程序化 Placeholder。正式资产加入后的 GPU
+Frame、Overdraw、显存、音频 DSP、1080p 60 与 1% Low 均为 `NOT RUN`，G3.5 必须在目标硬件重跑；
+不得继承本节为正式性能结论。

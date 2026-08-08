@@ -77,3 +77,10 @@
 > ☐ 每个重大架构决定有 ADR。
 >
 > ☐ 所有已知限制和技术债有记录。
+
+## 《剑起青岚》Demo G2.8 状态说明
+
+G2.8 的 Placeholder Development 门禁已 `PASS`：真实 12 分钟三路线、十次 Host 生命周期、600 敌人
+P0 可读性、54,000 Tick Soak、Windows Development Build 和独立 Player 均有证据。上述结果不勾选
+正式资产、Release、目标 GPU、正式字体/音频或干净 clone Release 条目；这些项目仍由 G3.1—G3.6
+逐项完成，全部通过前不得称 Demo Release `COMPLETE`。

@@ -73,6 +73,7 @@ namespace Game.Presentation
             if (spriteRenderer == null) spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
             spriteRenderer.sprite = sprite;
             spriteRenderer.color = color;
+            spriteRenderer.sortingOrder = SortingOrderFor(PresentationPriority.Decoration);
             transform.localScale = new Vector3(size.x, size.y, 1f);
             if (outlineRenderer != null) outlineRenderer.gameObject.SetActive(false);
             ClearOverlays();
@@ -86,12 +87,12 @@ namespace Game.Presentation
             if (spriteRenderer == null) spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
             spriteRenderer.sprite = library.GetSprite(style.Shape);
             spriteRenderer.color = style.Color;
-            spriteRenderer.sortingOrder = 1;
+            spriteRenderer.sortingOrder = SortingOrderFor(style.Priority);
             transform.localScale = new Vector3(style.Size.x, style.Size.y, 1f);
             var outline = EnsureOutline();
             outline.sprite = library.GetSprite(style.Shape);
             outline.color = style.OutlineColor;
-            outline.sortingOrder = 0;
+            outline.sortingOrder = spriteRenderer.sortingOrder - 1;
             outline.transform.localScale = Vector3.one * 1.18f;
             outline.gameObject.SetActive(true);
             Priority = style.Priority;
@@ -109,7 +110,9 @@ namespace Game.Presentation
             var renderer = overlayRenderers[index];
             renderer.sprite = library.GetSprite(style.Shape);
             renderer.color = style.Color;
-            renderer.sortingOrder = 2 + index;
+            renderer.sortingOrder = Math.Max(
+                spriteRenderer.sortingOrder + 1 + index,
+                SortingOrderFor(style.Priority) + index);
             renderer.transform.localScale = Vector3.one * (1.28f + (index * 0.18f));
             renderer.gameObject.SetActive(true);
             if (index + 1 > ActiveOverlayCount) ActiveOverlayCount = index + 1;
@@ -166,6 +169,17 @@ namespace Game.Presentation
             child.transform.SetParent(transform, false);
             outlineRenderer = child.AddComponent<SpriteRenderer>();
             return outlineRenderer;
+        }
+
+        private static int SortingOrderFor(PresentationPriority priority)
+        {
+            switch (priority)
+            {
+                case PresentationPriority.CriticalDanger: return 40;
+                case PresentationPriority.Mechanic: return 30;
+                case PresentationPriority.Combat: return 20;
+                default: return 10;
+            }
         }
 
         private void EnsureOverlays()

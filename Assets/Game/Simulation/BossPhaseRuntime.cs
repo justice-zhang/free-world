@@ -273,6 +273,29 @@ namespace Game.Simulation
             return false;
         }
 
+        /// <summary>
+        /// Synchronizes every content-bound objective rule from the run-owned map runtime.
+        /// This keeps Boss modifiers data-driven and lets objectives completed before or
+        /// during a fight affect the next Boss tick without a concrete Boss ID branch.
+        /// </summary>
+        internal void SyncObjectiveRules(MapObjectiveRuntime objectives)
+        {
+            if (objectives == null || !objectives.IsInitialized) return;
+            for (var slot = 0; slot < entries.Length; slot++)
+            {
+                var entry = entries[slot];
+                if (!entry.Owner.IsValid || entry.Definition == null) continue;
+                byte mask = 0;
+                for (var rule = 0; rule < entry.BoundRuleCount; rule++)
+                {
+                    var id = boundRuleIds[slot * MaximumBoundRules + rule];
+                    if (objectives.IsObjectiveCompleted(id)) mask |= (byte)(1 << rule);
+                }
+                entry.ActiveRuleMask = mask;
+                entries[slot] = entry;
+            }
+        }
+
         public bool TryAdvance(
             EntityHandle owner,
             float healthFraction,

@@ -191,3 +191,9 @@ M1 依赖 M0 的程序集和文档。M2 依赖 M1 的运行时定义。M3 依赖
 ## M10
 
 性能、CI、构建与框架冻结。
+
+## 9. 《剑起青岚》Demo 当前顺序
+
+G0.1—G2.8 已按 `Docs/DemoDevelopment/02_DELIVERY_ROADMAP.md` 完成单工作包门禁。当前只进入 G3.1：
+扩展全部 Release 输入的 provenance/Hash 验证，并按 G0.4 Manifest 导入正式角色、敌人、Boss、地图、
+UI 与 VFX Profile。G3.1 未通过前不得开始 G3.2 音频、G3.3 字体/正文或 G3.4 平衡。

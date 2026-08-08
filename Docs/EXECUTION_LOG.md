@@ -1139,3 +1139,40 @@ Validation/API Freeze、Pack 双构建、性能短测、Windows Development Buil
 
 只进入 G2.8：对已完成的全部 G1/G2 模块执行 12 分钟垂直切片、压力可读性、生命周期、Development
 Build/Smoke 与完成定义门禁；不扩 Schema，不提前导入 G3 正式资产。
+
+## Qinglan Demo G2.8：Placeholder 垂直切片统一门禁
+
+- 状态：`COMPLETE`
+- 日期：2026-08-09
+- 分支：`codex/qinglan-demo-implementation`
+- 内容包：`qinglan.pack.demo` 0.9.0 / Content Schema 6 / 193 definitions（未改内容）
+- CR / ADR：无新增；复用 ADR 0013—0025
+- 结果报告：`Docs/Reports/2026-08-09-g2-8-vertical-slice-gate.md`
+
+### 实施结果
+
+| 范围 | 结果 |
+|---|---|
+| Vertical Slice | 真实 Factory 四局，各 21,784 Tick / 约 726 秒、Victory、两 Boss、0 InvalidHandle |
+| Routes | 三条 Decision Checksum 互异；目标 3/1/2，听风实际 Rule Mask 7/1/6；Primary 重放一致 |
+| Map/Encounter | 21,600 Tick，2,552 普通＋2 Boss；Walkable、Min Distance 14、停止边界 PASS |
+| Lifecycle | 十次 Host Run→Result→Hub→Restart；View=0、Input Owner=1、池有界 |
+| Readability | 600 敌人、915 View、318 P0；标准/High Contrast 1080p 自动＋人工 PASS |
+| Integration | Event Armed、Objective→Boss Rule、出生回退、Owner/Cleanup、P0 排序缺口修复 |
+
+### 检查
+
+| 检查 | 结果 | 证据 |
+|---|---|---|
+| 全量 EditMode / PlayMode | PASS | 292/292；17/17 |
+| Project Validation / API Freeze | PASS | 冻结核心五程序集 Hash 不变 |
+| Pack 双构建 | PASS | 各 14 文件；路径/长度/SHA-256 差异 0 |
+| 完整性能/Soak | PASS | 54,000 Tick；p99 11.4069/1.2213 ms；0 B；GC 0；Checksum `13193d7c...251a` |
+| Windows Development Build | PASS | EXE SHA-256 `5d7eeb53...c9c6`；Manifest 四项证据 pass |
+| 独立 Player 闭环 | PASS | Title→Run→Pause→Upgrade→Result/Save→Hub→Restart，退出码 0 |
+| 正式 GPU/资产/音频/字体/Release | NOT RUN | G3.1—G3.6 范围 |
+
+### 下一步
+
+只进入 G3.1：先把 provenance/Hash 自动校验扩展到全部 Release 输入，再按 G0.4 Manifest 小批导入正式
+视觉资产和 Profile。来源、许可、Hash、审核或 Addressables 任一缺失均不得取得 `release` 标签。

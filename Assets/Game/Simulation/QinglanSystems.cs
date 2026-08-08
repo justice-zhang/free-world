@@ -33,7 +33,10 @@ namespace Game.Simulation
         public override void Execute(SimulationWorld world)
         {
             base.Execute(world);
-            world.Qinglan?.Bosses.Tick(world);
+            var runtimeHub = world.Qinglan;
+            if (runtimeHub == null) return;
+            runtimeHub.Bosses.SyncObjectiveRules(runtimeHub.MapObjectives);
+            runtimeHub.Bosses.Tick(world);
         }
     }
     public sealed class CharacterMechanicAccumulateSystem : QinglanOwnedSystem

@@ -237,8 +237,10 @@ namespace Game.Simulation
                 throw new ArgumentNullException(nameof(world));
             }
 
-            var commandCount = world.Commands.Count;
-            for (var index = 0; index < commandCount; index++)
+            // Removal can enqueue cleanup for deliveries owned by the removed actor.
+            // Consume the growing FIFO in the same structural phase so detached areas
+            // and projectiles cannot survive one tick with a stale owner handle.
+            for (var index = 0; index < world.Commands.Count; index++)
             {
                 var command = world.Commands.GetAt(index);
                 if (command.Type == SimulationCommandType.Create)

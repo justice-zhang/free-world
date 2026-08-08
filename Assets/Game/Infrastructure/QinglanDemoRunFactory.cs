@@ -3,6 +3,7 @@ using System.Numerics;
 using Game.Application;
 using Game.Content.Runtime;
 using Game.Core;
+using Game.Platform.Null;
 using Game.Simulation;
 
 namespace Game.Infrastructure
@@ -18,6 +19,17 @@ namespace Game.Infrastructure
         public QinglanDemoRunFactory(GameApplication gameApplication)
         {
             application = gameApplication ?? throw new ArgumentNullException(nameof(gameApplication));
+        }
+
+        /// <summary>Editor-only friend entry used by deterministic integration gates.</summary>
+        internal static GameApplication CreateInitializedApplicationForDiagnostics(
+            BakedContentCatalog[] catalogs,
+            ContentVersion gameVersion)
+        {
+            var value = new GameApplication(new NullPlatformFacade(), new GameStateMachine());
+            var initialized = value.Initialize(catalogs, gameVersion);
+            if (!initialized.IsSuccess) throw new InvalidOperationException(initialized.Error.ToString());
+            return value;
         }
 
         /// <summary>Freezes one selected Demo run identity before loading begins.</summary>
@@ -125,6 +137,15 @@ namespace Game.Infrastructure
             var mapInitialization = hub.MapObjectives.Initialize(content, map.Id, descriptor.RunId);
             if (!mapInitialization.IsSuccess)
                 return Result<IRunSessionHandle>.Failure(mapInitialization.Error);
+            for (var index = 0; index < map.EventIds.Count; index++)
+            {
+                var armed = hub.MapObjectives.ArmEvent(map.EventIds[index]);
+                if (armed != MapCommandStatus.Applied && armed != MapCommandStatus.AlreadyApplied)
+                    return Result<IRunSessionHandle>.Failure(new Error(
+                        ErrorCode.InvalidCatalog,
+                        "A selected map event could not be armed.",
+                        map.EventIds[index]));
+            }
             var world = new SimulationWorld(
                 hub,
                 descriptor.Seed,
@@ -285,6 +306,7 @@ namespace Game.Infrastructure
 
         public RunSession Session { get; }
         public bool IsDisposed { get; private set; }
+        internal SimulationWorld World => world;
         internal int ActiveEntityCount => world == null ? 0 :
             world.Actors.Count + world.Projectiles.Count + world.Areas.Count + world.Pickups.Count;
 
