@@ -1,0 +1,44 @@
+{
+  "assetId": "ART-CHAR-003",
+  "generator": "Scripts/generate-qinglan-riding-wind-overlays.py",
+  "seed": 31003,
+  "sourceSize": 1024,
+  "runtimeSize": 512,
+  "palette": {
+    "primary": "#59C7C1",
+    "highlight": "#F4EFD8",
+    "deep": "#163D45",
+    "accent": "#A7E6DD",
+    "gold": "#F2D27B"
+  },
+  "tiers": [
+    {
+      "tier": 0,
+      "name": "static-wind",
+      "shapeLanguage": "four separated low-energy arc segments with four square-diamond anchors",
+      "sourceFile": "riding-wind-tier-0-static-source.png",
+      "finalFile": "riding-wind-tier-0-static.png"
+    },
+    {
+      "tier": 1,
+      "name": "breeze",
+      "shapeLanguage": "one open directional circuit with four leaf markers",
+      "sourceFile": "riding-wind-tier-1-breeze-source.png",
+      "finalFile": "riding-wind-tier-1-breeze.png"
+    },
+    {
+      "tier": 2,
+      "name": "swift-wind",
+      "shapeLanguage": "two concentric directional circuits with six chevron markers",
+      "sourceFile": "riding-wind-tier-2-swift-source.png",
+      "finalFile": "riding-wind-tier-2-swift.png"
+    },
+    {
+      "tier": 3,
+      "name": "riding-wind",
+      "shapeLanguage": "three concentric circuits with eight diamonds, paired wind wings, and a gold crown marker",
+      "sourceFile": "riding-wind-tier-3-riding-source.png",
+      "finalFile": "riding-wind-tier-3-riding.png"
+    }
+  ]
+}

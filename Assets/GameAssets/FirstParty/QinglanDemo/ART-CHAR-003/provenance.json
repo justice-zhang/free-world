@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 2,
+  "assetId": "ART-CHAR-003",
+  "owner": "Qinglan Demo Visual Owner",
+  "relativePaths": [
+    "Assets/GameAssets/FirstParty/QinglanDemo/ART-CHAR-003/prompt.txt",
+    "Assets/GameAssets/FirstParty/QinglanDemo/ART-CHAR-003/source/generator-spec.json",
+    "Assets/GameAssets/FirstParty/QinglanDemo/ART-CHAR-003/source/riding-wind-tier-0-static-source.png",
+    "Assets/GameAssets/FirstParty/QinglanDemo/ART-CHAR-003/source/riding-wind-tier-1-breeze-source.png",
+    "Assets/GameAssets/FirstParty/QinglanDemo/ART-CHAR-003/source/riding-wind-tier-2-swift-source.png",
+    "Assets/GameAssets/FirstParty/QinglanDemo/ART-CHAR-003/source/riding-wind-tier-3-riding-source.png",
+    "Assets/GameAssets/FirstParty/QinglanDemo/ART-CHAR-003/final/riding-wind-tier-0-static.png",
+    "Assets/GameAssets/FirstParty/QinglanDemo/ART-CHAR-003/final/riding-wind-tier-1-breeze.png",
+    "Assets/GameAssets/FirstParty/QinglanDemo/ART-CHAR-003/final/riding-wind-tier-2-swift.png",
+    "Assets/GameAssets/FirstParty/QinglanDemo/ART-CHAR-003/final/riding-wind-tier-3-riding.png"
+  ],
+  "sourceCategory": "first-party-procedural-vector-raster",
+  "tool": "Python 3.11.3, Pillow 12.3.0, and Scripts/generate-qinglan-riding-wind-overlays.py",
+  "modelVersion": "deterministic generator sha256:bc31ded58eed99b3f9216c7018896a5f1046b73522b2dfde449790847c350f4d",
+  "generatedOrAcquiredAt": "2026-08-09T03:25:44+08:00",
+  "operatorName": "Codex",
+  "promptFile": "Assets/GameAssets/FirstParty/QinglanDemo/ART-CHAR-003/prompt.txt",
+  "seed": "31003",
+  "referenceInputs": [],
+  "referenceRightsConfirmed": true,
+  "humanEdits": [
+    "Defined four non-color-only tier silhouettes from the approved design palette and mechanic specification",
+    "Replaced deprecated Pillow coverage inspection with histogram-based deterministic QA before approval",
+    "No manual raster repaint, external visual reference, third-party asset, text, logo, or trademark was added"
+  ],
+  "sourceSha256": {
+    "prompt.txt": "91bef79a919fccb01ed3f15063b6f72ab0f0bc13ba4890806aa1467a4e3afe4d",
+    "generator-spec.json": "78510595ed5f3a2361862a8fd4655acc79a290318ada6bc5bc0a72efef9a427d",
+    "riding-wind-tier-0-static-source.png": "d22002ccbfbb674561a7ea15b46d8b3865c1adfc0f4c2092cc15470740664591",
+    "riding-wind-tier-1-breeze-source.png": "c2b2e5c8f411b3f74f6f53c62bf0132fd15fe5bcab3e00f1377ab39ccf0c9606",
+    "riding-wind-tier-2-swift-source.png": "ecc5d14e4c8aae48f3d901b2717f033565efc4b2cf8e97cc26f697ad609e63ef",
+    "riding-wind-tier-3-riding-source.png": "5ce1ec450f4fdfc77150486dc48bad83ac02de38cc3b497fc8c13531c16465ec"
+  },
+  "outputSha256": {
+    "riding-wind-tier-0-static.png": "577715fb341c555f5fc7258f8740103c9907e65ab625973780d7c150702d21b9",
+    "riding-wind-tier-1-breeze.png": "c50e2900261436bb79b357b4bffa9182153da7a045b598e48c5c9ed1b0689d08",
+    "riding-wind-tier-2-swift.png": "8083756fbe7516507e871d8ad22167540c0a82b950a18c70bdfbfe48114bc34c",
+    "riding-wind-tier-3-riding.png": "d52a551cb81391f679490491ec473b8ee29d5dbc509cc4a4c1899c75d45d51bf"
+  },
+  "licenseOrTermsUrl": "repository://AGENTS.md",
+  "licenseOrTermsSnapshot": "Docs/AssetTerms/2026-08-09-first-party-procedural-rights-review.md",
+  "termsReviewedAt": "2026-08-09",
+  "allowedPlatforms": [
+    "Windows x64",
+    "Steam"
+  ],
+  "allowedUses": [
+    "commercial game runtime",
+    "store and marketing screenshots",
+    "internal development and testing"
+  ],
+  "commercialUseReviewed": true,
+  "steamDisclosureCategory": "first-party deterministic procedural raster; no generative AI and no runtime generation",
+  "technicalReviewer": "Codex",
+  "creativeReviewer": "Codex",
+  "rightsReviewer": "Codex",
+  "reviewedAt": "2026-08-09T03:25:44+08:00",
+  "status": "approved-for-release",
+  "notes": "Four overlays are differentiated by ring count, marker shape/count, and tier-3 wing/crown silhouette as well as color. Source and final outputs reproduced byte-identically across two generator runs."
+}

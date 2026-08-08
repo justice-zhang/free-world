@@ -1,0 +1,15 @@
+First-party deterministic construction specification for the four Lu Qingye Riding Wind tier overlays.
+
+Create four transparent square overlays without a character, scene, UI frame, text, logo, watermark, or third-party
+input. Use only repository-owned procedural geometry and the approved player palette: #59C7C1 primary wind,
+#F4EFD8 highlight, #163D45 outline, #A7E6DD secondary wind, and restrained #F2D27B only at the highest tier.
+Keep the center open for the character Sprite and keep every visible pixel safely inside the canvas.
+
+Tier 0 Static Wind: four separated low-energy arc segments and four square-diamond anchors; no direction arrows.
+Tier 1 Breeze: one open directional wind circuit and four leaf markers.
+Tier 2 Swift Wind: two concentric directional circuits and six arrow-chevron markers.
+Tier 3 Riding Wind: three concentric circuits, eight outer diamonds, paired lateral wind wings, and one gold crown marker.
+
+The tiers must remain distinguishable in grayscale and common color-vision modes through ring count, marker type,
+marker count, and wing/crown silhouette. Glow is subordinate to the opaque outlined geometry. Generate deterministic
+1024x1024 RGBA source PNG files, then Lanczos-downsample each to one 512x512 RGBA runtime PNG. MipMaps remain off.
