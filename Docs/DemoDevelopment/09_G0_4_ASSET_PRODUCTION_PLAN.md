@@ -160,10 +160,10 @@ AI 图只使用本仓库设计文档的文字方向，不上传参考项目素�
 第三方字体必须同时登记 `THIRD_PARTY_NOTICES.md`、许可文件和 provenance。缺记录、Hash 不符、未复核、
 条款不明或来源输入权利不明一律 FAIL。
 
-当前 `AssetProvenanceValidator` 只主动扫描 `Assets/GameAssets/AI`，`ProjectGovernanceValidator` 只对
-ThirdParty 做 Notice 路径检查。G3.1 在任何 FirstParty 正式资产取得 `release` 标签前，必须把相同
-provenance/Hash/批准状态门禁扩展到所有实际 Release 输入；G3.3 再增加第三方许可文件/版本/Hash
-一致性检查。只在文档中登记而不扩验证器不能通过 Release。
+G3.1 已将 `AssetProvenanceValidator` 主动扫描扩展到 `Assets/GameAssets/AI`、
+`Assets/GameAssets/FirstParty` 和所有实际 `release` Addressables 输入；Schema 2 强制 Owner、生成信息、
+源/输出 Hash、条款 URL/日期、允许用途和三类审核人。G3.3 再增加第三方许可文件/版本/Hash
+一致性专用检查。只在文档中登记而不通过验证器不能进入 Release。
 
 ## 6. 本地化与叙事生产
 

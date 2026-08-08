@@ -96,6 +96,6 @@ Placeholder 210、未批准资产 0。
 
 ## 9. G3.1 输入
 
-G3.1 必须先把 provenance/Hash 扫描扩展到全部实际 Release 输入，再按 G0.4 Manifest 小批量导入正式
+G3.1 已先把 provenance/Hash 扫描扩展到全部实际 Release 输入，随后按 G0.4 Manifest 小批量导入正式
 角色、敌人、Boss、地图、UI 和 VFX Profile。每批保持来源、生成参数/条款日期、许可、Hash、审查和
 Addressables 同提交；任何缺失不得取得 `release` 标签。

@@ -112,7 +112,7 @@ namespace Game.Editor
             var absoluteRoot = Path.GetFullPath(projectRoot);
             ValidateThirdParty(absoluteRoot, report);
             AssetProvenanceValidator.AppendProject(absoluteRoot, report);
-            ValidateReleaseLabels(settings, report);
+            ValidateReleaseLabels(absoluteRoot, settings, report);
             return report;
         }
 
@@ -147,6 +147,7 @@ namespace Game.Editor
         }
 
         private static void ValidateReleaseLabels(
+            string projectRoot,
             AddressableAssetSettings settings,
             ValidationReport report)
         {
@@ -166,12 +167,20 @@ namespace Game.Editor
                 var entries = group.entries;
                 foreach (var entry in entries)
                 {
-                    if (!entry.labels.Contains("release"))
+                    var assetPath = AssetDatabase.GUIDToAssetPath(entry.guid);
+                    var provenanceIssues = AssetProvenanceValidator.ValidateReleaseInput(
+                        projectRoot,
+                        assetPath,
+                        entry.labels,
+                        group.Name);
+                    for (var issueIndex = 0; issueIndex < provenanceIssues.Count; issueIndex++)
                     {
-                        continue;
+                        report.Add(
+                            provenanceIssues[issueIndex].Code,
+                            provenanceIssues[issueIndex].Message);
                     }
 
-                    var assetPath = AssetDatabase.GUIDToAssetPath(entry.guid);
+                    if (!entry.labels.Contains(AssetProvenanceValidator.ReleaseLabel)) continue;
                     var isPlaceholderPath = assetPath.StartsWith(
                         PlaceholderAssetGenerator.OutputFolder + "/",
                         StringComparison.OrdinalIgnoreCase);

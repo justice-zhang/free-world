@@ -83,11 +83,16 @@ Build Preprocessor 必须阻止：
 
 上线前按当时最新平台政策和法律要求复核。
 
-M9 起，Project Validation 会对 `Assets/GameAssets/AI` 中每个非元数据输出执行实际 SHA-256 检查。
+G3.1 起，Project Validation 会对 `Assets/GameAssets/AI` 和 `Assets/GameAssets/FirstParty` 中每个
+非元数据正式文件执行实际 SHA-256 检查，并对每个带 `release`/类别 Release 标签的实际
+Addressables 输入执行同一检查。
 记录可来自资产目录或祖先目录中的 `provenance.json`，也可来自根目录 `ASSET_PROVENANCE.csv`：
 
-- JSON 必须是 Schema 1，列出相对路径、来源类别、工具、模型版本、每个输出文件名对应的 64 位
-  `outputSha256`、权利确认、条款快照、商业复核和 `approved-for-release` 状态；
+- JSON 必须是 Schema 2，列出 Owner、全部相对路径、来源类别、工具、模型/脚本版本、生成时间、
+  操作者、Prompt/规格文件、Seed、显式引用列表、人工修改、允许平台/用途、披露类别和审核人；
+  `source/` 与 `prompt.txt` 使用 `sourceSha256`，`working/` 与 `final/` 使用 `outputSha256`；
+- Schema 2 还必须记录条款 URL、生成日复核日期、条款快照、商业复核和
+  `approved-for-release` 状态；
 - CSV 必须至少提供资产 ID、相对路径、来源类别、工具/提供者、模型/版本、参考权利确认、条款、
   `sha256`、商业复核和状态；
 - 缺记录、缺 Hash、Hash 不一致、未复核或未批准均为构建失败，不能用文件改名或 Release 参数绕过；
@@ -95,7 +100,10 @@ M9 起，Project Validation 会对 `Assets/GameAssets/AI` 中每个非元数据�
 
 修改正式输出后必须重新计算 Hash、由授权人员复核并更新记录；不得只改记录来掩盖来源变化。
 
+正式 Addressables 禁止引用 `source/`、`working/`、`prompt.txt` 或 `provenance.json`；
+`visual.release` 必须同时位于 `QinglanDemo-Visual` 并带 `pack.qinglan_demo` 与 `release`。
+
 Qinglan Demo 的批准生产批次、预算、目录和生成日权利复核见
 `Docs/DemoDevelopment/09_G0_4_ASSET_PRODUCTION_PLAN.md`。该计划要求 FirstParty 程序化正式资产使用
-与 AI 同等级的脚本/参数/Seed/Hash/审核记录，并要求 G3.1 将 provenance 校验从 AI 目录扩展到所有
-实际 Release 输入；当前验证器只扫描 AI，不能据此宣称 FirstParty 已自动合规。
+与 AI 同等级的脚本/参数/Seed/Hash/审核记录。G3.1 已将 provenance 校验从 AI 目录扩展到 FirstParty
+和所有实际 Release 输入；第三方字体仍需在 G3.3 增加固定版本/许可专用门禁。
